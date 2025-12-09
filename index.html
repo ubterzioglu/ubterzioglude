@@ -166,6 +166,73 @@
       .about-wrapper { grid-template-columns: 1fr 1fr; align-items: center; }
     }
 
+/* ✅ MOBILE FIXES */
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* ✅ Sağdaki dikey isim mobilde KAPATILIYOR */
+  .side-name {
+    display: none;
+  }
+
+  /* ✅ Welcome başlıklar küçültülüyor */
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  /* ✅ Welcome list taşma düzeltme */
+  .welcome-list {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-item {
+    flex-wrap: wrap;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .welcome-item span {
+    min-width: 28px;
+  }
+
+  /* ✅ About bölümünde foto ortalamaya alınır */
+  .about-wrapper {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .profile-pic {
+    margin: 30px auto 0 auto;
+  }
+
+  /* ✅ Project ikonlar mobil uyumlu */
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-icon {
+    font-size: 12px;
+  }
+
+  /* ✅ Footer ikonlar küçülür */
+  footer {
+    font-size: 2
+
+
+
+
+
   </style>
 </head>
 <body>
