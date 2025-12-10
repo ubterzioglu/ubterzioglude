@@ -1,264 +1,338 @@
-* { margin:0; padding:0; box-sizing:border-box; }
+/* =====================================================
+   UBT — PREMIUM SHARED STYLESHEET (FINAL VERSION)
+   ===================================================== */
 
+/* ---------- GLOBAL RESET ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------- GLOBAL BODY ---------- */
 body {
-    font-family:'Segoe UI', Tahoma, sans-serif;
-    background:linear-gradient(135deg,#1a1a2e,#16213e);
-    padding:20px;
-    min-height:100vh;
+    font-family: "Inter", system-ui, sans-serif;
+    background: #f5f6f8;
+    padding: 24px;
+    color: #111;
+    line-height: 1.45;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* ---------- CONTAINER ---------- */
 .container {
-    max-width:420px;
-    margin:auto;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    padding-bottom:100px;
+    max-width: 780px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
 
+/* =====================================================
+   PREMIUM CARD BASE
+   ===================================================== */
+.card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    position: relative;
+}
 
+/* ---------- CARD INTERNAL BUTTONS (Home + Up) ---------- */
+.card-buttons {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    display: flex;
+    gap: 10px;
+}
 
-/* ==== PROJECT CARDS (logos left, text right) ==== */
+.btn-icon {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+    border-radius: 10px;
+    background: rgba(240,240,240,0.7);
+    cursor: pointer;
+    transition: .15s;
+    object-fit: contain;      /* EKLENECEK */
+}
+.btn-icon:hover {
+    transform: scale(1.12);
+}
 
-.proj-wrapper {
+/* =====================================================
+   HERO CARD
+   ===================================================== */
+.premium-hero {
+    background: linear-gradient(135deg, #0038ff, #7aa9ff);
+    color: white;
+    padding: 40px 30px;
+}
+
+.hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.hero-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+}
+
+.hero-domain {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.hero-title {
+    font-size: 34px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.hero-subtitle {
+    opacity: 0.9;
+    margin-top: 6px;
+    font-size: 16px;
+}
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-item {
+    background: #fafafa;
+    padding: 16px 18px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: .15s;
+    font-size: 16px;
+}
+.nav-item:hover {
+    background: #f1f3f7;
+    transform: translateX(6px);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* =====================================================
+   CV SECTION
+   ===================================================== */
+.cv-links {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.proj-item {
+.cv-item {
     display: flex;
+    align-items: center;
     gap: 14px;
-    align-items: flex-start;
 }
 
-/* Logo boyutunu sabitle, sola otursun, taşmasın */
-.proj-logo {
-    width: 48px;
-    height: 48px;
+.cv-icon {
+    font-size: 26px;
+}
+
+.cv-link {
+    color: #0044ff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.cv-link:hover {
+    text-decoration: underline;
+}
+
+/* =====================================================
+   KEY ACHIEVEMENTS
+   ===================================================== */
+.ach-list-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ach-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fafafa;
+    padding: 14px 16px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.ach-icon {
+    font-size: 22px;
+    margin-top: 2px;
+}
+
+/* =====================================================
+   TECH STACK (GRID)
+   ===================================================== */
+.tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.tech-block {
+    background: #fafafa;
+    padding: 18px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.tech-badge {
+    display: inline-block;
+    background: #004cff;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* =====================================================
+   EXPERIENCE
+   ===================================================== */
+.exp-premium {
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    margin-bottom: 24px;
+}
+
+.exp-head {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.exp-premium-logo {
+    width: 58px;
+    height: 58px;
     border-radius: 14px;
     object-fit: cover;
-    flex-shrink: 0;
-    display: block;
 }
 
-
-/* CARDS */
-.card, .detail-card {
-    background:white;
-    border-radius:22px;
-    padding:22px;
-    box-shadow:0 10px 30px rgba(0,0,0,.28);
-    position:relative;
+.exp-meta h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+.exp-meta h4 {
+    font-size: 15px;
+    opacity: .8;
 }
 
-/* HERO */
-.hero-card {
-    background:linear-gradient(135deg,#ff6b35,#f7931e);
-    color:white;
+.exp-location {
+    font-size: 13px;
+    opacity: .65;
 }
 
-.hero-top {
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:18px;
+.exp-premium-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.hero-logo { width:48px; height:48px; border-radius:50%; }
-.hero-domain { font-size:16px; font-weight:600; color:white; }
-.hero-logo-box { display:flex; align-items:center; gap:8px; }
-
-.home-icon {
-    width:40px;
-    height:40px;
-    border-radius:12px;
-    padding:6px;
-    background:white;
-    box-shadow:0 4px 12px rgba(0,0,0,.25);
-    transition:.2s;
+.exp-premium-list li {
+    background: white;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
 
-.home-icon:hover { transform:scale(1.1); }
-
-.section-title {
-    font-size:19px;
-    font-weight:700;
-    margin-bottom:12px;
+/* =====================================================
+   PROJECTS (Corporate & Private)
+   ===================================================== */
+.proj-premium-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-/* OFFICE COLORS */
-
-/* === 5'li kart renk paleti === */
-/* 1) Mavi */
-.card-color-1 {
-    background: #00A4EF !important;  /* blue */
-    color: white !important;
+.proj-premium-item {
+    display: flex;
+    gap: 16px;
+    background: #fafafa;
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
 }
 
-/* 2) Yeşil */
-.card-color-2 {
-    background: #7FBA00 !important;  /* green */
-    color: white !important;
+.proj-premium-logo {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    object-fit: cover;
 }
 
-/* 3) Turuncu */
-.card-color-3 {
-    background: #F7630C !important;  /* orange */
-    color: white !important;
+.proj-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
 }
 
-/* 4) Mor */
-.card-color-4 {
-    background: #A700AE !important;  /* purple */
-    color: white !important;
+.proj-desc {
+    opacity: .85;
 }
 
-/* 5) Sarı */
-.card-color-5 {
-    background: #FFB900 !important;  /* yellow */
-    color: #222 !important;           /* sarıda koyu yazı daha okunur */
-}
-.office-orange { background:#D83B01 !important; color:white; }
-.office-green  { background:#107C41 !important; color:white; }
-.office-blue   { background:#185ABD !important; color:white; }
-.office-purple { background:#742774 !important; color:white; }
-.office-teams  { background:#005A9E !important; color:white; }
-.office-contact{ background:#107C10 !important; color:white; }
-
-/* NAV CARD */
-.nav-card { background:#FFB900 !important; color:#333; }
-
-.nav-grid {
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+/* =====================================================
+   CONTACT (PREMIUM)
+   ===================================================== */
+.contact-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-.nav-item {
-    background:white;
-    border-radius:16px;
-    padding:16px;
-    display:flex;
-    justify-content:space-between;
-    font-size:16px;
-    cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,0,0,.15);
-    transition:.15s;
+.contact-item {
+    background: #fafafa;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
 }
 
-.nav-item:hover {
-    background:#fff3c4;
-    transform:translateX(5px);
+.contact-badge {
+    display: inline-block;
+    background: #0038ff;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
-.nav-icon { font-size:22px; }
-.chevron { opacity:.4; }
-
-/* BUTTONS */
-.card-buttons {
-    position:absolute;
-    right:14px;
-    top:14px;
-    display:flex;
-    gap:10px;
+.contact-link {
+    color: #0044ff;
+    text-decoration: none;
+    font-weight: 600;
 }
-
-.btn-icon {
-    width:34px;
-    height:34px;
-    border-radius:10px;
-    padding:5px;
-    background:rgba(255,255,255,0.35);
-    backdrop-filter:blur(4px);
-    box-shadow:0 2px 6px rgba(0,0,0,.22);
-    cursor:pointer;
-    transition:.15s;
+.contact-link:hover {
+    text-decoration: underline;
 }
-
-.btn-icon:hover {
-    transform:scale(1.12);
-    background:rgba(255,255,255,0.55);
-}
-
-/* ACHIEVEMENTS */
-.ach-list {
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    font-size:14px;
-    line-height:1.55;
-}
-
-/* TECH STACK */
-.tech-section {
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    font-size:14px;
-    line-height:1.55;
-}
-
-.tech-section h4 {
-    margin:0;
-    font-size:15px;
-    font-weight:700;
-}
-
-/* PROJECTS */
-.project-section {
-    display:flex;
-    flex-direction:column;
-    gap:22px;
-}
-
-.project-box {
-    display:flex;
-    gap:14px;
-}
-
-.proj-logo {
-    width:48px;
-    height:48px;
-    border-radius:14px;
-    object-fit:cover;
-}
-
-/* EXPERIENCE */
-.exp-section {
-    margin-bottom:32px;
-}
-
-.exp-header {
-    display:flex;
-    gap:16px;
-    margin-bottom:12px;
-}
-
-.exp-logo {
-    width:56px;
-    height:56px;
-    border-radius:14px;
-    object-fit:cover;
-}
-
-.exp-title { display:flex; flex-direction:column; }
-
-.exp-role { font-size:17px; font-weight:700; margin:0; }
-
-.exp-company { font-size:15px; font-weight:600; margin:2px 0 0 0; }
-
-.exp-sub { font-size:13px; opacity:.75; margin-top:2px; }
-
-.exp-list {
-    list-style:none;
-    padding:0;
-    margin:0;
-}
-
-.exp-list li {
-    margin-bottom:10px;
-    font-size:14px;
-    line-height:1.45;
-}
-
-html { scroll-behavior:smooth; }

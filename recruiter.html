@@ -1,46 +1,56 @@
+<!-- ============================================
+     UBT — PREMIUM RECRUITER PAGE (HTML PART 1/8)
+     Includes:
+     • <html>, <head>, CSS link
+     • Hero Section
+     • Navigation Section
+     ============================================ -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recruiter – Umut Barış Terzioğlu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBT — Recruiter Page (Premium)</title>
 
-    <!-- Shared stylesheet -->
-    <link rel="stylesheet" href="ubt-shared.css" />
+    <!-- SHARED PREMIUM CSS -->
+    <link rel="stylesheet" href="ubt-shared.css">
 </head>
 
 <body>
 
-<a id="top"></a>
-
 <div class="container">
 
-    <!-- ============================================
-         CARD: Hero (HEADER)
-         ============================================ -->
-    <div class="card hero-card">
-        <div class="hero-top">
-            <div class="hero-logo-box">
-                <img src="/ubtlogo.png" class="hero-logo" />
-                <span class="hero-domain">ubterzioglu.de</span>
-            </div>
-            <a href="/index.html">
-                <img src="/home.png" class="home-icon" />
-            </a>
+
+<!-- ============================================
+     SECTION 1 — HERO HEADER (PREMIUM)
+     ============================================ -->
+<div class="card premium-hero">
+    <div class="hero-top">
+
+        <div class="hero-logo-box">
+            <img src="/ubtlogo.png" class="hero-logo" />
+            <span class="hero-domain">ubterzioglu.de</span>
         </div>
 
-        <h1>Hello Recruiter!</h1>
-        <p class="title">Everything you need to evaluate my profile efficiently.</p>
+        <a href="/index.html">
+            <img src="/home.png" class="btn-icon" />
+        </a>
+
     </div>
 
-    <!-- Buradan SONRAKİ TÜM KARTLARI sen ekleyeceksin:
-         Navigation, CV, Key Achievements, Tech Stack,
-         Experience, Corporate Projects, Private Projects, Contact -->
+    <h1 class="hero-title">Hello Recruiter!</h1>
+    <p class="hero-subtitle">
+        Everything you need to evaluate my profile efficiently.
+    </p>
+</div>
+<!-- END HERO -->
 
-         <!-- ============================================
-     CARD: Navigation
+
+<!-- ============================================
+     SECTION 2 — NAVIGATION (PREMIUM)
      ============================================ -->
-<div class="card nav-card">
+<div class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -49,49 +59,51 @@
 
     <h2 class="section-title">Navigation</h2>
 
-    <div class="nav-grid">
+    <div class="nav-list">
 
-        <div class="nav-item" onclick="document.getElementById('cv').scrollIntoView();">
-            <span><span class="nav-icon">📄</span> My CV (EN | DE)</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('cv').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">📄 <span>My CV (EN | DE)</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('achievements').scrollIntoView();">
-            <span><span class="nav-icon">🏆</span> Key Achievements</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('achievements').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">🏆 <span>Key Achievements</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('tech').scrollIntoView();">
-            <span><span class="nav-icon">🧰</span> Tech Stack</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('tech').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">🧰 <span>Tech Stack</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('experience').scrollIntoView();">
-            <span><span class="nav-icon">💼</span> Experience</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">💼 <span>Experience</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('projects-corporate').scrollIntoView();">
-            <span><span class="nav-icon">🚀</span> Corporate Projects</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('projects-corporate').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">🚀 <span>Corporate Projects</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('projects-private').scrollIntoView();">
-            <span><span class="nav-icon">🌟</span> Private Projects</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('projects-private').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">🌟 <span>Private Projects</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('contact').scrollIntoView();">
-            <span><span class="nav-icon">☎️</span> Contact</span>
-            <span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});">
+            <span class="nav-left">☎️ <span>Contact</span></span>
+            <span class="nav-arrow">›</span>
         </div>
 
     </div>
 </div>
+<!-- END NAVIGATION -->
+
 <!-- ============================================
-     CARD: My CV
+     SECTION 3 — MY CV (PREMIUM CARD)
      ============================================ -->
-<div id="cv" class="detail-card card-color-1">
+<div id="cv" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -100,26 +112,41 @@
 
     <h2 class="section-title">My CV</h2>
 
-    <p>
-        <strong>English CV:</strong><br />
-        <a href="https://drive.google.com/file/d/1T5yUafZI9nRv1aVWeEKBHcU6apZOojP2/view?usp=drive_link"
-           target="_blank" rel="noopener noreferrer">
-            Open CV (EN)
-        </a>
-    </p>
+    <div class="cv-links">
 
-    <p>
-        <strong>German CV:</strong><br />
-        <a href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link"
-           target="_blank" rel="noopener noreferrer">
-            Open CV (DE)
-        </a>
-    </p>
+        <!-- ENGLISH CV -->
+        <div class="cv-item">
+            <div class="cv-icon">📄</div>
+            <div>
+                <strong>English CV:</strong><br>
+                <a class="cv-link" target="_blank" 
+                   href="https://drive.google.com/file/d/1T5yUafZI9nRv1aVWeEKBHcU6apZOojP2/view?usp=drive_link">
+                   Open CV (EN)
+                </a>
+            </div>
+        </div>
+
+        <!-- GERMAN CV -->
+        <div class="cv-item">
+            <div class="cv-icon">📄</div>
+            <div>
+                <strong>German CV:</strong><br>
+                <a class="cv-link" target="_blank"
+                   href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link">
+                   Open CV (DE)
+                </a>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+<!-- END of block: CV -->
+
 <!-- ============================================
-     CARD: Key Achievements
+     SECTION 4 — KEY ACHIEVEMENTS (PREMIUM)
      ============================================ -->
-<div id="achievements" class="detail-card card-color-2">
+<div id="achievements" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -128,40 +155,82 @@
 
     <h2 class="section-title">Key Achievements</h2>
 
-    <div class="ach-list">
+    <div class="ach-list-premium">
 
-        <div>🏆  Created 5000+ test cases using HP ALM, Jira, and Polarion over 10+ years of hands-on testing experience.</div>
+        <div class="ach-item">
+            <span class="ach-icon">🏆</span>
+            <p>Created 5000+ test cases across HP ALM, Jira, and Polarion.</p>
+        </div>
 
-        <div>🚀  Increased test coverage from 50% to 90% for Daimler projects through systematic test design techniques.</div>
+        <div class="ach-item">
+            <span class="ach-icon">🚀</span>
+            <p>Raised test coverage from 50% → 90% for Daimler projects.</p>
+        </div>
 
-        <div>📈  Achieved 95% test coverage for Swisslog projects using modular test design.</div>
+        <div class="ach-item">
+            <span class="ach-icon">📈</span>
+            <p>Achieved 95% coverage for Swisslog using modular design.</p>
+        </div>
 
-        <div>🤖  Implemented Ranorex automation for three major Daimler systems, integrating CI/CD pipelines (Jenkins).</div>
+        <div class="ach-item">
+            <span class="ach-icon">🤖</span>
+            <p>Implemented Ranorex automation integrated with CI/CD.</p>
+        </div>
 
-        <div>⚡  Automated 1000+ test cases with Ranorex & C#, reducing execution time by 40% through optimization.</div>
+        <div class="ach-item">
+            <span class="ach-icon">⚡</span>
+            <p>Automated 1000+ C#/Ranorex tests, reducing execution time by 40%.</p>
+        </div>
 
-        <div>🔍  Reviewed automation of 1000+ Selenium–Java test cases, improving execution efficiency by 30%.</div>
+        <div class="ach-item">
+            <span class="ach-icon">🔍</span>
+            <p>Reviewed 1000+ Selenium/Java tests with +30% efficiency gain.</p>
+        </div>
 
-        <div>🧭  Defined and implemented a new test strategy for the Daimler PDM System, boosting efficiency by 25%.</div>
+        <div class="ach-item">
+            <span class="ach-icon">🧭</span>
+            <p>Defined PDM Test Strategy increasing productivity by 25%.</p>
+        </div>
 
-        <div>📦  Planned & coordinated 50+ releases for 40,000+ users in the Daimler PDM ecosystem.</div>
+        <div class="ach-item">
+            <span class="ach-icon">📦</span>
+            <p>Coordinated 50+ releases for 40,000+ Daimler users.</p>
+        </div>
 
-        <div>🔧  Managed HP ALM → Jira migration, reducing manual effort by 25% and project costs by 22%.</div>
+        <div class="ach-item">
+            <span class="ach-icon">🔧</span>
+            <p>Led HP ALM → Jira migration cutting manual work by 25%.</p>
+        </div>
 
-        <div>💬  Resolved 1000+ support tickets, ensuring quick turnaround and high stakeholder satisfaction.</div>
+        <div class="ach-item">
+            <span class="ach-icon">💬</span>
+            <p>Resolved 1000+ support tickets with high stakeholder satisfaction.</p>
+        </div>
 
-        <div>👥  Onboarded, mentored, and led 30+ QA colleagues at Daimler & Swisslog.</div>
+        <div class="ach-item">
+            <span class="ach-icon">👥</span>
+            <p>Onboarded & mentored 30+ QA professionals.</p>
+        </div>
 
-        <div>📊  Created KPI-based reports in Excel & Polarion, improving visibility and saving 500 man-hours monthly.</div>
+        <div class="ach-item">
+            <span class="ach-icon">📊</span>
+            <p>KPI reporting saved 500+ hours monthly across teams.</p>
+        </div>
 
-        <div>🧪  Conducted 50+ customer sessions (UAT, FAT, SAT) across enterprise-level projects.</div>
+        <div class="ach-item">
+            <span class="ach-icon">🧪</span>
+            <p>Led 50+ UAT / FAT / SAT customer test sessions.</p>
+        </div>
 
     </div>
+
 </div>
+<!-- END of block: Key Achievements -->
+
 <!-- ============================================
-     CARD: Tech Stack
+     SECTION 5 — TECH STACK (PREMIUM)
      ============================================ -->
-<div id="tech" class="detail-card card-color-3">
+<div id="tech" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -170,38 +239,64 @@
 
     <h2 class="section-title">Tech Stack</h2>
 
-    <div class="tech-section">
+    <div class="tech-grid">
 
-        <h4>Automation & Frameworks</h4>
-        <p>Selenium • Ranorex • Maven • TestNG • JUnit • Cucumber • Gherkin</p>
+        <!-- AUTOMATION -->
+        <div class="tech-block">
+            <div class="tech-badge">Automation & Frameworks</div>
+            <p>Selenium • Ranorex • Maven • TestNG • JUnit • Cucumber • Gherkin</p>
+        </div>
 
-        <h4>Programming Languages</h4>
-        <p>Java • C# • Python</p>
+        <!-- LANGUAGES -->
+        <div class="tech-block">
+            <div class="tech-badge">Programming Languages</div>
+            <p>Java • C# • Python</p>
+        </div>
 
-        <h4>API & Integration Testing</h4>
-        <p>REST • SOAP • Postman • SoapUI • API Mocking</p>
+        <!-- API TESTING -->
+        <div class="tech-block">
+            <div class="tech-badge">API & Integration Testing</div>
+            <p>REST • SOAP • Postman • SoapUI • API Mocking</p>
+        </div>
 
-        <h4>CI/CD & DevOps Pipeline</h4>
-        <p>Jenkins • Docker • Git • GitHub</p>
+        <!-- CI/CD -->
+        <div class="tech-block">
+            <div class="tech-badge">CI/CD & DevOps</div>
+            <p>Jenkins • Docker • Git • GitHub</p>
+        </div>
 
-        <h4>Test Management & Tracking</h4>
-        <p>JIRA • Xray • HP ALM • Polarion</p>
+        <!-- TEST MANAGEMENT -->
+        <div class="tech-block">
+            <div class="tech-badge">Test Management</div>
+            <p>Jira • Xray • HP ALM • Polarion</p>
+        </div>
 
-        <h4>Development & IDE Tools</h4>
-        <p>IntelliJ IDEA • Visual Studio • VS Code • Eclipse</p>
+        <!-- IDE -->
+        <div class="tech-block">
+            <div class="tech-badge">Development Tools</div>
+            <p>IntelliJ IDEA • Visual Studio • VS Code • Eclipse</p>
+        </div>
 
-        <h4>Methodologies & QA Approach</h4>
-        <p>Agile • SCRUM • Waterfall • CI/CD</p>
+        <!-- METHODS -->
+        <div class="tech-block">
+            <div class="tech-badge">QA Methodologies</div>
+            <p>Agile • SCRUM • Waterfall • CI/CD</p>
+        </div>
+
+        <!-- VERSION CONTROL -->
+<div class="tech-block">
+    <div class="tech-badge">Version Control & Collaboration</div>
+    <p>Git • GitHub • GitLab • Bitbucket • Pull Request Workflow</p>
+</div>
 
     </div>
 </div>
-
-
+<!-- END of block: Tech Stack -->
 
 <!-- ============================================
-     CARD: Experience
+     SECTION 6 — EXPERIENCE (PREMIUM)
      ============================================ -->
-<div id="experience" class="detail-card card-color-4">
+<div id="experience" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -210,206 +305,224 @@
 
     <h2 class="section-title">Experience</h2>
 
+
     <!-- ======================
-         Swisslog – Test Lead
+         EXPERIENCE — SWISSLOG
          ====================== -->
-    <div class="exp-section">
-        <div class="exp-header">
-            <img src="/plfirmalogo.png" class="exp-logo" />
-            <div class="exp-title">
+    <div class="exp-premium">
+
+        <div class="exp-head">
+            <img src="/plfirmalogo.png" class="exp-premium-logo" />
+
+            <div class="exp-meta">
                 <h3 class="exp-role">Test Lead</h3>
                 <h4 class="exp-company">Swisslog</h4>
-                <p class="exp-sub">2021 – 2025 · Dortmund</p>
+                <p class="exp-location">Dortmund • 2021 – 2025</p>
             </div>
         </div>
 
-        <ul class="exp-list">
-            <li>
-                ✅ Designed & executed 1,000+ test cases<br />
-                <span>🤖 Polarion, Selenium, Java</span>
+        <ul class="exp-premium-list">
+            <li>Designed & executed 1,000+ test cases  
+                <span>🤖 Polarion • Selenium • Java</span>
             </li>
-            <li>
-                ✅ Test Lead for one of Swisslog’s largest projects with 500 users & 10 modules<br />
-                <span>🤖 Polarion, WMS, WES</span>
+
+            <li>Test Lead for a 500-user, 10-module automation program  
+                <span>🤖 WMS • WES • Polarion</span>
             </li>
-            <li>
-                ✅ Executed 20+ FAT & SAT sessions with customers<br />
-                <span>🤖 WMS, WES, SynQ, Polarion</span>
+
+            <li>Executed 20+ FAT & SAT customer sessions  
+                <span>🤖 WMS • WES • SynQ</span>
             </li>
-            <li>
-                ✅ Delivered 50+ detailed test & defect reports to Project Management<br />
-                <span>🤖 Polarion, Excel, SCRUM</span>
+
+            <li>Delivered 50+ detailed QA & defect reports  
+                <span>🤖 Polarion • Excel • SCRUM</span>
             </li>
-            <li>
-                ✅ Prepared 5 complete project-level test plans<br />
-                <span>🤖 Risk-Based Testing, SCRUM, Polarion</span>
+
+            <li>Prepared 5 complete project-level test plans  
+                <span>🤖 RBT • SCRUM • Polarion</span>
             </li>
-            <li>
-                ✅ Reviewed automation of 1,000+ test cases<br />
-                <span>🤖 Selenium, Java, CI Pipelines</span>
+
+            <li>Reviewed automation of 1,000+ test cases  
+                <span>🤖 Selenium • Java • CI Pipelines</span>
             </li>
-            <li>
-                ✅ Provided on-site customer support for 5 go-lives / rollouts<br />
-                <span>🤖 WMS, WES, SynQ, Polarion</span>
+
+            <li>Supported 5 go-lives / rollouts on-site  
+                <span>🤖 WMS • WES • SynQ</span>
             </li>
-            <li>
-                ✅ Mentored & onboarded 15+ colleagues<br />
-                <span>🤖 SCRUM, Knowledge Transfer, Agile Coaching</span>
+
+            <li>Mentored & onboarded 15+ colleagues  
+                <span>🤖 Agile Coaching</span>
             </li>
         </ul>
     </div>
 
+
+
     <!-- ======================
-         Daimler – Senior Process Manager
+         EXPERIENCE — DAIMLER (PROCESS MANAGER)
          ====================== -->
-    <div class="exp-section">
-        <div class="exp-header">
-            <img src="/plfirmalogo.png" class="exp-logo" />
-            <div class="exp-title">
+    <div class="exp-premium">
+
+        <div class="exp-head">
+            <img src="/plfirmalogo.png" class="exp-premium-logo" />
+
+            <div class="exp-meta">
                 <h3 class="exp-role">Senior Process Manager</h3>
-                <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
-                <p class="exp-sub">2020 – 2021 · Istanbul</p>
+                <h4 class="exp-company">Daimler — Mercedes-Benz</h4>
+                <p class="exp-location">Istanbul • 2020 – 2021</p>
             </div>
         </div>
 
-        <ul class="exp-list">
-            <li>
-                ✅ Built the complete test structure for Daimler’s Part Management System (SRM)<br />
-                <span>🤖 JIRA, Xray, HP ALM, Ranorex, C#</span>
+        <ul class="exp-premium-list">
+
+            <li>Built the complete test structure for SRM  
+                <span>🤖 Jira • Xray • ALM • Ranorex • C#</span>
             </li>
-            <li>
-                ✅ Designed the full test structure for Daimler’s internal communication system (DARRS)<br />
-                <span>🤖 JIRA, HP ALM, Engineering Client, Smaragd</span>
+
+            <li>Designed full test architecture for DARRS  
+                <span>🤖 ALM • Engineering Client • Smaragd</span>
             </li>
-            <li>
-                ✅ Selected & evaluated test tools via scoring model<br />
-                <span>🤖 JIRA, Xray, Ranorex, HP ALM</span>
+
+            <li>Selected & evaluated test tools  
+                <span>🤖 Jira • Ranorex • Xray</span>
             </li>
-            <li>
-                ✅ Global Responsibility for Daimler AG’s Part Management System (SRM)<br />
-                <span>🤖 ~40,000 internal users · Engineering Client, Smaragd, DARRS</span>
+
+            <li>Global responsibility for SRM (40,000+ internal users)  
+                <span>🤖 Engineering Client • DARRS</span>
             </li>
-            <li>
-                ✅ Provided 1st & 2nd Level Support with 1,000+ resolved tickets<br />
-                <span>🤖 JIRA Service Desk, Defect & Incident Management</span>
+
+            <li>Resolved 1,000+ support tickets  
+                <span>🤖 Jira Service Desk • Incident Mgmt</span>
             </li>
-            <li>
-                ✅ Process & Test Automation with 250+ automated/reviewed test cases<br />
-                <span>🤖 Ranorex, C#, CI Pipelines</span>
+
+            <li>Automated / reviewed 250+ test cases  
+                <span>🤖 Ranorex • C# • CI Pipelines</span>
             </li>
-            <li>
-                ✅ Planned & coordinated 10+ enterprise-level releases for SRM<br />
-                <span>🤖 JIRA, Confluence, SCRUM</span>
+
+            <li>Planned & coordinated 10+ enterprise releases  
+                <span>🤖 Jira • Confluence • SCRUM</span>
             </li>
-            <li>
-                ✅ Prepared 50+ test & management reports for stakeholders<br />
-                <span>🤖 JIRA Dashboards, Excel, Confluence</span>
+
+            <li>Prepared 50+ QA & management reports  
+                <span>🤖 Jira Dashboards • Excel</span>
             </li>
-            <li>
-                ✅ Onboarded & mentored 5+ colleagues<br />
-                <span>🤖 Agile, Knowledge Transfer, Mentorship</span>
+
+            <li>Onboarded & mentored 5+ colleagues  
+                <span>🤖 Knowledge Transfer</span>
             </li>
         </ul>
     </div>
 
+
+
+
     <!-- ======================
-         Daimler – Senior Test Manager
+         EXPERIENCE — DAIMLER (SENIOR TEST MANAGER)
          ====================== -->
-    <div class="exp-section">
-        <div class="exp-header">
-            <img src="/plfirmalogo.png" class="exp-logo" />
-            <div class="exp-title">
+    <div class="exp-premium">
+
+        <div class="exp-head">
+            <img src="/plfirmalogo.png" class="exp-premium-logo" />
+
+            <div class="exp-meta">
                 <h3 class="exp-role">Senior Test Manager</h3>
-                <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
-                <p class="exp-sub">2017 – 2020 · Istanbul</p>
+                <h4 class="exp-company">Daimler — Mercedes-Benz</h4>
+                <p class="exp-location">Istanbul • 2017 – 2020</p>
             </div>
         </div>
 
-        <ul class="exp-list">
-            <li>
-                ✅ Created the Software Test Strategy for Daimler PDM Systems (enterprise-wide, multi-module)<br />
-                <span>🤖 JIRA, Xray, HP ALM, SCRUM</span>
+        <ul class="exp-premium-list">
+
+            <li>Created enterprise-wide Test Strategy for Daimler PDM  
+                <span>🤖 Jira • Xray • ALM • SCRUM</span>
             </li>
-            <li>
-                ✅ Quality Management & Release Management for PDM System “Smaragd” (10+ releases)<br />
-                <span>🤖 JIRA, Confluence, SCRUM</span>
+
+            <li>Quality & Release Management for “Smaragd”  
+                <span>🤖 Jira • Confluence • SCRUM</span>
             </li>
-            <li>
-                ✅ Executed E2E Test Activities for “Release Specification Management” & “Sma4U” (2 core modules)<br />
-                <span>🤖 JIRA, HP ALM, E2E Testing</span>
+
+            <li>E2E testing for RSM & Sma4U modules  
+                <span>🤖 ALM • E2E Testing Framework</span>
             </li>
-            <li>
-                ✅ Managed the migration from HP ALM to XRAY for Smaragd (full project migration)<br />
-                <span>🤖 HP ALM, XRAY, JIRA</span>
+
+            <li>Led HP ALM → Xray migration  
+                <span>🤖 HP ALM • Xray</span>
             </li>
-            <li>
-                ✅ Applied SCRUM methodology to test processes across teams (daily, sprint, release level)<br />
-                <span>🤖 SCRUM, JIRA, Confluence</span>
+
+            <li>Applied SCRUM across dev & QA teams  
+                <span>🤖 Agile Practices</span>
             </li>
-            <li>
-                ✅ Selected suitable test tools via scoring model & technical evaluation<br />
-                <span>🤖 Ranorex, JIRA, XRAY, HP ALM, C#</span>
+
+            <li>Selected test tools via scoring model  
+                <span>🤖 Ranorex • C# • Jira</span>
             </li>
-            <li>
-                ✅ Built JIRA projects from scratch for Daimler test activities (roles, workflows, permissions, processes)<br />
-                <span>🤖 JIRA Administration, Workflow Design, Defect Management, C# integration support</span>
+
+            <li>Built Jira workflows, roles & permissions  
+                <span>🤖 Jira Administration</span>
             </li>
-            <li>
-                ✅ Automated 1,000+ test cases for Daimler PDM System “Smaragd”<br />
-                <span>🤖 Ranorex, C#</span>
+
+            <li>Automated 1,000+ test cases  
+                <span>🤖 Ranorex • C#</span>
             </li>
-            <li>
-                ✅ Mentored & onboarded 20+ colleagues<br />
-                <span>🤖 SCRUM, Knowledge Transfer, Agile Coaching</span>
+
+            <li>Mentored & onboarded 20+ QA engineers  
+                <span>🤖 Agile Coaching</span>
             </li>
         </ul>
     </div>
 
+
+
+
+
     <!-- ======================
-         Daimler – Development Engineer
+         EXPERIENCE — DAIMLER (DEV ENGINEER)
          ====================== -->
-    <div class="exp-section">
-        <div class="exp-header">
-            <img src="/plfirmalogo.png" class="exp-logo" />
-            <div class="exp-title">
+    <div class="exp-premium">
+
+        <div class="exp-head">
+            <img src="/plfirmalogo.png" class="exp-premium-logo" />
+
+            <div class="exp-meta">
                 <h3 class="exp-role">Development Engineer</h3>
-                <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
-                <p class="exp-sub">2007 – 2017</p>
+                <h4 class="exp-company">Daimler — Mercedes-Benz</h4>
+                <p class="exp-location">2007 – 2017</p>
             </div>
         </div>
 
-        <ul class="exp-list">
-            <li>
-                ✅ Interior Design, Service Flaps, Floor Covering System, Luggage Compartment<br />
-                <span>🤖 Catia V4, Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
+        <ul class="exp-premium-list">
+
+            <li>Interior Design, Service Flaps, Floor Covering, Luggage  
+                <span>🤖 Catia V4/V5 • NX • SAP</span>
             </li>
-            <li>
-                ✅ Integration Team – Project Next Generation Conecto<br />
-                <span>🤖 Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
+
+            <li>Integration — Next Generation Conecto  
+                <span>🤖 Catia V5 • NX • SAP</span>
             </li>
-            <li>
-                ✅ Support at Factory Mannheim for Customer Special Order Conecto Vehicles<br />
-                <span>🤖 Catia V5, SAP, DOORS, SWAN, MS Office</span>
+
+            <li>Factory support — Special Order buses (Mannheim)  
+                <span>🤖 DOORS • SAP • SWAN</span>
             </li>
-            <li>
-                ✅ Support for Assembly of Prototypes of NCI E6 Vehicles<br />
-                <span>🤖 Catia V5, Siemens NX, SAP, DOORS, MS Office</span>
+
+            <li>Prototype Assembly — NCI E6  
+                <span>🤖 NX • SAP • DOORS</span>
             </li>
-            <li>
-                ✅ Integration Team – Project NCR Support at Assembly of Setra Vehicles<br />
-                <span>🤖 Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
+
+            <li>Integration — Setra  
+                <span>🤖 Catia • NX • SAP</span>
             </li>
+
         </ul>
     </div>
 
 </div>
-
+<!-- END of block: Experience -->
 
 
 <!-- ============================================
-     CARD: Corporate Projects
+     SECTION 7 — CORPORATE PROJECTS (PREMIUM)
      ============================================ -->
-<div id="projects-corporate" class="detail-card card-color-5">
+<div id="projects-corp" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -418,107 +531,114 @@
 
     <h2 class="section-title">🚀 Corporate Projects</h2>
 
-    <div class="proj-wrapper">
+    <div class="proj-premium-list">
 
-        <!-- Smaragd -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- SMARAGD -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Smaragd – Daimler / Mercedes-Benz</h4>
-                <p>
-                    A global Product Data Management system used by thousands of engineers across Mercedes-Benz.
-                    Test strategy, quality processes, and release management were established and executed
-                    throughout the project lifecycle. The system supported highly complex engineering workflows
-                    and integrations.
+                <h3 class="proj-title">Smaragd — Daimler / Mercedes-Benz</h3>
+                <p class="proj-desc">
+                    A global Product Data Management platform used by thousands of engineers.  
+                    Established complete test strategy, QA processes, and release workflows across  
+                    highly complex engineering integrations and enterprise-level modules.
                 </p>
             </div>
         </div>
+
 
         <!-- SRM -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">SRM – Daimler / Mercedes-Benz</h4>
-                <p>
-                    A critical Supply & Parts Management platform serving tens of thousands of internal users.
-                    End-to-end testing, test automation processes, and global rollout support were delivered.
-                    The project played a key role in ensuring stability across global supply chain operations.
+                <h3 class="proj-title">SRM — Daimler / Mercedes-Benz</h3>
+                <p class="proj-desc">
+                    Critical Supply & Parts Management platform serving tens of thousands of users.  
+                    Delivered end-to-end testing, automation frameworks, and coordinated global rollouts  
+                    ensuring operational stability during high-impact transitions.
                 </p>
             </div>
         </div>
+
 
         <!-- DARRS -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">DARRS – Daimler / Mercedes-Benz</h4>
-                <p>
-                    An internal communication and reporting system used for operational and management-level
-                    decision processes. Functional, integration, and user acceptance testing activities were
-                    carried out. The system directly supported data-driven corporate operations.
+                <h3 class="proj-title">DARRS — Daimler / Mercedes-Benz</h3>
+                <p class="proj-desc">
+                    Internal reporting & communication system used for operational and management decisions.  
+                    Executed functional, integration, and UAT testing across multiple data pipelines supporting  
+                    executive-level decision processes.
                 </p>
             </div>
         </div>
 
-        <!-- Swisslog TKL -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- SWISSLOG TKL -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Swisslog – TKL</h4>
-                <p>
-                    A warehouse automation and robotics integration project for logistics operations.
-                    Software and hardware synchronization tests were executed across robotic and conveyor systems.
-                    The project required high reliability under real-time operational conditions.
+                <h3 class="proj-title">Swisslog — TKL</h3>
+                <p class="proj-desc">
+                    Automation & robotics integration project for warehouse logistics.  
+                    Validated end-to-end synchronization between robots, conveyors, and WMS systems  
+                    under real-time operational constraints.
                 </p>
             </div>
         </div>
 
-        <!-- Swisslog Kruitbosch -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- SWISSLOG KRUITBOSCH -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Swisslog – Kruitbosch</h4>
-                <p>
-                    A warehouse management system supporting retail distribution operations.
-                    Order picking, stock management, and shipment processes were tested across automated workflows.
-                    Close interaction between physical automation and software systems was a key success factor.
+                <h3 class="proj-title">Swisslog — Kruitbosch</h3>
+                <p class="proj-desc">
+                    WMS testing for retail distribution operations including order picking,  
+                    stock management, and shipping workflows.  
+                    Ensured reliable automation performance across daily logistics operations.
                 </p>
             </div>
         </div>
 
-        <!-- Swisslog Albert Heijn -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- SWISSLOG ALBERT HEIJN -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Swisslog – Albert Heijn</h4>
-                <p>
-                    A high-volume warehouse automation project for one of Europe’s largest retail chains.
-                    System validation, go-live support, and data integrity testing were delivered under heavy
-                    operational load. The project operated in a high-availability production environment.
+                <h3 class="proj-title">Swisslog — Albert Heijn</h3>
+                <p class="proj-desc">
+                    High-volume warehouse automation for one of Europe’s largest retailers.  
+                    Delivered go-live validation, data integrity testing, and performance checks  
+                    under heavy operational load.
                 </p>
             </div>
         </div>
 
-        <!-- Swisslog EDEKA -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- SWISSLOG EDEKA -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Swisslog – EDEKA</h4>
-                <p>
-                    A large-scale automation project for Germany’s leading supermarket group.
-                    Pre-go-live validation, integration testing, and operational stability checks were conducted.
-                    The system ensured uninterrupted warehouse operations during transition phases.
+                <h3 class="proj-title">Swisslog — EDEKA</h3>
+                <p class="proj-desc">
+                    Large-scale automation program for Germany’s leading supermarket chain.  
+                    Led integration testing and operational readiness validation ensuring  
+                    uninterrupted warehouse performance during transition phases.
                 </p>
             </div>
         </div>
 
     </div>
-</div>
 
+</div>
+<!-- END of block: Corporate Projects -->
 <!-- ============================================
-     CARD: Private Projects
+     SECTION 8 — PRIVATE PROJECTS (PREMIUM)
      ============================================ -->
-<div id="projects-private" class="detail-card card-color-1">
+<div id="projects-private" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -527,132 +647,138 @@
 
     <h2 class="section-title">🌟 Private Projects</h2>
 
-    <div class="proj-wrapper">
+    <div class="proj-premium-list">
 
-        <!-- UBT Testing -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- UBT TESTING -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">UBT – Testing</h4>
-                <p>
-                    A personal quality assurance brand focused on sharing real-world testing experience and
-                    best practices. The platform covers test strategies, tools, and career-related insights.
-                    It serves as a professional personal knowledge hub.
+                <h3 class="proj-title">UBT – Testing</h3>
+                <p class="proj-desc">
+                    Personal QA knowledge hub sharing real-world testing experience,  
+                    strategies, tools, and career insights. Aimed at helping testers  
+                    grow with practical, industry-level knowledge.
                 </p>
             </div>
         </div>
 
-        <!-- All in 2 Minutes -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- ALL IN 2 MINUTES -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">All in 2 Minutes!</h4>
-                <p>
-                    A short-form content series designed to explain complex topics in under two minutes.
-                    The concept focuses on speed, clarity, and entertainment—combining educational value
-                    with engaging presentation.
+                <h3 class="proj-title">All in 2 Minutes!</h3>
+                <p class="proj-desc">
+                    Short-form educational series designed to explain complex topics  
+                    in under two minutes. Focuses on clarity, speed, storytelling,  
+                    and high engagement.
                 </p>
             </div>
         </div>
 
-        <!-- Press Enter to Code -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- PRESS ENTER TO CODE -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Press Enter to Code</h4>
-                <p>
-                    A personal tech and coding content channel focused on development, testing, and
-                    productivity. Content includes programming concepts, automation topics, and learning
-                    strategies targeting both developers and QA professionals.
+                <h3 class="proj-title">Press Enter to Code</h3>
+                <p class="proj-desc">
+                    Development, automation, and productivity content for both  
+                    developers and QA engineers. Covers coding concepts,  
+                    learning strategies, and real-life problem solving.
                 </p>
             </div>
         </div>
 
-        <!-- STN -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- SOFTWARE TESTER NETWORK -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Software Tester Network</h4>
-                <p>
-                    A professional QA community created to connect software testers globally.
-                    Knowledge sharing, technical discussions, and career-focused content are actively
-                    supported. The platform promotes collaboration across different QA expertise levels.
+                <h3 class="proj-title">Software Tester Network</h3>
+                <p class="proj-desc">
+                    Global QA community promoting knowledge exchange, mentoring,  
+                    technical discussions, and professional networking.
                 </p>
             </div>
         </div>
 
-        <!-- CAL Community -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- CAL COMMUNITY -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">CAL Community</h4>
-                <p>
-                    A digital alumni and social community platform built to strengthen long-term
-                    connections. The project focuses on engagement, event sharing, and collective
-                    interaction—achieving strong organic growth in a short time.
+                <h3 class="proj-title">CAL Community</h3>
+                <p class="proj-desc">
+                    Digital alumni community designed to keep graduates connected  
+                    through events, updates, engagement, and shared experiences.  
+                    Achieved strong organic growth in a short period.
                 </p>
             </div>
         </div>
 
-        <!-- Picked Scenes -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- PICKED SCENES -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Picked Scenes!</h4>
-                <p>
-                    A curated digital project highlighting powerful moments from films and series.
-                    Each post focuses on storytelling, emotion, and cinematic impact—combining visual
-                    culture with short-form editorial content.
+                <h3 class="proj-title">Picked Scenes!</h3>
+                <p class="proj-desc">
+                    Curated cinematic scenes selected for storytelling, emotion,  
+                    and cultural impact. A blend of film appreciation and  
+                    visual storytelling.
                 </p>
             </div>
         </div>
 
-        <!-- Loved Your T-Shirt -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- LOVED YOUR T-SHIRT -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Loved Your T-Shirt</h4>
-                <p>
-                    A social content concept built around street culture, identity, and visual expression
-                    through clothing. The project connects fashion, humor, and spontaneous interaction,
-                    emphasizing creativity in everyday moments.
+                <h3 class="proj-title">Loved Your T-Shirt</h3>
+                <p class="proj-desc">
+                    Social content project centered on street culture, visual identity,  
+                    clothing, and spontaneous creative moments with humor.
                 </p>
             </div>
         </div>
 
-        <!-- Factovium -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- FACTOVIUM -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Factovium</h4>
-                <p>
-                    An educational micro-content platform built around daily “Did you know?” facts.
-                    The project focuses on curiosity, learning, and knowledge sharing—designed to be
-                    short, informative, and engaging.
+                <h3 class="proj-title">Factovium</h3>
+                <p class="proj-desc">
+                    Daily micro-learning platform delivering engaging “Did you know?”  
+                    facts designed to trigger curiosity and fast knowledge intake.
                 </p>
             </div>
         </div>
 
-        <!-- Don't Follow Just Like -->
-        <div class="proj-item">
-            <img src="/phlogo.png" class="proj-logo" />
+
+        <!-- DON'T FOLLOW JUST LIKE -->
+        <div class="proj-premium-item">
+            <img src="/phlogo.png" class="proj-premium-logo" />
             <div>
-                <h4 class="proj-title">Don’t Follow Just Like</h4>
-                <p>
-                    An entertainment-focused digital brand built on irony, humor, and experimental social
-                    content. The concept plays with reversed social-media dynamics and is designed purely
-                    for engagement and creative expression.
+                <h3 class="proj-title">Don’t Follow Just Like</h3>
+                <p class="proj-desc">
+                    Experimental entertainment brand using irony, humor, and  
+                    reversed social media dynamics to create unpredictable content.
                 </p>
             </div>
         </div>
 
     </div>
-</div>
 
+</div>
+<!-- END of block: Private Projects -->
 <!-- ============================================
-     CARD: Contact
+     SECTION 9 — CONTACT (PREMIUM)
      ============================================ -->
-<div id="contact" class="detail-card card-color-2">
+<div id="contact" class="card premium-card">
 
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon" /></a>
@@ -661,15 +787,34 @@
 
     <h2 class="section-title">Contact</h2>
 
-    <p>
-        ✉ ubterzioglu@gmail.com<br>
-        📱 +49 173 956 9429<br>
-        📍 Dortmund, Germany
-    </p>
+    <div class="contact-premium">
+
+        <div class="contact-item">
+            <div class="contact-badge">Email</div>
+            <p>ubterzioglu@gmail.com</p>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-badge">Phone</div>
+            <p>+49 173 956 9429</p>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-badge">Location</div>
+            <p>Dortmund, Germany</p>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-badge">LinkedIn</div>
+            <p>
+                <a href="https://www.linkedin.com/in/umut-bar%C4%B1%C5%9F-terzio%C4%9Flu"
+                   target="_blank" class="contact-link">
+                    View Profile →
+                </a>
+            </p>
+        </div>
+
+    </div>
+
 </div>
-
-
-
-</div>
-</body>
-</html>
+<!-- END of block: Contact -->
