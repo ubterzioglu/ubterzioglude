@@ -1,406 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Barış Terzioğlu - Personal Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recruiter – Umut Barış Terzioğlu</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
+body {
+    font-family:'Segoe UI', Tahoma, sans-serif;
+    background:linear-gradient(135deg,#1a1a2e,#16213e);
+    padding:20px;
+    min-height:100vh;
+}
 
-        /* ✅ TÜM KARTLAR ARASI BOŞLUK = 8px */
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+.container {
+    max-width:420px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding-bottom:100px;
+}
 
-        .card {
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+/* BASE CARD */
+.card, .detail-card {
+    background:white;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);
+    position:relative;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
+/* HERO */
+.hero-card {
+    background:linear-gradient(135deg,#ff6b35,#f7931e);
+    color:white;
+}
 
-        /* HERO */
-        .hero-card {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            color: white;
-            text-align: center;
-        }
+.hero-top {
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
 
-        .profile-img-wrapper {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
+.hero-logo { width:48px; height:48px; border-radius:50%; }
+.hero-domain { font-size:16px; font-weight:600; color:white; }
+.hero-logo-box { display:flex; align-items:center; gap:8px; }
 
-        .profile-img-bg {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            border-radius: 50%;
-            position: absolute;
-            animation: pulse 2s infinite;
-        }
+/* HERO'DAKİ HOME ICON (bunu dokunmuyoruz, beyaz kalsın) */
+.home-icon {
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    padding:6px;
+    background:white;
+    box-shadow:0 4px 12px rgba(0,0,0,0.25);
+    cursor:pointer;
+    transition:0.2s ease;
+}
+.home-icon:hover { transform:scale(1.1); }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+.section-title {
+    font-size:19px;
+    font-weight:700;
+    margin-bottom:12px;
+}
 
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            position: relative;
-            top: 10px;
-            left: 10px;
-            border: 4px solid white;
-        }
+/* NAVIGATION CARD — OFFICE YELLOW */
+.nav-card {
+    background:#FFB900 !important;
+    color:#333;
+}
 
-        .hero-card h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
+/* NAV ITEMS → ARTIK BEYAZ KARTLAR */
+.nav-grid {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
 
-        .hero-card .title {
-            font-size: 14px;
-            margin-bottom: 5px;
-            opacity: 0.95;
-        }
+.nav-item {
+    background:#ffffff;                       /* beyaz kart */
+    border-radius:16px;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(0,0,0,0.15);   /* visitor-option benzeri gölge */
+    transition:0.15s;
+}
+.nav-item:hover {
+    background:#fff3c4;                       /* hafif sarı hover */
+    transform:translateX(5px);
+}
 
-        .hero-card .location {
-            font-size: 13px;
-            opacity: 0.85;
-        }
+.nav-icon { font-size:22px; }
+.chevron { opacity:.4; }
 
-        /* COMMON */
-        .yellow-card {
-            background: linear-gradient(135deg, #ffd93d 0%, #ffed4e 100%);
-        }
+/* DETAIL CARD COLORS */
+.office-orange { background:#D83B01 !important; color:white; }
+.office-green  { background:#107C41 !important; color:white; }
+.office-blue   { background:#185ABD !important; color:white; }
+.office-red    { background:#D43F3A !important; color:white; }
+.office-purple { background:#742774 !important; color:white; }
+.office-teams  { background:#005A9E !important; color:white; }
+.office-contact{ background:#107C10 !important; color:white; }
 
-        .blue-card {
-            background: linear-gradient(135deg, #1e88e5 0%, #42a5f5 100%);
-            color: white;
-        }
+/* CARD ÜSTÜ HOME/UP BUTONLARI → ESKİ HALİ (YARI TRANSPARAN) */
+.card-buttons {
+    position:absolute;
+    right:14px;
+    top:14px;
+    display:flex;
+    gap:10px;
+}
 
-        .purple-card {
-            background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
-            color: white;
-        }
+.btn-icon {
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    padding:5px;
+    background:rgba(255,255,255,0.35);   /* yarı transparan beyaz */
+    backdrop-filter:blur(4px);
+    box-shadow:0 2px 6px rgba(0,0,0,.22);
+    cursor:pointer;
+    transition:0.15s;
+}
 
-        .green-card {
-            background: linear-gradient(135deg, #7cb342 0%, #9ccc65 100%);
-            color: white;
-        }
+.btn-icon:hover {
+    transform:scale(1.12);
+    background:rgba(255,255,255,0.55);
+}
 
-        .dark-green-card {
-            background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
-            color: white;
-        }
+html { scroll-behavior:smooth; }
 
-        .section-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .description {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        /* VISITORS */
-        .visitor-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .visitor-option {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-        }
-
-        .visitor-option:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .visitor-icon {
-            font-size: 24px;
-        }
-
-        .visitor-text h3 {
-            font-size: 15px;
-            margin-bottom: 3px;
-            color: #333;
-        }
-
-        .visitor-text p {
-            font-size: 12px;
-            color: #777;
-        }
-
-        /* SKILLS */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .skill-item {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: background 0.3s ease;
-            cursor: pointer;
-        }
-
-        .skill-item:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* INTERESTS */
-        .interests-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .interest-item {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .interest-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-size: 24px;
-        }
-
-        .interest-name {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .interest-desc {
-            font-size: 11px;
-            opacity: 0.9;
-        }
-
-        /* SOCIAL */
-        .social-links {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
-        }
-
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #7cb342;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .social-icon:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* CONTACT */
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .contact-text h4 {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-bottom: 3px;
-        }
-
-        .contact-text p {
-            font-size: 14px;
-            font-weight: 600;
-        }
-    </style>
+</style>
 </head>
 <body>
 
+<a id="top"></a>
+
 <div class="container">
 
-    <!-- HERO -->
-    <div class="card hero-card">
-        <h2 style="font-size: 16px; margin-bottom: 20px;">Welcome to my personal page!</h2>
+<!-- HERO -->
+<div class="card hero-card">
 
-        <div class="profile-img-wrapper">
-            <div class="profile-img-bg"></div>
-            <img class="profile-img"
-                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23cccccc' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='40' fill='%23666666'%3EUB%3C/text%3E%3C/svg%3E">
+    <div class="hero-top">
+        <div class="hero-logo-box">
+            <img src="/UBT_LOGO.png" class="hero-logo">
+            <span class="hero-domain">ubterzioglu.de</span>
         </div>
-
-        <h1>Umut Barış Terzioğlu</h1>
-        <p class="title">Senior Software Quality Assurance Engineer</p>
-        <p class="location">Germany</p>
+        <a href="/index.html">
+            <img src="/home.png" class="home-icon">
+        </a>
     </div>
 
-    <!-- ABOUT -->
-    <div class="card yellow-card">
-        <h2 class="section-title">Hello Recruiter!</h2>
-        <p class="description">
-            Passionate designer with 5+ years of experience creating beautiful and functional digital experiences.
-        </p>
-    </div>
-
-      <!-- ABOUT -->
-    <div class="card yellow-card">
-        <h2 class="section-title">About Me</h2>
-        <p class="description">
-            Passionate designer with 5+ years of experience creating beautiful and functional digital experiences.
-        </p>
-    </div>
-
-    <!-- WHO ARE YOU -->
-    <div class="card yellow-card">
-        <h2 class="section-title">Who are you?</h2>
-        <p class="description">Which one are you?</p>
-
-        <div class="visitor-options">
-            <div class="visitor-option"><div class="visitor-icon">👔</div><div class="visitor-text"><h3>Recruiter</h3><p>Checking if you're the talent I need.</p></div></div>
-            <div class="visitor-option"><div class="visitor-icon">👨‍💼</div><div class="visitor-text"><h3>Colleague</h3><p>Judging your design choices a bit.</p></div></div>
-            <div class="visitor-option"><div class="visitor-icon">🛡️</div><div class="visitor-text"><h3>QA Engineer</h3><p>Gently breaking things here.</p></div></div>
-            <div class="visitor-option"><div class="visitor-icon">👀</div><div class="visitor-text"><h3>Curious Visitor</h3><p>Ended up here... somehow.</p></div></div>
-        </div>
-    </div>
-
-    <!-- SKILLS -->
-    <div class="card blue-card">
-        <h2 class="section-title">Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-item">🎨 Design</div>
-            <div class="skill-item">💻 Development</div>
-            <div class="skill-item">📱 Mobile First</div>
-            <div class="skill-item">⚡ Prototyping</div>
-        </div>
-    </div>
-
-    <!-- INTERESTS -->
-    <div class="card purple-card">
-        <h2 class="section-title">Interests</h2>
-        <div class="interests-grid">
-            <div class="interest-item"><div class="interest-icon">💡</div><div class="interest-name">Innovation</div><div class="interest-desc">New ideas</div></div>
-            <div class="interest-item"><div class="interest-icon">❤️</div><div class="interest-name">User Focus</div><div class="interest-desc">With empathy</div></div>
-            <div class="interest-item"><div class="interest-icon">🚀</div><div class="interest-name">Growth</div><div class="interest-desc">Learning</div></div>
-            <div class="interest-item"><div class="interest-icon">☕</div><div class="interest-name">Collaboration</div><div class="interest-desc">Team player</div></div>
-        </div>
-    </div>
-
-    <!-- CONNECT -->
-    <div class="card green-card">
-        <h2 class="section-title">Connect</h2>
-        <div class="social-links">
-            <a class="social-icon">🔗</a>
-            <a class="social-icon">💼</a>
-            <a class="social-icon">📷</a>
-            <a class="social-icon">✉️</a>
-        </div>
-    </div>
-
-    <!-- CONTACT -->
-    <div class="card dark-green-card">
-        <h2 class="section-title">Contact Info</h2>
-
-        <div class="contact-item">
-            <div class="contact-icon">✉️</div>
-            <div class="contact-text"><h4>Email</h4><p>ubterzioglu@gmail.com</p></div>
-        </div>
-
-        <div class="contact-item">
-            <div class="contact-icon">📱</div>
-            <div class="contact-text"><h4>Phone</h4><p>+49 173 956 94 29</p></div>
-        </div>
-
-        <div class="contact-item">
-            <div class="contact-icon">📍</div>
-            <div class="contact-text"><h4>Location</h4><p>Dortmund</p></div>
-        </div>
-    </div>
-
+    <h1>Hello Recruiter!</h1>
+    <p class="title">Everything you need to evaluate my profile efficiently.</p>
 </div>
 
-<script>
-    document.querySelectorAll('.visitor-option, .skill-item, .interest-item, .social-icon').forEach(item => {
-        item.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => { this.style.transform = ''; }, 150);
-        });
-    });
-</script>
+<!-- NAVIGATION -->
+<div class="card nav-card">
+
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+
+    <h2 class="section-title">Navigation</h2>
+
+    <div class="nav-grid">
+
+        <div class="nav-item" onclick="document.getElementById('cv-en').scrollIntoView();">
+            <span><span class="nav-icon">📄</span> My CV (EN)</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('cv-de').scrollIntoView();">
+            <span><span class="nav-icon">📄</span> My CV (DE)</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('about').scrollIntoView();">
+            <span><span class="nav-icon">👤</span> About Me</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('achievements').scrollIntoView();">
+            <span><span class="nav-icon">🏆</span> Achievements</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('tech').scrollIntoView();">
+            <span><span class="nav-icon">🧰</span> Tech Stack</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('experience').scrollIntoView();">
+            <span><span class="nav-icon">💼</span> Experience</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('projects').scrollIntoView();">
+            <span><span class="nav-icon">📚</span> Projects</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('contact').scrollIntoView();">
+            <span><span class="nav-icon">☎️</span> Contact</span><span class="chevron">›</span>
+        </div>
+
+    </div>
+</div>
+
+<!-- DETAIL CARDS -->
+
+<div id="cv-en" class="detail-card office-orange">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">My CV (EN)</h2>
+    <p>English CV link will be here.</p>
+</div>
+
+<div id="cv-de" class="detail-card office-green">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">My CV (DE)</h2>
+    <p>German CV (PDF) will be shown here.</p>
+</div>
+
+<div id="about" class="detail-card office-blue">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">About Me</h2>
+    <p>Short bio & professional summary.</p>
+</div>
+
+<div id="achievements" class="detail-card office-red">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">Achievements</h2>
+    <p>Key milestones & accomplishments.</p>
+</div>
+
+<div id="tech" class="detail-card office-purple">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">Tech Stack</h2>
+    <p>Tools, languages & frameworks used.</p>
+</div>
+
+<div id="experience" class="detail-card office-teams">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">Experience</h2>
+    <p>Timeline of companies & roles.</p>
+</div>
+
+<div id="projects" class="detail-card office-contact">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">Projects</h2>
+    <p>Swisslog, Daimler, SynQ, automation projects.</p>
+</div>
+
+<div id="contact" class="detail-card office-orange">
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+    <h2 class="section-title">Contact</h2>
+    <p>
+        ✉ ubterzioglu@gmail.com<br>
+        📱 +49 173 956 9429<br>
+        📍 Dortmund, Germany
+    </p>
+</div>
+
+</div>
 
 </body>
 </html>
