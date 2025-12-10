@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Recruiter – Umut Barış Terzioğlu</title>
 
 <style>
@@ -56,9 +56,9 @@ body {
     border-radius:12px;
     padding:6px;
     background:white;
-    box-shadow:0 4px 12px rgba(0,0,0,0.25);
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
     cursor:pointer;
-    transition:0.2s ease;
+    transition:.2s;
 }
 .home-icon:hover { transform:scale(1.1); }
 
@@ -68,13 +68,21 @@ body {
     margin-bottom:12px;
 }
 
-/* NAVIGATION CARD — OFFICE YELLOW */
+/* OFFICE COLOR CLASSES */
+.office-orange { background:#D83B01 !important; color:white; }
+.office-green  { background:#107C41 !important; color:white; }
+.office-blue   { background:#185ABD !important; color:white; }
+.office-purple { background:#742774 !important; color:white; }
+.office-teams  { background:#005A9E !important; color:white; }
+.office-contact{ background:#107C10 !important; color:white; }
+
+/* NAVIGATION CARD */
 .nav-card {
     background:#FFB900 !important;
     color:#333;
 }
 
-/* NAV ITEMS (BEYAZ KARTLAR) */
+/* NAV ITEMS – white mini cards */
 .nav-grid {
     display:flex;
     flex-direction:column;
@@ -82,15 +90,15 @@ body {
 }
 
 .nav-item {
-    background:#ffffff;
+    background:white;
     border-radius:16px;
     padding:16px;
     display:flex;
     justify-content:space-between;
     font-size:16px;
     cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,0,0,0.15);
-    transition:0.15s;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+    transition:.15s;
 }
 .nav-item:hover {
     background:#fff3c4;
@@ -100,16 +108,7 @@ body {
 .nav-icon { font-size:22px; }
 .chevron { opacity:.4; }
 
-/* DETAIL CARD COLORS (OFFICE PALET) */
-.office-orange { background:#D83B01 !important; color:white; }
-.office-green  { background:#107C41 !important; color:white; }
-.office-blue   { background:#185ABD !important; color:white; }
-.office-red    { background:#D43F3A !important; color:white; }
-.office-purple { background:#742774 !important; color:white; }
-.office-teams  { background:#005A9E !important; color:white; }
-.office-contact{ background:#107C10 !important; color:white; }
-
-/* CARD ÜSTÜ HOME/UP BUTONLARI (YARI TRANSPARAN) */
+/* CARD BUTTONS (UP + HOME inside cards) */
 .card-buttons {
     position:absolute;
     right:14px;
@@ -127,115 +126,73 @@ body {
     backdrop-filter:blur(4px);
     box-shadow:0 2px 6px rgba(0,0,0,.22);
     cursor:pointer;
-    transition:0.15s;
+    transition:.15s;
 }
 
 .btn-icon:hover {
-    transform:scale(1.12);
     background:rgba(255,255,255,0.55);
+    transform:scale(1.12);
 }
 
-/* MY CV BUTTONS */
-.cv-links {
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:10px;
-}
-
-.cv-link {
-    background:white;
-    color:#D83B01;
-    font-weight:600;
-    padding:8px 14px;
-    border-radius:999px;
-    text-decoration:none;
-    font-size:14px;
-    box-shadow:0 3px 8px rgba(0,0,0,0.25);
-    transition:0.15s;
-}
-
-.cv-link:hover {
-    transform:translateY(-1px);
-    box-shadow:0 5px 14px rgba(0,0,0,0.35);
-}
-
-/* EXPERIENCE TIMELINE */
-.timeline {
-    margin-top:8px;
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-}
-
-.timeline-item {
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-}
-
-.tl-marker {
-    width:14px;
-    position:relative;
-    margin-top:4px;
-}
-
-.tl-dot {
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:#ffffff;
-    box-shadow:0 0 0 3px rgba(0,0,0,0.18);
-}
-
-.tl-line {
-    position:absolute;
-    top:12px;
-    left:6px;
-    width:2px;
-    height:calc(100% - 12px);
-    background:rgba(255,255,255,0.45);
-}
-
-.timeline-item:last-child .tl-line {
-    display:none;
-}
-
-.tl-content h3 {
-    font-size:16px;
-    font-weight:700;
-    margin-bottom:2px;
-}
-
-.tl-role {
-    font-size:15px;
-    font-weight:600;
-    margin-bottom:2px;
-}
-
-.tl-meta {
-    font-size:13px;
-    opacity:0.9;
-    margin-bottom:8px;
-}
-
-.tl-points {
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    font-size:14px;
-}
-
-.tl-points div span {
-    opacity:0.85;
-    font-size:13px;
-}
-
-/* SCROLL */
 html { scroll-behavior:smooth; }
 
+/* EXPERIENCE – PREMIUM LAYOUT */
+.exp-section {
+    margin-bottom: 32px;
+}
+
+.exp-header {
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    margin-bottom:12px;
+}
+
+.exp-logo {
+    width:56px;
+    height:56px;
+    border-radius:14px;
+    object-fit:cover;
+}
+
+.exp-title {
+    display:flex;
+    flex-direction:column;
+}
+
+.exp-role {
+    font-size:17px;
+    font-weight:700;
+    margin:0;
+}
+
+.exp-company {
+    font-size:15px;
+    font-weight:600;
+    margin:2px 0 0 0;
+    opacity:.95;
+}
+
+.exp-sub {
+    font-size:13px;
+    opacity:.75;
+    margin-top:2px;
+}
+
+.exp-list {
+    list-style:none;
+    padding:0;
+    margin:0;
+    font-size:14px;
+}
+
+.exp-list li {
+    margin-bottom:8px;
+    line-height:1.45;
+}
 </style>
 </head>
+
 <body>
 
 <a id="top"></a>
@@ -244,15 +201,12 @@ html { scroll-behavior:smooth; }
 
 <!-- HERO -->
 <div class="card hero-card">
-
     <div class="hero-top">
         <div class="hero-logo-box">
-            <img src="/UBT_LOGO.png" class="hero-logo">
+            <img src="/UBT_LOGO.png" class="hero-logo" />
             <span class="hero-domain">ubterzioglu.de</span>
         </div>
-        <a href="/index.html">
-            <img src="/home.png" class="home-icon">
-        </a>
+        <a href="/index.html"><img src="/home.png" class="home-icon"></a>
     </div>
 
     <h1>Hello Recruiter!</h1>
@@ -270,21 +224,8 @@ html { scroll-behavior:smooth; }
     <h2 class="section-title">Navigation</h2>
 
     <div class="nav-grid">
-
         <div class="nav-item" onclick="document.getElementById('cv').scrollIntoView();">
             <span><span class="nav-icon">📄</span> My CV (EN | DE)</span><span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="document.getElementById('about').scrollIntoView();">
-            <span><span class="nav-icon">👤</span> About Me</span><span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="document.getElementById('achievements').scrollIntoView();">
-            <span><span class="nav-icon">🏆</span> Achievements</span><span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="document.getElementById('tech').scrollIntoView();">
-            <span><span class="nav-icon">🧰</span> Tech Stack</span><span class="chevron">›</span>
         </div>
 
         <div class="nav-item" onclick="document.getElementById('experience').scrollIntoView();">
@@ -292,69 +233,36 @@ html { scroll-behavior:smooth; }
         </div>
 
         <div class="nav-item" onclick="document.getElementById('projects').scrollIntoView();">
-            <span><span class="nav-icon">📚</span> Projects</span><span class="chevron">›</span>
+            <span><span class="nav-icon">🚀</span> Projects</span><span class="chevron">›</span>
         </div>
 
         <div class="nav-item" onclick="document.getElementById('contact').scrollIntoView();">
             <span><span class="nav-icon">☎️</span> Contact</span><span class="chevron">›</span>
         </div>
-
     </div>
 </div>
 
-<!-- DETAIL CARDS -->
-
-<!-- MY CV (EN | DE) -->
+<!-- CV -->
 <div id="cv" class="detail-card office-orange">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
     </div>
-    <h2 class="section-title">My CV (EN | DE)</h2>
-    <p>You can download my CV in English or German using the links below.</p>
 
-    <div class="cv-links">
-        <a class="cv-link" href="https://drive.google.com/file/d/1T5yUafZI9nRv1aVWeEKBHcU6apZOojP2/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
-            EN – English CV
-        </a>
-        <a class="cv-link" href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
-            DE – Deutscher Lebenslauf
-        </a>
-    </div>
+    <h2 class="section-title">My CV</h2>
+
+    <p><strong>English CV:</strong><br>
+        <a href="https://drive.google.com/file/d/1T5yUafZI9nRv1aVWeEKBHcU6apZOojP2/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Open CV (EN)</a>
+    </p>
+
+    <p><strong>German CV:</strong><br>
+        <a href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Open CV (DE)</a>
+    </p>
 </div>
 
-<!-- ABOUT -->
-<div id="about" class="detail-card office-green">
-    <div class="card-buttons">
-        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-        <a href="#top"><img src="/up.png" class="btn-icon"></a>
-    </div>
-    <h2 class="section-title">About Me</h2>
-    <p>Short bio & professional summary.</p>
-</div>
+<!-- EXPERIENCE -->
+<div id="experience" class="detail-card office-blue">
 
-<!-- ACHIEVEMENTS -->
-<div id="achievements" class="detail-card office-blue">
-    <div class="card-buttons">
-        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-        <a href="#top"><img src="/up.png" class="btn-icon"></a>
-    </div>
-    <h2 class="section-title">Achievements</h2>
-    <p>Key milestones & accomplishments.</p>
-</div>
-
-<!-- TECH STACK -->
-<div id="tech" class="detail-card office-red">
-    <div class="card-buttons">
-        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-        <a href="#top"><img src="/up.png" class="btn-icon"></a>
-    </div>
-    <h2 class="section-title">Tech Stack</h2>
-    <p>Tools, languages & frameworks used.</p>
-</div>
-
-<!-- EXPERIENCE – BIG TIMELINE CARD -->
-<div id="experience" class="detail-card office-purple">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -362,162 +270,163 @@ html { scroll-behavior:smooth; }
 
     <h2 class="section-title">Experience</h2>
 
-    <div class="timeline">
-
-        <!-- SWISSLOG -->
-        <div class="timeline-item">
-            <div class="tl-marker">
-                <div class="tl-dot"></div>
-                <div class="tl-line"></div>
-            </div>
-            <div class="tl-content">
-                <div class="tl-role">Test Lead – Swisslog</div>
-                <div class="tl-meta">2021 – 2025 · Dortmund</div>
-                <div class="tl-points">
-                    <div>✅ Designed & executed <strong>1,000+ test cases</strong><br>
-                        <span>🤖 Polarion, Selenium, Java</span>
-                    </div>
-                    <div>✅ Test Lead for one of Swisslog’s largest projects with <strong>500 users & 10 modules</strong><br>
-                        <span>🤖 Polarion, WMS, WES</span>
-                    </div>
-                    <div>✅ Executed <strong>20+ FAT & SAT</strong> sessions with customers<br>
-                        <span>🤖 WMS, WES, SynQ, Polarion</span>
-                    </div>
-                    <div>✅ Delivered <strong>50+ detailed test & defect reports</strong> to Project Management<br>
-                        <span>🤖 Polarion, Excel, SCRUM</span>
-                    </div>
-                    <div>✅ Prepared <strong>5 complete project-level test plans</strong><br>
-                        <span>🤖 Risk-Based Testing, SCRUM, Polarion</span>
-                    </div>
-                    <div>✅ Reviewed automation of <strong>1,000+ test cases</strong><br>
-                        <span>🤖 Selenium, Java, CI Pipelines</span>
-                    </div>
-                    <div>✅ Provided on-site customer support for <strong>5 go-lives / rollouts</strong><br>
-                        <span>🤖 WMS, WES, SynQ, Polarion</span>
-                    </div>
-                    <div>✅ Mentored & onboarded <strong>15+ colleagues</strong><br>
-                        <span>🤖 SCRUM, Knowledge Transfer, Agile Coaching</span>
-                    </div>
-                </div>
+    <!-- Swisslog – Test Lead -->
+    <div class="exp-section">
+        <div class="exp-header">
+            <img src="/plfirmalogo.png" class="exp-logo" />
+            <div class="exp-title">
+                <h3 class="exp-role">Test Lead</h3>
+                <h4 class="exp-company">Swisslog</h4>
+                <p class="exp-sub">2021 – 2025 · Dortmund</p>
             </div>
         </div>
 
-        <!-- DAIMLER – SENIOR PROCESS MANAGER -->
-        <div class="timeline-item">
-            <div class="tl-marker">
-                <div class="tl-dot"></div>
-                <div class="tl-line"></div>
-            </div>
-            <div class="tl-content">
-                <div class="tl-role">Senior Process Manager – Daimler / Mercedes-Benz</div>
-                <div class="tl-meta">2020 – 2021 · Istanbul</div>
-                <div class="tl-points">
-                    <div>✅ Built the complete test structure for Daimler’s Part Management System (SRM)<br>
-                        <span>🤖 JIRA, Xray, HP ALM, Ranorex, C#</span>
-                    </div>
-                    <div>✅ Designed the full test structure for Daimler’s internal communication system (DARRS)<br>
-                        <span>🤖 JIRA, HP ALM, Engineering Client, Smaragd</span>
-                    </div>
-                    <div>✅ Selected & evaluated test tools via scoring model<br>
-                        <span>🤖 JIRA, Xray, Ranorex, HP ALM</span>
-                    </div>
-                    <div>✅ Global responsibility for Daimler AG’s Part Management System (SRM) (~40,000 internal users)<br>
-                        <span>🤖 Engineering Client, Smaragd, DARRS</span>
-                    </div>
-                    <div>✅ Provided 1st & 2nd Level Support with <strong>1,000+ resolved tickets</strong><br>
-                        <span>🤖 JIRA Service Desk, Defect & Incident Management</span>
-                    </div>
-                    <div>✅ Process & test automation with <strong>250+ automated / reviewed test cases</strong><br>
-                        <span>🤖 Ranorex, C#, CI Pipelines</span>
-                    </div>
-                    <div>✅ Planned & coordinated <strong>10+ enterprise-level releases</strong> for SRM<br>
-                        <span>🤖 JIRA, Confluence, SCRUM</span>
-                    </div>
-                    <div>✅ Prepared <strong>50+ test & management reports</strong> for stakeholders<br>
-                        <span>🤖 JIRA Dashboards, Excel, Confluence</span>
-                    </div>
-                    <div>✅ Onboarded & mentored <strong>5+ colleagues</strong><br>
-                        <span>🤖 Agile, Knowledge Transfer, Mentorship</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAIMLER – SENIOR TEST MANAGER -->
-        <div class="timeline-item">
-            <div class="tl-marker">
-                <div class="tl-dot"></div>
-                <div class="tl-line"></div>
-            </div>
-            <div class="tl-content">
-                <div class="tl-role">Senior Test Manager – Daimler / Mercedes-Benz</div>
-                <div class="tl-meta">2017 – 2020 · Istanbul</div>
-                <div class="tl-points">
-                    <div>✅ Created the Software Test Strategy for Daimler PDM Systems (enterprise-wide, multi-module)<br>
-                        <span>🤖 JIRA, Xray, HP ALM, SCRUM</span>
-                    </div>
-                    <div>✅ Quality & Release Management for PDM System “Smaragd” (<strong>10+ releases</strong>)<br>
-                        <span>🤖 JIRA, Confluence, SCRUM</span>
-                    </div>
-                    <div>✅ Executed E2E test activities for “Release Specification Management” & “Sma4U” (2 core modules)<br>
-                        <span>🤖 JIRA, HP ALM, E2E Testing</span>
-                    </div>
-                    <div>✅ Managed migration from HP ALM to XRAY for Smaragd (full project migration)<br>
-                        <span>🤖 HP ALM, XRAY, JIRA</span>
-                    </div>
-                    <div>✅ Applied SCRUM methodology across teams (daily, sprint, release level)<br>
-                        <span>🤖 SCRUM, JIRA, Confluence</span>
-                    </div>
-                    <div>✅ Selected suitable test tools via scoring model & technical evaluation<br>
-                        <span>🤖 Ranorex, JIRA, XRAY, HP ALM, C#</span>
-                    </div>
-                    <div>✅ Built JIRA projects from scratch for Daimler test activities (roles, workflows, permissions, processes)<br>
-                        <span>🤖 JIRA Administration, Workflow Design, Defect Management, C# integration support</span>
-                    </div>
-                    <div>✅ Automated <strong>1,000+ test cases</strong> for PDM System “Smaragd”<br>
-                        <span>🤖 Ranorex, C#</span>
-                    </div>
-                    <div>✅ Mentored & onboarded <strong>20+ colleagues</strong><br>
-                        <span>🤖 SCRUM, Knowledge Transfer, Agile Coaching</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DAIMLER – DEVELOPMENT ENGINEER -->
-        <div class="timeline-item">
-            <div class="tl-marker">
-                <div class="tl-dot"></div>
-                <!-- last item: no line -->
-            </div>
-            <div class="tl-content">
-                <div class="tl-role">Development Engineer – Daimler / Mercedes-Benz</div>
-                <div class="tl-meta">2007 – 2017</div>
-                <div class="tl-points">
-                    <div>✅ Interior Design, Service Flaps, Floor Covering System, Luggage Compartment<br>
-                        <span>🤖 Catia V4, Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
-                    </div>
-                    <div>✅ Integration Team – Project “Next Generation Conecto”<br>
-                        <span>🤖 Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
-                    </div>
-                    <div>✅ Support at Factory Mannheim for Customer Special Order Conecto Vehicles<br>
-                        <span>🤖 Catia V5, SAP, DOORS, SWAN, MS Office</span>
-                    </div>
-                    <div>✅ Support for Assembly of Prototypes of NCI E6 Vehicles<br>
-                        <span>🤖 Catia V5, Siemens NX, SAP, DOORS, MS Office</span>
-                    </div>
-                    <div>✅ Integration Team – Project NCR Support at Assembly of Setra Vehicles<br>
-                        <span>🤖 Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <ul class="exp-list">
+            <li>✅ Designed & executed 1,000+ test cases<br>
+                <span style="opacity:0.85;">🤖 Polarion, Selenium, Java</span>
+            </li>
+            <li>✅ Test Lead for one of Swisslog’s largest projects with 500 users & 10 modules<br>
+                <span style="opacity:0.85;">🤖 Polarion, WMS, WES</span>
+            </li>
+            <li>✅ Executed 20+ FAT & SAT sessions with customers<br>
+                <span style="opacity:0.85;">🤖 WMS, WES, SynQ, Polarion</span>
+            </li>
+            <li>✅ Delivered 50+ detailed test & defect reports to Project Management<br>
+                <span style="opacity:0.85;">🤖 Polarion, Excel, SCRUM</span>
+            </li>
+            <li>✅ Prepared 5 complete project-level test plans<br>
+                <span style="opacity:0.85;">🤖 Risk-Based Testing, SCRUM, Polarion</span>
+            </li>
+            <li>✅ Reviewed automation of 1,000+ test cases<br>
+                <span style="opacity:0.85;">🤖 Selenium, Java, CI Pipelines</span>
+            </li>
+            <li>✅ Provided on-site customer support for 5 go-lives / rollouts<br>
+                <span style="opacity:0.85;">🤖 WMS, WES, SynQ, Polarion</span>
+            </li>
+            <li>✅ Mentored & onboarded 15+ colleagues<br>
+                <span style="opacity:0.85;">🤖 SCRUM, Knowledge Transfer, Agile Coaching</span>
+            </li>
+        </ul>
     </div>
+
+    <!-- Daimler – Senior Process Manager -->
+    <div class="exp-section">
+        <div class="exp-header">
+            <img src="/plfirmalogo.png" class="exp-logo" />
+            <div class="exp-title">
+                <h3 class="exp-role">Senior Process Manager</h3>
+                <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
+                <p class="exp-sub">2020 – 2021 · Istanbul</p>
+            </div>
+        </div>
+
+        <ul class="exp-list">
+            <li>✅ Built the complete test structure for Daimler’s Part Management System (SRM)<br>
+                <span style="opacity:0.85;">🤖 JIRA, Xray, HP ALM, Ranorex, C#</span>
+            </li>
+            <li>✅ Designed the full test structure for Daimler’s internal communication system (DARRS)<br>
+                <span style="opacity:0.85;">🤖 JIRA, HP ALM, Engineering Client, Smaragd</span>
+            </li>
+            <li>✅ Selected & evaluated test tools via scoring model<br>
+                <span style="opacity:0.85;">🤖 JIRA, Xray, Ranorex, HP ALM</span>
+            </li>
+            <li>✅ Global Responsibility for Daimler AG’s Part Management System (SRM) (~40,000 internal users)<br>
+                <span style="opacity:0.85;">🤖 Engineering Client, Smaragd, DARRS</span>
+            </li>
+            <li>✅ Provided 1st & 2nd Level Support with 1,000+ resolved tickets<br>
+                <span style="opacity:0.85;">🤖 JIRA Service Desk, Defect & Incident Management</span>
+            </li>
+            <li>✅ Process & Test Automation with 250+ automated/reviewed test cases<br>
+                <span style="opacity:0.85;">🤖 Ranorex, C#, CI Pipelines</span>
+            </li>
+            <li>✅ Planned & coordinated 10+ enterprise-level releases for SRM<br>
+                <span style="opacity:0.85;">🤖 JIRA, Confluence, SCRUM</span>
+            </li>
+            <li>✅ Prepared 50+ test & management reports for stakeholders<br>
+                <span style="opacity:0.85;">🤖 JIRA Dashboards, Excel, Confluence</span>
+            </li>
+            <li>✅ Onboarded & mentored 5+ colleagues<br>
+                <span style="opacity:0.85;">🤖 Agile, Knowledge Transfer, Mentorship</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Daimler – Senior Test Manager -->
+    <div class="exp-section">
+        <div class="exp-header">
+            <img src="/plfirmalogo.png" class="exp-logo" />
+            <div class="exp-title">
+                <h3 class="exp-role">Senior Test Manager</h3>
+                <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
+                <p class="exp-sub">2017 – 2020 · Istanbul</p>
+            </div>
+        </div>
+
+        <ul class="exp-list">
+            <li>✅ Created the Software Test Strategy for Daimler PDM Systems (enterprise-wide, multi-module)<br>
+                <span style="opacity:0.85;">🤖 JIRA, Xray, HP ALM, SCRUM</span>
+            </li>
+            <li>✅ Quality Management & Release Management for PDM System “Smaragd” (10+ releases)<br>
+                <span style="opacity:0.85;">🤖 JIRA, Confluence, SCRUM</span>
+            </li>
+            <li>✅ Executed E2E Test Activities for “Release Specification Management” & “Sma4U” (2 core modules)<br>
+                <span style="opacity:0.85;">🤖 JIRA, HP ALM, E2E Testing</span>
+            </li>
+            <li>✅ Managed the migration from HP ALM to XRAY for Smaragd (full project migration)<br>
+                <span style="opacity:0.85;">🤖 HP ALM, XRAY, JIRA</span>
+            </li>
+            <li>✅ Applied SCRUM methodology to test processes across teams (daily, sprint, release level)<br>
+                <span style="opacity:0.85;">🤖 SCRUM, JIRA, Confluence</span>
+            </li>
+            <li>✅ Selected suitable test tools via scoring model & technical evaluation<br>
+                <span style="opacity:0.85;">🤖 Ranorex, JIRA, XRAY, HP ALM, C#</span>
+            </li>
+            <li>✅ Built JIRA projects from scratch for Daimler test activities (roles, workflows, permissions, processes)<br>
+                <span style="opacity:0.85;">🤖 JIRA Administration, Workflow Design, Defect Management, C# integration support</span>
+            </li>
+            <li>✅ Automated 1,000+ test cases for Daimler PDM System “Smaragd”<br>
+                <span style="opacity:0.85;">🤖 Ranorex, C#</span>
+            </li>
+            <li>✅ Mentored & onboarded 20+ colleagues<br>
+                <span style="opacity:0.85;">🤖 SCRUM, Knowledge Transfer, Agile Coaching</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Daimler – Development Engineer -->
+    <div class="exp-section">
+        <div class="exp-header">
+            <img src="/plfirmalogo.png" class="exp-logo" />
+            <div class="exp-title">
+                <h3 class="exp-role">Development Engineer</h3>
+                <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
+                <p class="exp-sub">2007 – 2017</p>
+            </div>
+        </div>
+
+        <ul class="exp-list">
+            <li>✅ Interior Design, Service Flaps, Floor Covering System, Luggage Compartment<br>
+                <span style="opacity:0.85;">🤖 Catia V4, Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
+            </li>
+            <li>✅ Integration Team – Project Next Generation Conecto<br>
+                <span style="opacity:0.85;">🤖 Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
+            </li>
+            <li>✅ Support at Factory Mannheim for Customer Special Order Conecto Vehicles<br>
+                <span style="opacity:0.85;">🤖 Catia V5, SAP, DOORS, SWAN, MS Office</span>
+            </li>
+            <li>✅ Support for Assembly of Prototypes of NCI E6 Vehicles<br>
+                <span style="opacity:0.85;">🤖 Catia V5, Siemens NX, SAP, DOORS, MS Office</span>
+            </li>
+            <li>✅ Integration Team – Project NCR Support at Assembly of Setra Vehicles<br>
+                <span style="opacity:0.85;">🤖 Catia V5, Siemens NX, SAP, DOORS, SWAN, MS Office</span>
+            </li>
+        </ul>
+    </div>
+
 </div>
 
 <!-- PROJECTS -->
-<div id="projects" class="detail-card office-teams">
+<div id="projects" class="detail-card office-purple">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -573,7 +482,7 @@ html { scroll-behavior:smooth; }
             <div>
                 <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – TKL</h4>
                 <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A warehouse automation & robotics integration project.  
+                    A warehouse automation & robotics integration project.
                     Delivered synchronization tests across robotic and conveyor systems under real-time conditions.
                 </p>
             </div>
@@ -585,7 +494,7 @@ html { scroll-behavior:smooth; }
             <div>
                 <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – Kruitbosch</h4>
                 <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    WMS project supporting retail distribution operations.  
+                    WMS project supporting retail distribution operations.
                     Tested picking, stock, and shipment workflows across automated warehouse processes.
                 </p>
             </div>
@@ -609,7 +518,7 @@ html { scroll-behavior:smooth; }
             <div>
                 <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – EDEKA</h4>
                 <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    Large-scale automation project for Germany’s leading supermarket chain.  
+                    Large-scale automation project for Germany’s leading supermarket chain.
                     Delivered integration testing and operational stability checks during critical transition periods.
                 </p>
             </div>
@@ -646,7 +555,7 @@ html { scroll-behavior:smooth; }
             </div>
         </div>
 
-        <!-- PETC -->
+        <!-- Press Enter to Code -->
         <div style="display:flex; gap:14px;">
             <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
             <div>
@@ -727,13 +636,14 @@ html { scroll-behavior:smooth; }
     </div>
 </div>
 
-
 <!-- CONTACT -->
 <div id="contact" class="detail-card office-contact">
+
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
     </div>
+
     <h2 class="section-title">Contact</h2>
     <p>
         ✉ ubterzioglu@gmail.com<br>
@@ -743,6 +653,5 @@ html { scroll-behavior:smooth; }
 </div>
 
 </div>
-
 </body>
 </html>
