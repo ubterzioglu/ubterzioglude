@@ -336,3 +336,64 @@ html {
 .contact-link:hover {
     text-decoration: underline;
 }
+
+
+/* =====================================================
+   COLORED CARDS + GLASS INNER BLOCKS
+   ===================================================== */
+
+/* Ortak renkli kart davranışı */
+.card-colored {
+    color: #ffffff;                 /* başlıklar ve dış metinler beyaz */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Card başlıkları beyaz kalsın */
+.card-colored .section-title {
+    color: #ffffff;
+}
+
+/* İç kartlar: glass / frosted white */
+.card-colored .nav-item,
+.card-colored .ach-item,
+.card-colored .tech-block,
+.card-colored .exp-premium,
+.card-colored .proj-premium-item,
+.card-colored .cv-item {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+    color: #111111;                        /* içerik yazısı koyu, okunaklı */
+}
+
+/* Küçük badge’ler camın içine biraz daha otursun */
+.card-colored .tech-block,
+.card-colored .ach-item,
+.card-colored .exp-premium,
+.card-colored .proj-premium-item {
+    border-radius: 16px;
+}
+
+/* ---- PALETTE: Blue, Green, Orange, Purple, Yellow ---- */
+
+.card-blue {
+    background: linear-gradient(135deg, #0099ff, #38b6ff);
+}
+
+.card-green {
+    background: linear-gradient(135deg, #7ac943, #9fdf4f);
+}
+
+.card-orange {
+    background: linear-gradient(135deg, #ff6b2b, #ff9c42);
+}
+
+.card-purple {
+    background: linear-gradient(135deg, #a63dcc, #c068e6);
+}
+
+.card-gold {
+    background: linear-gradient(135deg, #ffb400, #ffd15e);
+}
