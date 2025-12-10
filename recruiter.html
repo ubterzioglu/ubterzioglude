@@ -49,7 +49,7 @@ body {
 .hero-domain { font-size:16px; font-weight:600; color:white; }
 .hero-logo-box { display:flex; align-items:center; gap:8px; }
 
-/* HERO'DAKİ HOME ICON (bunu dokunmuyoruz, beyaz kalsın) */
+/* HERO HOME ICON */
 .home-icon {
     width:40px;
     height:40px;
@@ -74,7 +74,7 @@ body {
     color:#333;
 }
 
-/* NAV ITEMS → ARTIK BEYAZ KARTLAR */
+/* NAV ITEMS (BEYAZ KARTLAR) */
 .nav-grid {
     display:flex;
     flex-direction:column;
@@ -82,25 +82,25 @@ body {
 }
 
 .nav-item {
-    background:#ffffff;                       /* beyaz kart */
+    background:#ffffff;
     border-radius:16px;
     padding:16px;
     display:flex;
     justify-content:space-between;
     font-size:16px;
     cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,0,0,0.15);   /* visitor-option benzeri gölge */
+    box-shadow:0 6px 16px rgba(0,0,0,0.15);
     transition:0.15s;
 }
 .nav-item:hover {
-    background:#fff3c4;                       /* hafif sarı hover */
+    background:#fff3c4;
     transform:translateX(5px);
 }
 
 .nav-icon { font-size:22px; }
 .chevron { opacity:.4; }
 
-/* DETAIL CARD COLORS */
+/* DETAIL CARD COLORS (OFFICE PALET) */
 .office-orange { background:#D83B01 !important; color:white; }
 .office-green  { background:#107C41 !important; color:white; }
 .office-blue   { background:#185ABD !important; color:white; }
@@ -109,7 +109,7 @@ body {
 .office-teams  { background:#005A9E !important; color:white; }
 .office-contact{ background:#107C10 !important; color:white; }
 
-/* CARD ÜSTÜ HOME/UP BUTONLARI → ESKİ HALİ (YARI TRANSPARAN) */
+/* CARD ÜSTÜ HOME/UP BUTONLARI (YARI TRANSPARAN) */
 .card-buttons {
     position:absolute;
     right:14px;
@@ -123,7 +123,7 @@ body {
     height:34px;
     border-radius:10px;
     padding:5px;
-    background:rgba(255,255,255,0.35);   /* yarı transparan beyaz */
+    background:rgba(255,255,255,0.35);
     backdrop-filter:blur(4px);
     box-shadow:0 2px 6px rgba(0,0,0,.22);
     cursor:pointer;
@@ -133,6 +133,31 @@ body {
 .btn-icon:hover {
     transform:scale(1.12);
     background:rgba(255,255,255,0.55);
+}
+
+/* MY CV BUTTONS */
+.cv-links {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:10px;
+}
+
+.cv-link {
+    background:white;
+    color:#D83B01;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:14px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
+    transition:0.15s;
+}
+
+.cv-link:hover {
+    transform:translateY(-1px);
+    box-shadow:0 5px 14px rgba(0,0,0,0.35);
 }
 
 html { scroll-behavior:smooth; }
@@ -174,12 +199,8 @@ html { scroll-behavior:smooth; }
 
     <div class="nav-grid">
 
-        <div class="nav-item" onclick="document.getElementById('cv-en').scrollIntoView();">
-            <span><span class="nav-icon">📄</span> My CV (EN)</span><span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="document.getElementById('cv-de').scrollIntoView();">
-            <span><span class="nav-icon">📄</span> My CV (DE)</span><span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('cv').scrollIntoView();">
+            <span><span class="nav-icon">📄</span> My CV (EN | DE)</span><span class="chevron">›</span>
         </div>
 
         <div class="nav-item" onclick="document.getElementById('about').scrollIntoView();">
@@ -211,25 +232,27 @@ html { scroll-behavior:smooth; }
 
 <!-- DETAIL CARDS -->
 
-<div id="cv-en" class="detail-card office-orange">
+<!-- MY CV (EN | DE) -->
+<div id="cv" class="detail-card office-orange">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
     </div>
-    <h2 class="section-title">My CV (EN)</h2>
-    <p>English CV link will be here.</p>
-</div>
+    <h2 class="section-title">My CV (EN | DE)</h2>
+    <p>You can download my CV in English or German using the links below.</p>
 
-<div id="cv-de" class="detail-card office-green">
-    <div class="card-buttons">
-        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    <div class="cv-links">
+        <a class="cv-link" href="https://drive.google.com/file/d/1T5yUafZI9nRv1aVWeEKBHcU6apZOojP2/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+            EN – English CV
+        </a>
+        <a class="cv-link" href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+            DE – Deutscher Lebenslauf
+        </a>
     </div>
-    <h2 class="section-title">My CV (DE)</h2>
-    <p>German CV (PDF) will be shown here.</p>
 </div>
 
-<div id="about" class="detail-card office-blue">
+<!-- ABOUT -->
+<div id="about" class="detail-card office-green">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -238,7 +261,8 @@ html { scroll-behavior:smooth; }
     <p>Short bio & professional summary.</p>
 </div>
 
-<div id="achievements" class="detail-card office-red">
+<!-- ACHIEVEMENTS -->
+<div id="achievements" class="detail-card office-blue">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -247,7 +271,8 @@ html { scroll-behavior:smooth; }
     <p>Key milestones & accomplishments.</p>
 </div>
 
-<div id="tech" class="detail-card office-purple">
+<!-- TECH STACK -->
+<div id="tech" class="detail-card office-red">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -256,7 +281,8 @@ html { scroll-behavior:smooth; }
     <p>Tools, languages & frameworks used.</p>
 </div>
 
-<div id="experience" class="detail-card office-teams">
+<!-- EXPERIENCE -->
+<div id="experience" class="detail-card office-purple">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -265,7 +291,8 @@ html { scroll-behavior:smooth; }
     <p>Timeline of companies & roles.</p>
 </div>
 
-<div id="projects" class="detail-card office-contact">
+<!-- PROJECTS -->
+<div id="projects" class="detail-card office-teams">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
@@ -274,7 +301,8 @@ html { scroll-behavior:smooth; }
     <p>Swisslog, Daimler, SynQ, automation projects.</p>
 </div>
 
-<div id="contact" class="detail-card office-orange">
+<!-- CONTACT -->
+<div id="contact" class="detail-card office-contact">
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>

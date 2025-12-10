@@ -34,6 +34,7 @@
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
         }
 
         .card:hover {
@@ -55,18 +56,16 @@
             position: relative;
         }
 
-         .profile-img-bg {
-    width: 120px;
-    height: 120px;
-    background: url("/UBT_BG.png") center/cover no-repeat;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: pulse 2s infinite;
-}
-
-        
+        .profile-img-bg {
+            width: 120px;
+            height: 120px;
+            background: url("/UBT_BG.png") center/cover no-repeat;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: pulse 2s infinite;
+        }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
@@ -292,71 +291,111 @@
             font-size: 14px;
             font-weight: 600;
         }
+
+        /* HOME / UP BUTONLARI (recruiter.html ile aynı stil) */
+        .card-buttons {
+            position: absolute;
+            right: 14px;
+            top: 14px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .22);
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.12);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
 
+<a id="top"></a>
+
 <div class="container">
 
-    <!-- HERO -->
+    <!-- HERO (BUTONSUZ) -->
     <div class="card hero-card">
         <h2 style="font-size: 16px; margin-bottom: 20px;">Welcome to my personal page!</h2>
 
         <div class="profile-img-wrapper">
             <div class="profile-img-bg"></div>
-                    </div>
+        </div>
 
         <h1>Umut Barış Terzioğlu</h1>
         <p class="title">Senior Software Quality Assurance Engineer</p>
         <p class="location">Germany</p>
     </div>
 
-    
-
     <!-- WHO ARE YOU -->
-<div class="card yellow-card">
-    <h2 class="section-title">Who are you?</h2>
-    <p class="description">Which one are you?</p>
-
-    <div class="visitor-options">
-
-        <div class="visitor-option" onclick="window.location.href='/recruiter.html'">
-            <div class="visitor-icon">👔</div>
-            <div class="visitor-text">
-                <h3>Recruiter</h3>
-                <p>Checking if you're the talent I need.</p>
-            </div>
+    <div class="card yellow-card">
+        <div class="card-buttons">
+            <a href="/index.html"><img src="/HOME.PNG" class="btn-icon"></a>
+            <a href="#top"><img src="/UP.PNG" class="btn-icon"></a>
         </div>
 
-        <div class="visitor-option" onclick="window.location.href='/colleague.html'">
-            <div class="visitor-icon">👨‍💼</div>
-            <div class="visitor-text">
-                <h3>Colleague</h3>
-                <p>Judging your design choices a bit.</p>
-            </div>
-        </div>
+        <h2 class="section-title">Who are you?</h2>
+        <p class="description">Which one are you?</p>
 
-        <div class="visitor-option" onclick="window.location.href='/qaengineer.html'">
-            <div class="visitor-icon">🛡️</div>
-            <div class="visitor-text">
-                <h3>QA Engineer</h3>
-                <p>Gently breaking things here.</p>
-            </div>
-        </div>
+        <div class="visitor-options">
 
-        <div class="visitor-option" onclick="window.location.href='/curiousvisitor.html'">
-            <div class="visitor-icon">👀</div>
-            <div class="visitor-text">
-                <h3>Curious Visitor</h3>
-                <p>Ended up here... somehow.</p>
+            <div class="visitor-option" onclick="window.location.href='/recruiter.html'">
+                <div class="visitor-icon">👔</div>
+                <div class="visitor-text">
+                    <h3>Recruiter</h3>
+                    <p>Checking if you're the talent I need.</p>
+                </div>
             </div>
-        </div>
 
+            <div class="visitor-option" onclick="window.location.href='/colleague.html'">
+                <div class="visitor-icon">👨‍💼</div>
+                <div class="visitor-text">
+                    <h3>Colleague</h3>
+                    <p>Judging your design choices a bit.</p>
+                </div>
+            </div>
+
+            <div class="visitor-option" onclick="window.location.href='/qaengineer.html'">
+                <div class="visitor-icon">🛡️</div>
+                <div class="visitor-text">
+                    <h3>QA Engineer</h3>
+                    <p>Gently breaking things here.</p>
+                </div>
+            </div>
+
+            <div class="visitor-option" onclick="window.location.href='/curiousvisitor.html'">
+                <div class="visitor-icon">👀</div>
+                <div class="visitor-text">
+                    <h3>Curious Visitor</h3>
+                    <p>Ended up here... somehow.</p>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
 
     <!-- ABOUT -->
     <div class="card yellow-card">
+        <div class="card-buttons">
+            <a href="/index.html"><img src="/HOME.PNG" class="btn-icon"></a>
+            <a href="#top"><img src="/UP.PNG" class="btn-icon"></a>
+        </div>
+
         <h2 class="section-title">About Me</h2>
         <p class="description">
             Passionate designer with 5+ years of experience creating beautiful and functional digital experiences.
@@ -365,6 +404,11 @@
     
     <!-- SKILLS -->
     <div class="card blue-card">
+        <div class="card-buttons">
+            <a href="/index.html"><img src="/HOME.PNG" class="btn-icon"></a>
+            <a href="#top"><img src="/UP.PNG" class="btn-icon"></a>
+        </div>
+
         <h2 class="section-title">Skills</h2>
         <div class="skills-grid">
             <div class="skill-item">🎨 Design</div>
@@ -376,17 +420,43 @@
 
     <!-- INTERESTS -->
     <div class="card purple-card">
+        <div class="card-buttons">
+            <a href="/index.html"><img src="/HOME.PNG" class="btn-icon"></a>
+            <a href="#top"><img src="/UP.PNG" class="btn-icon"></a>
+        </div>
+
         <h2 class="section-title">Interests</h2>
         <div class="interests-grid">
-            <div class="interest-item"><div class="interest-icon">💡</div><div class="interest-name">Innovation</div><div class="interest-desc">New ideas</div></div>
-            <div class="interest-item"><div class="interest-icon">❤️</div><div class="interest-name">User Focus</div><div class="interest-desc">With empathy</div></div>
-            <div class="interest-item"><div class="interest-icon">🚀</div><div class="interest-name">Growth</div><div class="interest-desc">Learning</div></div>
-            <div class="interest-item"><div class="interest-icon">☕</div><div class="interest-name">Collaboration</div><div class="interest-desc">Team player</div></div>
+            <div class="interest-item">
+                <div class="interest-icon">💡</div>
+                <div class="interest-name">Innovation</div>
+                <div class="interest-desc">New ideas</div>
+            </div>
+            <div class="interest-item">
+                <div class="interest-icon">❤️</div>
+                <div class="interest-name">User Focus</div>
+                <div class="interest-desc">With empathy</div>
+            </div>
+            <div class="interest-item">
+                <div class="interest-icon">🚀</div>
+                <div class="interest-name">Growth</div>
+                <div class="interest-desc">Learning</div>
+            </div>
+            <div class="interest-item">
+                <div class="interest-icon">☕</div>
+                <div class="interest-name">Collaboration</div>
+                <div class="interest-desc">Team player</div>
+            </div>
         </div>
     </div>
 
     <!-- CONNECT -->
     <div class="card green-card">
+        <div class="card-buttons">
+            <a href="/index.html"><img src="/HOME.PNG" class="btn-icon"></a>
+            <a href="#top"><img src="/UP.PNG" class="btn-icon"></a>
+        </div>
+
         <h2 class="section-title">Connect</h2>
         <div class="social-links">
             <a class="social-icon">🔗</a>
@@ -398,6 +468,11 @@
 
     <!-- CONTACT -->
     <div class="card dark-green-card">
+        <div class="card-buttons">
+            <a href="/index.html"><img src="/HOME.PNG" class="btn-icon"></a>
+            <a href="#top"><img src="/UP.PNG" class="btn-icon"></a>
+        </div>
+
         <h2 class="section-title">Contact Info</h2>
 
         <div class="contact-item">
