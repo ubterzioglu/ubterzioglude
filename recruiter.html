@@ -228,12 +228,21 @@ html { scroll-behavior:smooth; }
             <span><span class="nav-icon">📄</span> My CV (EN | DE)</span><span class="chevron">›</span>
         </div>
 
+        <div class="nav-item" onclick="document.getElementById('achievements').scrollIntoView();">
+    <span><span class="nav-icon">🏆</span> Key Achievements</span>
+    <span class="chevron">›</span>
+</div>
+
         <div class="nav-item" onclick="document.getElementById('experience').scrollIntoView();">
             <span><span class="nav-icon">💼</span> Experience</span><span class="chevron">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('projects').scrollIntoView();">
-            <span><span class="nav-icon">🚀</span> Projects</span><span class="chevron">›</span>
+        <div class="nav-item" onclick="document.getElementById('projects-corp').scrollIntoView();">
+            <span><span class="nav-icon">🚀</span> Corporate Projects</span><span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('projects-priv').scrollIntoView();">
+            <span><span class="nav-icon">🌟</span> Private Projects</span><span class="chevron">›</span>
         </div>
 
         <div class="nav-item" onclick="document.getElementById('contact').scrollIntoView();">
@@ -259,6 +268,55 @@ html { scroll-behavior:smooth; }
         <a href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Open CV (DE)</a>
     </p>
 </div>
+
+<!-- KEY ACHIEVEMENTS -->
+
+<!-- ============================================
+     CARD: Key Achievements (Final, Clean Layout)
+     ============================================ -->
+
+<div id="achievements" class="detail-card office-purple">
+
+    <!-- Home & Up buttons -->
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+
+    <h2 class="section-title">Key Achievements</h2>
+
+    <div style="display:flex; flex-direction:column; gap:14px; font-size:14px; line-height:1.55;">
+
+        <div>🏆  Created 5000+ test cases using HP ALM, Jira, and Polarion over 10+ years of hands-on testing experience.</div>
+
+        <div>🚀  Increased test coverage from 50% to 90% for Daimler projects through systematic test design techniques.</div>
+
+        <div>📈  Achieved 95% test coverage for Swisslog projects using modular test design.</div>
+
+        <div>🤖  Implemented Ranorex automation for three major Daimler systems, integrating CI/CD pipelines (Jenkins).</div>
+
+        <div>⚡  Automated 1000+ test cases with Ranorex & C#, reducing execution time by 40% through optimization.</div>
+
+        <div>🔍  Reviewed automation of 1000+ Selenium-Java test cases, improving execution efficiency by 30%.</div>
+
+        <div>🧭  Defined and implemented a new test strategy for the Daimler PDM System, boosting efficiency by 25%.</div>
+
+        <div>📦  Planned & coordinated 50+ releases for 40,000+ users in the Daimler PDM ecosystem.</div>
+
+        <div>🔧  Managed HP ALM → Jira migration, reducing manual effort by 25% and project costs by 22%.</div>
+
+        <div>💬  Resolved 1000+ support tickets, ensuring quick turnaround and high stakeholder satisfaction.</div>
+
+        <div>👥  Onboarded, mentored, and led 30+ QA colleagues at Daimler & Swisslog.</div>
+
+        <div>📊  Created KPI-based reports in Excel & Polarion, improving visibility and saving 500 man-hours monthly.</div>
+
+        <div>🧪  Conducted 50+ customer workshops (UAT, FAT, SAT) across enterprise-level projects.</div>
+
+    </div>
+
+</div>
+
 
 <!-- EXPERIENCE -->
 <div id="experience" class="detail-card office-blue">
@@ -425,28 +483,29 @@ html { scroll-behavior:smooth; }
 
 </div>
 
-<!-- PROJECTS -->
-<div id="projects" class="detail-card office-purple">
+<!-- ============================================
+     CARD: Corporate Projects (Full Section Card)
+     ============================================ -->
+
+<div id="projects-corporate" class="detail-card office-blue">
+
     <div class="card-buttons">
         <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
         <a href="#top"><img src="/up.png" class="btn-icon"></a>
     </div>
 
-    <h2 class="section-title">Projects</h2>
+    <h2 class="section-title">🚀 Corporate Projects</h2>
 
-    <!-- ===== CORPORATE PROJECTS ===== -->
-    <h3 style="font-size:18px; font-weight:700; margin-bottom:12px;">🚀 Corporate Projects</h3>
-
-    <div style="display:flex; flex-direction:column; gap:18px;">
+    <div style="display:flex; flex-direction:column; gap:22px; font-size:14px; line-height:1.55;">
 
         <!-- Smaragd -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Smaragd – Daimler / Mercedes-Benz</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
+                <h4 class="proj-title">Smaragd – Daimler / Mercedes-Benz</h4>
+                <p>
                     A global Product Data Management system used by thousands of engineers across Mercedes-Benz.
-                    Test strategy, quality processes, and release management were established across the project lifecycle.
+                    Test strategy, quality processes, and release management were executed throughout the lifecycle.
                     Supported complex engineering workflows and system integrations.
                 </p>
             </div>
@@ -454,187 +513,206 @@ html { scroll-behavior:smooth; }
 
         <!-- SRM -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">SRM – Daimler / Mercedes-Benz</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
+                <h4 class="proj-title">SRM – Daimler / Mercedes-Benz</h4>
+                <p>
                     A critical Supply & Parts Management platform serving tens of thousands of internal users.
-                    Delivered E2E testing, automation processes, and global rollout support for stable supply chain operations.
+                    Delivered E2E testing, automation processes, and global rollout support for stable supply-chain operations.
                 </p>
             </div>
         </div>
 
         <!-- DARRS -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">DARRS – Daimler / Mercedes-Benz</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    An internal communication & reporting system enabling management-level operational decisions.
-                    Led functional, integration, and user acceptance testing to ensure data-driven workflows.
+                <h4 class="proj-title">DARRS – Daimler / Mercedes-Benz</h4>
+                <p>
+                    An internal communication & reporting system supporting operational and management-level decision processes.
+                    Delivered functional, integration, and UAT testing for data-driven enterprise workflows.
                 </p>
             </div>
         </div>
 
         <!-- Swisslog TKL -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – TKL</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A warehouse automation & robotics integration project.
-                    Delivered synchronization tests across robotic and conveyor systems under real-time conditions.
+                <h4 class="proj-title">Swisslog – TKL</h4>
+                <p>
+                    Warehouse automation & robotics integration project. Executed synchronization tests across robotic and
+                    conveyor systems under real-time operational conditions.
                 </p>
             </div>
         </div>
 
         <!-- Swisslog Kruitbosch -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – Kruitbosch</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    WMS project supporting retail distribution operations.
-                    Tested picking, stock, and shipment workflows across automated warehouse processes.
+                <h4 class="proj-title">Swisslog – Kruitbosch</h4>
+                <p>
+                    Warehouse Management System project for retail distribution. Tested picking, stock, and shipment workflows.
+                    Required tight coordination between physical automation and software.
                 </p>
             </div>
         </div>
 
         <!-- Swisslog Albert Heijn -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – Albert Heijn</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    High-volume automation project for one of Europe’s biggest retail chains.
-                    Provided validation, go-live support, and data integrity testing under heavy load.
+                <h4 class="proj-title">Swisslog – Albert Heijn</h4>
+                <p>
+                    High-volume warehouse automation for one of Europe's largest retail chains. Delivered system validation,
+                    data-integrity testing, and go-live support under heavy operational load.
                 </p>
             </div>
         </div>
 
         <!-- Swisslog EDEKA -->
         <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
+            <img src="/phlogo.png" class="proj-logo">
             <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Swisslog – EDEKA</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    Large-scale automation project for Germany’s leading supermarket chain.
-                    Delivered integration testing and operational stability checks during critical transition periods.
-                </p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- ===== PRIVATE PROJECTS ===== -->
-    <h3 style="font-size:18px; font-weight:700; margin:22px 0 12px;">🌟 Private Projects</h3>
-
-    <div style="display:flex; flex-direction:column; gap:18px;">
-
-        <!-- UBT Testing -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">UBT – Testing</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A personal QA brand sharing real-world testing insights, tools, and strategies.
-                    Serves as a professional knowledge hub for testers.
-                </p>
-            </div>
-        </div>
-
-        <!-- All in 2 Minutes -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">All in 2 Minutes!</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    Short-form educational concept explaining complex topics in under two minutes.
-                    Built for high engagement and clarity.
-                </p>
-            </div>
-        </div>
-
-        <!-- Press Enter to Code -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Press Enter to Code</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A tech content project covering programming, automation, testing, and productivity.
-                    Targets both developers and QA engineers.
-                </p>
-            </div>
-        </div>
-
-        <!-- STN -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Software Tester Network</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A global QA community for discussion, knowledge sharing, and professional networking.
-                </p>
-            </div>
-        </div>
-
-        <!-- CAL Community -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">CAL Community</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A digital alumni and social interaction platform with strong organic community growth.
-                </p>
-            </div>
-        </div>
-
-        <!-- Picked Scenes -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Picked Scenes!</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A curated digital project featuring cinematic moments with storytelling emphasis.
-                </p>
-            </div>
-        </div>
-
-        <!-- Loved Your T-Shirt -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Loved Your T-Shirt</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A social content concept mixing street culture, fashion, humor, and identity.
-                </p>
-            </div>
-        </div>
-
-        <!-- Factovium -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Factovium</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    A micro-content brand delivering daily “Did you know?” facts in an engaging short format.
-                </p>
-            </div>
-        </div>
-
-        <!-- Don't Follow Just Like -->
-        <div style="display:flex; gap:14px;">
-            <img src="/phlogo.png" style="width:48px; height:48px; border-radius:14px; object-fit:cover;">
-            <div>
-                <h4 style="margin:0; font-size:16px; font-weight:700;">Don’t Follow Just Like</h4>
-                <p style="margin-top:4px; font-size:14px; line-height:1.45;">
-                    An entertainment brand built on irony, humor, and experimental social content.
+                <h4 class="proj-title">Swisslog – EDEKA</h4>
+                <p>
+                    Large-scale automation project for Germany’s leading supermarket group. Conducted integration tests and
+                    operational stability checks to ensure uninterrupted warehouse operations.
                 </p>
             </div>
         </div>
 
     </div>
 </div>
+
+
+
+<!-- ============================================
+     CARD: Private Projects (Full Section Card)
+     ============================================ -->
+
+<div id="projects-private" class="detail-card office-green">
+
+    <div class="card-buttons">
+        <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
+        <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    </div>
+
+    <h2 class="section-title">🌟 Private Projects</h2>
+
+    <div style="display:flex; flex-direction:column; gap:22px; font-size:14px; line-height:1.55;">
+
+        <!-- UBT Testing -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">UBT – Testing</h4>
+                <p>
+                    Personal QA brand sharing real-world testing experience, strategies, and tools.
+                    A professional knowledge hub for testers.
+                </p>
+            </div>
+        </div>
+
+        <!-- All in 2 Minutes -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">All in 2 Minutes!</h4>
+                <p>
+                    Short-form educational content explaining complex topics in under two minutes.
+                    Designed for speed, clarity, and engagement.
+                </p>
+            </div>
+        </div>
+
+        <!-- Press Enter to Code -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">Press Enter to Code</h4>
+                <p>
+                    A content channel focused on development, testing, and productivity.
+                    Covers automation, programming, and learning methods.
+                </p>
+            </div>
+        </div>
+
+        <!-- STN -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">Software Tester Network</h4>
+                <p>
+                    A global QA community focused on sharing knowledge, technical discussions,
+                    and career development for testers.
+                </p>
+            </div>
+        </div>
+
+        <!-- CAL Community -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">CAL Community</h4>
+                <p>
+                    A digital alumni platform created to strengthen long-term connections and group engagement.
+                    Achieved strong organic community growth.
+                </p>
+            </div>
+        </div>
+
+        <!-- Picked Scenes -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">Picked Scenes!</h4>
+                <p>
+                    A curated digital project showcasing impactful movie & series moments,
+                    blending storytelling with cinematic visuals.
+                </p>
+            </div>
+        </div>
+
+        <!-- Loved Your T-Shirt -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">Loved Your T-Shirt</h4>
+                <p>
+                    A social content concept blending street culture, identity, and humor.
+                    Built around spontaneous fashion-based interactions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Factovium -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">Factovium</h4>
+                <p>
+                    Daily “Did you know?” fact project designed around curiosity and micro-learning.
+                </p>
+            </div>
+        </div>
+
+        <!-- Don't Follow Just Like -->
+        <div style="display:flex; gap:14px;">
+            <img src="/phlogo.png" class="proj-logo">
+            <div>
+                <h4 class="proj-title">Don’t Follow Just Like</h4>
+                <p>
+                    An experimental entertainment brand built on irony, reversed social-media logic,
+                    and humorous engagement.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 <!-- CONTACT -->
 <div id="contact" class="detail-card office-contact">
@@ -655,3 +733,4 @@ html { scroll-behavior:smooth; }
 </div>
 </body>
 </html>
+```
