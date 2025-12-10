@@ -190,6 +190,15 @@ html { scroll-behavior:smooth; }
     margin-bottom:8px;
     line-height:1.45;
 }
+
+/* PROJECT LOGOS */
+.proj-logo {
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    object-fit:cover;
+    flex-shrink:0;
+}
 </style>
 </head>
 
@@ -229,19 +238,19 @@ html { scroll-behavior:smooth; }
         </div>
 
         <div class="nav-item" onclick="document.getElementById('achievements').scrollIntoView();">
-    <span><span class="nav-icon">🏆</span> Key Achievements</span>
-    <span class="chevron">›</span>
-</div>
+            <span><span class="nav-icon">🏆</span> Key Achievements</span>
+            <span class="chevron">›</span>
+        </div>
 
         <div class="nav-item" onclick="document.getElementById('experience').scrollIntoView();">
             <span><span class="nav-icon">💼</span> Experience</span><span class="chevron">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('projects-corp').scrollIntoView();">
+        <div class="nav-item" onclick="document.getElementById('projects-corporate').scrollIntoView();">
             <span><span class="nav-icon">🚀</span> Corporate Projects</span><span class="chevron">›</span>
         </div>
 
-        <div class="nav-item" onclick="document.getElementById('projects-priv').scrollIntoView();">
+        <div class="nav-item" onclick="document.getElementById('projects-private').scrollIntoView();">
             <span><span class="nav-icon">🌟</span> Private Projects</span><span class="chevron">›</span>
         </div>
 
@@ -733,4 +742,3 @@ html { scroll-behavior:smooth; }
 </div>
 </body>
 </html>
-```
