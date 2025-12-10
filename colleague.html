@@ -55,18 +55,14 @@
             position: relative;
         }
 
-         .profile-img-bg {
-    width: 120px;
-    height: 120px;
-    background: url("/UBT_BG.png") center/cover no-repeat;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: pulse 2s infinite;
-}
-
-        
+        .profile-img-bg {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            position: absolute;
+            animation: pulse 2s infinite;
+        }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
@@ -304,65 +300,44 @@
 
         <div class="profile-img-wrapper">
             <div class="profile-img-bg"></div>
-                    </div>
+            <img class="profile-img"
+                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23cccccc' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='40' fill='%23666666'%3EUB%3C/text%3E%3C/svg%3E">
+        </div>
 
         <h1>Umut Barış Terzioğlu</h1>
         <p class="title">Senior Software Quality Assurance Engineer</p>
         <p class="location">Germany</p>
     </div>
 
-    
-
-    <!-- WHO ARE YOU -->
-<div class="card yellow-card">
-    <h2 class="section-title">Who are you?</h2>
-    <p class="description">Which one are you?</p>
-
-    <div class="visitor-options">
-
-        <div class="visitor-option" onclick="window.location.href='/recruiter.html'">
-            <div class="visitor-icon">👔</div>
-            <div class="visitor-text">
-                <h3>Recruiter</h3>
-                <p>Checking if you're the talent I need.</p>
-            </div>
-        </div>
-
-        <div class="visitor-option" onclick="window.location.href='/colleague.html'">
-            <div class="visitor-icon">👨‍💼</div>
-            <div class="visitor-text">
-                <h3>Colleague</h3>
-                <p>Judging your design choices a bit.</p>
-            </div>
-        </div>
-
-        <div class="visitor-option" onclick="window.location.href='/qaengineer.html'">
-            <div class="visitor-icon">🛡️</div>
-            <div class="visitor-text">
-                <h3>QA Engineer</h3>
-                <p>Gently breaking things here.</p>
-            </div>
-        </div>
-
-        <div class="visitor-option" onclick="window.location.href='/curiousvisitor.html'">
-            <div class="visitor-icon">👀</div>
-            <div class="visitor-text">
-                <h3>Curious Visitor</h3>
-                <p>Ended up here... somehow.</p>
-            </div>
-        </div>
-
-    </div>
-</div>
-
     <!-- ABOUT -->
+    <div class="card yellow-card">
+        <h2 class="section-title">Hello Recruiter!</h2>
+        <p class="description">
+            Passionate designer with 5+ years of experience creating beautiful and functional digital experiences.
+        </p>
+    </div>
+
+      <!-- ABOUT -->
     <div class="card yellow-card">
         <h2 class="section-title">About Me</h2>
         <p class="description">
             Passionate designer with 5+ years of experience creating beautiful and functional digital experiences.
         </p>
     </div>
-    
+
+    <!-- WHO ARE YOU -->
+    <div class="card yellow-card">
+        <h2 class="section-title">Who are you?</h2>
+        <p class="description">Which one are you?</p>
+
+        <div class="visitor-options">
+            <div class="visitor-option"><div class="visitor-icon">👔</div><div class="visitor-text"><h3>Recruiter</h3><p>Checking if you're the talent I need.</p></div></div>
+            <div class="visitor-option"><div class="visitor-icon">👨‍💼</div><div class="visitor-text"><h3>Colleague</h3><p>Judging your design choices a bit.</p></div></div>
+            <div class="visitor-option"><div class="visitor-icon">🛡️</div><div class="visitor-text"><h3>QA Engineer</h3><p>Gently breaking things here.</p></div></div>
+            <div class="visitor-option"><div class="visitor-icon">👀</div><div class="visitor-text"><h3>Curious Visitor</h3><p>Ended up here... somehow.</p></div></div>
+        </div>
+    </div>
+
     <!-- SKILLS -->
     <div class="card blue-card">
         <h2 class="section-title">Skills</h2>
@@ -407,7 +382,7 @@
 
         <div class="contact-item">
             <div class="contact-icon">📱</div>
-            <div class="contact-text"><h4>Phone</h4><p>+49 173 956 9429</p></div>
+            <div class="contact-text"><h4>Phone</h4><p>+49 173 956 94 29</p></div>
         </div>
 
         <div class="contact-item">
