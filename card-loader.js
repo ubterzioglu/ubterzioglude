@@ -742,11 +742,40 @@ register("contact", () => `
     </div>
 
     <h2 class="section-title">Contact</h2>
-    <p>
-      ✉ <strong>Email:</strong> ubterzioglu@gmail.com<br />
-      📱 <strong>Phone:</strong> +49 173 956 94 29<br />
-      📍 <strong>Location:</strong> Dortmund, Germany
-    </p>
+
+    <!-- ICON ROW (CLICKABLE IMAGE ICONS ONLY) -->
+    <div style="
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      gap:28px;
+      margin:32px 0 8px 0;
+      flex-wrap:wrap;
+    ">
+      <a href="https://wa.me/491739569429" target="_blank" rel="noopener">
+        <img src="/logowhatsapp.png" alt="WhatsApp" style="width:48px;height:48px;" />
+      </a>
+
+      <a href="https://www.linkedin.com/in/ubterzioglu/" target="_blank" rel="noopener">
+        <img src="/logolinkedin.png" alt="LinkedIn" style="width:48px;height:48px;" />
+      </a>
+
+      <a href="https://www.instagram.com/ubterzioglu/" target="_blank" rel="noopener">
+        <img src="/logoinstagram.png" alt="Instagram" style="width:48px;height:48px;" />
+      </a>
+
+      <a href="https://maps.google.com/?q=Dortmund,Germany" target="_blank" rel="noopener">
+        <img src="/logolocation.png" alt="Location" style="width:48px;height:48px;" />
+      </a>
+
+      <a href="tel:+491739569429">
+        <img src="/logophone.png" alt="Phone" style="width:48px;height:48px;" />
+      </a>
+
+      <a href="mailto:ubterzioglu@gmail.com">
+        <img src="/logoemail.png" alt="Email" style="width:48px;height:48px;" />
+      </a>
+    </div>
   </div>
   <!-- END of block: Contact -->
 `);
