@@ -62,6 +62,16 @@
       <span class="chevron">›</span>
     </div>
 
+    <div class="nav-item" onclick="location.href='zexplorer.html'">
+  <span>
+    <span class="nav-icon">📚</span> Explorer
+    <span style="display:block; margin-top:4px; opacity:.8; font-size:.92em;">
+      Knowledge corner: links, articles, reviews, and notes.
+    </span>
+  </span>
+  <span class="chevron">›</span>
+</div>
+
     <div class="nav-item" onclick="location.href='zcolleague.html'">
       <span>
         <span class="nav-icon">🤝</span> Colleague
@@ -119,7 +129,8 @@
 
     if (typeof render === "function") {
       render("cards-root", [
-        "contact"
+      "updates",  
+      "contact"
       ]);
     }
   </script>

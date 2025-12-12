@@ -122,6 +122,30 @@
      - ID'ler navigation ile eşleşmeli
      - Sınıflar mevcut CSS ile uyumlu
      ===================================================== */
+     
+/* =====================================================
+   CARD: HERO (EXPLORER)
+   ===================================================== */
+register("heroExplorer", () => `
+  <div id="hero" class="card hero-card">
+    <div class="hero-top">
+      <div class="hero-logo-box">
+        <img src="/logoubt.png" class="hero-logo" alt="UBT logo" />
+        <span class="hero-domain">ubterzioglu.de</span>
+      </div>
+      <a href="index.html">
+        <img src="/z0cliphome.png" class="home-icon" alt="Home" />
+      </a>
+    </div>
+
+    <h1>Hello Explorer!</h1>
+    <p class="title">
+      Knowledge corner: links, articles, reviews, and notes.
+    </p>
+  </div>
+  <!-- END of block: Hero (Explorer) -->
+`);
+/* END of block: Card Template — heroExplorer */
 
 
   /* =====================================================
@@ -731,7 +755,7 @@ register("privateProjects", () => `
 
 
 
-  /* =====================================================
+ /* =====================================================
    CARD: CONTACT
    ===================================================== */
 register("contact", () => `
@@ -743,43 +767,111 @@ register("contact", () => `
 
     <h2 class="section-title">Contact</h2>
 
-    <!-- ICON ROW (CLICKABLE IMAGE ICONS ONLY) -->
+    <!-- ICON GRID (3 x 2) -->
     <div style="
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
-      gap:28px;
-      margin:32px 0 8px 0;
-      flex-wrap:wrap;
+      display:grid;
+      grid-template-columns: repeat(3, 64px);
+      justify-content:center;
+      gap:24px 30px;
+      margin:32px 0 12px 0;
     ">
-      <a href="https://wa.me/491739569429" target="_blank" rel="noopener">
-        <img src="/logowhatsapp.png" alt="WhatsApp" style="width:48px;height:48px;" />
+
+      <a href="https://wa.me/491739569429" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div
+          style="
+            width:64px;height:64px;border-radius:50%;background:#111;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 14px rgba(0,0,0,.35);
+            transition:transform .2s ease, box-shadow .2s ease;
+          "
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 22px rgba(0,0,0,.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(0,0,0,.35)'"
+        >
+          <img src="/logowhatsapp.png" alt="WhatsApp" style="width:32px;height:32px;" />
+        </div>
       </a>
 
-      <a href="https://www.linkedin.com/in/ubterzioglu/" target="_blank" rel="noopener">
-        <img src="/logolinkedin.png" alt="LinkedIn" style="width:48px;height:48px;" />
+      <a href="https://www.linkedin.com/in/ubterzioglu/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div
+          style="
+            width:64px;height:64px;border-radius:50%;background:#111;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 14px rgba(0,0,0,.35);
+            transition:transform .2s ease, box-shadow .2s ease;
+          "
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 22px rgba(0,0,0,.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(0,0,0,.35)'"
+        >
+          <img src="/logolinkedin.png" alt="LinkedIn" style="width:32px;height:32px;" />
+        </div>
       </a>
 
-      <a href="https://www.instagram.com/ubterzioglu/" target="_blank" rel="noopener">
-        <img src="/logoinstagram.png" alt="Instagram" style="width:48px;height:48px;" />
+      <a href="https://www.instagram.com/ubterzioglu/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div
+          style="
+            width:64px;height:64px;border-radius:50%;background:#111;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 14px rgba(0,0,0,.35);
+            transition:transform .2s ease, box-shadow .2s ease;
+          "
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 22px rgba(0,0,0,.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(0,0,0,.35)'"
+        >
+          <img src="/logoinstagram.png" alt="Instagram" style="width:32px;height:32px;" />
+        </div>
       </a>
 
-      <a href="https://maps.google.com/?q=Dortmund,Germany" target="_blank" rel="noopener">
-        <img src="/logolocation.png" alt="Location" style="width:48px;height:48px;" />
+      <a href="https://maps.google.com/?q=Dortmund,Germany" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div
+          style="
+            width:64px;height:64px;border-radius:50%;background:#111;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 14px rgba(0,0,0,.35);
+            transition:transform .2s ease, box-shadow .2s ease;
+          "
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 22px rgba(0,0,0,.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(0,0,0,.35)'"
+        >
+          <img src="/logolocation.png" alt="Location" style="width:32px;height:32px;" />
+        </div>
       </a>
 
-      <a href="tel:+491739569429">
-        <img src="/logophone.png" alt="Phone" style="width:48px;height:48px;" />
+      <a href="tel:+491739569429" style="text-decoration:none;">
+        <div
+          style="
+            width:64px;height:64px;border-radius:50%;background:#111;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 14px rgba(0,0,0,.35);
+            transition:transform .2s ease, box-shadow .2s ease;
+          "
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 22px rgba(0,0,0,.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(0,0,0,.35)'"
+        >
+          <img src="/logophone.png" alt="Phone" style="width:32px;height:32px;" />
+        </div>
       </a>
 
-      <a href="mailto:ubterzioglu@gmail.com">
-        <img src="/logoemail.png" alt="Email" style="width:48px;height:48px;" />
+      <a href="mailto:ubterzioglu@gmail.com" style="text-decoration:none;">
+        <div
+          style="
+            width:64px;height:64px;border-radius:50%;background:#111;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 14px rgba(0,0,0,.35);
+            transition:transform .2s ease, box-shadow .2s ease;
+          "
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 22px rgba(0,0,0,.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 14px rgba(0,0,0,.35)'"
+        >
+          <img src="/logoemail.png" alt="Email" style="width:32px;height:32px;" />
+        </div>
       </a>
+
     </div>
   </div>
   <!-- END of block: Contact -->
 `);
 /* END of block: Card Template — contact */
+
 
 
 /* =====================================================
@@ -930,6 +1022,67 @@ register("globalwarming", () => `
   
 `);
 /* END of block: Card Template — GLOBALWARMING */
+
+/* =====================================================
+   CARD: UPDATES / NEWS (SIMPLE LIST)
+   ===================================================== */
+register("updates", () => `
+  <div id="updates" class="detail-card card-color-3">
+    <div class="card-buttons">
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
+    </div>
+
+    <h2 class="section-title">Updates</h2>
+
+    <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px;">
+
+      <!-- ITEM (LIVE) -->
+      <div style="
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:12px 14px;
+        border-radius:14px;
+        background:rgba(0,0,0,.18);
+      ">
+        <div style="opacity:.9; margin-top:1px;">•</div>
+        <div style="flex:1; line-height:1.45;">
+          New design and structure for the page!
+        </div>
+        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
+          12-12-25
+        </div>
+      </div>
+
+      <!-- =====================================================
+           ITEM TEMPLATE (COPY/PASTE)
+           =====================================================
+
+      <div style="
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:12px 14px;
+        border-radius:14px;
+        background:rgba(0,0,0,.18);
+      ">
+        <div style="opacity:.9; margin-top:1px;">•</div>
+        <div style="flex:1; line-height:1.45;">
+          Your update sentence goes here.
+        </div>
+        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
+          DD-MM-YY
+        </div>
+      </div>
+
+      ===================================================== -->
+
+    </div>
+  </div>
+  <!-- END of block: Updates -->
+`);
+/* END of block: Card Template — updates */
 
 
 
