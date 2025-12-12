@@ -1,20 +1,22 @@
 window.ARTICLES_DATA = [
   {
-    title: "Understanding Gen Z as a Gen Y",
+    id: "genz-geny-guide",
+    title: "A Guide for Gen Z to Understand Gen Y",
     date: "2025-12-12",
-    img: "/articles/cover-genz.png",
-    href: "https://www.linkedin.com/posts/....",
+    img: "/img/z0article0020",
+    href: "https://www.linkedin.com/pulse/guide-gen-z-understand-y-umut-bar%C4%B1%C5%9F-terzioglu-cxb8e",
     text:
-      "I wrote this article to better understand Gen Z from a Gen Y perspective.\n\n" +
-      "It focuses on empathy, communication gaps, and how generational differences show up in daily work life."
+      "This article was written from a Gen Y perspective to help Gen Z better understand how Gen Y thinks, works, and communicates.\n\n" +
+      "It focuses on empathy, generational differences, and practical ways to reduce misunderstandings in daily work life."
   },
   {
-    title: "Why QA Is Still Underrated",
-    date: "2025-12-20",
-    img: "/articles/cover-qa.png",
-    href: "https://medium.com/...",
+    id: "testing-age-of-ai",
+    title: "Testing in the Age of AI: Why It Has Become More Critical?",
+    date: "2025-12-12",
+    img: "/img/z0article0010.png",
+    href: "https://www.linkedin.com/pulse/testing-age-ai-why-has-become-more-critical-umut-bar%C4%B1%C5%9F-terzioglu-ukqfe",
     text:
-      "Quality Assurance is often misunderstood as a purely technical role.\n\n" +
-      "This short article explains why QA is actually about risk, communication, and trust."
+      "This article explores why software testing has become even more critical in the age of AI.\n\n" +
+      "It explains the limits of AI-generated code and highlights the continued importance of human-driven testing, edge cases, and quality ownership."
   }
 ];
