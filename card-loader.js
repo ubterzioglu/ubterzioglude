@@ -388,7 +388,7 @@ register("corporateProjects", () => `
 
       <!-- Smaragd -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Smaragd logo" />
+        <img src="/logosmaragd.png" class="proj-logo" alt="Smaragd logo" />
         <div>
           <h4 class="proj-title">Smaragd – Daimler / Mercedes-Benz</h4>
           <p>
@@ -402,7 +402,7 @@ register("corporateProjects", () => `
 
       <!-- SRM -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="SRM logo" />
+        <img src="/logosrm.png" class="proj-logo" alt="SRM logo" />
         <div>
           <h4 class="proj-title">SRM – Daimler / Mercedes-Benz</h4>
           <p>
@@ -415,7 +415,7 @@ register("corporateProjects", () => `
 
       <!-- DARRS -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="DARRS logo" />
+        <img src="/logodarrs.png" class="proj-logo" alt="DARRS logo" />
         <div>
           <h4 class="proj-title">DARRS – Daimler / Mercedes-Benz</h4>
           <p>
@@ -428,7 +428,7 @@ register("corporateProjects", () => `
 
       <!-- Swisslog TKL -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Swisslog TKL logo" />
+        <img src="/logotkl.png" class="proj-logo" alt="Swisslog TKL logo" />
         <div>
           <h4 class="proj-title">Swisslog – TKL</h4>
           <p>
@@ -441,7 +441,7 @@ register("corporateProjects", () => `
 
       <!-- Swisslog Kruitbosch -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Swisslog Kruitbosch logo" />
+        <img src="/logokruitbosch.png" class="proj-logo" alt="Swisslog Kruitbosch logo" />
         <div>
           <h4 class="proj-title">Swisslog – Kruitbosch</h4>
           <p>
@@ -454,7 +454,7 @@ register("corporateProjects", () => `
 
       <!-- Swisslog Albert Heijn -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Swisslog Albert Heijn logo" />
+        <img src="/logoalbert.png" class="proj-logo" alt="Swisslog Albert Heijn logo" />
         <div>
           <h4 class="proj-title">Swisslog – Albert Heijn</h4>
           <p>
@@ -467,7 +467,7 @@ register("corporateProjects", () => `
 
       <!-- Swisslog EDEKA -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Swisslog EDEKA logo" />
+        <img src="/logoedeka.png" class="proj-logo" alt="Swisslog EDEKA logo" />
         <div>
           <h4 class="proj-title">Swisslog – EDEKA</h4>
           <p>
@@ -501,7 +501,7 @@ register("privateProjects", () => `
 
       <!-- UBT Testing -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="UBT Testing logo" />
+        <img src="/logoubtest.png" class="proj-logo" alt="UBT Testing logo" />
         <div>
           <h4 class="proj-title">UBT – Testing</h4>
           <p>
@@ -514,7 +514,7 @@ register("privateProjects", () => `
 
       <!-- All in 2 Minutes -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="All in 2 Minutes logo" />
+        <img src="/logoallin2min.png" class="proj-logo" alt="All in 2 Minutes logo" />
         <div>
           <h4 class="proj-title">All in 2 Minutes!</h4>
           <p>
@@ -527,7 +527,7 @@ register("privateProjects", () => `
 
       <!-- Press Enter to Code -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Press Enter to Code logo" />
+        <img src="/logopressenter.png" class="proj-logo" alt="Press Enter to Code logo" />
         <div>
           <h4 class="proj-title">Press Enter to Code</h4>
           <p>
@@ -540,7 +540,7 @@ register("privateProjects", () => `
 
       <!-- Software Tester Network -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Software Tester Network logo" />
+        <img src="/logostn.png" class="proj-logo" alt="Software Tester Network logo" />
         <div>
           <h4 class="proj-title">Software Tester Network</h4>
           <p>
@@ -553,7 +553,7 @@ register("privateProjects", () => `
 
       <!-- CAL Community -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="CAL Community logo" />
+        <img src="/logocalcom.png" class="proj-logo" alt="CAL Community logo" />
         <div>
           <h4 class="proj-title">CAL Community</h4>
           <p>
@@ -566,7 +566,7 @@ register("privateProjects", () => `
 
       <!-- Picked Scenes -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Picked Scenes logo" />
+        <img src="/logopicked.png" class="proj-logo" alt="Picked Scenes logo" />
         <div>
           <h4 class="proj-title">Picked Scenes!</h4>
           <p>
@@ -579,7 +579,7 @@ register("privateProjects", () => `
 
       <!-- Loved Your T-Shirt -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Loved Your T-Shirt logo" />
+        <img src="/logoloved.png" class="proj-logo" alt="Loved Your T-Shirt logo" />
         <div>
           <h4 class="proj-title">Loved Your T-Shirt</h4>
           <p>
@@ -592,7 +592,7 @@ register("privateProjects", () => `
 
       <!-- Factovium -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Factovium logo" />
+        <img src="/logofactovium.png" class="proj-logo" alt="Factovium logo" />
         <div>
           <h4 class="proj-title">Factovium</h4>
           <p>
@@ -605,7 +605,7 @@ register("privateProjects", () => `
 
       <!-- Don’t Follow Just Like -->
       <div class="proj-item">
-        <img src="/phlogo.png" class="proj-logo" alt="Don’t Follow Just Like logo" />
+        <img src="/logodontfollow.png" class="proj-logo" alt="Don’t Follow Just Like logo" />
         <div>
           <h4 class="proj-title">Don’t Follow Just Like</h4>
           <p>
