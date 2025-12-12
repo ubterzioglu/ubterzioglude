@@ -1,1 +1,2 @@
 Günaydın!
+Bugün vercele geçtik!
