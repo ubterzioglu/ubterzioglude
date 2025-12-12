@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorer – Umut Barış Terzioğlu</title>
+  <title>Articles – Umut Barış Terzioğlu</title>
 
   <!-- Shared stylesheet -->
   <link rel="stylesheet" href="ubt-shared.css" />
@@ -19,45 +19,20 @@
     <div id="hero-root"></div>
     <!-- END of block: HERO ROOT -->
 
-    <!-- NAVIGATION (MANUAL: you control this) -->
+    <!-- NAVIGATION (MANUAL) -->
     <div class="card nav-card">
 
       <div class="card-buttons">
         <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+        <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
         <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
       </div>
 
       <h2 class="section-title">Navigation</h2>
 
       <div class="nav-grid">
-
-        <div class="nav-item" onclick="location.href='zarticles.html'">
+        <div class="nav-item" onclick="document.getElementById('articles')?.scrollIntoView();">
           <span><span class="nav-icon">📝</span> Articles</span>
-          <span class="chevron">›</span>
-        </div>
-
- <div class="nav-item" onclick="location.href='zbookmarks.html'">
-          <span><span class="nav-icon">🔖</span> My Bookmarks</span>
-          <span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="location.href='zcheatsheets.html'">
-          <span><span class="nav-icon">🧾</span> Cheat Sheets</span>
-          <span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="location.href='znotes.html'">
-          <span><span class="nav-icon">🗒️</span> Notes</span>
-          <span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="location.href='zcollections.html'">
-          <span><span class="nav-icon">🗂️</span> Useful Apps</span>
-          <span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="location.href='ztools.html'">
-          <span><span class="nav-icon">🧰</span> Tools</span>
           <span class="chevron">›</span>
         </div>
 
@@ -65,13 +40,12 @@
           <span><span class="nav-icon">☎️</span> Contact</span>
           <span class="chevron">›</span>
         </div>
-
       </div>
 
     </div>
     <!-- END of block: NAVIGATION (MANUAL) -->
 
-    <!-- AUTO CARDS ROOT (rendered by card-loader.js) -->
+    <!-- AUTO CARDS ROOT -->
     <div id="cards-root"></div>
     <!-- END of block: CARDS ROOT -->
 
@@ -79,15 +53,14 @@
 
   <!-- SCRIPTS -->
   <script src="card-loader.js"></script>
-  <script>
-    // 1) HERO always on top
-    cardLoader.renderInto("hero-root", ["heroExplorer"]);
+<script src="/articles-data.js"></script>
+<script>
+  console.log("cardLoader:", window.cardLoader);
+  console.log("ARTICLES_DATA:", window.ARTICLES_DATA);
 
-    // 2) Cards below navigation
-    cardLoader.renderInto("cards-root", [
-      "contact"
-    ]);
-  </script>
+  cardLoader.renderInto("hero-root", ["heroArticles"]);
+  cardLoader.renderInto("cards-root", ["articles", "contact"]);
+</script>
   <!-- END of block: PAGE SCRIPTS -->
 
   <!-- FOOTER -->
