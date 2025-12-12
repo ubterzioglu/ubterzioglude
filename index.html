@@ -120,21 +120,22 @@
 
   </div>
 
-  <!-- SCRIPTS -->
-  <script src="card-loader.js"></script>
-  <script>
-    const render = (window.cardLoader && window.cardLoader.renderInto)
-      ? window.cardLoader.renderInto
-      : window.renderInto;
+ <!-- SCRIPTS -->
+<script src="card-loader.js"></script>
+<script src="explorer-data.js"></script>
+<script>
+  const render = (window.cardLoader && window.cardLoader.renderInto)
+    ? window.cardLoader.renderInto
+    : window.renderInto;
 
-    if (typeof render === "function") {
-      render("cards-root", [
-      "updates",  
+  if (typeof render === "function") {
+    render("cards-root", [
+      "updates",
       "contact"
-      ]);
-    }
-  </script>
-  <!-- END of block: PAGE SCRIPTS -->
+    ]);
+  }
+</script>
+<!-- END of block: PAGE SCRIPTS -->
 
   <!-- COUNTER GOAT GOAT GOAT GOAT GOAT  -->
   <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"

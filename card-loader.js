@@ -1284,65 +1284,77 @@ register("bookmarks", () => {
 
 
 /* =====================================================
-   CARD: UPDATES / NEWS (SIMPLE LIST)
+   CARD: UPDATES / NEWS (DATA-DRIVEN – TEXT ONLY)
    ===================================================== */
-register("updates", () => `
-  <div id="updates" class="detail-card card-color-3">
-    <div class="card-buttons">
-      <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
-    </div>
+register("updates", () => {
+  const itemsRaw = (window.EXPLORER_DATA && window.EXPLORER_DATA.updates) || [];
 
-    <h2 class="section-title">Updates</h2>
+  const items = [...itemsRaw].sort((a, b) => {
+    const ap = a?.pinned ? 1 : 0;
+    const bp = b?.pinned ? 1 : 0;
+    if (ap !== bp) return bp - ap;
+    return (b?.date || "").localeCompare(a?.date || "");
+  });
 
-    <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px;">
+  const fmt = (d) => {
+    if (!d) return "";
+    const [y, m, dd] = d.split("-");
+    return `${dd}-${m}-${y.slice(2)}`;
+  };
 
-      <!-- ITEM (LIVE) -->
-      <div style="
-        display:flex;
-        align-items:flex-start;
-        gap:10px;
-        padding:12px 14px;
-        border-radius:14px;
-        background:rgba(0,0,0,.18);
-      ">
-        <div style="opacity:.9; margin-top:1px;">•</div>
-        <div style="flex:1; line-height:1.45;">
-          New design and structure for the page!
-        </div>
-        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
-          12-12-25
-        </div>
+  return `
+    <div id="updates" class="detail-card card-color-3">
+      <div class="card-buttons">
+        <a href="index.html"><img src="img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+        <a href="#top"><img src="img/z0clipup.png" class="btn-icon" alt="Up" /></a>
       </div>
 
-      <!-- =====================================================
-           ITEM TEMPLATE (COPY/PASTE)
-           =====================================================
+      <h2 class="section-title">Updates / News</h2>
 
-      <div style="
-        display:flex;
-        align-items:flex-start;
-        gap:10px;
-        padding:12px 14px;
-        border-radius:14px;
-        background:rgba(0,0,0,.18);
-      ">
-        <div style="opacity:.9; margin-top:1px;">•</div>
-        <div style="flex:1; line-height:1.45;">
-          Your update sentence goes here.
-        </div>
-        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
-          DD-MM-YY
-        </div>
+      <div style="margin-top:10px; opacity:.85; font-size:.95em;">
+        Short notes I keep updating. Latest on top.
       </div>
 
-      ===================================================== -->
+      <div style="margin-top:18px; display:flex; flex-direction:column; gap:14px;">
+        ${
+          items.length
+            ? items.map(it => `
+                <div style="
+                  padding:14px;
+                  border-radius:14px;
+                  background:rgba(255,255,255,.14);
+                  box-shadow:0 6px 16px rgba(0,0,0,.18);
+                ">
+                  <div style="display:flex; justify-content:space-between; gap:12px;">
+                    <div style="font-weight:900;">
+                      ${it?.pinned ? "📌 " : ""}${it?.title || "Update"}
+                    </div>
+                    <div style="opacity:.8; font-size:.9em;">
+                      ${fmt(it?.date)}
+                    </div>
+                  </div>
 
+                  ${
+                    it?.text
+                      ? `<div style="margin-top:8px; line-height:1.55; opacity:.92;">
+                           ${String(it.text).replaceAll("\n", "<br>")}
+                         </div>`
+                      : ``
+                  }
+                </div>
+              `).join("")
+            : `<div style="opacity:.75;">No updates yet.</div>`
+        }
+      </div>
+
+      <div style="margin-top:18px; opacity:.75; font-size:.9em;">
+        Umut means "hope" and Barış means "peace" in Turkish!
+      </div>
     </div>
-  </div>
-  <!-- END of block: Updates -->
-`);
+  `;
+});
 /* END of block: Card Template — updates */
+
 
 
 

@@ -28,7 +28,8 @@ window.EXPLORER_DATA = {
       title: "PortableApps",
       img: "/img/z0bookmark0010.png",
       href: "https://portableapps.com/",
-      note: "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
+      note:
+        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
     }
   ],
 
@@ -40,6 +41,35 @@ window.EXPLORER_DATA = {
       img: "/img/z0note0010.png",
       text: "Small note.\n\nSecond paragraph if needed.",
       href: "#"
+    }
+  ],
+
+  updates: [
+    {
+      id: "explorer-live",
+      title: "Explorer is live",
+      date: "2025-12-12",
+      text:
+        "Explorer pages (Articles, Bookmarks, Notes) are now running with a shared data file. Next step: add more content and keep it fresh.",
+      href: "zexplorer.html",
+      pinned: true
+    },
+    {
+      id: "contact-polish",
+      title: "Contact card polished",
+      date: "2025-12-12",
+      text: "Contact is now icon-based and cleaner. Less noise, more action.",
+      href: "index.html#contact",
+      pinned: false
+    },
+    {
+      id: "articles-data-driven",
+      title: "Articles are data-driven",
+      date: "2025-12-12",
+      text:
+        "Articles are generated from explorer-data.js. Adding a new article is now just adding one object.",
+      href: "zarticles.html",
+      pinned: false
     }
   ]
 };
