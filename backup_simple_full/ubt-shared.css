@@ -1,14 +1,18 @@
 /* =====================================================
-   UBT — SHARED CSS (BASIC VERSION)
-   - Tüm sayfalar bunu kullanır
-   - Kartlar: .card / .detail-card
-   - Renkler: .card-color-1..5
+   GLOBAL RESET
+   - Tüm elementlerde varsayılan margin/padding sıfırlanır
+   - box-sizing: border-box ile padding/border genişliğe dahil edilir
    ===================================================== */
-
-/* ---------- Global reset ---------- */
 * { margin:0; padding:0; box-sizing:border-box; }
 
-/* ---------- Body background + base font ---------- */
+
+/* =====================================================
+   PAGE / BODY
+   - Genel font ayarı
+   - Arka plan gradient
+   - Sayfa iç boşluk
+   - Minimum yükseklik (ekranı doldur)
+   ===================================================== */
 body {
     font-family:'Segoe UI', Tahoma, sans-serif;
     background:linear-gradient(135deg,#1a1a2e,#16213e);
@@ -16,7 +20,13 @@ body {
     min-height:100vh;
 }
 
-/* ---------- Container (mobile-friendly centered layout) ---------- */
+
+/* =====================================================
+   MAIN CONTAINER
+   - Mobil kart görünümü için max-width sınırlama
+   - Dikey akış + kartlar arası gap
+   - Altta ekstra boşluk (scroll/anchor rahatlığı)
+   ===================================================== */
 .container {
     max-width:420px;
     margin:auto;
@@ -27,22 +37,10 @@ body {
 }
 
 
-/* =====================================================
-   CARDS ROOT (dynamic cards spacing)
-   - card-loader.js buraya kartları inject eder
-   - kartlar arası boşluk burada yönetilir
-   ===================================================== */
-#cards-root{
-    display:flex;
-    flex-direction:column;
-    gap:14px; /* kartlar arası boşluk */
-}
-/* END of block: Cards Root */
-
 
 /* =====================================================
-   PROJECT CARDS (logos left, text right)
-   - Used in Corporate/Private projects
+   PROJECT LIST LAYOUT (Logo left, text right)
+   - Proje kartı içindeki satırların dizilimi
    ===================================================== */
 .proj-wrapper {
     display: flex;
@@ -56,7 +54,7 @@ body {
     align-items: flex-start;
 }
 
-/* Logo fixed size, stays left, never shrinks */
+/* Logo sabit boyut + taşma engeli (solda sabit kalsın) */
 .proj-logo {
     width: 48px;
     height: 48px;
@@ -65,12 +63,14 @@ body {
     flex-shrink: 0;
     display: block;
 }
-/* END of block: Project Cards */
+
+
 
 /* =====================================================
-   CARD BASE
-   - .card  : hero + navigation
-   - .detail-card : all content sections
+   CARD BASE STYLES
+   - .card ve .detail-card ortak görünüm
+   - Beyaz arkaplan + radius + shadow
+   - position:relative -> üstteki ikonların absolute konumlanması için
    ===================================================== */
 .card, .detail-card {
     background:white;
@@ -79,10 +79,11 @@ body {
     box-shadow:0 10px 30px rgba(0,0,0,.28);
     position:relative;
 }
-/* END of block: Card Base */
+
 
 /* =====================================================
-   HERO
+   HERO CARD (Üst karşılama kartı)
+   - Özel gradient + beyaz yazı
    ===================================================== */
 .hero-card {
     background:linear-gradient(135deg,#ff6b35,#f7931e);
@@ -95,11 +96,17 @@ body {
     margin-bottom:18px;
 }
 
+/* Logo + domain (hero içinde) */
 .hero-logo { width:48px; height:48px; border-radius:50%; }
 .hero-domain { font-size:16px; font-weight:600; color:white; }
 .hero-logo-box { display:flex; align-items:center; gap:8px; }
 
-/* Home icon in hero */
+
+/* =====================================================
+   HERO HOME ICON (Sağ üstteki ev ikonu)
+   - Beyaz kutu + shadow
+   - hover ile büyüme efekti
+   ===================================================== */
 .home-icon {
     width:40px;
     height:40px;
@@ -109,29 +116,61 @@ body {
     box-shadow:0 4px 12px rgba(0,0,0,.25);
     transition:.2s;
 }
-
 .home-icon:hover { transform:scale(1.1); }
-/* END of block: Hero */
 
-/* ---------- Titles ---------- */
+
+/* =====================================================
+   SECTION TITLE (Kart başlıkları)
+   ===================================================== */
 .section-title {
     font-size:19px;
     font-weight:700;
     margin-bottom:12px;
 }
 
-/* =====================================================
-   5-COLOR CARD PALETTE (Office style)
-   - Apply to .detail-card via class
-   ===================================================== */
-.card-color-1 { background:#00A4EF !important; color:white !important; } /* Blue */
-.card-color-2 { background:#7FBA00 !important; color:white !important; } /* Green */
-.card-color-3 { background:#F7630C !important; color:white !important; } /* Orange */
-.card-color-4 { background:#A700AE !important; color:white !important; } /* Purple */
-.card-color-5 { background:#FFB900 !important; color:#222 !important; }  /* Yellow (dark text) */
-/* END of block: Card Colors */
 
-/* (Legacy office-* classes — optional) */
+
+/* =====================================================
+   5-COLOR CARD PALETTE (Senin verdiğin sıra)
+   - card-color-1..5 döngü mantığıyla kullanılıyor
+   - Sarı kartta yazı rengi koyu yapıldı (okunurluk)
+   ===================================================== */
+/* 1) Blue */
+.card-color-1 {
+    background: #00A4EF !important;
+    color: white !important;
+}
+
+/* 2) Green */
+.card-color-2 {
+    background: #7FBA00 !important;
+    color: white !important;
+}
+
+/* 3) Orange */
+.card-color-3 {
+    background: #F7630C !important;
+    color: white !important;
+}
+
+/* 4) Purple */
+.card-color-4 {
+    background: #A700AE !important;
+    color: white !important;
+}
+
+/* 5) Yellow */
+.card-color-5 {
+    background: #FFB900 !important;
+    color: #222 !important;
+}
+
+
+
+/* =====================================================
+   LEGACY OFFICE COLOR CLASSES (Eski sınıflar)
+   - İstersen tamamen kaldırılabilir, ama geriye dönük uyumluluk için duruyor
+   ===================================================== */
 .office-orange { background:#D83B01 !important; color:white; }
 .office-green  { background:#107C41 !important; color:white; }
 .office-blue   { background:#185ABD !important; color:white; }
@@ -139,11 +178,18 @@ body {
 .office-teams  { background:#005A9E !important; color:white; }
 .office-contact{ background:#107C10 !important; color:white; }
 
+
+
 /* =====================================================
-   NAV CARD (yellow)
+   NAVIGATION CARD (Navigation bölümünün ana kart rengi)
    ===================================================== */
 .nav-card { background:#FFB900 !important; color:#333; }
 
+
+/* =====================================================
+   NAVIGATION LIST LAYOUT
+   - Navigation içindeki mini kartlar (nav-item)
+   ===================================================== */
 .nav-grid {
     display:flex;
     flex-direction:column;
@@ -169,10 +215,12 @@ body {
 
 .nav-icon { font-size:22px; }
 .chevron { opacity:.4; }
-/* END of block: Navigation */
+
+
 
 /* =====================================================
-   CARD BUTTONS (Home + Up)
+   CARD BUTTONS (Home + Up) — Kartların sağ üstü
+   - absolute ile kartın içinde konumlandırılır
    ===================================================== */
 .card-buttons {
     position:absolute;
@@ -182,6 +230,7 @@ body {
     gap:10px;
 }
 
+/* İkon buton görünümü (küçük yuvarlak kutu) */
 .btn-icon {
     width:34px;
     height:34px;
@@ -192,17 +241,18 @@ body {
     box-shadow:0 2px 6px rgba(0,0,0,.22);
     cursor:pointer;
     transition:.15s;
-    object-fit:contain; /* icon cropping fix */
 }
 
 .btn-icon:hover {
     transform:scale(1.12);
     background:rgba(255,255,255,0.55);
 }
-/* END of block: Card Buttons */
+
+
 
 /* =====================================================
-   ACHIEVEMENTS LIST
+   KEY ACHIEVEMENTS LIST
+   - Achievements içindeki satırlar arası boşluk + tipografi
    ===================================================== */
 .ach-list {
     display:flex;
@@ -211,10 +261,12 @@ body {
     font-size:14px;
     line-height:1.55;
 }
-/* END of block: Achievements */
+
+
 
 /* =====================================================
    TECH STACK SECTION
+   - Başlıklar + açıklama metinleri arası boşluk
    ===================================================== */
 .tech-section {
     display:flex;
@@ -229,12 +281,42 @@ body {
     font-size:15px;
     font-weight:700;
 }
-/* END of block: Tech Stack */
+
+
 
 /* =====================================================
-   EXPERIENCE
+   PROJECTS (Legacy / Alternate Structure)
+   - project-section/project-box eski şema
+   - proj-logo zaten üstte tanımlandı ama burada da tekrar var (istersen sadeleştiririz)
    ===================================================== */
-.exp-section { margin-bottom:32px; }
+.project-section {
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+.project-box {
+    display:flex;
+    gap:14px;
+}
+
+/* Not: proj-logo zaten yukarıda var, burada duplicate (istersen kaldır) */
+.proj-logo {
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    object-fit:cover;
+}
+
+
+
+/* =====================================================
+   EXPERIENCE SECTION
+   - İş deneyimi blokları + başlık + liste
+   ===================================================== */
+.exp-section {
+    margin-bottom:32px;
+}
 
 .exp-header {
     display:flex;
@@ -252,7 +334,9 @@ body {
 .exp-title { display:flex; flex-direction:column; }
 
 .exp-role { font-size:17px; font-weight:700; margin:0; }
+
 .exp-company { font-size:15px; font-weight:600; margin:2px 0 0 0; }
+
 .exp-sub { font-size:13px; opacity:.75; margin-top:2px; }
 
 .exp-list {
@@ -266,8 +350,13 @@ body {
     font-size:14px;
     line-height:1.45;
 }
-/* END of block: Experience */
 
-/* Smooth scrolling for anchor jumps */
+
+
+/* =====================================================
+   SMOOTH SCROLL
+   - Anchor link’lerde yumuşak kaydırma
+   ===================================================== */
 html { scroll-behavior:smooth; }
-/* END of file: ubt-shared.css */
+
+/* END of block: ubt-shared.css (annotated) */

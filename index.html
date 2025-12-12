@@ -1,506 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Barış Terzioğlu - Personal Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UBT — Home</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
-
-        /* ✅ TÜM KARTLAR ARASI BOŞLUK = 8px */
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .card {
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        /* HERO */
-        .hero-card {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .profile-img-wrapper {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .profile-img-bg {
-            width: 120px;
-            height: 120px;
-            background: url("/ubtbg.png") center/cover no-repeat;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            position: relative;
-            top: 10px;
-            left: 10px;
-            border: 4px solid white;
-        }
-
-        .hero-card h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .hero-card .title {
-            font-size: 14px;
-            margin-bottom: 5px;
-            opacity: 0.95;
-        }
-
-        .hero-card .location {
-            font-size: 13px;
-            opacity: 0.85;
-        }
-
-        /* COMMON */
-        .yellow-card {
-            background: linear-gradient(135deg, #ffd93d 0%, #ffed4e 100%);
-        }
-
-        .blue-card {
-            background: linear-gradient(135deg, #1e88e5 0%, #42a5f5 100%);
-            color: white;
-        }
-
-        .purple-card {
-            background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
-            color: white;
-        }
-
-        .green-card {
-            background: linear-gradient(135deg, #7cb342 0%, #9ccc65 100%);
-            color: white;
-        }
-
-        .dark-green-card {
-            background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
-            color: white;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .description {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        /* VISITORS */
-        .visitor-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .visitor-option {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-        }
-
-        .visitor-option:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .visitor-icon {
-            font-size: 24px;
-        }
-
-        .visitor-text h3 {
-            font-size: 15px;
-            margin-bottom: 3px;
-            color: #333;
-        }
-
-        .visitor-text p {
-            font-size: 12px;
-            color: #777;
-        }
-
-        /* SKILLS */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .skill-item {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: background 0.3s ease;
-            cursor: pointer;
-        }
-
-        .skill-item:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* INTERESTS */
-        .interests-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .interest-item {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .interest-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-size: 24px;
-        }
-
-        .interest-name {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .interest-desc {
-            font-size: 11px;
-            opacity: 0.9;
-        }
-
-        /* SOCIAL */
-        .social-links {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
-        }
-
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #7cb342;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .social-icon:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* CONTACT */
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .contact-text h4 {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-bottom: 3px;
-        }
-
-        .contact-text p {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* HOME / UP BUTONLARI (recruiter.html ile aynı stil) */
-        .card-buttons {
-            position: absolute;
-            right: 14px;
-            top: 14px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, .22);
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .btn-icon:hover {
-            transform: scale(1.12);
-            background: rgba(255, 255, 255, 0.55);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
+  <!-- Shared stylesheet (tüm sayfalar bunu kullanır) -->
+  <link rel="stylesheet" href="ubt-shared.css" />
 </head>
+
 <body>
+  <!-- ============================================
+       PAGE: HOME (MANUAL CONTROL)
+       - Bu sayfa tamamen manuel.
+       - Buradan recruiter.html / colleague.html gibi alt sayfalara gidersin.
+       ============================================ -->
 
-<a id="top"></a>
+  <div class="container">
 
-<div class="container">
-
-    <!-- HERO (BUTONSUZ) -->
+    <!-- HERO (MANUAL) -->
     <div class="card hero-card">
-        <h2 style="font-size: 16px; margin-bottom: 20px;">Welcome to my personal page!</h2>
-
-        <div class="profile-img-wrapper">
-            <div class="profile-img-bg"></div>
+      <div class="hero-top">
+        <div class="hero-logo-box">
+          <img src="/ubtlogo.png" class="hero-logo" alt="UBT logo" />
+          <span class="hero-domain">ubterzioglu.de</span>
         </div>
 
-        <h1>Umut Barış Terzioğlu</h1>
-        <p class="title">Senior Software Quality Assurance Engineer</p>
-        <p class="location">Germany</p>
+        <!-- İstersen buraya farklı bir link koyabilirsin -->
+        <a href="/index.html">
+          <img src="/home.png" class="home-icon" alt="Home" />
+        </a>
+      </div>
+
+      <h1>Home</h1>
+      <p class="title">Pick a page.</p>
     </div>
+    <!-- END of block: Home Hero -->
 
-    <!-- WHO ARE YOU -->
-    <div class="card yellow-card">
-        <div class="card-buttons">
-            <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-            <a href="#top"><img src="/up.png" class="btn-icon"></a>
+    <!-- MANUAL MENU (Senin kontrolün) -->
+    <div class="card nav-card">
+      <h2 class="section-title">Pages</h2>
+
+      <div class="nav-grid">
+        <div class="nav-item" onclick="location.href='recruiter.html'">
+          <span><span class="nav-icon">👔</span> Recruiter Page</span>
+          <span class="chevron">›</span>
         </div>
 
-        <h2 class="section-title">Who are you?</h2>
-        <p class="description">Which one are you?</p>
-
-        <div class="visitor-options">
-
-            <div class="visitor-option" onclick="window.location.href='/recruiter.html'">
-                <div class="visitor-icon">👔</div>
-                <div class="visitor-text">
-                    <h3>Recruiter</h3>
-                    <p>Checking if you're the talent I need.</p>
-                </div>
-            </div>
-
-            <div class="visitor-option" onclick="window.location.href='/colleague.html'">
-                <div class="visitor-icon">👨‍💼</div>
-                <div class="visitor-text">
-                    <h3>Colleague</h3>
-                    <p>Judging your design choices a bit.</p>
-                </div>
-            </div>
-
-            <div class="visitor-option" onclick="window.location.href='/qaengineer.html'">
-                <div class="visitor-icon">🛡️</div>
-                <div class="visitor-text">
-                    <h3>QA Engineer</h3>
-                    <p>Gently breaking things here.</p>
-                </div>
-            </div>
-
-            <div class="visitor-option" onclick="window.location.href='/curiousvisitor.html'">
-                <div class="visitor-icon">👀</div>
-                <div class="visitor-text">
-                    <h3>Curious Visitor</h3>
-                    <p>Ended up here... somehow.</p>
-                </div>
-            </div>
-
+        <div class="nav-item" onclick="location.href='colleague.html'">
+          <span><span class="nav-icon">🤝</span> Colleague Page</span>
+          <span class="chevron">›</span>
         </div>
+      </div>
     </div>
+    <!-- END of block: Home Menu -->
 
-    <!-- ABOUT -->
-    <div class="card yellow-card">
-        <div class="card-buttons">
-            <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-            <a href="#top"><img src="/up.png" class="btn-icon"></a>
-        </div>
-
-        <h2 class="section-title">About Me</h2>
-        <p class="description">
-            Passionate designer with 5+ years of experience creating beautiful and functional digital experiences.
-        </p>
-    </div>
-    
-    <!-- SKILLS -->
-    <div class="card blue-card">
-        <div class="card-buttons">
-            <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-            <a href="#top"><img src="/up.png" class="btn-icon"></a>
-        </div>
-
-        <h2 class="section-title">Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-item">🎨 Design</div>
-            <div class="skill-item">💻 Development</div>
-            <div class="skill-item">📱 Mobile First</div>
-            <div class="skill-item">⚡ Prototyping</div>
-        </div>
-    </div>
-
-    <!-- INTERESTS -->
-    <div class="card purple-card">
-        <div class="card-buttons">
-            <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-            <a href="#top"><img src="/up.png" class="btn-icon"></a>
-        </div>
-
-        <h2 class="section-title">Interests</h2>
-        <div class="interests-grid">
-            <div class="interest-item">
-                <div class="interest-icon">💡</div>
-                <div class="interest-name">Innovation</div>
-                <div class="interest-desc">New ideas</div>
-            </div>
-            <div class="interest-item">
-                <div class="interest-icon">❤️</div>
-                <div class="interest-name">User Focus</div>
-                <div class="interest-desc">With empathy</div>
-            </div>
-            <div class="interest-item">
-                <div class="interest-icon">🚀</div>
-                <div class="interest-name">Growth</div>
-                <div class="interest-desc">Learning</div>
-            </div>
-            <div class="interest-item">
-                <div class="interest-icon">☕</div>
-                <div class="interest-name">Collaboration</div>
-                <div class="interest-desc">Team player</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONNECT -->
-    <div class="card green-card">
-        <div class="card-buttons">
-            <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-            <a href="#top"><img src="/up.png" class="btn-icon"></a>
-        </div>
-
-        <h2 class="section-title">Connect</h2>
-        <div class="social-links">
-            <a class="social-icon">🔗</a>
-            <a class="social-icon">💼</a>
-            <a class="social-icon">📷</a>
-            <a class="social-icon">✉️</a>
-        </div>
-    </div>
-
-    <!-- CONTACT -->
-    <div class="card dark-green-card">
-        <div class="card-buttons">
-            <a href="/index.html"><img src="/home.png" class="btn-icon"></a>
-            <a href="#top"><img src="/up.png" class="btn-icon"></a>
-        </div>
-
-        <h2 class="section-title">Contact Info</h2>
-
-        <div class="contact-item">
-            <div class="contact-icon">✉️</div>
-            <div class="contact-text"><h4>Email</h4><p>ubterzioglu@gmail.com</p></div>
-        </div>
-
-        <div class="contact-item">
-            <div class="contact-icon">📱</div>
-            <div class="contact-text"><h4>Phone</h4><p>+49 173 956 9429</p></div>
-        </div>
-
-        <div class="contact-item">
-            <div class="contact-icon">📍</div>
-            <div class="contact-text"><h4>Location</h4><p>Dortmund</p></div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    document.querySelectorAll('.visitor-option, .skill-item, .interest-item, .social-icon').forEach(item => {
-        item.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => { this.style.transform = ''; }, 150);
-        });
-    });
-</script>
-
+  </div>
 </body>
 </html>
+<!-- END of file: index.html -->
