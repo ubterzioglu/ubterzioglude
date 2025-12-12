@@ -85,7 +85,7 @@
     <div id="hero" class="card hero-card">
       <div class="hero-top">
         <div class="hero-logo-box">
-          <img src="/ubtlogo.png" class="hero-logo" alt="UBT logo" />
+          <img src="/logoubt.png" class="hero-logo" alt="UBT logo" />
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
         <a href="index.html">
@@ -108,7 +108,7 @@
     <div id="hero" class="card hero-card">
       <div class="hero-top">
         <div class="hero-logo-box">
-          <img src="/ubtlogo.png" class="hero-logo" alt="UBT logo" />
+          <img src="/logoubt.png" class="hero-logo" alt="UBT logo" />
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
         <a href="index.html">
