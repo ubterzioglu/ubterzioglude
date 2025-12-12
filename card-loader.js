@@ -1281,8 +1281,95 @@ register("bookmarks", () => {
 });
 /* END of block: Card Template — bookmarks */
 
+
+
 /* =====================================================
-   START: CARD: INSIGHTS  – kısa açıklama
+   START: INSIGHTS INIT (GLOBAL) — card-loader.js
+   Purpose: Runs after cards render (scripts inside templates won't execute)
+   ===================================================== */
+
+window.ubtInitInsights = async function (days = 30) {
+  const el = document.getElementById("insights-box");
+  if (!el) return;
+
+  const safe = (s) => String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+  const normalizeList = (arr) => (Array.isArray(arr) ? arr : (arr && arr.stats) ? arr.stats : []);
+  const getLabel = (x) => x?.name ?? x?.label ?? x?.id ?? x?.key ?? "(unknown)";
+  const getCount = (x) => x?.count ?? x?.total ?? 0;
+
+  const renderBars = (title, list) => {
+    const items = normalizeList(list).slice(0, 5);
+    const max = Math.max(1, ...items.map(getCount));
+
+    const rows = items.map((it) => {
+      const label = safe(getLabel(it));
+      const c = getCount(it);
+      const w = Math.round((c / max) * 100);
+      return `
+        <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
+          <div style="width:140px; opacity:.95; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+            ${label}
+          </div>
+          <div style="flex:1; height:10px; border-radius:999px; background:rgba(0,0,0,.18); overflow:hidden;">
+            <div style="height:10px; width:${w}%; border-radius:999px; background:rgba(255,255,255,.55);"></div>
+          </div>
+          <div style="width:34px; text-align:right; font-weight:900; opacity:.9;">${c}</div>
+        </div>
+      `;
+    }).join("");
+
+    return `
+      <div style="margin-top:16px;">
+        <div style="font-weight:900; opacity:.95;">${title}</div>
+        ${rows || '<div style="margin-top:8px; opacity:.75;">No data.</div>'}
+      </div>
+    `;
+  };
+
+  try {
+    const r = await fetch(`/api/insights?days=${encodeURIComponent(days)}`);
+    const j = await r.json();
+
+    if (!r.ok || !j || j.error) {
+      el.innerHTML = `<div style="opacity:.85;">No data.</div>`;
+      return;
+    }
+
+    el.innerHTML = `
+      <div style="opacity:.8; font-size:.92em;">
+        Last ${j.rangeDays} days · ${j.start} → ${j.end}
+      </div>
+      ${renderBars("Top referrers", j.toprefs)}
+      ${renderBars("Browsers", j.browsers)}
+      ${renderBars("Systems", j.systems)}
+      ${renderBars("Locations", j.locations)}
+      ${renderBars("Sizes", j.sizes)}
+    `;
+  } catch (e) {
+    el.innerHTML = `<div style="opacity:.85;">No data.</div>`;
+  }
+};
+
+/* =====================================================
+   END: INSIGHTS INIT (GLOBAL)
+   ===================================================== */
+
+
+
+
+
+
+
+
+
+
+   /* =====================================================
+   START: CARD: INSIGHTS — card-loader.js
+   Purpose: UI only (no <script> inside template)
    ===================================================== */
 
 register("insights", () => `
@@ -1303,73 +1390,13 @@ register("insights", () => `
       line-height:1.5;
       opacity:.95;
     ">Loading…</div>
-
-    <script>
-      (function () {
-        const el = document.getElementById('insights-box');
-        if (!el) return;
-
-        const safe = (s) => String(s ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-
-        const normalizeList = (arr) => (Array.isArray(arr) ? arr : (arr && arr.stats) ? arr.stats : []);
-        const getLabel = (x) => x?.name ?? x?.label ?? x?.id ?? x?.key ?? '(unknown)';
-        const getCount = (x) => x?.count ?? x?.total ?? 0;
-
-        const renderBars = (title, list) => {
-          const items = normalizeList(list).slice(0, 5);
-          const max = Math.max(1, ...items.map(getCount));
-
-          const rows = items.map((it) => {
-            const label = safe(getLabel(it));
-            const c = getCount(it);
-            const w = Math.round((c / max) * 100);
-            return \`
-              <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
-                <div style="width:140px; opacity:.95; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                  \${label}
-                </div>
-                <div style="flex:1; height:10px; border-radius:999px; background:rgba(0,0,0,.18); overflow:hidden;">
-                  <div style="height:10px; width:\${w}%; border-radius:999px; background:rgba(255,255,255,.55);"></div>
-                </div>
-                <div style="width:34px; text-align:right; font-weight:900; opacity:.9;">\${c}</div>
-              </div>
-            \`;
-          }).join('');
-
-          return \`
-            <div style="margin-top:16px;">
-              <div style="font-weight:900; opacity:.95;">\${title}</div>
-              \${rows || '<div style="margin-top:8px; opacity:.75;">No data.</div>'}
-            </div>
-          \`;
-        };
-
-        fetch('/api/insights?days=30')
-          .then(r => r.json())
-          .then(j => {
-            if (!j || j.error) { el.textContent = 'No data.'; return; }
-
-            el.innerHTML = \`
-              <div style="opacity:.8; font-size:.92em;">
-                Last \${j.rangeDays} days · \${j.start} → \${j.end}
-              </div>
-              \${renderBars('Top referrers', j.toprefs)}
-              \${renderBars('Browsers', j.browsers)}
-              \${renderBars('Systems', j.systems)}
-              \${renderBars('Locations', j.locations)}
-              \${renderBars('Sizes', j.sizes)}
-            \`;
-          })
-          .catch(() => { el.textContent = 'No data.'; });
-      })();
-    </script>
   </div>
 `);
 
-
 /* =====================================================
-   END:  CARD: INSIGHTS BLOCK NAME
+   END: CARD: INSIGHTS
    ===================================================== */
+
 
 
 /* =====================================================

@@ -73,7 +73,29 @@
   </div>
   <!-- =====================================================
        END: FOOTER
-       ===================================================== -->
+         ===================================================== -->
+
+
+
+         <!-- =====================================================
+     START: PAGE SCRIPT PATCH — zinsights.html
+     Purpose: Call insights init AFTER render
+     ===================================================== -->
+<script src="card-loader.js"></script>
+<script>
+  cardLoader.renderInto("hero-root", ["heroInsights"]);
+  cardLoader.renderInto("cards-root", ["insights", "contact"]);
+
+  // IMPORTANT: scripts inside templates won't execute, so we call init here:
+  if (typeof window.ubtInitInsights === "function") {
+    window.ubtInitInsights(30);
+  }
+</script>
+<!-- =====================================================
+     END: PAGE SCRIPT PATCH
+     ===================================================== -->
+
+     
 </body>
 </html>
 <!-- =====================================================
