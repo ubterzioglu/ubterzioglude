@@ -1,4 +1,50 @@
 /* =====================================================
+   🎨 UBT COLOR GUIDE (Card Palette Cheat Sheet)
+
+   Bu projede 3 seviye arka plan var:
+   1) Body Background (en arkada): koyu gradient (gece teması)
+   2) Card Base (.card / .detail-card): varsayılan beyaz kart
+   3) Color Variants (.card-color-1..5): kartın arka planını renklendirir
+
+   -----------------------------------------------------
+   ✅ Hangi kart hangi sınıfı almalı? (ÖNERİLEN)
+   -----------------------------------------------------
+
+   HERO:
+   - class="card hero-card"
+   - Not: Hero kendi gradient’ini kullanır. card-color verme.
+
+   NAVIGATION:
+   - class="card nav-card"
+   - Not: Navigation sarı nav-card ile sabit.
+
+   CONTENT KARTLARI (detail-card):
+   - class="detail-card card-color-X"
+
+   -----------------------------------------------------
+   🎯 card-color-* anlamları
+   -----------------------------------------------------
+
+   card-color-1 (Blue)   #00A4EF  → "Docs / CV / Links" (resmi, güven)
+   card-color-2 (Green)  #7FBA00  → "Achievements / Contact" (pozitif, sonuç)
+   card-color-3 (Orange) #F7630C  → "About Me / Tech Stack" (enerji, hareket)
+   card-color-4 (Purple) #A700AE  → "Experience" (kıdem, derinlik)
+   card-color-5 (Yellow) #FFB900  → "Projects / Highlights" (dikkat, vurgu)
+
+   -----------------------------------------------------
+   ℹ️ Okunabilirlik notu
+   -----------------------------------------------------
+   - card-color-1..4: yazı beyaz (color:white)
+   - card-color-5: yazı koyu (color:#222) çünkü sarıda beyaz zor okunur.
+
+   -----------------------------------------------------
+   Örnek kullanım:
+   <div class="detail-card card-color-3">...</div>
+   ===================================================== */
+
+
+
+/* =====================================================
    CARD LOADER — UBT
    - Tüm kart component'leri burada tanımlanır
    - Sayfalar sadece "hangi kartlar?" der
@@ -89,16 +135,42 @@
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
         <a href="index.html">
-          <img src="/cliphome.png" class="home-icon" alt="Home" />
+          <img src="/z0cliphome.png" class="home-icon" alt="Home" />
         </a>
       </div>
 
       <h1>Hello Recruiter!</h1>
-      <p class="title">Everything you need to evaluate my profile efficiently.</p>
+      <p class="title">Everything you need to evaluate my profile.</p>
     </div>
     <!-- END of block: Hero (Recruiter) -->
   `);
   /* END of block: Card Template — heroRecruiter */
+
+
+
+ /* =====================================================
+     CARD: HERO (ALIEN)
+     ===================================================== */
+  register("heroAlien", () => `
+    <div id="hero" class="card hero-card">
+      <div class="hero-top">
+        <div class="hero-logo-box">
+          <img src="/logoubt.png" class="hero-logo" alt="UBT logo" />
+          <span class="hero-domain">ubterzioglu.de</span>
+        </div>
+        <a href="index.html">
+          <img src="/z0cliphome.png" class="home-icon" alt="Home" />
+        </a>
+      </div>
+
+      <h1>Hello alien visitor!</h1>
+      <p class="title">What are you curious about humanity?</p>
+    </div>
+   
+  `);
+  /* END of block: Card Template — heroAlien */
+
+
 
 
   /* =====================================================
@@ -112,16 +184,51 @@
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
         <a href="index.html">
-          <img src="/cliphome.png" class="home-icon" alt="Home" />
+          <img src="/z0cliphome.png" class="home-icon" alt="Home" />
         </a>
       </div>
 
       <h1>Hello Colleague!</h1>
-      <p class="title">Quick overview for collaboration and context.</p>
+      <p class="title">
+  What do you need?<br>
+  Support? Information?<br>
+  Getting to know me better?<br>
+  Choose a section below to explore!
+  <br>
+</p>
     </div>
     <!-- END of block: Hero (Colleague) -->
   `);
   /* END of block: Card Template — heroColleague */
+
+  /* =====================================================
+     CARD: HERO (CURIOUS)
+     ===================================================== */
+  register("heroCurious", () => `
+    <div id="hero" class="card hero-card">
+      <div class="hero-top">
+        <div class="hero-logo-box">
+          <img src="/logoubt.png" class="hero-logo" alt="UBT logo" />
+          <span class="hero-domain">ubterzioglu.de</span>
+        </div>
+        <a href="index.html">
+          <img src="/z0cliphome.png" class="home-icon" alt="Home" />
+        </a>
+      </div>
+
+      <h1>Hello Curious Visitor!</h1>
+      <p class="title">
+  What do you need?<br>
+  Support? Information?<br>
+  Getting to know me better?<br>
+  Articles? Useful links?<br>
+  Choose a section below to explore!<br>
+</p>
+    </div>
+    <!-- END of block: Hero (Curious) -->
+  `);
+  /* END of block: Card Template — heroCurious */
+
 
 
  /* =====================================================
@@ -132,8 +239,8 @@
 register("cv", () => `
   <div id="cv" class="detail-card card-color-1">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">My CV</h2>
@@ -142,7 +249,7 @@ register("cv", () => `
 
       <!-- EN -->
       <div style="background:rgba(255,255,255,0.18); padding:14px 16px; border-radius:14px;">
-        🇬🇧 <strong>English CV</strong><br />
+        ☕ <strong>English CV</strong><br />
         <a
           href="https://drive.google.com/file/d/1T5yUafZI9nRv1aVWeEKBHcU6apZOojP2/view?usp=drive_link"
           target="_blank"
@@ -155,7 +262,7 @@ register("cv", () => `
 
       <!-- DE -->
       <div style="background:rgba(255,255,255,0.18); padding:14px 16px; border-radius:14px;">
-        🇩🇪 <strong>German CV</strong><br />
+        🍺 <strong>German CV</strong><br />
         <a
           href="https://drive.google.com/file/d/15_4pguyDYAYtoqYs_7rwCCzdHknfvZ6D/view?usp=drive_link"
           target="_blank"
@@ -184,8 +291,8 @@ register("cv", () => `
 register("achievements", () => `
   <div id="achievements" class="detail-card card-color-2">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Key Achievements</h2>
@@ -218,8 +325,8 @@ register("achievements", () => `
 register("techStack", () => `
   <div id="tech" class="detail-card card-color-3">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Tech Stack</h2>
@@ -260,8 +367,8 @@ register("techStack", () => `
 register("experience", () => `
   <div id="experience" class="detail-card card-color-4">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Experience</h2>
@@ -378,8 +485,8 @@ register("experience", () => `
 register("corporateProjects", () => `
   <div id="projects-corporate" class="detail-card card-color-5">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">🚀 Corporate Projects</h2>
@@ -430,7 +537,7 @@ register("corporateProjects", () => `
       <div class="proj-item">
         <img src="/logotkl.png" class="proj-logo" alt="Swisslog TKL logo" />
         <div>
-          <h4 class="proj-title">Swisslog – TKL</h4>
+          <h4 class="proj-title">TKL - Swisslog</h4>
           <p>
             A warehouse automation and robotics integration project for logistics operations.
             Software and hardware synchronization tests were executed across robotic and conveyor systems.
@@ -443,7 +550,7 @@ register("corporateProjects", () => `
       <div class="proj-item">
         <img src="/logokruitbosch.png" class="proj-logo" alt="Swisslog Kruitbosch logo" />
         <div>
-          <h4 class="proj-title">Swisslog – Kruitbosch</h4>
+          <h4 class="proj-title">Kruitbosch – Swisslog </h4>
           <p>
             A warehouse management system supporting retail distribution operations.
             Order picking, stock management, and shipment processes were tested across automated workflows.
@@ -456,7 +563,7 @@ register("corporateProjects", () => `
       <div class="proj-item">
         <img src="/logoalbert.png" class="proj-logo" alt="Swisslog Albert Heijn logo" />
         <div>
-          <h4 class="proj-title">Swisslog – Albert Heijn</h4>
+          <h4 class="proj-title">Albert Heijn – Swisslog </h4>
           <p>
             A high-volume warehouse automation project for one of Europe’s largest retail chains.
             System validation, go-live support, and data integrity testing were delivered under heavy
@@ -469,7 +576,7 @@ register("corporateProjects", () => `
       <div class="proj-item">
         <img src="/logoedeka.png" class="proj-logo" alt="Swisslog EDEKA logo" />
         <div>
-          <h4 class="proj-title">Swisslog – EDEKA</h4>
+          <h4 class="proj-title">EDEKA – Swisslog </h4>
           <p>
             A large-scale automation project for Germany’s leading supermarket group.
             Pre-go-live validation, integration testing, and operational stability checks were conducted.
@@ -491,8 +598,8 @@ register("corporateProjects", () => `
 register("privateProjects", () => `
   <div id="projects-private" class="detail-card card-color-1">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">🌟 Private Projects</h2>
@@ -630,8 +737,8 @@ register("privateProjects", () => `
 register("contact", () => `
   <div id="contact" class="detail-card card-color-2">
     <div class="card-buttons">
-      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Contact</h2>
@@ -649,15 +756,15 @@ register("contact", () => `
 /* =====================================================
    CARD: ABOUT ME
    ===================================================== */
-register("aboutMe", () => `
+register("aboutme", () => `
   <div id="aboutme" class="detail-card card-color-3">
 
     <div class="card-buttons">
       <a href="index.html">
-        <img src="/cliphome.png" class="btn-icon" alt="Home" />
+        <img src="/z0cliphome.png" class="btn-icon" alt="Home" />
       </a>
       <a href="#top">
-        <img src="/clipup.png" class="btn-icon" alt="Up" />
+        <img src="/z0clipup.png" class="btn-icon" alt="Up" />
       </a>
     </div>
 
@@ -666,7 +773,7 @@ register("aboutMe", () => `
     <!-- Profile photo -->
     <div style="display:flex; justify-content:center; margin:16px 0;">
       <img 
-        src="/profilpictureubt.png"
+        src="/picprofile.png"
         alt="Profile photo"
         style="
           width:120px;
@@ -693,8 +800,107 @@ register("aboutMe", () => `
   </div>
   <!-- END of block: About Me -->
 `);
-/* END of block: Card Template — aboutMe */
+/* END of block: Card Template — aboutme */
 
+/* =====================================================
+   CARD: SUPPORT
+   ===================================================== */
+register("support", () => `
+  <div id="support" class="detail-card card-color-5">
+
+    <div class="card-buttons">
+      <a href="index.html">
+        <img src="/z0cliphome.png" class="btn-icon" alt="Home" />
+      </a>
+      <a href="#top">
+        <img src="/z0clipup.png" class="btn-icon" alt="Up" />
+      </a>
+    </div>
+
+    <h2 class="section-title">Support</h2>
+
+    <!-- Profile photo -->
+    <div style="display:flex; justify-content:center; margin:16px 0;">
+      <img 
+        src="/logosupport.png"
+        alt="Profile photo"
+        style="
+          width:120px;
+          height:120px;
+          border-radius:50%;
+          object-fit:cover;
+          box-shadow:0 6px 18px rgba(0,0,0,.25);
+        "
+      />
+    </div>
+
+    <!-- Description -->
+    <p style="font-size:14.5px; line-height:1.6;">
+  I'm always here to lend a hand, whether it's for professional advice or simply a conversation. Don’t hesitate to reach out by message, email, or phone whenever you need support.<br /><br />
+
+  If you're facing a challenge at work or looking for guidance, feel free to contact me. I strongly believe in collaboration and supporting each other through both easy and difficult moments.<br /><br />
+
+  Sometimes all we need is a second opinion, a bit of feedback, or just someone who listens. You can always reach out to me for that.<br /><br />
+
+  No matter the topic, I’ll do my best to help. Let’s keep moving forward together.
+</p>
+
+
+  </div>
+  <!-- END of block: About Me -->
+`);
+/* END of block: Card Template — SUPPORT */
+
+
+/* =====================================================
+   CARD: GLOBAL WARMING
+   ===================================================== */
+register("globalwarming", () => `
+  <div id="globalwarming" class="detail-card card-color-3">
+
+    <div class="card-buttons">
+      <a href="index.html">
+        <img src="/z0cliphome.png" class="btn-icon" alt="Home" />
+      </a>
+      <a href="#top">
+        <img src="/z0clipup.png" class="btn-icon" alt="Up" />
+      </a>
+    </div>
+
+    <h2 class="section-title">Global Warming</h2>
+
+    <!-- Profile photo -->
+    <div style="display:flex; justify-content:center; margin:16px 0;">
+      <img 
+  src="/z0clipglobal.png"
+  alt="Profile photo"
+  style="
+    width:100%;
+    max-width:100%;
+    aspect-ratio:16 / 9;
+    border-radius:14px;
+    object-fit:cover;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+    margin:0 16px;   /* metnin biraz içinden başlasın/bitsin */
+  "
+/>
+
+    </div>
+
+    <!-- Description -->
+    <p style="font-size:14.5px; line-height:1.6;">
+  Global warming refers to the long-term increase in Earth’s average surface temperature, mainly caused by human activities such as burning fossil fuels and deforestation. These actions release greenhouse gases like carbon dioxide and methane, which trap heat in the atmosphere.<br /><br />
+
+  As a result, glaciers and ice caps are melting, sea levels are rising, and extreme weather events are becoming more frequent. Global warming also disrupts ecosystems, putting many plant and animal species at risk of extinction.<br /><br />
+
+  Human health, food security, and access to clean water are increasingly affected by these changes. Reducing emissions, using renewable energy, and protecting natural habitats are key steps to slow down global warming.
+</p>
+
+
+  </div>
+  
+`);
+/* END of block: Card Template — GLOBALWARMING */
 
 
 

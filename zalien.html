@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recruiter – Umut Barış Terzioğlu</title>
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="ubt-shared.css" />
+</head>
+
+<body>
+
+  <a id="top"></a>
+
+  <div class="container">
+
+    <!-- HERO (always first) -->
+    <div id="hero-root"></div>
+    <!-- END of block: HERO ROOT -->
+
+    <!-- NAVIGATION (MANUAL: you control this) -->
+    <div class="card nav-card">
+
+      <div class="card-buttons">
+        <a href="index.html"><img src="/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+        <a href="#top"><img src="/z0clipup.png" class="btn-icon" alt="Up" /></a>
+      </div>
+
+      <h2 class="section-title">Navigation</h2>
+
+      <div class="nav-grid">
+        <!-- IDs must match the cards below -->
+        <div class="nav-item" onclick="document.getElementById('globalwarming')?.scrollIntoView();">
+          <span><span class="nav-icon">🌍🔥</span> Global Warming</span>
+          <span class="chevron">›</span>
+        </div>
+
+       
+      </div>
+
+    </div>
+    <!-- END of block: NAVIGATION (MANUAL) -->
+
+    <!-- AUTO CARDS ROOT (rendered by card-loader.js) -->
+    <div id="cards-root"></div>
+    <!-- END of block: CARDS ROOT -->
+
+  </div>
+
+  <!-- SCRIPTS (must be at the end, after hero-root and cards-root exist) -->
+  <script src="card-loader.js"></script>
+  <script>
+    // 1) HERO always on top
+    cardLoader.renderInto("hero-root", ["heroAlien"]);
+
+    // 2) Other cards rendered below navigation
+    cardLoader.renderInto("cards-root", [
+      "globalwarming"
+      
+    ]);
+  </script>
+  <!-- END of block: PAGE SCRIPTS -->
+
+</body>
+</html>
+<!-- END of block: zrecruiter.html -->

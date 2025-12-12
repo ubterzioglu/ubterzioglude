@@ -5,17 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UBT — Home</title>
 
-  <!-- Shared stylesheet (tüm sayfalar bunu kullanır) -->
   <link rel="stylesheet" href="ubt-shared.css" />
 </head>
 
-<body>
-  <!-- ============================================
-       PAGE: HOME (MANUAL CONTROL)
-       - Bu sayfa tamamen manuel.
-       - Buradan zrecruiter.html / zcolleague.html gibi alt sayfalara gidersin.
-       ============================================ -->
 
+<body>
   <div class="container">
 
     <!-- HERO (MANUAL) -->
@@ -26,36 +20,114 @@
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
 
-        <!-- İstersen buraya farklı bir link koyabilirsin -->
         <a href="/index.html">
-          <img src="/cliphome.png" class="home-icon" alt="Home" />
+          <img src="/z0cliphome.png" class="home-icon" alt="Home" />
         </a>
       </div>
 
-      <h1>Home</h1>
-      <p class="title">Pick a page.</p>
+      <!-- Profile photo -->
+      <div style="display:flex; justify-content:center; margin:12px 0 16px 0;">
+        <img
+          src="/picprofile.png"
+          alt="Umut Barış Terzioğlu"
+          style="
+            width:150px;
+            height:150px;
+            border-radius:50%;
+            object-fit:cover;
+            border:3px solid rgba(255,255,255,0.8);
+            box-shadow:0 6px 18px rgba(0,0,0,.35);
+          "
+        />
+      </div>
+
+      <h2>Welcome to my personal page!</h2>
+      <p class="title">I'm Umut Barış Terzioğlu.</p>
+      <p class="title">Who are you?</p>
     </div>
     <!-- END of block: Home Hero -->
 
-    <!-- MANUAL MENU (Senin kontrolün) -->
-    <div class="card nav-card">
-      <h2 class="section-title">Pages</h2>
+    <!-- MANUAL MENU -->
+<div class="card nav-card">
+  <h2 class="section-title">Pages</h2>
 
-      <div class="nav-grid">
-        <div class="nav-item" onclick="location.href='zrecruiter.html'">
-          <span><span class="nav-icon">👔</span> Recruiter Page</span>
-          <span class="chevron">›</span>
-        </div>
-
-        <div class="nav-item" onclick="location.href='zcolleague.html'">
-          <span><span class="nav-icon">🤝</span> Colleague Page</span>
-          <span class="chevron">›</span>
-        </div>
-      </div>
+  <div class="nav-grid">
+    <div class="nav-item" onclick="location.href='zrecruiter.html'">
+      <span>
+        <span class="nav-icon">👔</span> Recruiter
+        <span style="display:block; margin-top:4px; opacity:.8; font-size:.92em;">
+          Hiring view: CV, highlights, and quick fit.
+        </span>
+      </span>
+      <span class="chevron">›</span>
     </div>
-    <!-- END of block: Home Menu -->
+
+    <div class="nav-item" onclick="location.href='zcolleague.html'">
+      <span>
+        <span class="nav-icon">🤝</span> Colleague
+        <span style="display:block; margin-top:4px; opacity:.8; font-size:.92em;">
+          How I work, collaborate, and support teams.
+        </span>
+      </span>
+      <span class="chevron">›</span>
+    </div>
+
+    <div class="nav-item" onclick="location.href='zqaengineer.html'">
+      <span>
+        <span class="nav-icon">📊</span> QA Engineer
+        <span style="display:block; margin-top:4px; opacity:.8; font-size:.92em;">
+          My QA mindset, tools, and test approach.
+        </span>
+      </span>
+      <span class="chevron">›</span>
+    </div>
+
+    <div class="nav-item" onclick="location.href='zcuriousvisitor.html'">
+      <span>
+        <span class="nav-icon">🧐</span> Curious Visitor
+        <span style="display:block; margin-top:4px; opacity:.8; font-size:.92em;">
+          Quick tour: what I do, in plain language.
+        </span>
+      </span>
+      <span class="chevron">›</span>
+    </div>
+
+    <div class="nav-item" onclick="location.href='zalien.html'">
+      <span>
+        <span class="nav-icon">👽</span> Alien
+        <span style="display:block; margin-top:4px; opacity:.8; font-size:.92em;">
+          Fun mode: welcome, Earth visitor.
+        </span>
+      </span>
+      <span class="chevron">›</span>
+    </div>
+  </div>
+</div>
+<!-- END of block: Home Menu -->
+
+    <!-- DYNAMIC CARDS ROOT (MUST EXIST) -->
+    <div id="cards-root"></div>
 
   </div>
+
+  <!-- SCRIPTS -->
+  <script src="card-loader.js"></script>
+  <script>
+    const render = (window.cardLoader && window.cardLoader.renderInto)
+      ? window.cardLoader.renderInto
+      : window.renderInto;
+
+    if (typeof render === "function") {
+      render("cards-root", [
+        "contact"
+      ]);
+    }
+  </script>
+  <!-- END of block: PAGE SCRIPTS -->
+
+  <!-- COUNTER GOAT GOAT GOAT GOAT GOAT  -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<!-- COUNTER GOAT GOAT GOAT GOAT GOAT  -->
 </body>
 </html>
-<!-- END of file: index.html -->
