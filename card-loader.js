@@ -1023,66 +1023,6 @@ register("globalwarming", () => `
 `);
 /* END of block: Card Template — GLOBALWARMING */
 
-/* =====================================================
-   CARD: UPDATES / NEWS (SIMPLE LIST)
-   ===================================================== */
-register("updates", () => `
-  <div id="updates" class="detail-card card-color-3">
-    <div class="card-buttons">
-      <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
-    </div>
-
-    <h2 class="section-title">Updates</h2>
-
-    <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px;">
-
-      <!-- ITEM (LIVE) -->
-      <div style="
-        display:flex;
-        align-items:flex-start;
-        gap:10px;
-        padding:12px 14px;
-        border-radius:14px;
-        background:rgba(0,0,0,.18);
-      ">
-        <div style="opacity:.9; margin-top:1px;">•</div>
-        <div style="flex:1; line-height:1.45;">
-          New design and structure for the page!
-        </div>
-        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
-          12-12-25
-        </div>
-      </div>
-
-      <!-- =====================================================
-           ITEM TEMPLATE (COPY/PASTE)
-           =====================================================
-
-      <div style="
-        display:flex;
-        align-items:flex-start;
-        gap:10px;
-        padding:12px 14px;
-        border-radius:14px;
-        background:rgba(0,0,0,.18);
-      ">
-        <div style="opacity:.9; margin-top:1px;">•</div>
-        <div style="flex:1; line-height:1.45;">
-          Your update sentence goes here.
-        </div>
-        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
-          DD-MM-YY
-        </div>
-      </div>
-
-      ===================================================== -->
-
-    </div>
-  </div>
-  <!-- END of block: Updates -->
-`);
-/* END of block: Card Template — updates */
 
 /* =====================================================
    CARD: ARTICLES (DATA-DRIVEN)
@@ -1343,6 +1283,66 @@ register("bookmarks", () => {
 
 
 
+/* =====================================================
+   CARD: UPDATES / NEWS (SIMPLE LIST)
+   ===================================================== */
+register("updates", () => `
+  <div id="updates" class="detail-card card-color-3">
+    <div class="card-buttons">
+      <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+    </div>
+
+    <h2 class="section-title">Updates</h2>
+
+    <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px;">
+
+      <!-- ITEM (LIVE) -->
+      <div style="
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:12px 14px;
+        border-radius:14px;
+        background:rgba(0,0,0,.18);
+      ">
+        <div style="opacity:.9; margin-top:1px;">•</div>
+        <div style="flex:1; line-height:1.45;">
+          New design and structure for the page!
+        </div>
+        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
+          12-12-25
+        </div>
+      </div>
+
+      <!-- =====================================================
+           ITEM TEMPLATE (COPY/PASTE)
+           =====================================================
+
+      <div style="
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:12px 14px;
+        border-radius:14px;
+        background:rgba(0,0,0,.18);
+      ">
+        <div style="opacity:.9; margin-top:1px;">•</div>
+        <div style="flex:1; line-height:1.45;">
+          Your update sentence goes here.
+        </div>
+        <div style="opacity:.8; font-size:.9em; white-space:nowrap;">
+          DD-MM-YY
+        </div>
+      </div>
+
+      ===================================================== -->
+
+    </div>
+  </div>
+  <!-- END of block: Updates -->
+`);
+/* END of block: Card Template — updates */
 
 
 
