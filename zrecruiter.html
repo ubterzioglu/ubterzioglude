@@ -36,6 +36,11 @@
           <span class="chevron">›</span>
         </div>
 
+        <div class="nav-item" onclick="document.getElementById('aboutme')?.scrollIntoView();">
+          <span><span class="nav-icon">🙋‍♂️</span> About me</span>
+          <span class="chevron">›</span>
+        </div>
+
         <div class="nav-item" onclick="document.getElementById('achievements')?.scrollIntoView();">
           <span><span class="nav-icon">🏆</span> Key Achievements</span>
           <span class="chevron">›</span>
@@ -80,11 +85,12 @@
   <script src="card-loader.js"></script>
   <script>
     // 1) HERO always on top
-    cardLoader.renderInto("hero-root", ["heroColleague"]);
+    cardLoader.renderInto("hero-root", ["heroRecruiter"]);
 
     // 2) Other cards rendered below navigation
     cardLoader.renderInto("cards-root", [
       "cv",
+      "aboutMe",
       "achievements",
       "techStack",
       "experience",
@@ -97,4 +103,4 @@
 
 </body>
 </html>
-<!-- END of block: recruiter.html -->
+<!-- END of block: zrecruiter.html -->
