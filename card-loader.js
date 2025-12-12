@@ -1089,7 +1089,8 @@ register("updates", () => `
    - expects: window.ARTICLES_DATA = [{ title,date,img,href,text }]
    ===================================================== */
 register("articles", () => {
-  const items = Array.isArray(window.ARTICLES_DATA) ? window.ARTICLES_DATA : [];
+  const items = (window.EXPLORER_DATA && window.EXPLORER_DATA.articles) || [];
+
 
   const paragraphs = (t) =>
     String(t || "")
@@ -1192,6 +1193,158 @@ register("heroArticles", () => `
   <!-- END of block: Hero (Articles) -->
 `);
 /* END of block: Card Template — heroArticles */
+
+/* =====================================================
+   CARD: HERO (BOOKMARKS)
+   ===================================================== */
+register("heroBookmarks", () => `
+  <div id="hero" class="card hero-card">
+    <div class="hero-top">
+      <div class="hero-logo-box">
+        <img src="img/logoubt.png" class="hero-logo" alt="UBT logo" />
+        <span class="hero-domain">ubterzioglu.de</span>
+      </div>
+      <a href="index.html">
+        <img src="img/z0cliphome.png" class="home-icon" alt="Home" />
+      </a>
+    </div>
+
+    <h1>Bookmarks</h1>
+    <p class="title">
+      Curated links I actually use.<br>
+      Articles, tools, references, and useful corners of the web.
+    </p>
+  </div>
+  <!-- END of block: Hero (Bookmarks) -->
+`);
+/* END of block: Card Template — heroBookmarks */
+
+
+/* =====================================================
+   CARD: BOOKMARKS (DATA-DRIVEN)
+   - reads: window.EXPLORER_DATA.bookmarks = [{ title, img, href, note }]
+   ===================================================== */
+register("bookmarks", () => {
+  const items = (window.EXPLORER_DATA && window.EXPLORER_DATA.bookmarks) || [];
+
+  return `
+    <div id="bookmarks" class="detail-card card-color-1">
+      <div class="card-buttons">
+        <a href="index.html">
+          <img src="img/z0cliphome.png" class="btn-icon" alt="Home" />
+        </a>
+        <a href="zexplorer.html">
+          <img src="img/z0clipexplorer.png" class="btn-icon" alt="Explorer" />
+        </a>
+        <a href="#top">
+          <img src="img/z0clipup.png" class="btn-icon" alt="Up" />
+        </a>
+      </div>
+
+      <h2 class="section-title">Bookmarks</h2>
+
+      <div style="
+        margin-top:14px;
+        opacity:.85;
+        font-size:.95em;
+        line-height:1.5;
+      ">
+        Hand-picked links I personally use or recommend.<br>
+        Clean, simple, and practical.
+      </div>
+
+      <!-- BOOKMARK LIST -->
+      <div style="
+        margin-top:20px;
+        display:flex;
+        flex-direction:column;
+        gap:14px;
+      ">
+        ${
+          items.length
+            ? items.map((it) => `
+                <div style="
+                  padding:14px 16px;
+                  border-radius:14px;
+                  background:rgba(255,255,255,.14);
+                  box-shadow:0 6px 16px rgba(0,0,0,.18);
+                ">
+
+                  <div style="display:flex; gap:14px; align-items:flex-start;">
+                    ${
+                      it.img
+                        ? `<img
+                            src="${it.img}"
+                            alt=""
+                            style="
+                              width:72px;
+                              height:72px;
+                              border-radius:50%;
+                              object-fit:cover;
+                              box-shadow:0 8px 18px rgba(0,0,0,.22);
+                              flex:0 0 auto;
+                            "
+                          />`
+                        : ``
+                    }
+
+                    <div style="flex:1;">
+                      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+                        <div style="font-weight:800; line-height:1.25;">
+                          ${it.title || "Untitled"}
+                        </div>
+                        <div style="opacity:.8; font-weight:900;">↗</div>
+                      </div>
+
+                      ${
+                        it.note
+                          ? `<div style="margin-top:6px; opacity:.9; line-height:1.5; font-size:.95em;">
+                               ${it.note}
+                             </div>`
+                          : ``
+                      }
+
+                      ${
+                        it.href
+                          ? `<a
+                              href="${it.href}"
+                              target="_blank"
+                              rel="noopener"
+                              style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:6px;
+                                margin-top:10px;
+                                font-weight:800;
+                                text-decoration:none;
+                                color:inherit;
+                                background:rgba(0,0,0,.18);
+                                padding:8px 12px;
+                                border-radius:999px;
+                              "
+                            >
+                              Open <span style="opacity:.7;">›</span>
+                            </a>`
+                          : ``
+                      }
+                    </div>
+                  </div>
+
+                </div>
+              `).join("")
+            : `<div style="opacity:.75;">No bookmarks yet.</div>`
+        }
+      </div>
+    </div>
+    <!-- END of block: Bookmarks -->
+  `;
+});
+/* END of block: Card Template — bookmarks */
+
+
+
+
+
 
 
 

@@ -3,36 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Articles – Umut Barış Terzioğlu</title>
+  <title>Bookmarks – Umut Barış Terzioğlu</title>
 
   <!-- Shared stylesheet -->
   <link rel="stylesheet" href="ubt-shared.css" />
 </head>
 
 <body>
-
   <a id="top"></a>
 
   <div class="container">
 
-    <!-- HERO (always first) -->
+    <!-- HERO -->
     <div id="hero-root"></div>
-    <!-- END of block: HERO ROOT -->
+    <!-- END: HERO ROOT -->
 
     <!-- NAVIGATION (MANUAL) -->
     <div class="card nav-card">
 
       <div class="card-buttons">
-        <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
-        <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
-        <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+        <a href="index.html">
+          <img src="img/z0cliphome.png" class="btn-icon" alt="Home" />
+        </a>
+        <a href="zexplorer.html">
+          <img src="img/z0clipexplorer.png" class="btn-icon" alt="Explorer" />
+        </a>
+        <a href="#top">
+          <img src="img/z0clipup.png" class="btn-icon" alt="Up" />
+        </a>
       </div>
 
       <h2 class="section-title">Navigation</h2>
 
       <div class="nav-grid">
-        <div class="nav-item" onclick="document.getElementById('articles')?.scrollIntoView();">
-          <span><span class="nav-icon">📝</span> Articles</span>
+        <div class="nav-item" onclick="document.getElementById('bookmarks')?.scrollIntoView();">
+          <span><span class="nav-icon">🔖</span> My Bookmarks</span>
           <span class="chevron">›</span>
         </div>
 
@@ -43,23 +48,28 @@
       </div>
 
     </div>
-    <!-- END of block: NAVIGATION (MANUAL) -->
+    <!-- END: NAVIGATION -->
 
-    <!-- AUTO CARDS ROOT -->
+    <!-- CARDS ROOT -->
     <div id="cards-root"></div>
-    <!-- END of block: CARDS ROOT -->
+    <!-- END: CARDS ROOT -->
 
   </div>
 
   <!-- SCRIPTS -->
   <script src="card-loader.js"></script>
-<script src="explorer-data.js"></script>
-<script>
-  cardLoader.renderInto("hero-root", ["heroArticles"]);
-  cardLoader.renderInto("cards-root", ["articles","contact"]);
-</script>
+  <script src="explorer-data.js"></script>
+  <script>
+    // Hero specific to bookmarks
+    cardLoader.renderInto("hero-root", ["heroBookmarks"]);
 
-  <!-- END of block: PAGE SCRIPTS -->
+    // Content cards
+    cardLoader.renderInto("cards-root", [
+      "bookmarks",
+      "contact"
+    ]);
+  </script>
+  <!-- END: PAGE SCRIPTS -->
 
   <!-- FOOTER -->
   <div style="
@@ -75,3 +85,4 @@
 
 </body>
 </html>
+<!-- END of file: zbookmarks.html -->

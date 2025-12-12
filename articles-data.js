@@ -3,7 +3,7 @@ window.ARTICLES_DATA = [
     id: "genz-geny-guide",
     title: "A Guide for Gen Z to Understand Gen Y",
     date: "2025-12-12",
-    img: "/img/z0article0020",
+    img: "/img/z0article0020.png",
     href: "https://www.linkedin.com/pulse/guide-gen-z-understand-y-umut-bar%C4%B1%C5%9F-terzioglu-cxb8e",
     text:
       "This article was written from a Gen Y perspective to help Gen Z better understand how Gen Y thinks, works, and communicates.\n\n" +
