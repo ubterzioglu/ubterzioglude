@@ -1361,6 +1361,33 @@ window.ubtInitInsights = async function (days = 30) {
 
 
 
+   /* =====================================================
+   START: CARD: HERO (INSIGHTS) — add to card-loader.js
+   ===================================================== */
+register("heroInsights", () => `
+  <div id="hero" class="card hero-card">
+    <div class="hero-top">
+      <div class="hero-logo-box">
+        <img src="/logoubt.png" class="hero-logo" alt="UBT logo" />
+        <span class="hero-domain">ubterzioglu.de</span>
+      </div>
+      <a href="index.html">
+        <img src="img/z0cliphome.png" class="home-icon" alt="Home" />
+      </a>
+    </div>
+
+    <h1>Insights</h1>
+    <p class="title">Private traffic stats powered by GoatCounter.</p>
+  </div>
+  <!-- END of block: Hero (Insights) -->
+`);
+/* =====================================================
+   END: CARD: HERO (INSIGHTS)
+   ===================================================== */
+
+
+
+
 
 
 
