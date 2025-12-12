@@ -89,7 +89,7 @@
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
         <a href="index.html">
-          <img src="/home.png" class="home-icon" alt="Home" />
+          <img src="/cliphome.png" class="home-icon" alt="Home" />
         </a>
       </div>
 
@@ -112,7 +112,7 @@
           <span class="hero-domain">ubterzioglu.de</span>
         </div>
         <a href="index.html">
-          <img src="/home.png" class="home-icon" alt="Home" />
+          <img src="/cliphome.png" class="home-icon" alt="Home" />
         </a>
       </div>
 
@@ -132,8 +132,8 @@
 register("cv", () => `
   <div id="cv" class="detail-card card-color-1">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">My CV</h2>
@@ -184,8 +184,8 @@ register("cv", () => `
 register("achievements", () => `
   <div id="achievements" class="detail-card card-color-2">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Key Achievements</h2>
@@ -218,8 +218,8 @@ register("achievements", () => `
 register("techStack", () => `
   <div id="tech" class="detail-card card-color-3">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Tech Stack</h2>
@@ -260,8 +260,8 @@ register("techStack", () => `
 register("experience", () => `
   <div id="experience" class="detail-card card-color-4">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Experience</h2>
@@ -378,8 +378,8 @@ register("experience", () => `
 register("corporateProjects", () => `
   <div id="projects-corporate" class="detail-card card-color-5">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">🚀 Corporate Projects</h2>
@@ -491,8 +491,8 @@ register("corporateProjects", () => `
 register("privateProjects", () => `
   <div id="projects-private" class="detail-card card-color-1">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">🌟 Private Projects</h2>
@@ -630,8 +630,8 @@ register("privateProjects", () => `
 register("contact", () => `
   <div id="contact" class="detail-card card-color-2">
     <div class="card-buttons">
-      <a href="index.html"><img src="/home.png" class="btn-icon" alt="Home" /></a>
-      <a href="#top"><img src="/up.png" class="btn-icon" alt="Up" /></a>
+      <a href="index.html"><img src="/cliphome.png" class="btn-icon" alt="Home" /></a>
+      <a href="#top"><img src="/clipup.png" class="btn-icon" alt="Up" /></a>
     </div>
 
     <h2 class="section-title">Contact</h2>
@@ -654,10 +654,10 @@ register("aboutMe", () => `
 
     <div class="card-buttons">
       <a href="index.html">
-        <img src="/home.png" class="btn-icon" alt="Home" />
+        <img src="/cliphome.png" class="btn-icon" alt="Home" />
       </a>
       <a href="#top">
-        <img src="/up.png" class="btn-icon" alt="Up" />
+        <img src="/clipup.png" class="btn-icon" alt="Up" />
       </a>
     </div>
 
@@ -666,7 +666,7 @@ register("aboutMe", () => `
     <!-- Profile photo -->
     <div style="display:flex; justify-content:center; margin:16px 0;">
       <img 
-        src="/profile-placeholder.png"
+        src="/profilpictureubt.png"
         alt="Profile photo"
         style="
           width:120px;
