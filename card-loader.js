@@ -271,7 +271,7 @@ register("experience", () => `
          ====================== -->
     <div class="exp-section">
       <div class="exp-header">
-        <img src="/plfirmalogo.png" class="exp-logo" alt="Swisslog logo" />
+        <img src="/logoswisslog.png" class="exp-logo" alt="Swisslog logo" />
         <div class="exp-title">
           <h3 class="exp-role">Test Lead</h3>
           <h4 class="exp-company">Swisslog</h4>
@@ -296,7 +296,7 @@ register("experience", () => `
          ====================== -->
     <div class="exp-section">
       <div class="exp-header">
-        <img src="/plfirmalogo.png" class="exp-logo" alt="Daimler logo" />
+        <img src="/logodaimler.png" class="exp-logo" alt="Daimler logo" />
         <div class="exp-title">
           <h3 class="exp-role">Senior Process Manager</h3>
           <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
@@ -322,7 +322,7 @@ register("experience", () => `
          ====================== -->
     <div class="exp-section">
       <div class="exp-header">
-        <img src="/plfirmalogo.png" class="exp-logo" alt="Daimler logo" />
+        <img src="/logodaimler.png" class="exp-logo" alt="Daimler logo" />
         <div class="exp-title">
           <h3 class="exp-role">Senior Test Manager</h3>
           <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
@@ -348,7 +348,7 @@ register("experience", () => `
          ====================== -->
     <div class="exp-section">
       <div class="exp-header">
-        <img src="/plfirmalogo.png" class="exp-logo" alt="Daimler logo" />
+        <img src="/logodaimler.png" class="exp-logo" alt="Daimler logo" />
         <div class="exp-title">
           <h3 class="exp-role">Development Engineer</h3>
           <h4 class="exp-company">Daimler – Mercedes-Benz</h4>
