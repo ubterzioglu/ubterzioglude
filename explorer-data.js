@@ -24,11 +24,11 @@ window.EXPLORER_DATA = {
 
   bookmarks: [
     {
-      id: "owasp-top-10",
-      title: "Denememememem",
+      id: "portable-apps",
+      title: "PortableApps",
       img: "/img/z0bookmark0010.png",
-      href: "https://owasp.org/www-project-top-ten/",
-      note: "haydi bunu da yaz should know."
+      href: "https://portableapps.com/",
+      note: "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
     }
   ],
 
