@@ -75,11 +75,11 @@ window.EXPLORER_DATA = {
 
  tools: [
     {
-      id: "chatgpt",
-      title: "ChatGPT",
-      img: "/img/tool-chatgpt.png",
-      href: "https://chat.openai.com",
-      note: "General-purpose AI assistant for reasoning, writing, and coding."
+      id: "aiselector",
+      title: "AI Selectior",
+      img: "/img/z0tool0010.jpg",
+      href: "https://ubterzioglu.de/zais/zais.html",
+      note: "A tiny AI tool selector that helps you choose the right tool with simple yes/no questions."
     }
   ],
 
