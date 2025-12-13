@@ -6,6 +6,11 @@
   - API / upload / server yok
 ========================================================= */
 
+console.log("ZAT AGE TOOL LOADED");
+
+/* =========================================================
+  DOM REFERENCES
+========================================================= */
 const input  = document.getElementById("imageUpload");
 const preview = document.getElementById("preview");
 const result  = document.getElementById("result");
@@ -13,21 +18,31 @@ const hint    = document.getElementById("hint");
 
 /* =========================================================
   MODEL PATH
-  Modeller /zat/models altında duruyor
+  Models are served from /zat/models (ABSOLUTE PATH)
 ========================================================= */
-const MODEL_URL = "./models";
+const MODEL_URL = "/zat/models";
+console.log("MODEL_URL =", MODEL_URL);
 
 /* =========================================================
   LOAD MODELS (ONCE)
 ========================================================= */
 async function loadModels() {
-  result.textContent = "AI modelleri yükleniyor...";
-  hint.textContent = "";
+  try {
+    result.textContent = "AI modelleri yükleniyor...";
+    hint.textContent = "";
 
-  await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-  await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
+    await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+    console.log("TinyFaceDetector loaded");
 
-  result.textContent = "Hazır. Bir fotoğraf seç.";
+    await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
+    console.log("AgeGenderNet loaded");
+
+    result.textContent = "Hazır. Bir fotoğraf seç.";
+  } catch (err) {
+    console.error("MODEL LOAD ERROR:", err);
+    showError("Model yüklenemedi. Console'u kontrol et.");
+    throw err;
+  }
 }
 
 /* =========================================================
@@ -43,8 +58,7 @@ function showError(message) {
   INIT
 ========================================================= */
 loadModels().catch((err) => {
-  console.error(err);
-  showError("Model yüklenemedi. /zat/models yolunu kontrol et.");
+  // zaten üstte loglanıyor
 });
 
 /* =========================================================
