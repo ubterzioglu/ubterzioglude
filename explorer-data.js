@@ -71,5 +71,30 @@ window.EXPLORER_DATA = {
       href: "zarticles.html",
       pinned: false
     }
+  ],
+
+ tools: [
+    {
+      id: "chatgpt",
+      title: "ChatGPT",
+      img: "/img/tool-chatgpt.png",
+      href: "https://chat.openai.com",
+      note: "General-purpose AI assistant for reasoning, writing, and coding."
+    }
+  ],
+
+  apps: [
+    {
+      id: "notion",
+      title: "Notion",
+      img: "/img/app-notion.png",
+      href: "https://notion.so",
+      note: "All-in-one workspace for notes, docs, and knowledge management."
+    }
   ]
 };
+
+
+
+
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Useful Apps – Umut Barış Terzioğlu</title>
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="ubt-shared.css" />
+</head>
+
+<body>
+
+  <a id="top"></a>
+
+  <div class="container">
+
+    <!-- HERO (always first) -->
+    <div id="hero-root"></div>
+    <!-- END of block: HERO ROOT -->
+
+    <!-- AUTO CARDS ROOT -->
+    <div id="cards-root"></div>
+    <!-- END of block: CARDS ROOT -->
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="card-loader.js"></script>
+  <script src="explorer-data.js"></script>
+  <script>
+    cardLoader.renderInto("hero-root", ["heroApps"]);
+    cardLoader.renderInto("cards-root", ["apps","contact"]);
+  </script>
+  <!-- END of block: PAGE SCRIPTS -->
+
+  <!-- FOOTER -->
+  <div style="
+    text-align:center;
+    margin:40px 0 16px 0;
+    opacity:.65;
+    font-size:12px;
+    letter-spacing:.6px;
+  ">
+    © ubterzioglu · 2025
+  </div>
+  <!-- END: FOOTER -->
+
+</body>
+</html>

@@ -1388,12 +1388,6 @@ register("heroInsights", () => `
 
 
 
-
-
-
-
-
-
    /* =====================================================
    START: CARD: INSIGHTS — card-loader.js
    Purpose: UI only (no <script> inside template)
@@ -1447,10 +1441,13 @@ register("updates", () => {
 
   return `
     <div id="updates" class="detail-card card-color-3">
-      <div class="card-buttons">
-        <a href="index.html"><img src="img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
-        <a href="#top"><img src="img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+
+    <div class="card-buttons">
+        <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+        <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
+        <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
       </div>
+      
 
       <h2 class="section-title">Updates / News</h2>
 
@@ -1499,6 +1496,201 @@ register("updates", () => {
 /* END of block: Card Template — updates */
 
 
+/* =====================================================
+   CARD: HERO (TOOLS)
+===================================================== */
+
+register("heroTools", () => `
+  <div id="hero" class="card hero-card">
+    <div class="hero-top">
+      <div class="hero-logo-box">
+        <img src="/img/logoubt.png" class="hero-logo" alt="UBT logo" />
+        <span class="hero-domain">ubterzioglu.de</span>
+      </div>
+      <a href="index.html">
+        <img src="/img/z0cliphome.png" class="home-icon" alt="Home" />
+      </a>
+    </div>
+
+    <h1>Tools</h1>
+    <p class="title">Tools I use and recommend.</p>
+  </div>
+  <!-- END of block: Hero (Tools) -->
+`);
+/* END of block: Card Template — heroTools */
+
+/* =====================================================
+   CARD: HERO (USEFUL APPS)
+   ===================================================== */
+register("heroApps", () => `
+  <div id="hero" class="card hero-card">
+    <div class="hero-top">
+      <div class="hero-logo-box">
+        <img src="/img/logoubt.png" class="hero-logo" alt="UBT logo" />
+        <span class="hero-domain">ubterzioglu.de</span>
+      </div>
+      <a href="index.html">
+        <img src="/img/z0cliphome.png" class="home-icon" alt="Home" />
+      </a>
+    </div>
+
+    <h1>Useful Apps</h1>
+    <p class="title">Simple apps that make daily work easier.</p>
+  </div>
+  <!-- END of block: Hero (Useful Apps) -->
+`);
+/* END of block: Card Template — heroApps */
+
+
+/* =====================================================
+   CARD: USEFUL APPS (DATA-DRIVEN)
+   ===================================================== */
+register("apps", () => {
+  const data = (window.EXPLORER_DATA && Array.isArray(window.EXPLORER_DATA.apps))
+    ? window.EXPLORER_DATA.apps
+    : [];
+
+  if (!data.length) {
+    return `
+      <div id="apps" class="detail-card card-color-4">
+        <div class="card-buttons">
+          <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+          <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
+          <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+        </div>
+
+        <h2 class="section-title">Useful Apps</h2>
+        <p style="opacity:.85; margin:0;">
+          No apps yet. Add items to <code>EXPLORER_DATA.apps</code>.
+        </p>
+      </div>
+    `;
+  }
+
+  const itemsHtml = data.map(item => `
+    <a href="${item.href}" target="_blank" rel="noopener noreferrer"
+       style="text-decoration:none; color:inherit;">
+      <div style="
+        display:flex;
+        gap:14px;
+        align-items:flex-start;
+        padding:12px;
+        border:1px solid rgba(255,255,255,.10);
+        border-radius:16px;
+        background: rgba(0,0,0,.10);
+        margin:10px 0;
+      ">
+        <img src="${item.img}" alt="${item.title}"
+             style="
+               width:72px;
+               height:72px;
+               border-radius:16px;
+               object-fit:cover;
+               flex:0 0 auto;
+               background: rgba(255,255,255,.06);
+               border:1px solid rgba(255,255,255,.10);
+             " />
+        <div style="min-width:0;">
+          <div style="font-weight:800; margin:2px 0 6px 0; line-height:1.25;">
+            ${item.title}
+          </div>
+          <div style="opacity:.88; line-height:1.45;">
+            ${item.note}
+          </div>
+        </div>
+      </div>
+    </a>
+  `).join("");
+
+  return `
+    <div id="apps" class="detail-card card-color-4">
+      <div class="card-buttons">
+        <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+        <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
+        <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+      </div>
+
+      <h2 class="section-title">Useful Apps</h2>
+      ${itemsHtml}
+    </div>
+  `;
+});
+/* END of block: Card Template — apps */
+
+/* =====================================================
+   CARD: TOOLS (DATA-DRIVEN)
+   ===================================================== */
+register("tools", () => {
+  const data = (window.EXPLORER_DATA && Array.isArray(window.EXPLORER_DATA.tools))
+    ? window.EXPLORER_DATA.tools
+    : [];
+
+  if (!data.length) {
+    return `
+      <div id="tools" class="detail-card card-color-3">
+        <div class="card-buttons">
+          <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+          <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
+          <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+        </div>
+
+        <h2 class="section-title">Tools</h2>
+        <p style="opacity:.85; margin:0;">
+          No tools yet. Add items to <code>EXPLORER_DATA.tools</code>.
+        </p>
+      </div>
+    `;
+  }
+
+  const itemsHtml = data.map(item => `
+    <a href="${item.href}" target="_blank" rel="noopener noreferrer"
+       style="text-decoration:none; color:inherit;">
+      <div style="
+        display:flex;
+        gap:14px;
+        align-items:flex-start;
+        padding:12px;
+        border:1px solid rgba(255,255,255,.10);
+        border-radius:16px;
+        background: rgba(0,0,0,.10);
+        margin:10px 0;
+      ">
+        <img src="${item.img}" alt="${item.title}"
+             style="
+               width:72px;
+               height:72px;
+               border-radius:16px;
+               object-fit:cover;
+               flex:0 0 auto;
+               background: rgba(255,255,255,.06);
+               border:1px solid rgba(255,255,255,.10);
+             " />
+        <div style="min-width:0;">
+          <div style="font-weight:800; margin:2px 0 6px 0; line-height:1.25;">
+            ${item.title}
+          </div>
+          <div style="opacity:.88; line-height:1.45;">
+            ${item.note}
+          </div>
+        </div>
+      </div>
+    </a>
+  `).join("");
+
+  return `
+    <div id="tools" class="detail-card card-color-3">
+      <div class="card-buttons">
+        <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
+        <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
+        <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
+      </div>
+
+      <h2 class="section-title">Tools</h2>
+      ${itemsHtml}
+    </div>
+  `;
+});
+/* END of block: Card Template — tools */
 
 
 
@@ -1506,7 +1698,20 @@ register("updates", () => {
 
 
 
-  /* =====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
      4) PUBLIC API (window.cardLoader)
      ===================================================== */
   window.cardLoader = { register, renderInto };
