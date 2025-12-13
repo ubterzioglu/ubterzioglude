@@ -48,7 +48,7 @@ window.EXPLORER_DATA = {
     {
       id: "note-1",
       title: "VS Code tip: speed",
-      date: "2025-12-12",
+      date: "12-12-2025",
       img: "/img/z0note0010.png",
       text: "Small note.\n\nSecond paragraph if needed.",
       href: "#"
@@ -59,7 +59,7 @@ window.EXPLORER_DATA = {
     {
       id: "explorer-live",
       title: "Explorer is live",
-      date: "2025-12-12",
+      date: "12-12-2025",
       text:
         "Explorer pages (Articles, Bookmarks, Notes) are now running with a shared data file. Next step: add more content and keep it fresh.",
       href: "zexplorer.html",
@@ -68,7 +68,7 @@ window.EXPLORER_DATA = {
     {
       id: "contact-polish",
       title: "Contact card polished",
-      date: "2025-12-12",
+      date: "12-12-2025",
       text: "Contact is now icon-based and cleaner. Less noise, more action.",
       href: "index.html#contact",
       pinned: false
@@ -76,9 +76,18 @@ window.EXPLORER_DATA = {
     {
       id: "articles-data-driven",
       title: "Articles are data-driven",
-      date: "2025-12-12",
+      date: "12-12-2025",
       text:
         "Articles are generated from explorer-data.js. Adding a new article is now just adding one object.",
+      href: "zarticles.html",
+      pinned: false
+    },
+    {
+      id: "new-article-001",
+      title: "New article added!",
+      date: "12-12-2025",
+      text:
+        "Perfect order or flawed but free individuals?",
       href: "zarticles.html",
       pinned: false
     }
