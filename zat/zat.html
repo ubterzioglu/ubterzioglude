@@ -1,0 +1,53 @@
+<!-- =========================================================
+  FILE: /zat/zat.html
+  PURPOSE:
+  - Kullanıcının foto yükleyip
+  - Yaş tahminini TARAYICIDA (client-side) alması
+  - Fotoğraf server'a gönderilmez
+========================================================= -->
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZAT – AI Yaş Tahmini</title>
+
+  <!-- Ortak stil dosyan (opsiyonel) -->
+  <link rel="stylesheet" href="/ubt-shared.css" />
+</head>
+<body>
+
+<main class="page-wrap">
+  <div class="card">
+    <h1>ZAT – AI Yaş Tahmini</h1>
+
+    <p class="muted">
+      Fotoğrafınız hiçbir yere yüklenmez. Analiz tamamen tarayıcınızda yapılır.
+    </p>
+
+    <input type="file" id="imageUpload" accept="image/*" />
+
+    <div style="margin-top:16px;">
+      <img
+        id="preview"
+        alt="Fotoğraf önizleme"
+        style="max-width:320px; display:none; border-radius:12px;"
+      />
+    </div>
+
+    <div id="result" style="margin-top:16px; font-weight:600;"></div>
+    <div id="hint" class="muted" style="margin-top:8px;"></div>
+  </div>
+</main>
+
+<!-- face-api.js (resmi CDN) -->
+<script defer src="https://unpkg.com/face-api.js"></script>
+
+<!-- ZAT Age Tool JS -->
+<script defer src="./js/age-tool.js"></script>
+
+</body>
+</html>
+<!-- =========================================================
+  END OF FILE: /zat/zat.html
+========================================================= -->
