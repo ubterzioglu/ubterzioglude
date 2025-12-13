@@ -80,7 +80,17 @@ window.EXPLORER_DATA = {
       img: "/img/z0tool0010.jpg",
       href: "https://ubterzioglu.de/zais/zais.html",
       note: "A tiny AI tool selector that helps you choose the right tool with simple yes/no questions."
+    },
+
+    {
+      id: "facetoage",
+      title: "AI Age Estimation",
+      img: "/img/z0tool0020.jpg",
+      href: "https://ubterzioglu.de/zat/zat.html",
+      note: "Upload a photo and get an instant age estimate directly in your browser."
     }
+
+    
   ],
 
   apps: [
