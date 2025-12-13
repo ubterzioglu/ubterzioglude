@@ -1,4 +1,5 @@
-09.12.25 Günaydın!
-10.12.25 Bugün vercele geçtik!
-12.12.25 Valla düzeldi her şey ama tek sorun www.ubterzioglu.de çalışırken ubterzioglu.de çalışmıyor. Biraz bekleyelim.
+09.12.25 Good morning!
+10.12.25 Today we moved to Vercel!
+12.12.25 Everything is fixed, but there’s just one issue: www.ubterzioglu.de  works while ubterzioglu.de doesn’t. Let’s wait a bit.
 13.12.25 All clear!
+13.12.25 The site is now fully prepared for SEO as well — perfect!
