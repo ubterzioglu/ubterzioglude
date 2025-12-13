@@ -91,16 +91,252 @@
   </script>
 
   <!-- =========================================================
-    UI STYLES (unchanged)
+    UI STYLES (ZAIS LOOK)
   ========================================================== -->
-  <!-- styles block unchanged -->
-  <!-- (styles exactly as you provided, not repeated here to save space) -->
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#111a33;
+      --text:#e9eefc;
+      --muted:#a9b4d6;
+      --line:rgba(255,255,255,.10);
+      --btn:#1d2a55;
+      --btn2:#233166;
+    }
 
-  <!-- =========================================================
-    GOATCOUNTER
-  ========================================================== -->
+    *{box-sizing:border-box}
+
+    /* =====================================================
+       DEPLOY SIZE FIX (OPTION 1)
+       ===================================================== */
+    html, body { height: 100%; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(900px 600px at 20% 10%, rgba(97,124,255,.18), transparent 60%),
+                  radial-gradient(900px 600px at 80% 30%, rgba(73,209,125,.14), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+
+      /* prevents “small” feel if host page sets smaller base font */
+      font-size: 16px;
+    }
+
+    /* was 900px; increased for deployed view */
+    .wrap{ width: min(1200px, 100%); }
+
+    .card{
+      position: relative; /* IMPORTANT: anchor for bottom-right widget */
+      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%), var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+
+    header{
+      padding:20px 22px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    header h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+
+    /* slightly larger & responsive */
+    header p{
+      margin:6px 0 0 0;
+      color:var(--muted);
+      font-size: clamp(13px, 1.1vw, 15px);
+      line-height:1.35;
+      max-width:70ch;
+    }
+
+    .meta{
+      text-align:right;
+      min-width:190px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:10px;
+      white-space:nowrap;
+    }
+
+    .bar{
+      height:8px;
+      background: rgba(255,255,255,.08);
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(97,124,255,.9), rgba(73,209,125,.9));
+      border-radius:999px;
+      transition: width .25s ease;
+    }
+
+    main{padding:22px}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .panel h2{
+      margin:0 0 10px 0;
+      font-size:14px;
+      color:var(--muted);
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+
+    .fileRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    input[type="file"]{
+      width: 100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .status{
+      margin-top:14px;
+      font-size: clamp(20px, 1.8vw, 26px);
+      line-height:1.35;
+      font-weight:700;
+    }
+
+    .hint{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size: clamp(13px, 1.1vw, 15px);
+      line-height:1.45;
+    }
+
+    .hint.small{
+      margin:0;
+      margin-top:10px;
+    }
+
+    .sep{height:1px;background:var(--line); margin:22px 0}
+
+    /* CTA (LinkedIn) */
+    .ai-cta{
+      margin-top: 18px;
+      padding-right: 120px; /* keep space so it won't collide with widget */
+    }
+
+    .ai-cta p{
+      margin: 6px 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Preview image */
+    #preview{
+      width:100%;
+      height:auto;
+      border-radius:16px;
+      display:none;
+      border:1px solid var(--line);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      background: rgba(0,0,0,.12);
+    }
+
+    /* Bottom-right widget */
+    .corner-widget{
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .widget-avatar{
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,.25);
+      background: rgba(0,0,0,.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+
+    .widget-avatar.logo{
+      background: rgba(255,255,255,.9);
+    }
+
+    @media (max-width:900px){
+      header{flex-direction:column; align-items:stretch}
+      .meta{text-align:left}
+      .grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:700px){
+      .corner-widget{
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .widget-avatar{
+        width: 36px;
+        height: 36px;
+      }
+
+      .ai-cta{
+        padding-right: 0;
+        margin-bottom: 56px; /* give widget breathing space on mobile */
+      }
+    }
+  </style>
+
+  <!-- COUNTER GOAT -->
   <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
+  <!-- /COUNTER GOAT -->
 </head>
 
 <body>
@@ -134,7 +370,7 @@
             </div>
 
             <div id="result" class="status">Loading...</div>
-            <div id="hint" class="hint"></div>
+            <p id="hint" class="hint"></p>
 
             <div class="sep"></div>
 
@@ -151,28 +387,30 @@
 
             <img id="preview" alt="Photo preview" />
 
-            <div class="hint" style="margin-top:10px;">
+            <p class="hint small">
               Tip: Front-facing, sharp, and well-lit photos give better results.
-            </div>
+            </p>
           </div>
         </div>
 
-        <!-- Corner Widget -->
+        <!-- Corner Widget (bottom-right) -->
         <div class="corner-widget">
           <a href="../index.html" aria-label="Go to Home">
-            <img src="/img/logoubt.png" alt="UBT Logo" class="widget-avatar logo" />
+            <img src="/img/logoubt.png" alt="UBT Profile" class="widget-avatar" />
           </a>
 
           <a href="../index.html" aria-label="Go to Home">
-            <img src="/img/picprofile.png" alt="UBT Profile" class="widget-avatar" />
+            <img src="/img/picprofile.png" alt="UBT Logo" class="widget-avatar logo" />
           </a>
         </div>
+        <!-- /Corner Widget -->
       </main>
     </div>
   </div>
 
   <!-- =========================================================
-    face-api.js (UMD build)
+    face-api.js (Browser UMD build via jsDelivr)
+    NOTE: avoids "exports is not defined"
   ========================================================== -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 
@@ -180,7 +418,8 @@
   <script defer src="./js/age-tool.js"></script>
 
   <!-- =========================================================
-    OPTIONAL UI SYNC (unchanged logic)
+    OPTIONAL UI SYNC (updates pill + bar from #result text)
+    (Does not touch your age-tool logic.)
   ========================================================== -->
   <script>
     const counterEl = document.getElementById("counter");
