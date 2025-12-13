@@ -85,11 +85,11 @@ window.EXPLORER_DATA = {
 
   apps: [
     {
-      id: "notion",
-      title: "Notion",
-      img: "/img/app-notion.png",
-      href: "https://notion.so",
-      note: "All-in-one workspace for notes, docs, and knowledge management."
+      id: "ghostmouse",
+      title: "Ghost Mouse",
+      img: "/img/z0app0010.jpg",
+      href: "https://drive.google.com/file/d/1jkWZcovcBWqn08p585dpsN2Rpv7HBOGW/view?usp=drive_link",
+      note: "Ghost Mouse automatically moves your mouse to keep your system active."
     }
   ]
 };
