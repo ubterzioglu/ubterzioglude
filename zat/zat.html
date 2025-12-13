@@ -106,9 +106,6 @@
 
     *{box-sizing:border-box}
 
-    /* =====================================================
-       DEPLOY SIZE FIX (OPTION 1)
-       ===================================================== */
     html, body { height: 100%; }
 
     body{
@@ -123,21 +120,19 @@
       align-items:center;
       justify-content:center;
       padding:24px;
-
-      /* prevents “small” feel if host page sets smaller base font */
       font-size: 16px;
     }
 
-    /* was 900px; increased for deployed view */
     .wrap{ width: min(1200px, 100%); }
 
     .card{
-      position: relative; /* IMPORTANT: anchor for bottom-right widget */
+      position: relative;
       background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%), var(--card);
       border:1px solid var(--line);
       border-radius:18px;
       box-shadow: 0 18px 60px rgba(0,0,0,.35);
       overflow:hidden;
+      padding-bottom: 86px; /* widget safety space */
     }
 
     header{
@@ -155,7 +150,6 @@
       letter-spacing:.2px;
     }
 
-    /* slightly larger & responsive */
     header p{
       margin:6px 0 0 0;
       color:var(--muted);
@@ -200,9 +194,12 @@
 
     main{padding:22px}
 
+    /* =====================================================
+       LAYOUT CHANGE: preview goes BELOW (single column)
+       ===================================================== */
     .grid{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1fr; /* single column */
       gap:16px;
       align-items:start;
     }
@@ -260,10 +257,9 @@
 
     .sep{height:1px;background:var(--line); margin:22px 0}
 
-    /* CTA (LinkedIn) */
     .ai-cta{
       margin-top: 18px;
-      padding-right: 120px; /* keep space so it won't collide with widget */
+      padding-right: 120px;
     }
 
     .ai-cta p{
@@ -273,18 +269,31 @@
       line-height: 1.4;
     }
 
-    /* Preview image */
+    /* =====================================================
+       STABLE PREVIEW (no layout jumping)
+       ===================================================== */
+    .panel.preview-panel{
+      min-height: 520px;
+      padding-bottom: 72px;
+      display: flex;
+      flex-direction: column;
+    }
+
     #preview{
-      width:100%;
-      height:auto;
-      border-radius:16px;
-      display:none;
-      border:1px solid var(--line);
+      width: 100%;
+      max-height: 440px;
+      object-fit: contain;
+      display: none;
+      border-radius: 16px;
+      border: 1px solid var(--line);
       box-shadow: 0 10px 28px rgba(0,0,0,.35);
       background: rgba(0,0,0,.12);
     }
 
-    /* Bottom-right widget */
+    .panel.preview-panel .hint.small{
+      margin-top: auto;
+    }
+
     .corner-widget{
       position: absolute;
       right: 16px;
@@ -312,7 +321,6 @@
     @media (max-width:900px){
       header{flex-direction:column; align-items:stretch}
       .meta{text-align:left}
-      .grid{grid-template-columns:1fr}
     }
 
     @media (max-width:700px){
@@ -328,68 +336,22 @@
 
       .ai-cta{
         padding-right: 0;
-        margin-bottom: 56px; /* give widget breathing space on mobile */
+        margin-bottom: 56px;
+      }
+
+      .panel.preview-panel{
+        min-height: 520px;
+        padding-bottom: 92px;
+      }
+
+      #preview{
+        max-height: 360px;
+      }
+
+      .card{
+        padding-bottom: 110px;
       }
     }
-
-/* =====================================================
-   FINAL CSS PATCH: Stable preview (no layout jumping)
-   Paste at the END of the <style> block in /zat/zat.html
-   ===================================================== */
-
-/* Make the preview panel behave like a stable viewport */
-.panel.preview-panel{
-  min-height: 520px;         /* keeps the card stable */
-  padding-bottom: 72px;      /* breathing room for tip text + widget */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Stable image box */
-#preview{
-  width: 100%;
-  max-height: 440px;         /* prevents page resize based on image height */
-  object-fit: contain;       /* show full image without cropping */
-  display: none;             /* stays hidden until JS shows it */
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  box-shadow: 0 10px 28px rgba(0,0,0,.35);
-  background: rgba(0,0,0,.12);
-}
-
-/* Keep the tip always at the bottom of the preview panel */
-.panel.preview-panel .hint.small{
-  margin-top: auto;
-}
-
-/* Bottom-right widget safety space */
-.card{
-  padding-bottom: 86px;      /* guarantees widget never overlaps content */
-}
-
-@media (max-width:700px){
-  .panel.preview-panel{
-    min-height: 520px;
-    padding-bottom: 92px;
-  }
-
-  #preview{
-    max-height: 360px;
-  }
-
-  .card{
-    padding-bottom: 110px;
-  }
-}
-
-/* =====================================================
-   END PATCH
-   ===================================================== */
-
-
-
-
-
   </style>
 
   <!-- COUNTER GOAT -->
@@ -420,7 +382,7 @@
 
       <main>
         <div class="grid">
-          <!-- LEFT -->
+          <!-- TOP: UPLOAD + RESULT -->
           <div class="panel">
             <h2>Select a photo</h2>
 
@@ -433,26 +395,24 @@
 
             <div class="sep"></div>
 
-           <div class="ai-cta">
-  <p>Feel free to like, comment, or share to help spread it.</p>
-  <p>Your feedback keeps this alive and pushes me to build more.</p>
+            <div class="ai-cta">
+              <p>Feel free to like, comment, or share to help spread it.</p>
+              <p>Your feedback keeps this alive and pushes me to build more.</p>
 
-  <p>
-    Looking for more tools?
-    <a href="https://ubterzioglu.de/ztools.html" target="_blank" rel="noopener">
-      Click!
-    </a>
-  </p>
+              <p>
+                Looking for more tools?
+                <a href="https://ubterzioglu.de/ztools.html" target="_blank" rel="noopener">
+                  Click!
+                </a>
+              </p>
 
-  <p>Thanks. <strong>UBT</strong>.</p>
-</div>
+              <p>Thanks. <strong>UBT</strong>.</p>
+            </div>
+          </div>
 
-
-          
-
-          <!-- RIGHT -->
-           <div class="panel preview-panel">
-           <h2>Preview</h2>
+          <!-- BOTTOM: PREVIEW -->
+          <div class="panel preview-panel">
+            <h2>Preview</h2>
 
             <img id="preview" alt="Photo preview" />
 
@@ -479,7 +439,6 @@
 
   <!-- =========================================================
     face-api.js (Browser UMD build via jsDelivr)
-    NOTE: avoids "exports is not defined"
   ========================================================== -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 
@@ -488,7 +447,6 @@
 
   <!-- =========================================================
     OPTIONAL UI SYNC (updates pill + bar from #result text)
-    (Does not touch your age-tool logic.)
   ========================================================== -->
   <script>
     const counterEl = document.getElementById("counter");
