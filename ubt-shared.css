@@ -268,6 +268,21 @@ body {
 }
 /* END of block: Experience */
 
+/* =====================================================
+   OVERLAP FIX: give the card bottom space for the widget
+   ===================================================== */
+.card{ padding-bottom: 74px; } /* widget space */
+
+/* On small screens give a bit more */
+@media (max-width:700px){
+  .card{ padding-bottom: 96px; }
+}
+
+/* Also ensure preview panel has breathing space */
+.panel.preview-panel{ padding-bottom: 64px; }
+
+
 /* Smooth scrolling for anchor jumps */
 html { scroll-behavior:smooth; }
 /* END of file: ubt-shared.css */
+

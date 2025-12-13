@@ -1,16 +1,10 @@
 /* =========================================================
   FILE: /zat/js/age-tool.js
   PURPOSE:
-  - face-api.js kullanarak
-  - tarayıcıda yaş tahmini yapmak
-  - API / upload / server yok
+  - Run age estimation in-browser using face-api.js
+  - No API / no upload / no server
 ========================================================= */
 
-console.log("ZAT AGE TOOL LOADED");
-
-/* =========================================================
-  DOM REFERENCES
-========================================================= */
 const input  = document.getElementById("imageUpload");
 const preview = document.getElementById("preview");
 const result  = document.getElementById("result");
@@ -18,33 +12,21 @@ const hint    = document.getElementById("hint");
 
 /* =========================================================
   MODEL PATH
-  Models are served from /zat/models (ABSOLUTE PATH)
+  Models live under /zat/models
 ========================================================= */
 const MODEL_URL = "/zat/models";
-console.log("MODEL_URL =", MODEL_URL);
-
-
 
 /* =========================================================
   LOAD MODELS (ONCE)
 ========================================================= */
 async function loadModels() {
-  try {
-    result.textContent = "AI modelleri yükleniyor...";
-    hint.textContent = "";
+  result.textContent = "Loading AI models...";
+  hint.textContent = "";
 
-    await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-    console.log("TinyFaceDetector loaded");
+  await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+  await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
 
-    await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
-    console.log("AgeGenderNet loaded");
-
-    result.textContent = "Hazır. Bir fotoğraf seç.";
-  } catch (err) {
-    console.error("MODEL LOAD ERROR:", err);
-    showError("Model yüklenemedi. Console'u kontrol et.");
-    throw err;
-  }
+  result.textContent = "Ready. Select a photo.";
 }
 
 /* =========================================================
@@ -53,14 +35,15 @@ async function loadModels() {
 function showError(message) {
   result.textContent = message;
   hint.textContent =
-    "İpucu: Önden çekilmiş, net ve iyi ışıklı bir fotoğraf dene.";
+    "Tip: Use a front-facing, sharp, and well-lit photo.";
 }
 
 /* =========================================================
   INIT
 ========================================================= */
 loadModels().catch((err) => {
-  // zaten üstte loglanıyor
+  console.error(err);
+  showError("Model loading failed. Check /zat/models path.");
 });
 
 /* =========================================================
@@ -71,7 +54,7 @@ input.addEventListener("change", async () => {
   if (!file) return;
 
   try {
-    result.textContent = "Fotoğraf hazırlanıyor...";
+    result.textContent = "Preparing photo...";
     hint.textContent = "";
 
     const img = await faceapi.bufferToImage(file);
@@ -79,7 +62,7 @@ input.addEventListener("change", async () => {
     preview.src = img.src;
     preview.style.display = "block";
 
-    result.textContent = "Analiz ediliyor...";
+    result.textContent = "Analyzing...";
 
     const detection = await faceapi
       .detectSingleFace(
@@ -92,7 +75,7 @@ input.addEventListener("change", async () => {
       .withAgeAndGender();
 
     if (!detection) {
-      showError("Yüz algılanamadı.");
+      showError("No face detected.");
       return;
     }
 
@@ -100,13 +83,13 @@ input.addEventListener("change", async () => {
     const gender = detection.gender;
     const genderProb = Math.round(detection.genderProbability * 100);
 
-    result.textContent = `Tahmini yaş: ${age}`;
+    result.textContent = `Estimated age: ${age}`;
     hint.textContent =
-      `Ek (tahmini): Cinsiyet: ${gender} (%${genderProb})`;
+      `Extra (approx.): Gender: ${gender} (${genderProb}%)`;
 
   } catch (err) {
     console.error(err);
-    showError("Bir hata oluştu. Farklı bir fotoğraf dene.");
+    showError("Something went wrong. Try another photo.");
   }
 });
 

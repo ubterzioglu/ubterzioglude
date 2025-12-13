@@ -331,6 +331,65 @@
         margin-bottom: 56px; /* give widget breathing space on mobile */
       }
     }
+
+/* =====================================================
+   FINAL CSS PATCH: Stable preview (no layout jumping)
+   Paste at the END of the <style> block in /zat/zat.html
+   ===================================================== */
+
+/* Make the preview panel behave like a stable viewport */
+.panel.preview-panel{
+  min-height: 520px;         /* keeps the card stable */
+  padding-bottom: 72px;      /* breathing room for tip text + widget */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stable image box */
+#preview{
+  width: 100%;
+  max-height: 440px;         /* prevents page resize based on image height */
+  object-fit: contain;       /* show full image without cropping */
+  display: none;             /* stays hidden until JS shows it */
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  background: rgba(0,0,0,.12);
+}
+
+/* Keep the tip always at the bottom of the preview panel */
+.panel.preview-panel .hint.small{
+  margin-top: auto;
+}
+
+/* Bottom-right widget safety space */
+.card{
+  padding-bottom: 86px;      /* guarantees widget never overlaps content */
+}
+
+@media (max-width:700px){
+  .panel.preview-panel{
+    min-height: 520px;
+    padding-bottom: 92px;
+  }
+
+  #preview{
+    max-height: 360px;
+  }
+
+  .card{
+    padding-bottom: 110px;
+  }
+}
+
+/* =====================================================
+   END PATCH
+   ===================================================== */
+
+
+
+
+
   </style>
 
   <!-- COUNTER GOAT -->
@@ -382,8 +441,8 @@
           </div>
 
           <!-- RIGHT -->
-          <div class="panel">
-            <h2>Preview</h2>
+           <div class="panel preview-panel">
+           <h2>Preview</h2>
 
             <img id="preview" alt="Photo preview" />
 
