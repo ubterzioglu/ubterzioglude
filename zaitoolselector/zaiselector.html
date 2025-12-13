@@ -18,6 +18,11 @@
 
     *{box-sizing:border-box}
 
+    /* =====================================================
+       DEPLOY SIZE FIX (OPTION 1)
+       ===================================================== */
+    html, body { height: 100%; }
+
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -30,9 +35,13 @@
       align-items:center;
       justify-content:center;
       padding:24px;
+
+      /* prevents “small” feel if host page sets smaller base font */
+      font-size: 16px;
     }
 
-    .wrap{width:min(900px, 100%)}
+    /* was 900px; increased for deployed view */
+    .wrap{ width: min(1200px, 100%); }
 
     .card{
       position: relative; /* IMPORTANT: anchor for bottom-right widget */
@@ -58,10 +67,11 @@
       letter-spacing:.2px;
     }
 
+    /* slightly larger & responsive */
     header p{
       margin:6px 0 0 0;
       color:var(--muted);
-      font-size:13px;
+      font-size: clamp(13px, 1.1vw, 15px);
       line-height:1.35;
       max-width:70ch;
     }
@@ -102,16 +112,18 @@
 
     main{padding:22px}
 
+    /* bigger, responsive question text */
     .q{
-      font-size:20px;
+      font-size: clamp(20px, 1.8vw, 26px);
       margin:0 0 14px 0;
       line-height:1.35;
     }
 
+    /* slightly larger hint */
     .hint{
       margin:0 0 18px 0;
       color:var(--muted);
-      font-size:13px;
+      font-size: clamp(13px, 1.1vw, 15px);
       line-height:1.45;
     }
 
@@ -132,6 +144,9 @@
       font-weight:600;
       letter-spacing:.2px;
       transition: transform .06s ease, background .12s ease;
+
+      /* keeps buttons readable if host page shrinks fonts */
+      font-size: 14px;
     }
 
     button:hover{background: var(--btn2)}
@@ -313,163 +328,148 @@
     // =====================================================
 
     const QUESTIONS = [
-  {
-    text: "Do you use AI mainly for everyday tasks?",
-    hint: "Simple things like questions, summaries, or quick help.",
-    yesTags: { speed: 1, balanced: 1 },
-    noTags:  { deep: 1 }
-  },
-  {
-    text: "Do you create images using AI?",
-    hint: "Social media visuals, posters, ideas, or inspiration.",
-    yesTags: { creative: 2 },
-    noTags:  { writing: 1 }
-  },
-  {
-    text: "Do you use AI to write or improve text?",
-    hint: "Messages, emails, posts, or longer texts.",
-    yesTags: { writing: 2 },
-    noTags:  { speed: 1 }
-  },
-  {
-  text: "Do you create videos using AI?",
-  hint: "Short clips, reels, animations, or video edits.",
-  yesTags: { video: 2, creative: 1 },
-  noTags:  { writing: 1 }
-},
-  {
-    text: "Do you use AI mostly for personal reasons?",
-    hint: "Daily life, hobbies, learning, or curiosity.",
-    yesTags: { balanced: 1 },
-    noTags:  { professional: 1 }
-  },
-
-  {
-    text: "Do you expect AI to explain things clearly?",
-    hint: "You want understandable answers, not just results.",
-    yesTags: { deep: 2 },
-    noTags:  { speed: 1 }
-  },
-  {
-    text: "Do you use AI to compare options or make decisions?",
-    hint: "Choosing between alternatives, pros and cons.",
-    yesTags: { deep: 2 },
-    noTags:  { speed: 1 }
-  },
-  {
-    text: "Do you work with longer texts or documents?",
-    hint: "Reports, articles, notes, or structured content.",
-    yesTags: { writing: 1, deep: 1 },
-    noTags:  { speed: 1 }
-  },
-  {
-    text: "Is consistency more important than creativity for you?",
-    hint: "You prefer stable and predictable answers.",
-    yesTags: { deep: 1 },
-    noTags:  { creative: 1 }
-  },
-  {
-    text: "Do you switch between very different tasks during the day?",
-    hint: "Writing, researching, planning, learning, etc.",
-    yesTags: { balanced: 2 },
-    noTags:  { deep: 1 }
-  },
-
-  {
-    text: "Do you sometimes ask AI for technical help?",
-    hint: "Understanding tools, systems, or how things work.",
-    yesTags: { technical: 1 },
-    noTags:  { writing: 1 }
-  },
-  {
-    text: "Do you want AI to think step by step when solving problems?",
-    hint: "Reasoning matters more than short answers.",
-    yesTags: { deep: 2 },
-    noTags:  { speed: 1 }
-  },
-  {
-    text: "Do you use AI to improve your work quality?",
-    hint: "Checking, refining, or improving outcomes.",
-    yesTags: { professional: 1, deep: 1 },
-    noTags:  { speed: 1 }
-  },
-  {
-    text: "Do you sometimes work with code or technical text?",
-    hint: "Even occasionally.",
-    yesTags: { coding: 1 },
-    noTags:  { writing: 1 }
-  },
-  {
-    text: "Do you want one versatile AI instead of many specialized ones?",
-    hint: "One tool that can handle most things.",
-    yesTags: { balanced: 2 },
-    noTags:  { coding: 1 }
-  }
-];
-
+      {
+        text: "Do you use AI mainly for everyday tasks?",
+        hint: "Simple things like questions, summaries, or quick help.",
+        yesTags: { speed: 1, balanced: 1 },
+        noTags:  { deep: 1 }
+      },
+      {
+        text: "Do you create images using AI?",
+        hint: "Social media visuals, posters, ideas, or inspiration.",
+        yesTags: { creative: 2 },
+        noTags:  { writing: 1 }
+      },
+      {
+        text: "Do you use AI to write or improve text?",
+        hint: "Messages, emails, posts, or longer texts.",
+        yesTags: { writing: 2 },
+        noTags:  { speed: 1 }
+      },
+      {
+        text: "Do you create videos using AI?",
+        hint: "Short clips, reels, animations, or video edits.",
+        yesTags: { video: 2, creative: 1 },
+        noTags:  { writing: 1 }
+      },
+      {
+        text: "Do you use AI mostly for personal reasons?",
+        hint: "Daily life, hobbies, learning, or curiosity.",
+        yesTags: { balanced: 1 },
+        noTags:  { professional: 1 }
+      },
+      {
+        text: "Do you expect AI to explain things clearly?",
+        hint: "You want understandable answers, not just results.",
+        yesTags: { deep: 2 },
+        noTags:  { speed: 1 }
+      },
+      {
+        text: "Do you use AI to compare options or make decisions?",
+        hint: "Choosing between alternatives, pros and cons.",
+        yesTags: { deep: 2 },
+        noTags:  { speed: 1 }
+      },
+      {
+        text: "Do you work with longer texts or documents?",
+        hint: "Reports, articles, notes, or structured content.",
+        yesTags: { writing: 1, deep: 1 },
+        noTags:  { speed: 1 }
+      },
+      {
+        text: "Is consistency more important than creativity for you?",
+        hint: "You prefer stable and predictable answers.",
+        yesTags: { deep: 1 },
+        noTags:  { creative: 1 }
+      },
+      {
+        text: "Do you switch between very different tasks during the day?",
+        hint: "Writing, researching, planning, learning, etc.",
+        yesTags: { balanced: 2 },
+        noTags:  { deep: 1 }
+      },
+      {
+        text: "Do you sometimes ask AI for technical help?",
+        hint: "Understanding tools, systems, or how things work.",
+        yesTags: { technical: 1 },
+        noTags:  { writing: 1 }
+      },
+      {
+        text: "Do you want AI to think step by step when solving problems?",
+        hint: "Reasoning matters more than short answers.",
+        yesTags: { deep: 2 },
+        noTags:  { speed: 1 }
+      },
+      {
+        text: "Do you use AI to improve your work quality?",
+        hint: "Checking, refining, or improving outcomes.",
+        yesTags: { professional: 1, deep: 1 },
+        noTags:  { speed: 1 }
+      },
+      {
+        text: "Do you sometimes work with code or technical text?",
+        hint: "Even occasionally.",
+        yesTags: { coding: 1 },
+        noTags:  { writing: 1 }
+      },
+      {
+        text: "Do you want one versatile AI instead of many specialized ones?",
+        hint: "One tool that can handle most things.",
+        yesTags: { balanced: 2 },
+        noTags:  { coding: 1 }
+      }
+    ];
 
     const TOOLS = [
-  // =========================
-  // General / Chat tools
-  // =========================
-  {
-    name: "ChatGPT",
-    weights: { balanced: 2, speed: 1, deep: 2, writing: 1, research: 1, professional: 1, technical: 1, coding: 1, creative: 1 },
-    why: "Versatile and strong across everyday help, reasoning, and structured outputs.",
-    tags: ["All-rounder", "Reasoning", "Versatile"]
-  },
-  {
-    name: "Claude",
-    weights: { writing: 2, deep: 2, research: 1, balanced: 1, professional: 1 },
-    why: "Excellent for long-form writing, clarity, and careful reasoning.",
-    tags: ["Writing", "Long docs", "Clarity"]
-  },
-  {
-    name: "Gemini",
-    weights: { speed: 2, balanced: 1, research: 1, google: 2, professional: 1 },
-    why: "Good for fast answers and Google ecosystem workflows.",
-    tags: ["Fast", "Everyday", "Google"]
-  },
-
-  // =========================
-  // Image tools (names only)
-  // =========================
-  {
-    name: "Midjourney",
-    weights: { creative: 3 },
-    why: "Image generation focused tool (name-only suggestion).",
-    tags: ["Image", "Creative"]
-  },
-  {
-    name: "DALL·E",
-    weights: { creative: 2, balanced: 1 },
-    why: "Image generation option (name-only suggestion).",
-    tags: ["Image", "Creative"]
-  },
-  {
-    name: "Stable Diffusion",
-    weights: { creative: 2, technical: 1 },
-    why: "Image generation option (name-only suggestion).",
-    tags: ["Image", "Customizable"]
-  },
-
-  // =========================
-  // Video tools (names only)
-  // =========================
-  {
-    name: "Runway",
-    weights: { creative: 2, video: 3 },
-    why: "Video generation/editing focused tool (name-only suggestion).",
-    tags: ["Video", "Creative"]
-  },
-  {
-    name: "Pika",
-    weights: { creative: 2, video: 2 },
-    why: "Video generation option (name-only suggestion).",
-    tags: ["Video", "Creative"]
-  }
-];
-
+      {
+        name: "ChatGPT",
+        weights: { balanced: 2, speed: 1, deep: 2, writing: 1, research: 1, professional: 1, technical: 1, coding: 1, creative: 1 },
+        why: "Versatile and strong across everyday help, reasoning, and structured outputs.",
+        tags: ["All-rounder", "Reasoning", "Versatile"]
+      },
+      {
+        name: "Claude",
+        weights: { writing: 2, deep: 2, research: 1, balanced: 1, professional: 1 },
+        why: "Excellent for long-form writing, clarity, and careful reasoning.",
+        tags: ["Writing", "Long docs", "Clarity"]
+      },
+      {
+        name: "Gemini",
+        weights: { speed: 2, balanced: 1, research: 1, google: 2, professional: 1 },
+        why: "Good for fast answers and Google ecosystem workflows.",
+        tags: ["Fast", "Everyday", "Google"]
+      },
+      {
+        name: "Midjourney",
+        weights: { creative: 3 },
+        why: "Image generation focused tool (name-only suggestion).",
+        tags: ["Image", "Creative"]
+      },
+      {
+        name: "DALL·E",
+        weights: { creative: 2, balanced: 1 },
+        why: "Image generation option (name-only suggestion).",
+        tags: ["Image", "Creative"]
+      },
+      {
+        name: "Stable Diffusion",
+        weights: { creative: 2, technical: 1 },
+        why: "Image generation option (name-only suggestion).",
+        tags: ["Image", "Customizable"]
+      },
+      {
+        name: "Runway",
+        weights: { creative: 2, video: 3 },
+        why: "Video generation/editing focused tool (name-only suggestion).",
+        tags: ["Video", "Creative"]
+      },
+      {
+        name: "Pika",
+        weights: { creative: 2, video: 2 },
+        why: "Video generation option (name-only suggestion).",
+        tags: ["Video", "Creative"]
+      }
+    ];
 
     let idx = 0;
     const history = [];
