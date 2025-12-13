@@ -5,35 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Articles – Umut Barış Terzioğlu</title>
 
+  <link rel="canonical" href="https://ubterzioglu.de/zarticles.html" />
+
   <!-- Shared stylesheet -->
   <link rel="stylesheet" href="ubt-shared.css" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Umut Barış Terzioğlu",
-  "url": "https://ubterzioglu.de",
-  "image": "https://ubterzioglu.de/img/logoubt.png",
-  "jobTitle": "Senior Software Quality Assurance Engineer",
-  "sameAs": [
-    "https://www.linkedin.com/in/umutbaristerzioglu"
-  ]
-}
-</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://ubterzioglu.de/#person",
+    "name": "Umut Barış Terzioğlu",
+    "url": "https://ubterzioglu.de",
+    "image": "https://ubterzioglu.de/img/logoubt.png",
+    "jobTitle": "Senior Software Quality Assurance Engineer",
+    "sameAs": [
+      "https://www.linkedin.com/in/umutbaristerzioglu"
+    ]
+  }
+  </script>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Articles",
-  "url": "https://ubterzioglu.de/zarticles.html",
-  "description": "Short articles with one image, one link, and clean text."
-}
-</script>
-
-
-
+  <!-- =====================================================
+       STRUCTURED DATA: WEBPAGE (ARTICLES LIST)
+       ===================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://ubterzioglu.de/zarticles.html#webpage",
+    "url": "https://ubterzioglu.de/zarticles.html",
+    "name": "Articles – Umut Barış Terzioğlu",
+    "description": "A list of articles about software testing, quality assurance, technology, and personal insights.",
+    "inLanguage": "en",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://ubterzioglu.de/#website",
+      "url": "https://ubterzioglu.de/",
+      "name": "Umut Barış Terzioğlu"
+    },
+    "about": {
+      "@type": "Person",
+      "@id": "https://ubterzioglu.de/#person",
+      "name": "Umut Barış Terzioğlu",
+      "url": "https://ubterzioglu.de/"
+    }
+  }
+  </script>
+  <!-- END: STRUCTURED DATA -->
 
 </head>
 
@@ -82,11 +100,11 @@
 
   <!-- SCRIPTS -->
   <script src="card-loader.js"></script>
-<script src="explorer-data.js"></script>
-<script>
-  cardLoader.renderInto("hero-root", ["heroArticles"]);
-  cardLoader.renderInto("cards-root", ["articles","contact"]);
-</script>
+  <script src="explorer-data.js"></script>
+  <script>
+    cardLoader.renderInto("hero-root", ["heroArticles"]);
+    cardLoader.renderInto("cards-root", ["articles","contact"]);
+  </script>
 
   <!-- END of block: PAGE SCRIPTS -->
 
