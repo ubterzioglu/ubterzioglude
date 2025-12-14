@@ -28,13 +28,22 @@ function auth(req, res) {
 }
 
 function slugify(s) {
-  return String(s || "")
-    .toLowerCase()
-    .trim()
-    .replace(/https?:\/\//g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 60) || "item";
+  return (
+    String(s || "")
+      .toLowerCase()
+      .trim()
+      .replace(/https?:\/\//g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60) || "item"
+  );
+}
+
+// (optional) keep categories consistent with your MENU keys
+function normalizeCategory(c) {
+  const x = String(c || "").trim().toLowerCase();
+  if (!x) return "tools";
+  return x;
 }
 
 export default async function handler(req, res) {
@@ -56,11 +65,9 @@ export default async function handler(req, res) {
     title: item.title || "",
     img: item.img || "/img/z0bookmark0010.png",
     href: item.url || item.href || "",
-    note: item.note || ""
+    note: item.note || "",
+    category: normalizeCategory(item.category) // ✅ NEW: carry over user's chosen category
   };
 
   return send(res, 200, { ok: true, curated });
 }
-
-
-
