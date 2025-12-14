@@ -112,77 +112,56 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
      ACTIONS
   ========================================================= */
   async function onExtract() {
-    const file = els.pdf.files?.[0];
-    if (!file) {
-      setState("Error: no PDF selected.", "Choose a PDF first.");
+  const file = els.pdf.files?.[0];
+  if (!file) {
+    setState("Error: no PDF selected.", "Choose a PDF first.");
+    return;
+  }
+
+  try {
+    setBusy(true);
+    setState("Extracting…", "Reading PDF text layer (client-side).");
+
+    const text = await extractTextFromPdf(file);
+    const clean = normalize(text);
+
+    // debug + user feedback
+    setState(`Extracted (${clean.length} chars).`, "Now click 'Calculate score'.");
+
+    if (!clean || clean.length < 80) {
+      setState("Extract failed.", "This PDF seems scanned (image-only). Paste CV text instead or upload a text-based PDF.");
+      els.preview.textContent = "No readable text layer detected.";
       return;
     }
 
-    try {
-      setBusy(true);
-      setState("Extracting…", "Reading PDF text layer (client-side).");
-
-      const text = await extractTextFromPdf(file);
-      const clean = normalize(text);
-
-      if (!clean || clean.length < 80) {
-        setState("Extract failed.", "This PDF seems scanned (image-only). Paste CV text instead or upload a text-based PDF.");
-        els.preview.textContent = "No readable text layer detected.";
-        return;
-      }
-
-      els.cv.value = clean;
-      els.preview.textContent = clean.slice(0, 2600);
-      setState("Extracted.", "Text extracted into the CV box. Now click 'Calculate score'.");
-    } catch (e) {
-      setState("Error: extract failed.", String(e?.message || e));
-    } finally {
-      setBusy(false);
-    }
+    els.cv.value = clean;
+    els.preview.textContent = clean.slice(0, 2600);
+  } catch (e) {
+    setState("Error: extract failed.", String(e?.message || e));
+  } finally {
+    setBusy(false);
   }
+}
 
-  function onScore() {
-    const cv = normalize(els.cv.value || "");
-    const jd = normalize(els.jd.value || "");
-
-    if (cv.length < 120) {
-      setState("Error: CV text too short.", "Paste more CV text or extract from a text-based PDF.");
-      return;
-    }
-
-    setState("Scoring…", "Estimating ATS-readiness (parseability + structure + keywords + evidence).");
-
-    const res = scoreAts(cv, jd);
-
-    setState(`${res.total}/100`, res.badge);
-    els.preview.textContent = buildReport(res);
-  }
-
-  function onClear() {
-    els.pdf.value = "";
-    els.cv.value = "";
-    els.jd.value = "";
-    els.preview.textContent = "Nothing extracted yet.";
-    setState("Ready. Upload a CV PDF.", "Tip: If extraction fails, your PDF is likely scanned (image-only). Paste CV text instead.");
-  }
 
   /* =========================================================
      PDF.js extraction
   ========================================================= */
-  async function extractTextFromPdf(file) {
-    if (!window.pdfjsLib) throw new Error("PDF.js not loaded.");
+ async function extractTextFromPdf(file) {
+  await ensurePdfJsLoaded();
 
-    const buffer = await file.arrayBuffer();
-    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+  const buffer = await file.arrayBuffer();
+  const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
 
-    let out = "";
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const content = await page.getTextContent();
-      out += "\n" + content.items.map(it => (it?.str ? it.str : "")).join(" ");
-    }
-    return out;
+  let out = "";
+  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+    const page = await pdf.getPage(pageNum);
+    const content = await page.getTextContent();
+    out += "\n" + content.items.map(it => (it?.str ? it.str : "")).join(" ");
   }
+  return out;
+}
+
 
   /* =========================================================
      SCORING
@@ -366,6 +345,57 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
   /* =========================================================
      KEYWORD HELPERS
   ========================================================= */
+ async function ensurePdfJsLoaded() {
+  if (window.pdfjsLib) return;
+
+  await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.js")
+    .catch(() =>
+      loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.min.js")
+    );
+
+  if (!window.pdfjsLib) {
+    throw new Error("PDF.js failed to load (CDN blocked or network error).");
+  }
+
+  if (window.pdfjsLib?.GlobalWorkerOptions) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.js";
+  }
+}
+
+function loadScriptOnce(src) {
+  return new Promise((resolve, reject) => {
+    const filename = src.split("/").pop();
+    const alreadyLoaded = [...document.scripts].some(
+      s => (s.src || "").includes(filename)
+    );
+
+    if (alreadyLoaded) {
+      resolve();
+      return;
+    }
+
+    const s = document.createElement("script");
+    s.src = src;
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("Script load error: " + src));
+    document.head.appendChild(s);
+  });
+}
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   function extractKeywordsFromJd(jd) {
     const toks = jd
       .toLowerCase()
