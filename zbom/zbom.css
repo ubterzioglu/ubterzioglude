@@ -219,8 +219,11 @@ a{color:inherit}
   display:grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
-  align-items:start; /* stop equal-height stretching */
+  align-items:start;
+
+  grid-auto-rows: 238px; /* eşit kart yüksekliği BURADAN */
 }
+
 
 @media(max-width: 1200px){
   .grid{grid-template-columns: repeat(3,1fr);}
@@ -245,11 +248,11 @@ a{color:inherit}
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
   position: relative;
 
-  /* fixed size like you want */
-  height: 238px;
+  height: 100%;           /* kart yüksekliği grid-auto-rows’tan gelsin */
   display:flex;
   flex-direction:column;
 }
+
 
 .card:hover{
   border-color: rgba(255,255,255,.25);
