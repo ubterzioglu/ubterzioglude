@@ -18,7 +18,7 @@
   const syncPill = $("syncPill");
 
   const modalOverlay = $("modalOverlay");
-  const openSubmit = $("openSubmit");
+  const openSubmit = $("openSubmit") || document.querySelector(".submitBtn");
   const closeModal = $("closeModal");
   const submitCancel = $("submitCancel");
   const submitSend = $("submitSend");
@@ -55,9 +55,6 @@
   }
 
   function toZbomItem(x) {
-    // Accept explorer-data.js shape:
-    // { id, title, img, href, note, category? }
-    // Normalize to internal shape:
     return {
       id: x.id,
       title: x.title,
@@ -83,15 +80,12 @@
     { key: "user-added", label: "Added by users" }
   ];
 
-  // Runtime store
   let activeKey = "explore";
   let userAdded = [];
   let allCurated = [];
 
-  // ----------------------------
-  // Helpers
-  // ----------------------------
   function setPill(kind, text) {
+    if (!syncPill) return;
     syncPill.className = "pill " + kind;
     syncPill.textContent = text;
   }
@@ -140,6 +134,8 @@
   }
 
   function renderGrid(items) {
+    if (!gridEl || !emptyEl) return;
+
     gridEl.innerHTML = "";
     emptyEl.style.display = items.length ? "none" : "";
 
@@ -155,7 +151,7 @@
 
       const tagHtml = tags
         .filter(Boolean)
-        .map(t => `<span class="tag">${escapeHtml(t)}</span>`)
+        .map((t) => `<span class="tag">${escapeHtml(t)}</span>`)
         .join("");
 
       const el = document.createElement("div");
@@ -180,7 +176,7 @@
   }
 
   function computeCounts() {
-    const q = qEl.value.trim();
+    const q = (qEl?.value || "").trim();
     const baseCurated = allCurated;
     const counts = {};
 
@@ -191,14 +187,16 @@
       } else if (m.key === "explore") {
         list = baseCurated;
       } else {
-        list = baseCurated.filter(x => x.category === m.key);
+        list = baseCurated.filter((x) => x.category === m.key);
       }
-      counts[m.key] = list.filter(x => matches(x, q)).length;
+      counts[m.key] = list.filter((x) => matches(x, q)).length;
     }
     return counts;
   }
 
   function renderNav() {
+    if (!navEl) return;
+
     const counts = computeCounts();
     navEl.innerHTML = "";
 
@@ -218,23 +216,24 @@
   }
 
   function getActiveList() {
-    const q = qEl.value.trim();
+    const q = (qEl?.value || "").trim();
 
     if (activeKey === "user-added") {
-      return userAdded.filter(x => matches(x, q));
+      return userAdded.filter((x) => matches(x, q));
     }
 
     if (activeKey === "explore") {
-      return allCurated.filter(x => matches(x, q));
+      return allCurated.filter((x) => matches(x, q));
     }
 
     return allCurated
-      .filter(x => x.category === activeKey)
-      .filter(x => matches(x, q));
+      .filter((x) => x.category === activeKey)
+      .filter((x) => matches(x, q));
   }
 
   function updateTitle() {
-    const m = MENU.find(x => x.key === activeKey);
+    if (!viewTitleEl) return;
+    const m = MENU.find((x) => x.key === activeKey);
     viewTitleEl.textContent = m ? m.label : "Explore";
   }
 
@@ -244,9 +243,6 @@
     renderGrid(getActiveList());
   }
 
-  // ----------------------------
-  // User submissions (API)
-  // ----------------------------
   async function loadUserAdded() {
     try {
       setPill("warn", "Loading…");
@@ -267,45 +263,52 @@
     }
   }
 
-  // ----------------------------
-  // Submit modal
-  // ----------------------------
   function fillCategorySelect() {
+    if (!sCat) return;
+
     const cats = MENU
-      .filter(x => !["user-added"].includes(x.key))
-      .map(x => x.key)
-      .filter(x => x !== "explore");
+      .filter((x) => !["user-added"].includes(x.key))
+      .map((x) => x.key)
+      .filter((x) => x !== "explore");
 
     sCat.innerHTML = cats
-      .map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`)
+      .map((k) => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`)
       .join("");
   }
 
   function openModal() {
-    submitMsg.textContent = "";
-    submitMsg.style.opacity = "0.8";
-    submitMsg.style.color = "";
+    if (!modalOverlay) return;
 
-    sTitle.value = "";
-    sUrl.value = "";
-    sImg.value = "";
-    sNote.value = "";
-    sCat.value = "tools";
+    if (submitMsg) {
+      submitMsg.textContent = "";
+      submitMsg.style.opacity = "0.8";
+      submitMsg.style.color = "";
+    }
+
+    if (sTitle) sTitle.value = "";
+    if (sUrl) sUrl.value = "";
+    if (sImg) sImg.value = "";
+    if (sNote) sNote.value = "";
+    if (sCat) sCat.value = "tools";
 
     modalOverlay.style.display = "flex";
   }
 
   function closeModalNow() {
+    if (!modalOverlay) return;
     modalOverlay.style.display = "none";
   }
 
   async function submit() {
+    if (!submitMsg || !submitSend) return;
+
     submitMsg.textContent = "";
-    const title = sTitle.value.trim();
-    const url = normalizeUrl(sUrl.value.trim());
-    const note = sNote.value.trim();
-    const category = (sCat.value || "tools").trim();
-    const img = sImg.value.trim();
+
+    const title = (sTitle?.value || "").trim();
+    const url = normalizeUrl((sUrl?.value || "").trim());
+    const note = (sNote?.value || "").trim();
+    const category = ((sCat?.value || "tools") + "").trim();
+    const img = (sImg?.value || "").trim();
 
     if (!title || !url) {
       submitMsg.style.color = "#ffd";
@@ -334,7 +337,7 @@
       submitMsg.textContent = "Thanks! Your submission is now under 'Added by users'.";
 
       await loadUserAdded();
-      userAdded = (userAdded || []).map(x => ({ ...x, by: "user" }));
+      userAdded = (userAdded || []).map((x) => ({ ...x, by: "user" }));
       updateView();
 
       setTimeout(closeModalNow, 700);
@@ -347,35 +350,34 @@
     }
   }
 
-  // ----------------------------
-  // Init
-  // ----------------------------
   async function init() {
     fillCategorySelect();
 
-    // curated from explorer-data.js (zbom set)
     const curatedRaw = getCuratedFromExplorer();
     const curatedSource = curatedRaw.length ? curatedRaw : FALLBACK_CURATED;
 
     allCurated = curatedSource
       .map(toZbomItem)
-      .filter(x => x.url || x.title);
+      .filter((x) => x.url || x.title);
 
     await loadUserAdded();
-    userAdded = (userAdded || []).map(x => ({ ...x, by: "user" }));
+    userAdded = (userAdded || []).map((x) => ({ ...x, by: "user" }));
 
     updateView();
 
-    qEl.addEventListener("input", updateView);
+    if (qEl) qEl.addEventListener("input", updateView);
 
-    openSubmit.addEventListener("click", openModal);
-    closeModal.addEventListener("click", closeModalNow);
-    submitCancel.addEventListener("click", closeModalNow);
-    submitSend.addEventListener("click", submit);
+    // ✅ SAFE bindings (won't crash if an element is missing)
+    if (openSubmit) openSubmit.addEventListener("click", openModal);
+    if (closeModal) closeModal.addEventListener("click", closeModalNow);
+    if (submitCancel) submitCancel.addEventListener("click", closeModalNow);
+    if (submitSend) submitSend.addEventListener("click", submit);
 
-    modalOverlay.addEventListener("click", (e) => {
-      if (e.target === modalOverlay) closeModalNow();
-    });
+    if (modalOverlay) {
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) closeModalNow();
+      });
+    }
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModalNow();
