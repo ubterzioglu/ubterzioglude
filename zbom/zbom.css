@@ -220,9 +220,8 @@ a{color:inherit}
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
   align-items:start;
-
-  grid-auto-rows: 238px; /* eşit kart yüksekliği BURADAN */
 }
+
 
 
 @media(max-width: 1200px){
@@ -243,15 +242,17 @@ a{color:inherit}
   background: var(--card);
   border: 1px dashed var(--line);
   border-radius: 14px;
-  overflow:hidden;
   cursor:pointer;
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
   position: relative;
 
-  height: 100%;           /* kart yüksekliği grid-auto-rows’tan gelsin */
   display:flex;
   flex-direction:column;
+
+  min-height: 230px;   /* Arca hissi */
+  overflow: visible;   /* ÖNEMLİ */
 }
+
 
 
 .card:hover{
@@ -319,13 +320,11 @@ a{color:inherit}
 
 .body{
   padding:10px 11px 12px;
-
-  /* stable internal layout */
   display:flex;
   flex-direction:column;
-  flex: 1;
-  min-height: 0;
+  gap:6px;
 }
+
 
 .name{
   font-size:13px;
@@ -594,4 +593,31 @@ textarea{ min-height: 110px; resize: vertical; }
   opacity:1;
   transform: translateY(-1px);
   border-color: rgba(255,255,255,.32);
+}
+
+
+#grid .card .desc{
+  display:block !important;
+  visibility:visible !important;
+  opacity:.58 !important;
+  color: var(--muted) !important;
+
+  line-height:1.4 !important;
+  height: calc(1.4em * 3) !important;  /* 3 satır alan */
+  overflow:hidden !important;
+  margin:0 0 8px 0 !important;
+}
+
+#grid .card .note,
+#grid .card .text,
+#grid .card .description{
+  display:block !important;
+  visibility:visible !important;
+  opacity:.58 !important;
+  color: var(--muted) !important;
+
+  line-height:1.4 !important;
+  height: calc(1.4em * 3) !important;
+  overflow:hidden !important;
+  margin:0 0 8px 0 !important;
 }

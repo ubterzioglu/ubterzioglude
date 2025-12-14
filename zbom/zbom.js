@@ -54,18 +54,24 @@
     }
   }
 
-  function toZbomItem(x) {
-    return {
-      id: x.id,
-      title: x.title,
-      url: x.href || x.url || "",
-      note: x.note || "",
-      img: x.img || "",
-      category: (x.category || "tools").trim(),
-      tags: Array.isArray(x.tags) ? x.tags : [],
-      by: "curated"
-    };
-  }
+  function toZbomItem(x, forcedBy) {
+  const url =
+    x.href || x.url || x.link || x.website || x.site || x.homepage || "";
+
+  const note =
+    x.note || x.desc || x.description || x.summary || x.text || "";
+
+  return {
+    id: x.id || (x.title ? x.title.toLowerCase().replace(/\s+/g, "-") : crypto.randomUUID()),
+    title: x.title || x.name || "Untitled",
+    url,
+    note,
+    img: x.img || x.image || x.thumb || "",
+    category: ((x.category || "tools") + "").trim(),
+    tags: Array.isArray(x.tags) ? x.tags : [],
+    by: forcedBy || x.by || "curated"
+  };
+}
 
   // Categories (sidebar)
   const MENU = [
@@ -255,7 +261,8 @@
         return;
       }
 
-      userAdded = Array.isArray(data.items) ? data.items : [];
+      userAdded = (Array.isArray(data.items) ? data.items : [])
+      .map((x) => toZbomItem(x, "user"));
       setPill("ok", "Live");
     } catch {
       userAdded = [];
