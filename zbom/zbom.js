@@ -2,8 +2,8 @@
   FILE: /zbom/zbom.js
   PURPOSE:
   - Arca-like UI: sidebar categories + search + grid
-  - Curated data is local (manual-first)
-  - User submissions are loaded from /api/zbom-list (optional)
+  - Curated data comes from window.EXPLORER_DATA.zbom (manual-first)
+  - User submissions are loaded from /api/zbom-list (KV)
   - Submit modal posts to /api/zbom-submit
 ========================================================= */
 
@@ -31,42 +31,46 @@
   const submitMsg = $("submitMsg");
 
   // ----------------------------
-  // CURATED (manual-first)
-  // You will edit these.
+  // FALLBACK CURATED (only if EXPLORER_DATA.zbom is missing/empty)
   // ----------------------------
-  const CURATED = [
-    // example items (replace with yours)
+  const FALLBACK_CURATED = [
     {
       id: "portable-apps",
       title: "PortableApps",
-      url: "https://portableapps.com/",
+      href: "https://portableapps.com/",
       note: "Run apps without installation, directly from a USB stick or folder.",
       img: "/img/z0bookmark0010.png",
       category: "tools"
     }
   ];
 
-  // Optional: pull from your existing explorer-data.js bookmarks if you want
-  // (Only if that file is loaded on this page; by default it isn't.)
-  function getExplorerBookmarksIfAny() {
+  function getCuratedFromExplorer() {
     try {
-      const b = window.EXPLORER_DATA?.zbom;
-      if (!Array.isArray(b)) return [];
-      return b.map(x => ({
-        id: x.id,
-        title: x.title,
-        url: x.href,
-        note: x.note,
-        img: x.img,
-        category: "bookmarks"
-      }));
+      const arr = window.EXPLORER_DATA?.zbom;
+      if (!Array.isArray(arr)) return [];
+      return arr;
     } catch {
       return [];
     }
   }
 
+  function toZbomItem(x) {
+    // Accept explorer-data.js shape:
+    // { id, title, img, href, note, category? }
+    // Normalize to internal shape:
+    return {
+      id: x.id,
+      title: x.title,
+      url: x.href || x.url || "",
+      note: x.note || "",
+      img: x.img || "",
+      category: (x.category || "tools").trim(),
+      tags: Array.isArray(x.tags) ? x.tags : [],
+      by: "curated"
+    };
+  }
+
   // Categories (sidebar)
-  // You can change labels/order freely.
   const MENU = [
     { key: "explore", label: "Explore" },
     { key: "libraries", label: "Libraries" },
@@ -81,7 +85,7 @@
 
   // Runtime store
   let activeKey = "explore";
-  let userAdded = []; // loaded from API
+  let userAdded = [];
   let allCurated = [];
 
   // ----------------------------
@@ -90,6 +94,14 @@
   function setPill(kind, text) {
     syncPill.className = "pill " + kind;
     syncPill.textContent = text;
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function normalizeUrl(url) {
@@ -167,19 +179,9 @@
     }
   }
 
-  function escapeHtml(s) {
-    return String(s ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
-
   function computeCounts() {
     const q = qEl.value.trim();
-
     const baseCurated = allCurated;
-    const curatedExplore = baseCurated; // explore = all curated
     const counts = {};
 
     for (const m of MENU) {
@@ -187,7 +189,7 @@
       if (m.key === "user-added") {
         list = userAdded;
       } else if (m.key === "explore") {
-        list = curatedExplore;
+        list = baseCurated;
       } else {
         list = baseCurated.filter(x => x.category === m.key);
       }
@@ -222,7 +224,6 @@
       return userAdded.filter(x => matches(x, q));
     }
 
-    // explore = all curated
     if (activeKey === "explore") {
       return allCurated.filter(x => matches(x, q));
     }
@@ -250,10 +251,9 @@
     try {
       setPill("warn", "Loading…");
       const res = await fetch("/api/zbom-list?limit=200", { cache: "no-store" });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        // API not configured is acceptable
         userAdded = [];
         setPill("warn", data?.error ? "Submissions off" : "Offline");
         return;
@@ -261,7 +261,7 @@
 
       userAdded = Array.isArray(data.items) ? data.items : [];
       setPill("ok", "Live");
-    } catch (e) {
+    } catch {
       userAdded = [];
       setPill("warn", "Offline");
     }
@@ -270,6 +270,17 @@
   // ----------------------------
   // Submit modal
   // ----------------------------
+  function fillCategorySelect() {
+    const cats = MENU
+      .filter(x => !["user-added"].includes(x.key))
+      .map(x => x.key)
+      .filter(x => x !== "explore");
+
+    sCat.innerHTML = cats
+      .map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`)
+      .join("");
+  }
+
   function openModal() {
     submitMsg.textContent = "";
     submitMsg.style.opacity = "0.8";
@@ -286,18 +297,6 @@
 
   function closeModalNow() {
     modalOverlay.style.display = "none";
-  }
-
-  function fillCategorySelect() {
-    // categories except user-added
-    const cats = MENU
-      .filter(x => !["user-added"].includes(x.key))
-      .map(x => x.key)
-      .filter(x => x !== "explore");
-
-    sCat.innerHTML = cats
-      .map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`)
-      .join("");
   }
 
   async function submit() {
@@ -323,7 +322,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, url, note, category, img })
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
         submitMsg.style.color = "#ffd";
@@ -333,13 +332,13 @@
 
       submitMsg.style.color = "#dfffe7";
       submitMsg.textContent = "Thanks! Your submission is now under 'Added by users'.";
-      // refresh list
+
       await loadUserAdded();
+      userAdded = (userAdded || []).map(x => ({ ...x, by: "user" }));
       updateView();
 
-      // close after a short moment
       setTimeout(closeModalNow, 700);
-    } catch (e) {
+    } catch {
       submitMsg.style.color = "#ffd";
       submitMsg.textContent = "Network error.";
     } finally {
@@ -354,38 +353,30 @@
   async function init() {
     fillCategorySelect();
 
-    // curated = manual list + optional explorer bookmarks
-    allCurated = []
-      .concat(CURATED)
-      .concat(getExplorerBookmarksIfAny())
-      .map(x => ({
-        ...x,
-        by: "curated"
-      }));
+    // curated from explorer-data.js (zbom set)
+    const curatedRaw = getCuratedFromExplorer();
+    const curatedSource = curatedRaw.length ? curatedRaw : FALLBACK_CURATED;
+
+    allCurated = curatedSource
+      .map(toZbomItem)
+      .filter(x => x.url || x.title);
 
     await loadUserAdded();
-
-    // mark user items
     userAdded = (userAdded || []).map(x => ({ ...x, by: "user" }));
 
-    // initial render
     updateView();
 
-    // search
-    qEl.addEventListener("input", () => updateView());
+    qEl.addEventListener("input", updateView);
 
-    // modal hooks
     openSubmit.addEventListener("click", openModal);
     closeModal.addEventListener("click", closeModalNow);
     submitCancel.addEventListener("click", closeModalNow);
     submitSend.addEventListener("click", submit);
 
-    // close when clicking outside
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) closeModalNow();
     });
 
-    // ESC
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModalNow();
     });
