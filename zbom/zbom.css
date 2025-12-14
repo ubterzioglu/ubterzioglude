@@ -3,11 +3,11 @@
   PURPOSE:
   - Arca.directory inspired dark directory UI
   - Smaller cards, dotted borders, calm contrast
-  - Add ↗ icon on cards + subtle thumb noise/grid
+  - Add subtle thumb noise/grid
   - Fix Submit button to be Arca-like (white pill + plus)
   - Brand spacing + centered brand block
   - Corner widget (top-left)
-  - FIX: prevent grid stretch -> no huge empty space under cards
+  - FIX: cards same height, 3-line description area, meta pinned to bottom
 ========================================================= */
 
 :root{
@@ -70,11 +70,7 @@ a{color:inherit}
   display:flex;
   align-items:center;
   gap:12px;
-
-  /* eski: padding 6px 6px; -> biraz daha nefes */
   padding: 14px 6px 8px;
-
-  /* logolar + yazıyı sidebar içinde ortala */
   justify-content: center;
   text-align: center;
 }
@@ -85,14 +81,12 @@ a{color:inherit}
   opacity:.85;
 }
 
-/* brand text block center */
 .brand > div{
   display:flex;
   flex-direction:column;
   align-items:center;
 }
 
-/* yazıyı biraz aşağı al */
 .brand b{
   font-size:13px;
   font-weight:600;
@@ -107,7 +101,7 @@ a{color:inherit}
 }
 
 .nav{
-  margin-top: 20px; /* Arca gibi brand ile nav arasında ayrım */
+  margin-top: 20px;
   display:flex;
   flex-direction:column;
   gap:2px;
@@ -218,17 +212,14 @@ a{color:inherit}
 
 /* =========================================================
    Grid (smaller like Arca)
-   FIX: prevent stretch -> no huge empty space under cards
+   IMPORTANT: keep normal grid, but stop stretching cards
 ========================================================= */
 
 .grid{
   display:grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
-
-  /* CRITICAL: stop equal-height cards */
-  align-items: start;
-  align-content: start;
+  align-items:start; /* stop equal-height stretching */
 }
 
 @media(max-width: 1200px){
@@ -242,7 +233,7 @@ a{color:inherit}
 }
 
 /* =========================================================
-   Card
+   Card (fixed height + stable internal layout)
 ========================================================= */
 
 .card{
@@ -254,8 +245,10 @@ a{color:inherit}
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
   position: relative;
 
-  /* safety: each card keeps its own height */
-  align-self: start;
+  /* fixed size like you want */
+  height: 238px;
+  display:flex;
+  flex-direction:column;
 }
 
 .card:hover{
@@ -264,32 +257,11 @@ a{color:inherit}
   transform: translateY(-1px);
 }
 
-/* small ↗ icon */
-.card::after{
-  content: "↗";
-  position:absolute;
-  right: 10px;
-  top: 10px;
-  width: 22px;
-  height: 22px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.25);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 12px;
-  opacity: .0;
-  transform: translateY(2px);
-  transition: opacity .14s ease, transform .14s ease, border-color .14s ease, background .14s ease;
-  pointer-events: none;
-}
-
+/* REMOVE ↗ icon completely */
+.card::after,
 .card:hover::after{
-  opacity: .85;
-  transform: translateY(0);
-  border-color: rgba(255,255,255,.18);
-  background: rgba(0,0,0,.35);
+  content:none !important;
+  display:none !important;
 }
 
 .thumb{
@@ -344,6 +316,12 @@ a{color:inherit}
 
 .body{
   padding:10px 11px 12px;
+
+  /* stable internal layout */
+  display:flex;
+  flex-direction:column;
+  flex: 1;
+  min-height: 0;
 }
 
 .name{
@@ -352,14 +330,14 @@ a{color:inherit}
   margin:0 0 6px 0;
 }
 
+/* always reserve exactly 3 lines of height */
 .desc{
   font-size:12px;
   opacity:.58;
   line-height:1.4;
   margin:0 0 8px 0;
 
-  /* no -webkit-line-clamp */
-  max-height: calc(1.4em * 3); /* 3 lines */
+  height: calc(1.4em * 3);
   overflow: hidden;
 }
 
@@ -368,6 +346,7 @@ a{color:inherit}
   gap:6px;
   flex-wrap:wrap;
   align-items:center;
+  margin-top:auto; /* meta pinned to bottom */
 }
 
 .tag{
