@@ -7,15 +7,17 @@
 ========================================================= */
 
 :root{
-  --bg: #0b0f1f;
+  /* Arca vibe = almost black */
+  --bg:#070708;
+
   --panel: rgba(255,255,255,.02);
   --card: rgba(255,255,255,.03);
+
   --text: rgba(255,255,255,.92);
   --muted: rgba(255,255,255,.60);
-  --line: rgba(255,255,255,.08);
 
-  --accent: rgba(255,255,255,.14);
-  --accent2: rgba(255,255,255,.10);
+  --line: rgba(255,255,255,.08);
+  --line2: rgba(255,255,255,.06);
 
   --ok: rgba(73,209,125,.14);
   --warn: rgba(255,193,7,.14);
@@ -31,7 +33,14 @@ html,body{height:100%}
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: var(--bg);
+
+  /* subtle arca-ish depth without “blue” */
+  background:
+    radial-gradient(1100px 700px at 70% -10%, rgba(255,255,255,.06), transparent 55%),
+    radial-gradient(900px 600px at 10% 20%, rgba(255,255,255,.04), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 220px),
+    var(--bg);
+
   color: var(--text);
 }
 
@@ -58,9 +67,9 @@ a{color:inherit}
 ========================================================= */
 
 .sidebar{
-  border-right: 1px solid var(--line);
-  background: rgba(0,0,0,.12);
-  backdrop-filter: none;
+  border-right: 1px solid var(--line2);
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(10px);
   padding: 16px 14px;
 }
 
@@ -131,7 +140,7 @@ a{color:inherit}
   border: 1px solid rgba(255,255,255,.10);
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(0,0,0,.08);
+  background: rgba(0,0,0,.18);
 }
 
 .sidebarBottom{
@@ -243,10 +252,11 @@ a{color:inherit}
 
 .grid{
   display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* Arca feels denser on wide screens */
 @media(min-width: 1200px){
   .grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
@@ -260,8 +270,8 @@ a{color:inherit}
 }
 
 .card{
-  border: 1px solid rgba(255,255,255,.08);
-  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.02);
   border-radius: 14px;
   overflow:hidden;
   box-shadow: none;
@@ -271,13 +281,13 @@ a{color:inherit}
 
 .card:hover{
   transform: translateY(-1px);
-  background: rgba(255,255,255,.045);
-  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.03);
+  border-color: rgba(255,255,255,.18);
 }
 
 .thumb{
   height: 120px;
-  background: rgba(0,0,0,.18);
+  background: rgba(255,255,255,.02);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -315,6 +325,7 @@ a{color:inherit}
   opacity: .62;
   line-height: 1.42;
   margin: 0 0 10px 0;
+  color: var(--muted);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -367,7 +378,7 @@ a{color:inherit}
 .modal{
   width: min(720px, 100%);
   border: 1px solid rgba(255,255,255,.10);
-  background: rgba(12,16,32,.98);
+  background: rgba(10,10,12,.98);
   border-radius: 16px;
   box-shadow: 0 20px 70px rgba(0,0,0,.55);
   overflow:hidden;
