@@ -286,3 +286,29 @@ body {
 html { scroll-behavior:smooth; }
 /* END of file: ubt-shared.css */
 
+.insights-panel {
+  margin-top: 14px;
+}
+
+.insight-block {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+}
+
+.insight-block.issues {
+  border-left: 4px solid #ff6b6b;
+}
+
+.insight-block.fixes {
+  border-left: 4px solid #51cf66;
+}
+
+.insight-block ul {
+  margin: 6px 0 0 16px;
+  padding: 0;
+  font-size: 13px;
+  color: var(--text);
+}

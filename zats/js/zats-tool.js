@@ -1,11 +1,10 @@
 /* =========================================================
   FILE: /zats/js/zats-tool.js
   PURPOSE:
-  - ZATS – ATS Readability Score (ZAT-like UI)
-  - Button flow (B): user clicks Extract / Calculate / Clear
-  - PDF.js text extraction (text-based PDFs)
-  - ATS Readability scoring (0–100) with EN/TR/DE support
-  - Updates: #result, #hint, #previewText
+  - ZATS – ATS Readability Score
+  - PDF.js local extraction
+  - ATS scoring (EN / DE / TR)
+  - Insights shown ABOVE text areas
   PRIVACY:
   - 100% client-side, no upload
 ========================================================= */
@@ -13,55 +12,36 @@
 (function () {
   "use strict";
 
-  /* =========================================================
-     SECTION DETECTION (EN / DE / TR)
-  ========================================================= */
+  /* ===================== CONFIG ===================== */
+  const WORKER_SRC = "./vendor/pdfjs/pdf.worker.min.js?v=1";
+
+  /* ===================== SECTION HINTS ===================== */
   const SECTION_HINTS = [
-    { name: "Experience",      rx: /(experience|work experience|employment|professional experience|berufserfahrung|erfahrung|iş deneyimi|deneyim)/i },
-    { name: "Skills",          rx: /(skills|skill set|tech stack|technologies|tools|kenntnisse|fähigkeiten|kompetenzen|yetenek|beceri)/i },
-    { name: "Education",       rx: /(education|educational background|studium|ausbildung|bildung|eğitim|üniversite|school)/i },
-    { name: "Certifications",  rx: /(certification|certifications|certified|zertifikat|zertifikate|zertifizierung|sertifika)/i },
-    { name: "Summary/Profile", rx: /(summary|profile|about me|kurzprofil|profil|über mich|özet|hakkımda)/i }
+    { name: "Experience", rx: /(experience|work experience|employment|professional experience|berufserfahrung|iş deneyimi)/i },
+    { name: "Skills", rx: /(skills|tech stack|technologies|tools|kenntnisse|yetenek)/i },
+    { name: "Education", rx: /(education|studium|ausbildung|eğitim|üniversite)/i },
+    { name: "Certifications", rx: /(certification|zertifikat|sertifika)/i }
   ];
 
-  /* =========================================================
-     FALLBACK KEYWORDS (language-agnostic tech)
-  ========================================================= */
+  /* ===================== KEYWORDS ===================== */
   const FALLBACK_KEYWORDS = [
-    "test","testing","qa","quality","automation","selenium","playwright","cypress","ranorex",
-    "jira","xray","testrail","postman","api","rest","ci","cd","cicd","jenkins","github",
-    "docker","kubernetes","sql","python","java","c#",".net","istqb",
-    "agile","scrum","kanban"
+    "qa","testing","automation","selenium","playwright","cypress","ranorex",
+    "jira","xray","testrail","postman","api","ci","cd","jenkins",
+    "docker","sql","python","java","c#",".net","istqb","agile","scrum"
   ];
 
-  /* =========================================================
-     STOPWORDS (EN + DE + TR)
-  ========================================================= */
-  const STOPWORDS = new Set([
-    // EN
-    "and","or","the","a","an","to","of","in","for","with","on","at","by","as","is","are","be",
-    "we","you","your","our","they","will","must","should","can","this","that",
-    // TR
-    "ve","veya","ile","için","olarak","olan","bir","bu","şu","da","de","mi","mı","mu","mü",
-    "gibi","üzere","en","çok","az","daha","ise","ama","fakat","hem","her","kendi",
-    // DE
-    "und","oder","der","die","das","ein","eine","einer","einem","eines",
-    "mit","für","von","auf","bei","als","ist","sind","war","waren",
-    "werden","wird","kann","muss","soll","wir","sie","ich","du","nicht"
-  ]);
-
-  /* =========================================================
-     OWNERSHIP / IMPACT VERBS (EN + DE + TR)
-  ========================================================= */
+  /* ===================== VERBS ===================== */
   const OWNERSHIP_RX =
-    /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|delivered|shipped|achieved|umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|erreicht|kurdu|tasarlad[ıi]?|geliştird[iı]?|iyileştird[iı]?|azaltt[ıi]?|optimiz(e|e etti|edip))/i;
+    /(led|owned|implemented|designed|built|improved|optimized|delivered|achieved|
+      umgesetzt|entwickelt|verbessert|optimiert|
+      geliştird|iyileştird|kurdu|azaltt)/i;
 
   const GENERIC_RX =
-    /(responsible for|worked on|involved in|verantwortlich für|beteiligt|mitgewirkt|sorumlu|görev aldım|destek oldum)/i;
+    /(responsible for|worked on|involved in|
+      verantwortlich für|beteiligt|
+      sorumlu|destek oldum)/i;
 
-  /* =========================================================
-     DOM
-  ========================================================= */
+  /* ===================== DOM ===================== */
   const els = {};
   let issues = [];
   let fixes = [];
@@ -70,77 +50,66 @@
     els.pdf = q("#pdfUpload");
     els.cv = q("#cvText");
     els.jd = q("#jdText");
+    els.preview = q("#previewText");
+    els.result = q("#result");
+    els.hint = q("#hint");
+
     els.btnExtract = q("#btnExtract");
     els.btnScore = q("#btnScore");
     els.btnClear = q("#btnClear");
-    els.result = q("#result");
-    els.hint = q("#hint");
-    els.preview = q("#previewText");
 
-    if (!els.pdf || !els.cv || !els.jd || !els.btnExtract || !els.btnScore || !els.btnClear || !els.result || !els.hint || !els.preview) {
-      return;
-    }
-
-    // IMPORTANT: worker must be local to avoid CDN blocks
     if (window.pdfjsLib?.GlobalWorkerOptions) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.js?v=1";
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER_SRC;
     }
 
-    els.btnExtract.addEventListener("click", onExtract);
-    els.btnScore.addEventListener("click", onScore);
-    els.btnClear.addEventListener("click", onClear);
+    els.btnExtract.onclick = onExtract;
+    els.btnScore.onclick = onScore;
+    els.btnClear.onclick = onClear;
 
-    setState("Ready.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.");
+    setState("Ready.", "Upload a text-based CV PDF or paste CV text.");
     els.preview.textContent = "Nothing extracted yet.";
   });
 
-  /* =========================================================
-     ACTIONS
-  ========================================================= */
+  /* ===================== ACTIONS ===================== */
+
   async function onExtract() {
     const file = els.pdf.files?.[0];
-    if (!file) {
-      setState("Error: no PDF selected.", "Choose a PDF first.");
-      return;
-    }
+    if (!file) return setState("Error.", "No PDF selected.");
 
     try {
       setBusy(true);
-      setState("Extracting…", "Reading PDF text layer (client-side).");
+      setState("Extracting…", "Reading PDF text layer.");
 
-      const text = await extractTextFromPdf(file);
-      const clean = normalize(text);
-
-      if (!clean || clean.length < 80) {
-        setState("Extract failed.", "This PDF seems scanned (image-only) or has no text layer. Paste CV text instead, or export a text-based PDF.");
-        els.preview.textContent = "No readable text layer detected.";
+      const text = normalize(await extractTextFromPdf(file));
+      if (text.length < 80) {
+        setState("Extract failed.", "PDF is scanned or has no text layer.");
+        els.preview.textContent = "No readable text detected.";
         return;
       }
 
-      els.cv.value = clean;
-      els.preview.textContent = clean.slice(0, 2600);
-      setState(`Extracted (${clean.length} chars).`, "Now click 'Calculate score'.");
+      els.cv.value = text;
+      els.preview.textContent = text.slice(0, 2600);
+      setState("Extracted.", "Now click Calculate score.");
     } catch (e) {
-      setState("Error: extract failed.", String(e?.message || e));
+      setState("Error.", e.message);
     } finally {
       setBusy(false);
     }
   }
 
   function onScore() {
-    const cv = normalize(els.cv.value || "");
-    const jd = normalize(els.jd.value || "");
+    const cv = normalize(els.cv.value);
+    const jd = normalize(els.jd.value);
 
     if (cv.length < 120) {
-      setState("Error: CV text too short.", "Paste more CV text or extract from a text-based PDF.");
-      return;
+      return setState("Error.", "CV text too short.");
     }
 
-    setState("Scoring…", "Estimating ATS-readiness (parseability + structure + keywords + evidence).");
-
+    setState("Scoring…", "Analyzing ATS-readiness.");
     const res = scoreAts(cv, jd);
 
     setState(`${res.total}/100`, res.badge);
+    renderInsights(res);
     els.preview.textContent = buildReport(res);
   }
 
@@ -149,252 +118,135 @@
     els.cv.value = "";
     els.jd.value = "";
     els.preview.textContent = "Nothing extracted yet.";
-    setState("Ready.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.");
+    hideInsights();
+    setState("Ready.", "Upload a text-based CV PDF or paste CV text.");
   }
 
-  /* =========================================================
-     PDF.js extraction (LOCAL)
-  ========================================================= */
-  async function extractTextFromPdf(file) {
-    if (!window.pdfjsLib) {
-      throw new Error("PDF.js not loaded. Check zats.html loads ./vendor/pdfjs/pdf.min.js (and that file is real JS, not HTML).");
-    }
+  /* ===================== PDF ===================== */
 
-    // Re-apply worker src in case something overwrote it
-    if (window.pdfjsLib?.GlobalWorkerOptions) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.js?v=1";
-    }
+  async function extractTextFromPdf(file) {
+    if (!window.pdfjsLib) throw new Error("PDF.js not loaded.");
 
     const buffer = await file.arrayBuffer();
-    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+    const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
 
     let out = "";
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const content = await page.getTextContent();
-      out += "\n" + content.items.map(it => (it?.str ? it.str : "")).join(" ");
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const txt = await page.getTextContent();
+      out += " " + txt.items.map(it => it.str || "").join(" ");
     }
     return out;
   }
 
-  /* =========================================================
-     SCORING
-  ========================================================= */
+  /* ===================== SCORING ===================== */
+
   function scoreAts(cv, jd) {
-    resetFindings();
+    issues = [];
+    fixes = [];
 
-    const parse = scoreParseability(cv);   // 0..30
-    const struct = scoreStructure(cv);     // 0..20
-    const kw = scoreKeywords(cv, jd);      // 0..30
-    const ev = scoreEvidence(cv);          // 0..20
+    const parse = scoreParse(cv);
+    const struct = scoreStructure(cv);
+    const kw = scoreKeywords(cv, jd);
+    const ev = scoreEvidence(cv);
 
-    const total = clamp(Math.round(parse + struct + kw + ev), 0, 100);
+    const total = clamp(parse + struct + kw + ev, 0, 100);
 
     return {
       total,
-      sub: {
-        parse: Math.round(parse),
-        structure: Math.round(struct),
-        keywords: Math.round(kw),
-        evidence: Math.round(ev)
-      },
       badge: badgeText(total),
-      issues: uniq(issues).slice(0, 10),
-      fixes: uniq(fixes).slice(0, 10),
-      meta: { jdUsed: (jd || "").trim().length >= 80 }
+      issues,
+      fixes
     };
   }
 
-  function resetFindings() { issues = []; fixes = []; }
-
-  function scoreParseability(text) {
+  function scoreParse(t) {
     let s = 30;
 
-    const hasEmail = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text);
-    const hasPhone = /(\+?\d[\d\s().-]{7,}\d)/.test(text);
+    if (!/@/.test(t)) { s -= 6; issues.push("Email not detected."); fixes.push("Add email as plain text."); }
+    if (!/\d{4}/.test(t)) { s -= 6; issues.push("Dates not clearly detected."); fixes.push("Use MM/YYYY – MM/YYYY format."); }
 
-    const hasDates =
-      /\b(19|20)\d{2}\b/.test(text) ||
-      /\b(0?[1-9]|1[0-2])[\/.-](19|20)\d{2}\b/.test(text) ||
-      /\b(0?[1-9]|[12]\d|3[01])[\/.-](0?[1-9]|1[0-2])[\/.-](19|20)\d{2}\b/.test(text);
-
-    if (!hasEmail) { s -= 6; issues.push("Email not detected."); fixes.push("Add your email as plain text near the top."); }
-    if (!hasPhone) { s -= 4; issues.push("Phone number not detected."); fixes.push("Add phone number with country code (e.g., +49…)."); }
-    if (!hasDates) { s -= 6; issues.push("Dates not clearly detected (timeline may be unclear)."); fixes.push("Use consistent dates like MM/YYYY – MM/YYYY."); }
-
-    const specialBullets = (text.match(/[•·▪►➤★✓✔✦✧]/g) || []).length;
-    if (specialBullets > 20) {
-      s -= 4;
-      issues.push("Heavy use of special bullets/icons (can break parsing).");
-      fixes.push("Use simple '-' bullets for maximum ATS compatibility.");
-    }
-
-    const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
-    const longLines = lines.filter(l => l.length > 180).length;
-    if (longLines >= 6) {
-      s -= 6;
-      issues.push("Text looks like multi-column extraction (messy parsing).");
-      fixes.push("Export a single-column PDF (ATS parsing improves a lot).");
+    if ((t.match(/[•✓►★]/g) || []).length > 20) {
+      s -= 4; issues.push("Too many special bullets."); fixes.push("Use '-' bullets.");
     }
 
     return clamp(s, 0, 30);
   }
 
-  function scoreStructure(text) {
+  function scoreStructure(t) {
     let s = 0;
-    const found = new Set();
-
-    for (const sec of SECTION_HINTS) {
-      if (sec.rx.test(text)) found.add(sec.name);
-    }
-
-    if (found.has("Experience")) s += 8;
-    else { issues.push("Missing a clear Experience / Berufserfahrung section."); fixes.push("Add an 'Experience' heading and keep company/role/date format consistent."); }
-
-    if (found.has("Skills")) s += 6;
-    else { issues.push("Missing a dedicated Skills / Kenntnisse section."); fixes.push("Add a Skills section to boost keyword hits."); }
-
-    if (found.has("Education")) s += 4;
-    else { issues.push("Missing an Education / Ausbildung section."); fixes.push("Add Education (school/program/year)."); }
-
-    if (found.has("Certifications")) s += 2;
-
-    return clamp(s, 0, 20);
+    const found = SECTION_HINTS.filter(h => h.rx.test(t)).length;
+    if (found >= 3) s = 20;
+    else { issues.push("Missing clear sections."); fixes.push("Add Experience, Skills, Education headers."); }
+    return s;
   }
 
   function scoreKeywords(cv, jd) {
-    const cvSet = buildTokenSet(cv);
-
-    const jdGood = (jd || "").trim().length >= 80;
-    const kws = jdGood ? extractKeywordsFromJd(jd) : FALLBACK_KEYWORDS;
-
-    let matched = 0;
-    for (const k of kws) if (cvSet.has(k)) matched++;
-
-    const ratio = matched / Math.max(kws.length, 1);
-    const s = Math.round(ratio * 30);
-
-    if (!jdGood) {
-      issues.push("No job description provided (generic keyword list used).");
-      fixes.push("Paste the job description for accurate keyword matching.");
-    } else if (ratio < 0.35) {
-      issues.push("Low keyword match vs job description.");
-      fixes.push("Add missing keywords naturally into Skills/Experience (avoid stuffing).");
-    }
-
-    return clamp(s, 0, 30);
+    const base = jd.length >= 80 ? extractKeywords(jd) : FALLBACK_KEYWORDS;
+    const set = new Set(cv.toLowerCase().split(/\W+/));
+    const hit = base.filter(k => set.has(k)).length;
+    if (jd.length < 80) fixes.push("Paste job description for better matching.");
+    return clamp(Math.round((hit / base.length) * 30), 0, 30);
   }
 
-  function scoreEvidence(text) {
+  function scoreEvidence(t) {
     let s = 20;
-
-    const hasNumbers = /\b\d{1,3}(?:[.,]\d+)?\b/.test(text);
-    const hasPercent = /%/.test(text);
-
-    if (!hasNumbers && !hasPercent) {
-      s -= 8;
-      issues.push("Few measurable outcomes (numbers/metrics).");
-      fixes.push("Add metrics: % coverage, # test cases, time saved, defect reduction.");
-    }
-
-    if (!OWNERSHIP_RX.test(text)) {
-      s -= 4;
-      issues.push("Weak ownership/impact verbs.");
-      fixes.push("Use verbs like implemented / improved / optimized / umgesetzt / verbessert.");
-    }
-
-    if (GENERIC_RX.test(text)) {
-      s -= 4;
-      issues.push("Generic responsibility phrases detected.");
-      fixes.push("Rewrite into impact: “Implemented X resulting in Y”.");
-    }
-
+    if (!/\d+/.test(t)) { s -= 8; issues.push("No measurable results."); fixes.push("Add numbers or percentages."); }
+    if (!OWNERSHIP_RX.test(t)) { s -= 4; issues.push("Weak ownership verbs."); fixes.push("Use action verbs (implemented, improved…)."); }
+    if (GENERIC_RX.test(t)) { s -= 4; issues.push("Generic responsibility phrases."); fixes.push("Rewrite into impact statements."); }
     return clamp(s, 0, 20);
   }
 
-  function badgeText(score) {
-    if (score >= 85) return "Excellent ATS-readiness. Small refinements can make it even stronger.";
-    if (score >= 70) return "Good ATS-readiness. Fix a few gaps to improve ranking.";
-    if (score >= 55) return "Medium ATS-readiness. Structure/keywords/metrics can boost results a lot.";
-    return "Risky ATS-readiness. Simplify layout, add clear sections, and strengthen keywords + metrics.";
+  /* ===================== UI ===================== */
+
+  function renderInsights(res) {
+    const box = q("#insights");
+    const iL = q("#issuesList");
+    const fL = q("#fixesList");
+    if (!box) return;
+
+    iL.innerHTML = "";
+    fL.innerHTML = "";
+
+    res.issues.slice(0, 5).forEach(i => iL.appendChild(li(i)));
+    res.fixes.slice(0, 5).forEach(f => fL.appendChild(li(f)));
+
+    box.style.display = "block";
   }
 
-  function buildReport(res) {
-    const lines = [];
-
-    lines.push(`ATS Readability Score: ${res.total}/100`);
-    lines.push("");
-    lines.push("Subscores:");
-    lines.push(`- Parseability: ${res.sub.parse}/30`);
-    lines.push(`- Structure: ${res.sub.structure}/20`);
-    lines.push(`- Keywords: ${res.sub.keywords}/30${res.meta.jdUsed ? "" : " (generic list)"}`);
-    lines.push(`- Evidence: ${res.sub.evidence}/20`);
-    lines.push("");
-
-    lines.push("Top Issues:");
-    if (res.issues.length) res.issues.forEach(i => lines.push(`- ${i}`));
-    else lines.push("- None detected");
-
-    lines.push("");
-    lines.push("Top Fixes:");
-    if (res.fixes.length) res.fixes.forEach(f => lines.push(`- ${f}`));
-    else lines.push("- No suggestions");
-
-    return lines.join("\n");
+  function hideInsights() {
+    const box = q("#insights");
+    if (box) box.style.display = "none";
   }
 
-  /* =========================================================
-     KEYWORD HELPERS
-  ========================================================= */
-  function extractKeywordsFromJd(jd) {
-    const toks = jd
-      .toLowerCase()
-      .replace(/[^\p{L}\p{N}#+.\s-]/gu, " ")
-      .split(/\s+/)
-      .map(t => t.trim())
-      .filter(t => t.length >= 3)
-      .filter(t => !STOPWORDS.has(t));
+  function buildReport(r) {
+    return `ATS Readability Score: ${r.total}/100
 
-    const out = [];
-    const seen = new Set();
+Top Issues:
+${r.issues.map(i => "- " + i).join("\n") || "- None"}
 
-    for (const t of toks) {
-      const k = t.replace(/^-+|-+$/g, "");
-      if (!k) continue;
-      if (!seen.has(k)) { seen.add(k); out.push(k); }
-      if (out.length >= 80) break;
-    }
-
-    return out.length ? out : FALLBACK_KEYWORDS;
+Top Fixes:
+${r.fixes.map(f => "- " + f).join("\n") || "- None"}`;
   }
 
-  function buildTokenSet(text) {
-    const clean = text
-      .toLowerCase()
-      .replace(/[^\p{L}\p{N}#+.\s-]/gu, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-    const w = clean.split(" ").filter(Boolean);
-    const set = new Set();
-
-    for (let i = 0; i < w.length; i++) {
-      const a = w[i];
-      if (a.length >= 2) set.add(a);
-      if (i < w.length - 1) {
-        const bg = (a + " " + w[i + 1]).trim();
-        if (bg.length >= 4) set.add(bg);
-      }
-    }
-    return set;
+  function badgeText(s) {
+    if (s >= 85) return "Excellent ATS-readiness.";
+    if (s >= 70) return "Good ATS-readiness.";
+    if (s >= 55) return "Medium ATS-readiness.";
+    return "Risky ATS-readiness.";
   }
 
-  /* =========================================================
-     UI HELPERS
-  ========================================================= */
-  function setState(statusText, hintText) {
-    els.result.textContent = statusText;
-    if (typeof hintText === "string") els.hint.textContent = hintText;
+  /* ===================== HELPERS ===================== */
+
+  function extractKeywords(t) {
+    return [...new Set(
+      t.toLowerCase().split(/\W+/).filter(w => w.length > 2)
+    )].slice(0, 50);
+  }
+
+  function setState(t, h) {
+    els.result.textContent = t;
+    els.hint.textContent = h || "";
   }
 
   function setBusy(b) {
@@ -404,30 +256,14 @@
   }
 
   function normalize(s) {
-    return (s || "")
-      .replace(/\r/g, "\n")
-      .replace(/\t/g, " ")
-      .replace(/[ \u00A0]+/g, " ")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
+    return (s || "").replace(/\s+/g, " ").trim();
   }
 
-  function uniq(arr) {
-    const out = [];
-    const seen = new Set();
-    for (const x of (arr || [])) {
-      const k = String(x);
-      if (!seen.has(k)) { seen.add(k); out.push(x); }
-    }
-    return out;
+  function clamp(n, a, b) {
+    return Math.max(a, Math.min(b, n));
   }
 
-  function clamp(n, min, max) {
-    return Math.max(min, Math.min(max, n));
-  }
-
-  function q(sel) {
-    return document.querySelector(sel);
-  }
+  function q(s) { return document.querySelector(s); }
+  function li(t) { const x = document.createElement("li"); x.textContent = t; return x; }
 
 })();

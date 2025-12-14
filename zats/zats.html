@@ -1,11 +1,10 @@
 <!-- =========================================================
   FILE: /zats/zats.html
   PURPOSE:
-  - User uploads a CV PDF (text-based) OR pastes CV text
+  - Upload text-based CV PDF OR paste CV text
   - Optional Job Description paste for keyword matching
-  - ATS Readability (ATS-Readiness) score runs IN THE BROWSER
-  - No data is uploaded to the server
-  - ZAT/ZAIS-like UI + SEO + GoatCounter
+  - ATS Readability score runs IN THE BROWSER
+  - No data uploaded (client-side only)
 ========================================================= -->
 <!doctype html>
 <html lang="en">
@@ -50,9 +49,7 @@
     "url": "https://ubterzioglu.de",
     "image": "https://ubterzioglu.de/img/logoubt.png",
     "jobTitle": "Senior Software Quality Assurance Engineer",
-    "sameAs": [
-      "https://www.linkedin.com/in/umutbaristerzioglu"
-    ]
+    "sameAs": ["https://www.linkedin.com/in/umutbaristerzioglu"]
   }
   </script>
 
@@ -76,18 +73,8 @@
     "name": "ZATS – ATS Readability Score",
     "description": "Upload a text-based CV PDF or paste CV text and estimate ATS readability in your browser. Optional job description keyword match. No data is uploaded.",
     "inLanguage": "en",
-    "isPartOf": {
-      "@type": "WebSite",
-      "@id": "https://ubterzioglu.de/#website",
-      "url": "https://ubterzioglu.de/",
-      "name": "Umut Barış Terzioğlu"
-    },
-    "about": {
-      "@type": "Person",
-      "@id": "https://ubterzioglu.de/#person",
-      "name": "Umut Barış Terzioğlu",
-      "url": "https://ubterzioglu.de/"
-    }
+    "isPartOf": { "@type": "WebSite", "@id": "https://ubterzioglu.de/#website" },
+    "about": { "@type": "Person", "@id": "https://ubterzioglu.de/#person" }
   }
   </script>
 
@@ -103,39 +90,40 @@
       --line:rgba(255,255,255,.10);
       --btn:#1d2a55;
       --btn2:#233166;
+      --ok: rgba(73,209,125,.22);
+      --warn: rgba(255,210,86,.20);
     }
 
     *{box-sizing:border-box}
-    html, body { height: auto; }
+    html, body { height:auto; }
 
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(900px 600px at 20% 10%, rgba(97,124,255,.18), transparent 60%),
-                  radial-gradient(900px 600px at 80% 30%, rgba(73,209,125,.14), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(97,124,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(73,209,125,.14), transparent 60%),
+        var(--bg);
       color:var(--text);
-
       min-height:100vh;
       overflow-y:auto;
-
       display:flex;
       justify-content:center;
       align-items:flex-start;
       padding:24px;
-      font-size: 16px;
+      font-size:16px;
     }
 
-    .wrap{ width: min(1200px, 100%); }
+    .wrap{ width:min(1200px, 100%); }
 
     .card{
-      position: relative;
+      position:relative;
       background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%), var(--card);
       border:1px solid var(--line);
       border-radius:18px;
       box-shadow: 0 18px 60px rgba(0,0,0,.35);
       overflow:hidden;
-      padding-bottom: 86px;
+      padding-bottom:86px;
     }
 
     header{
@@ -147,12 +135,7 @@
       justify-content:space-between;
     }
 
-    header h1{
-      margin:0;
-      font-size:18px;
-      letter-spacing:.2px;
-    }
-
+    header h1{ margin:0; font-size:18px; letter-spacing:.2px; }
     header p{
       margin:6px 0 0 0;
       color:var(--muted);
@@ -161,10 +144,7 @@
       max-width:78ch;
     }
 
-    .meta{
-      text-align:right;
-      min-width:190px;
-    }
+    .meta{ text-align:right; min-width:190px; }
 
     .pill{
       display:inline-flex;
@@ -195,7 +175,7 @@
       transition: width .25s ease;
     }
 
-    main{padding:22px}
+    main{ padding:22px; }
 
     .grid{
       display:grid;
@@ -219,12 +199,7 @@
       letter-spacing:.2px;
     }
 
-    .fileRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-    }
+    .fileRow{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
 
     input[type="file"]{
       width: 100%;
@@ -249,12 +224,7 @@
       min-height: 140px;
     }
 
-    .btnRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
 
     button{
       appearance:none;
@@ -285,94 +255,102 @@
       line-height:1.45;
     }
 
-    .sep{height:1px;background:var(--line); margin:22px 0}
+    .sep{ height:1px; background:var(--line); margin:22px 0; }
 
-    .ai-cta{
-      margin-top: 18px;
-      padding-right: 120px;
+    /* ========= INSIGHTS (missing in your version) ========= */
+    .insights-panel{ margin-top:14px; }
+    .insights-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
     }
+    .insight-block{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(0,0,0,.10);
+    }
+    .insight-block strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:13px;
+      letter-spacing:.2px;
+      color: rgba(233,238,252,.90);
+    }
+    .insight-block ul{
+      margin:0;
+      padding-left:18px;
+      color: rgba(233,238,252,.88);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .insight-block.issues{ background: var(--warn); }
+    .insight-block.fixes{ background: var(--ok); }
 
-    .ai-cta p{
-      margin: 6px 0;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.4;
-    }
+    .ai-cta{ margin-top:18px; padding-right:120px; }
+    .ai-cta p{ margin:6px 0; font-size:12px; color:var(--muted); line-height:1.4; }
 
     .panel.preview-panel{
-      min-height: 520px;
-      padding-bottom: 72px;
-      display: flex;
-      flex-direction: column;
+      min-height:520px;
+      padding-bottom:72px;
+      display:flex;
+      flex-direction:column;
     }
 
     #previewText{
       width:100%;
-      border-radius: 16px;
-      border: 1px solid var(--line);
+      border-radius:16px;
+      border:1px solid var(--line);
       background: rgba(0,0,0,.12);
       box-shadow: 0 10px 28px rgba(0,0,0,.35);
-      padding: 12px;
-      white-space: pre-wrap;
+      padding:12px;
+      white-space:pre-wrap;
       overflow:auto;
-      max-height: 440px;
-      font-size: 13px;
-      line-height: 1.45;
+      max-height:440px;
+      font-size:13px;
+      line-height:1.45;
       color: rgba(233,238,252,.92);
     }
 
-    .panel.preview-panel .hint.small{
-      margin-top: auto;
-    }
+    .panel.preview-panel .hint.small{ margin-top:auto; }
 
     .corner-widget{
-      position: absolute;
-      right: 16px;
-      bottom: 16px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      z-index: 10;
+      position:absolute;
+      right:16px;
+      bottom:16px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      z-index:10;
     }
 
     .widget-avatar{
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255,255,255,.25);
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid rgba(255,255,255,.25);
       background: rgba(0,0,0,.25);
       box-shadow: 0 6px 18px rgba(0,0,0,.35);
     }
+    .widget-avatar.logo{ background: rgba(255,255,255,.9); }
 
-    .widget-avatar.logo{
-      background: rgba(255,255,255,.9);
-    }
-
-    .tiny{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.4;
-      margin-top:10px;
-    }
+    .tiny{ font-size:12px; color:var(--muted); line-height:1.4; margin-top:10px; }
 
     @media (max-width:900px){
-      header{flex-direction:column; align-items:stretch}
-      .meta{text-align:left}
+      header{ flex-direction:column; align-items:stretch }
+      .meta{ text-align:left }
     }
 
     @media (max-width:700px){
-      .corner-widget{ right: 12px; bottom: 12px; }
-      .widget-avatar{ width: 36px; height: 36px; }
-
-      .ai-cta{
-        padding-right: 0;
-        margin-bottom: 56px;
-      }
-
-      .panel.preview-panel{ padding-bottom: 92px; }
-      #previewText{ max-height: 360px; }
-      .card{ padding-bottom: 110px; }
+      .corner-widget{ right:12px; bottom:12px; }
+      .widget-avatar{ width:36px; height:36px; }
+      .ai-cta{ padding-right:0; margin-bottom:56px; }
+      .panel.preview-panel{ padding-bottom:92px; }
+      #previewText{ max-height:360px; }
+      .card{ padding-bottom:110px; }
+      .insights-grid{ grid-template-columns: 1fr; }
     }
   </style>
 
@@ -383,7 +361,7 @@
   <!-- PDF.js (LOCAL) -->
   <script defer src="./vendor/pdfjs/pdf.min.js?v=1"></script>
 
-  <!-- ZATS tool JS (ONLY ONCE) -->
+  <!-- ZATS tool JS -->
   <script defer src="./js/zats-tool.js?v=1"></script>
 </head>
 
@@ -393,14 +371,11 @@
       <header>
         <div>
           <h1>ZATS – ATS Readability Score</h1>
-          <p>
-            Your CV is never uploaded. Analysis is performed entirely in your browser.
-            (Client-side • No upload • Not affiliated with any ATS)
-          </p>
+          <p>Your CV is never uploaded. Analysis is performed entirely in your browser. (Client-side • No upload • Not affiliated with any ATS)</p>
         </div>
 
         <div class="meta">
-          <div class="pill" id="counter">Status</div>
+          <div class="pill" id="counter">Ready</div>
           <div class="bar" aria-label="Progress">
             <div id="progress"></div>
           </div>
@@ -409,6 +384,7 @@
 
       <main>
         <div class="grid">
+          <!-- INPUT + RESULT -->
           <div class="panel">
             <h2>Upload CV PDF or paste text</h2>
 
@@ -423,9 +399,23 @@
             </div>
 
             <div id="result" class="status">Ready.</div>
-            <p id="hint" class="hint">
-              Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.
-            </p>
+            <p id="hint" class="hint">Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.</p>
+
+            <!-- INSIGHTS (shown after scoring) -->
+            <div id="insights" class="panel insights-panel" style="display:none;">
+              <h2>Quick Improvements</h2>
+              <div class="insights-grid">
+                <div class="insight-block issues">
+                  <strong>Top Issues</strong>
+                  <ul id="issuesList"></ul>
+                </div>
+                <div class="insight-block fixes">
+                  <strong>Top Fixes</strong>
+                  <ul id="fixesList"></ul>
+                </div>
+              </div>
+            </div>
+            <!-- /INSIGHTS -->
 
             <div class="sep"></div>
 
@@ -448,16 +438,15 @@
             <div class="ai-cta">
               <p>Feel free to like, comment, or share to help spread it.</p>
               <p>Your feedback keeps this alive and pushes me to build more.</p>
-
               <p>
                 Looking for more tools?
                 <a href="https://ubterzioglu.de/ztools.html" target="_blank" rel="noopener">Click!</a>
               </p>
-
               <p>Thanks. <strong>UBT</strong>.</p>
             </div>
           </div>
 
+          <!-- PREVIEW -->
           <div class="panel preview-panel">
             <h2>Preview (extracted text)</h2>
             <div id="previewText">Nothing extracted yet.</div>
@@ -468,15 +457,16 @@
           </div>
         </div>
 
+        <!-- Corner Widget -->
         <div class="corner-widget">
           <a href="../index.html" aria-label="Go to Home">
-            <img src="/img/picprofile.png" alt="UBT Profile" class="widget-avatar" />
+            <img src="/img/picprofile.png" alt="Profile" class="widget-avatar" />
           </a>
-
           <a href="../index.html" aria-label="Go to Home">
-            <img src="/img/logoubt.png" alt="UBT Logo" class="widget-avatar logo" />
+            <img src="/img/logoubt.png" alt="Logo" class="widget-avatar logo" />
           </a>
         </div>
+        <!-- /Corner Widget -->
       </main>
     </div>
   </div>
@@ -496,6 +486,7 @@
 
     const obs = new MutationObserver(() => {
       const t = (resultEl.textContent || "").toLowerCase();
+
       if (t.includes("extracting")) setUI("Extracting…", 55);
       else if (t.includes("scoring")) setUI("Scoring…", 80);
       else if (t.includes("/100")) setUI("Done", 100);
