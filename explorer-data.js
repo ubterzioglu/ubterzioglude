@@ -108,7 +108,15 @@ window.EXPLORER_DATA = {
       img: "/img/z0tool0020.jpg",
       href: "https://ubterzioglu.de/zat/zat.html",
       note: "Upload a photo and get an instant age estimate directly in your browser."
-    }
+    },
+
+    {
+  id: "ats-score-tool",
+  title: "ATS Score Tool",
+  img: "/img/z0tool0030.jpg",
+  href: "https://ubterzioglu.de/zats/zats.html",
+  note: "A simple tool that checks how readable and ATS-friendly your CV is. It highlights potential issues in structure, wording, and formatting, so you can make quick improvements before applying."
+}
 
     
   ],
