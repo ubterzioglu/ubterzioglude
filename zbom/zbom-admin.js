@@ -50,6 +50,38 @@
       .replace(/"/g, "&quot;");
   }
 
+  // ---------- NEW: JS object-literal output helpers (no quoted keys) ----------
+  function escapeJsString(s) {
+    return String(s ?? "")
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, "\\n");
+  }
+
+  function toObjectLiteral(curated) {
+    // Keys unquoted, string values quoted -> ready to paste into explorer-data.js
+    const lines = [];
+    lines.push("{");
+    lines.push(`  id: "${escapeJsString(curated.id)}",`);
+    lines.push(`  title: "${escapeJsString(curated.title)}",`);
+    lines.push(`  img: "${escapeJsString(curated.img)}",`);
+    lines.push(`  href: "${escapeJsString(curated.href)}",`);
+    lines.push(`  note: "${escapeJsString(curated.note)}"`);
+
+    // optional extras if you later add them to curate endpoint
+    if (curated.category) lines.push(`,  category: "${escapeJsString(curated.category)}"`);
+    if (Array.isArray(curated.tags) && curated.tags.length) {
+      const tags = curated.tags.map(t => `"${escapeJsString(t)}"`).join(", ");
+      lines.push(`,  tags: [${tags}]`);
+    }
+
+    lines.push("}");
+    // The comma placement above is intentionally safe: we end without trailing comma.
+    // Join with newlines for readability.
+    return lines.join("\n");
+  }
+  // -------------------------------------------------------------------------
+
   function matches(item, q) {
     if (!q) return true;
     const hay = [item.title, item.url, item.note, item.category, item.id].join(" ").toLowerCase();
@@ -67,7 +99,7 @@
   }
 
   // =========================================================
-  // API (NEW)
+  // API
   // =========================================================
 
   async function apiAdminList(which) {
@@ -170,14 +202,16 @@
         <div class="meta">${escapeHtml(item.note || "")}</div>
       `;
 
-      // Make output (NOW via server)
+      // Make output (via server) -> now printed as JS object literal (keys not quoted)
       el.querySelector('[data-act="makeout"]').addEventListener("click", async () => {
         try {
           setPill("warn", "Working…");
           const curated = await apiAdminCurate(item);
-          outEl.textContent = JSON.stringify(curated, null, 2);
-          msgEl.textContent = "Curated output generated. Copy/paste into explorer-data.js.";
+
+          outEl.textContent = toObjectLiteral(curated);
+          msgEl.textContent = "Curated output generated. Copy/paste into explorer-data.js (zbom array).";
           msgEl.style.opacity = "0.85";
+
           setPill("ok", "Live");
         } catch (e) {
           setPill("bad", "Error");
@@ -271,7 +305,6 @@
       setPill("bad", "Error");
       msgEl.textContent = String(e.message || e);
       msgEl.style.opacity = "0.9";
-      // keep last known state rendered
       render();
     }
   }
@@ -304,7 +337,7 @@
       localStorage.setItem(KEY_STORE, k);
       msgEl.textContent = "Admin key saved in this browser.";
       msgEl.style.opacity = "0.85";
-      refresh(); // key saved -> reload lists
+      refresh();
     });
 
     clearKeyBtn.addEventListener("click", () => {
@@ -312,7 +345,6 @@
       adminKeyEl.value = "";
       msgEl.textContent = "Admin key cleared.";
       msgEl.style.opacity = "0.85";
-      // do not auto-refresh (will error)
     });
 
     refreshBtn.addEventListener("click", refresh);
