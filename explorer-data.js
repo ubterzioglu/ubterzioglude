@@ -145,9 +145,18 @@ window.EXPLORER_DATA = {
       title: "PortabaaaleApps",
       img: "/img/z0bookmark0020.png",
       href: "https://eben.com/",
+      category: "design",
       note:
         "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    }
+
+    },
+   {
+  id: "ueiaueiaueia",
+  title: "ueiaueiaueia",
+  img: "uuuu",
+  href: "https://ueiaueiauu",
+  note: "uuuuuuuuuuuuuuuuuuuuu"
+   }
   ],
 
 
