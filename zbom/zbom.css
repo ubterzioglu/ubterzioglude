@@ -7,6 +7,7 @@
   - Fix Submit button to be Arca-like (white pill + plus)
   - Brand spacing + centered brand block
   - Corner widget (top-left)
+  - FIX: prevent grid stretch -> no huge empty space under cards
 ========================================================= */
 
 :root{
@@ -217,12 +218,17 @@ a{color:inherit}
 
 /* =========================================================
    Grid (smaller like Arca)
+   FIX: prevent stretch -> no huge empty space under cards
 ========================================================= */
 
 .grid{
   display:grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
+
+  /* CRITICAL: stop equal-height cards */
+  align-items: start;
+  align-content: start;
 }
 
 @media(max-width: 1200px){
@@ -247,6 +253,9 @@ a{color:inherit}
   cursor:pointer;
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
   position: relative;
+
+  /* safety: each card keeps its own height */
+  align-self: start;
 }
 
 .card:hover{
@@ -349,7 +358,8 @@ a{color:inherit}
   line-height:1.4;
   margin:0 0 8px 0;
 
-  max-height: calc(1.4em * 3); /* 3 satır */
+  /* no -webkit-line-clamp */
+  max-height: calc(1.4em * 3); /* 3 lines */
   overflow: hidden;
 }
 
@@ -576,6 +586,9 @@ textarea{ min-height: 110px; resize: vertical; }
   border-color: rgba(255,255,255,.28);
 }
 
+/* =========================================================
+   Sidebar Avatars (inside sidebar)
+========================================================= */
 
 .sidebar-avatars{
   display:flex;
