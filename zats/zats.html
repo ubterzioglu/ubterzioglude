@@ -106,7 +106,6 @@
     }
 
     *{box-sizing:border-box}
-
     html, body { height: auto; }
 
     body{
@@ -198,7 +197,6 @@
 
     main{padding:22px}
 
-    /* single column layout like your current ZAT */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -301,7 +299,6 @@
       line-height: 1.4;
     }
 
-    /* preview panel stable */
     .panel.preview-panel{
       min-height: 520px;
       padding-bottom: 72px;
@@ -365,40 +362,23 @@
     }
 
     @media (max-width:700px){
-      .corner-widget{
-        right: 12px;
-        bottom: 12px;
-      }
-
-      .widget-avatar{
-        width: 36px;
-        height: 36px;
-      }
+      .corner-widget{ right: 12px; bottom: 12px; }
+      .widget-avatar{ width: 36px; height: 36px; }
 
       .ai-cta{
         padding-right: 0;
         margin-bottom: 56px;
       }
 
-      .panel.preview-panel{
-        min-height: 520px;
-        padding-bottom: 92px;
-      }
-
-      #previewText{
-        max-height: 360px;
-      }
-
-      .card{
-        padding-bottom: 110px;
-      }
+      .panel.preview-panel{ padding-bottom: 92px; }
+      #previewText{ max-height: 360px; }
+      .card{ padding-bottom: 110px; }
     }
   </style>
 
-   <!-- COUNTER GOAT -->
+  <!-- COUNTER GOAT -->
   <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
-  <!-- /COUNTER GOAT -->
 
   <!-- PDF.js (LOCAL) -->
   <script defer src="./vendor/pdfjs/pdf.min.js?v=1"></script>
@@ -406,8 +386,6 @@
   <!-- ZATS tool JS (ONLY ONCE) -->
   <script defer src="./js/zats-tool.js?v=1"></script>
 </head>
-
-
 
 <body>
   <div class="wrap">
@@ -431,7 +409,6 @@
 
       <main>
         <div class="grid">
-          <!-- TOP: INPUT + RESULT -->
           <div class="panel">
             <h2>Upload CV PDF or paste text</h2>
 
@@ -474,16 +451,13 @@
 
               <p>
                 Looking for more tools?
-                <a href="https://ubterzioglu.de/ztools.html" target="_blank" rel="noopener">
-                  Click!
-                </a>
+                <a href="https://ubterzioglu.de/ztools.html" target="_blank" rel="noopener">Click!</a>
               </p>
 
               <p>Thanks. <strong>UBT</strong>.</p>
             </div>
           </div>
 
-          <!-- BOTTOM: PREVIEW -->
           <div class="panel preview-panel">
             <h2>Preview (extracted text)</h2>
             <div id="previewText">Nothing extracted yet.</div>
@@ -494,22 +468,20 @@
           </div>
         </div>
 
-        <!-- Corner Widget (bottom-right) -->
         <div class="corner-widget">
           <a href="../index.html" aria-label="Go to Home">
-            <img src="/img/logoubt.png" alt="UBT Profile" class="widget-avatar" />
+            <img src="/img/picprofile.png" alt="UBT Profile" class="widget-avatar" />
           </a>
 
           <a href="../index.html" aria-label="Go to Home">
-            <img src="/img/picprofile.png" alt="UBT Logo" class="widget-avatar logo" />
+            <img src="/img/logoubt.png" alt="UBT Logo" class="widget-avatar logo" />
           </a>
         </div>
-        <!-- /Corner Widget -->
       </main>
     </div>
   </div>
 
-  <!-- OPTIONAL UI SYNC (updates pill + bar from #result text) -->
+  <!-- OPTIONAL UI SYNC -->
   <script>
     const counterEl = document.getElementById("counter");
     const barEl = document.getElementById("progress");
@@ -524,13 +496,11 @@
 
     const obs = new MutationObserver(() => {
       const t = (resultEl.textContent || "").toLowerCase();
-
-      if (t.includes("loading")) setUI("Loading…", 30);
-      else if (t.includes("extract")) setUI("Extracting…", 55);
+      if (t.includes("extracting")) setUI("Extracting…", 55);
       else if (t.includes("scoring")) setUI("Scoring…", 80);
       else if (t.includes("/100")) setUI("Done", 100);
       else if (t.includes("error") || t.includes("failed")) setUI("Error", 35);
-      else if (t.includes("ready")) setUI("Ready", 20);
+      else setUI("Ready", 20);
     });
 
     obs.observe(resultEl, { childList:true, characterData:true, subtree:true });
