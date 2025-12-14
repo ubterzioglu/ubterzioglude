@@ -4,6 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ZEDITOR — Explorer Data Generator</title>
+
+  <!-- Optional: keep this page out of search engines -->
+  <meta name="robots" content="noindex,nofollow" />
+
   <link rel="stylesheet" href="/ubt-shared.css" />
 
   <style>
@@ -65,7 +69,7 @@
     textarea{min-height:120px;resize:vertical}
     .row{display:grid;grid-template-columns: 1fr; gap:10px}
     @media(min-width: 560px){ .row{grid-template-columns: 1fr 1fr;} }
-    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
     button{
       border:1px solid var(--line);
       background: linear-gradient(180deg, rgba(35,49,102,.9), rgba(29,42,85,.9));
@@ -83,6 +87,7 @@
       border-radius:999px;
       border:1px solid var(--line);
       opacity:.9;
+      white-space:nowrap;
     }
     .pill.ok{background:var(--ok)}
     .pill.warn{background:var(--warn)}
@@ -91,6 +96,7 @@
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="hero">
@@ -102,6 +108,7 @@
     </div>
 
     <div class="grid">
+      <!-- LEFT: FORM -->
       <div class="card">
         <div class="row">
           <div>
@@ -115,7 +122,7 @@
             </select>
           </div>
           <div>
-            <label>Date (DD-MM-YYYY)</label>
+            <label>Date (DD-MM-YYYY) — for articles/updates</label>
             <input id="date" placeholder="14-12-2025" />
           </div>
         </div>
@@ -163,25 +170,22 @@
           <button id="gen">Generate</button>
           <button id="copy" class="secondary">Copy</button>
           <button id="clear" class="secondary">Clear</button>
-          <span id="status" class="pill warn">Waiting</span>
+          <span id="status" class="pill warn">Ready</span>
         </div>
 
         <div class="tiny" style="margin-top:10px">
-          Tip: title yazınca ID otomatik gelir. İstersen ID’yi elle değiştir. <br/>
+          Tip: title yazınca ID otomatik gelir. İstersen ID’yi elle değiştir.<br/>
           “tools/apps/bookmarks” için <b>note</b>, “articles/updates” için <b>text</b> kullan.
         </div>
       </div>
 
+      <!-- RIGHT: OUTPUT -->
       <div class="card">
         <label>Output (object)</label>
         <textarea id="out" class="mono" placeholder="{ ... }"></textarea>
 
-        <label style="margin-top:10px">Output (push line)</label>
-        <textarea id="outPush" class="mono" placeholder="window.EXPLORER_DATA.tools.push({ ... });"></textarea>
-
         <div class="tiny" style="margin-top:10px">
           Copy → <span class="mono">explorer-data.js</span> içinde ilgili array’e yapıştır.
-          Push satırı istersen direkt console’da da çalıştırabilirsin.
         </div>
       </div>
     </div>
@@ -204,7 +208,6 @@
   const noteWrap = $("noteWrap");
   const textWrap = $("textWrap");
   const outEl = $("out");
-  const outPushEl = $("outPush");
   const statusEl = $("status");
 
   function pad2(n){ return String(n).padStart(2,"0"); }
@@ -214,7 +217,6 @@
   }
 
   function isValidDDMMYYYY(s){
-    // basic check + plausible ranges (not full calendar validation)
     if(!/^\d{2}-\d{2}-\d{4}$/.test(s)) return false;
     const [dd,mm,yyyy] = s.split("-").map(Number);
     if(yyyy < 2000 || yyyy > 2100) return false;
@@ -224,7 +226,6 @@
   }
 
   function slugify(str){
-    // keep it simple + stable; also handle Turkish chars
     const map = {
       "ç":"c","Ç":"c","ğ":"g","Ğ":"g","ı":"i","İ":"i",
       "ö":"o","Ö":"o","ş":"s","Ş":"s","ü":"u","Ü":"u"
@@ -239,7 +240,6 @@
   }
 
   function escapeJsString(s){
-    // for double-quoted JS strings
     return String(s ?? "")
       .replace(/\\/g, "\\\\")
       .replace(/"/g, '\\"')
@@ -255,7 +255,6 @@
   function updateFieldVisibility(){
     const t = typeEl.value;
 
-    // default
     pinnedWrap.style.display = "none";
     noteWrap.style.display = "none";
     textWrap.style.display = "none";
@@ -268,9 +267,6 @@
     } else {
       noteWrap.style.display = "";
     }
-
-    // img is not required for updates in your data, but allowed if you want later
-    // keep img field always visible for convenience
   }
 
   function buildObject(){
@@ -297,17 +293,14 @@
       setStatus("bad","ID could not be generated");
       return null;
     }
+
     if(t === "articles" || t === "updates"){
       if(!date || !isValidDDMMYYYY(date)){
         setStatus("bad","Invalid date (DD-MM-YYYY)");
         return null;
       }
     }
-    if((t === "tools" || t === "bookmarks" || t === "apps" || t === "articles") && !href){
-      setStatus("warn","href empty (allowed, but usually needed)");
-    }
 
-    // construct object exactly like your structure
     let obj = { id, title };
 
     if(t === "articles"){
@@ -340,28 +333,18 @@
   }
 
   function toJsObjectLiteral(o){
-    // keep ordering similar to your examples
     const lines = [];
     const pushLine = (k, v) => lines.push(`  ${k}: ${v}`);
 
-    const id = escapeJsString(o.id);
-    const title = escapeJsString(o.title);
-
-    pushLine("id", `"${id}"`);
-    pushLine("title", `"${title}"`);
+    pushLine("id", `"${escapeJsString(o.id)}"`);
+    pushLine("title", `"${escapeJsString(o.title)}"`);
 
     if("date" in o) pushLine("date", `"${escapeJsString(o.date)}"`);
     if("img" in o) pushLine("img", `"${escapeJsString(o.img)}"`);
     if("href" in o) pushLine("href", `"${escapeJsString(o.href)}"`);
 
-    if("text" in o){
-      const txt = escapeJsString(o.text);
-      pushLine("text", `"${txt}"`);
-    }
-    if("note" in o){
-      const nt = escapeJsString(o.note);
-      pushLine("note", `"${nt}"`);
-    }
+    if("text" in o) pushLine("text", `"${escapeJsString(o.text)}"`);
+    if("note" in o) pushLine("note", `"${escapeJsString(o.note)}"`);
     if("pinned" in o) pushLine("pinned", o.pinned ? "true" : "false");
 
     return `{\n${lines.join(",\n")}\n}`;
@@ -373,14 +356,8 @@
 
     const literal = toJsObjectLiteral(built.obj);
     outEl.value = literal;
-    outPushEl.value = `window.EXPLORER_DATA.${built.type}.push(${literal});`;
 
-    // status
-    if((built.type === "articles" || built.type === "updates") && !isValidDDMMYYYY(dateEl.value.trim())){
-      setStatus("bad","Invalid date");
-    } else {
-      setStatus("ok","Generated");
-    }
+    setStatus("ok","Generated");
   }
 
   async function copy(){
@@ -393,7 +370,6 @@
       await navigator.clipboard.writeText(txt);
       setStatus("ok","Copied");
     }catch(e){
-      // fallback
       outEl.focus();
       outEl.select();
       document.execCommand("copy");
@@ -410,19 +386,16 @@
     textEl.value = "";
     pinnedEl.checked = false;
     outEl.value = "";
-    outPushEl.value = "";
-    setStatus("warn","Cleared");
+    setStatus("warn","Ready");
   }
 
   // init
   dateEl.value = todayDDMMYYYY();
   updateFieldVisibility();
 
-  // auto id from title
   titleEl.addEventListener("input", () => {
     const t = titleEl.value.trim();
     if(!t) return;
-    // only auto-fill id if user didn't manually set something
     if(!idEl.value.trim()){
       idEl.value = slugify(t);
     }
@@ -436,7 +409,6 @@
   $("gen").addEventListener("click", generate);
   $("copy").addEventListener("click", copy);
   $("clear").addEventListener("click", clearAll);
-
 })();
 </script>
 </body>
