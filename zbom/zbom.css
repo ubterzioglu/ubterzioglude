@@ -5,6 +5,8 @@
   - Smaller cards, dotted borders, calm contrast
   - Add ↗ icon on cards + subtle thumb noise/grid
   - Fix Submit button to be Arca-like (white pill + plus)
+  - Brand spacing + centered brand block
+  - Corner widget (top-left)
 ========================================================= */
 
 :root{
@@ -62,11 +64,18 @@ a{color:inherit}
   padding: 16px 14px;
 }
 
+/* --- BRAND: move text down + center block --- */
 .brand{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding: 6px 6px;
+  gap:12px;
+
+  /* eski: padding 6px 6px; -> biraz daha nefes */
+  padding: 14px 6px 8px;
+
+  /* logolar + yazıyı sidebar içinde ortala */
+  justify-content: center;
+  text-align: center;
 }
 
 .brand .dot{
@@ -75,18 +84,29 @@ a{color:inherit}
   opacity:.85;
 }
 
+/* brand text block center */
+.brand > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* yazıyı biraz aşağı al */
 .brand b{
   font-size:13px;
   font-weight:600;
+  margin-top: 10px;
 }
 
 .brand span{
   font-size:12px;
   opacity:.5;
+  margin-top: 2px;
+  line-height: 1.35;
 }
 
 .nav{
-  margin-top:14px;
+  margin-top: 20px; /* Arca gibi brand ile nav arasında ayrım */
   display:flex;
   flex-direction:column;
   gap:2px;
@@ -208,17 +228,15 @@ a{color:inherit}
 @media(max-width: 1200px){
   .grid{grid-template-columns: repeat(3,1fr);}
 }
-
 @media(max-width: 900px){
   .grid{grid-template-columns: repeat(2,1fr);}
 }
-
 @media(max-width: 600px){
   .grid{grid-template-columns: 1fr;}
 }
 
 /* =========================================================
-   Card (key changes here)
+   Card
 ========================================================= */
 
 .card{
@@ -228,7 +246,7 @@ a{color:inherit}
   overflow:hidden;
   cursor:pointer;
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
-  position: relative; /* needed for ↗ icon */
+  position: relative;
 }
 
 .card:hover{
@@ -237,7 +255,7 @@ a{color:inherit}
   transform: translateY(-1px);
 }
 
-/* small ↗ icon like Arca (visual only) */
+/* small ↗ icon */
 .card::after{
   content: "↗";
   position:absolute;
@@ -266,7 +284,7 @@ a{color:inherit}
 }
 
 .thumb{
-  height: 108px; /* smaller */
+  height: 108px;
   background:#000;
   display:flex;
   align-items:center;
@@ -280,8 +298,7 @@ a{color:inherit}
   content:"";
   position:absolute;
   inset:0;
-  background-image:
-    radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
   background-size: 6px 6px;
   opacity: .08;
   pointer-events:none;
@@ -367,14 +384,14 @@ a{color:inherit}
 }
 
 /* =========================================================
-   Modal (FIX: centered overlay)
+   Modal (centered overlay)
 ========================================================= */
 
 .modalOverlay{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.70);
-  display: none;              /* JS openModal -> flex yapıyor */
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 18px;
@@ -446,7 +463,6 @@ textarea{ min-height: 110px; resize: vertical; }
   flex-wrap: wrap;
 }
 
-/* Butonlar (senin mevcut .btn varsa dokunma; yoksa bu kalsın) */
 .btn{
   border: 1px solid rgba(255,255,255,.12);
   background: rgba(255,255,255,.06);
@@ -504,7 +520,6 @@ textarea{ min-height: 110px; resize: vertical; }
   transform: translateY(0);
 }
 
-/* little + bubble like Arca */
 .submitBtn::after{
   content:"+";
   width: 22px;
@@ -523,4 +538,67 @@ textarea{ min-height: 110px; resize: vertical; }
   font-size: 12px;
   opacity: .58;
   line-height: 1.45;
+}
+
+/* =========================================================
+   Corner Widget – TOP LEFT (UBT)
+========================================================= */
+
+.corner-widget{
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 8px;
+  z-index: 10000;
+}
+
+.corner-widget a{
+  display: block;
+}
+
+.widget-avatar{
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,.14);
+  background: #000;
+  opacity: .88;
+  transition: opacity .15s ease, transform .12s ease, border-color .15s ease;
+}
+
+.widget-avatar.logo{
+  opacity: .82;
+}
+
+.corner-widget a:hover .widget-avatar{
+  opacity: 1;
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.28);
+}
+
+
+.sidebar-avatars{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin: 6px 0 14px;
+}
+
+.sidebar-avatars img{
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.18);
+  background:#000;
+  opacity:.9;
+  transition: transform .12s ease, opacity .12s ease, border-color .12s ease;
+}
+
+.sidebar-avatars a:hover img{
+  opacity:1;
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.32);
 }

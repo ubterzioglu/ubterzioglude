@@ -11,6 +11,7 @@
   <link rel="canonical" href="https://ubterzioglu.de/zbom/zbom.html" />
 
   <link rel="stylesheet" href="/ubt-shared.css" />
+  <link rel="stylesheet" href="/zbom/zbom.css" />
 
   <!-- =====================================================
        STRUCTURED DATA: PERSON (SHARED ID)
@@ -57,23 +58,32 @@
   }
   </script>
   <!-- END: STRUCTURED DATA -->
-
- <link rel="stylesheet" href="/ubt-shared.css" />
-<link rel="stylesheet" href="/zbom/zbom.css" />
-
 </head>
 
 <body>
   <div class="layout">
     <!-- SIDEBAR -->
     <aside class="sidebar">
+
+      <!-- Sidebar Avatars -->
+      <div class="sidebar-avatars">
+        <a href="../index.html" aria-label="Go to Home">
+          <img src="/img/logoubt.png" alt="UBT Logo" />
+        </a>
+        <a href="../index.html" aria-label="Go to Home">
+          <img src="/img/picprofile.png" alt="UBT Profile" />
+        </a>
+      </div>
+      <!-- /Sidebar Avatars -->
+
+      <!-- Brand -->
       <div class="brand" title="ZBOM">
-        <div class="dot"></div>
         <div>
           <b>ZBOM</b>
           <span>Curated + user submissions</span>
         </div>
       </div>
+      <!-- /Brand -->
 
       <div class="nav" id="nav"></div>
 
@@ -101,6 +111,7 @@
       </div>
 
       <div class="grid" id="grid"></div>
+
       <div class="hint" id="empty" style="display:none;margin-top:14px;opacity:.75">
         No results. Try another keyword or category.
       </div>
