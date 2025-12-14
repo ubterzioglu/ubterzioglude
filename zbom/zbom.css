@@ -95,7 +95,7 @@ a{color:inherit}
 .brand b{
   font-size:13px;
   font-weight:600;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .brand span{
@@ -349,10 +349,8 @@ a{color:inherit}
   line-height:1.4;
   margin:0 0 8px 0;
 
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
+  max-height: calc(1.4em * 3); /* 3 satır */
+  overflow: hidden;
 }
 
 .meta{
