@@ -1,0 +1,157 @@
+<!-- =========================================================
+  FILE: /zats/zats.html
+  PURPOSE:
+  - ZATS: ATS Okunabilirlik (ATS-Readiness) Skoru
+  - CV PDF upload (text-based) OR paste text
+  - Optional Job Description paste for keyword matching
+  - Runs 100% client-side (no upload)
+  - SEO + OpenGraph + Twitter + JSON-LD + GoatCounter included
+  NOTES:
+  - Shared CSS: /ubt-shared.css (LOCKED)
+  - Scripts inside injected templates DO NOT EXECUTE
+  - Therefore PDF.js + zats.js are loaded here and init is manual
+========================================================= -->
+<!doctype html>
+<html lang="tr">
+<head>
+  <!-- =========================================================
+    BASIC META
+  ========================================================== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZATS – ATS Okunabilirlik Skoru</title>
+
+  <link rel="canonical" href="https://ubterzioglu.de/zats/zats.html" />
+  <meta name="description" content="CV’nizin ATS sistemleri tarafından ne kadar okunabilir olduğunu tahmin edin. PDF yükleyin (text-based) veya metin yapıştırın. Tüm analiz tarayıcınızda çalışır, upload yok." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Shared stylesheet (LOCKED) -->
+  <link rel="stylesheet" href="/ubt-shared.css" />
+
+  <!-- =========================================================
+    FAVICON
+  ========================================================== -->
+  <link rel="icon" type="image/png" href="/img/logo.png" />
+
+  <!-- =========================================================
+    OPEN GRAPH
+  ========================================================== -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ZATS – ATS Okunabilirlik Skoru" />
+  <meta property="og:description" content="PDF yükle veya metin yapıştır. ATS okunabilirliğini tarayıcıda ölç. Upload yok." />
+  <meta property="og:url" content="https://ubterzioglu.de/zats/zats.html" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logo.png" />
+
+  <!-- =========================================================
+    TWITTER
+  ========================================================== -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ZATS – ATS Okunabilirlik Skoru" />
+  <meta name="twitter:description" content="CV ATS-dostu mu? PDF yükle veya metin yapıştır. Her şey tarayıcıda çalışır." />
+  <meta name="twitter:image" content="https://ubterzioglu.de/img/logo.png" />
+
+  <!-- =========================================================
+    STRUCTURED DATA (JSON-LD)
+    - WebPage schema for the tool page
+    - Person points to your site person entity
+  ========================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://ubterzioglu.de/zats/zats.html#webpage",
+    "url": "https://ubterzioglu.de/zats/zats.html",
+    "name": "ZATS – ATS Okunabilirlik Skoru",
+    "description": "CV’nizin ATS sistemleri tarafından ne kadar okunabilir olduğunu tahmin edin. PDF yükleyin (text-based) veya metin yapıştırın. Analiz tarayıcınızda çalışır, upload yok.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://ubterzioglu.de/#website"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "ATS Readability"
+    },
+    "author": {
+      "@type": "Person",
+      "@id": "https://ubterzioglu.de/#person"
+    }
+  }
+  </script>
+
+  <!-- =========================================================
+    PDF.js (CDN)
+    - Works for text-based PDFs
+    - Scanned (image-only) PDFs will not yield text without OCR (V2)
+  ========================================================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.js"></script>
+
+  <!-- Tool JS -->
+  <script defer src="/zats/zats.js"></script>
+</head>
+
+<body>
+  <!-- =========================================================
+    HERO (MANUAL)
+  ========================================================== -->
+  <div class="card hero-card">
+    <div class="hero-top">
+      <div class="hero-logo-box">
+        <img src="/img/logo.png" class="hero-logo" alt="UBT logo" />
+        <span class="hero-domain">ubterzioglu.de</span>
+      </div>
+
+      <a href="/index.html">
+        <img src="/img/cliphome.png" class="home-icon" alt="Home" />
+      </a>
+    </div>
+
+    <h1>ZATS</h1>
+    <p class="title">ATS Okunabilirlik (ATS-Readiness) Skoru</p>
+
+    <p style="opacity:.85; margin-top:10px; font-size:13px; line-height:1.55;">
+      CV’nizi <b>PDF (text-based)</b> olarak yükleyin veya metin yapıştırın.
+      İsterseniz Job Description ekleyin → keyword eşleşmesiyle skor daha anlamlı olur.
+      <br />
+      <span style="opacity:.9;">
+        Her şey tarayıcıda çalışır. Upload yok. Bu araç herhangi bir ATS ile bağlantılı değildir.
+      </span>
+    </p>
+  </div>
+  <!-- END: HERO -->
+
+  <!-- =========================================================
+    CONTENT ROOT
+    - zats.js renders cards here
+  ========================================================== -->
+  <div id="cards-root"></div>
+
+  <!-- =========================================================
+    FOOTER
+  ========================================================== -->
+  <div style="text-align:center; margin:24px 0 16px 0; color:#fff; font-size:12px;">
+    © ubterzioglu · 2025
+  </div>
+  <!-- END: FOOTER -->
+
+  <!-- =========================================================
+    PAGE INIT (MANUAL)
+    - Required because injected template scripts do not execute
+  ========================================================== -->
+  <script>
+    // =========================================================
+    // Purpose: Initialize ZATS once DOM is ready
+    // =========================================================
+    window.addEventListener("DOMContentLoaded", () => {
+      if (window.ubtInitZats) window.ubtInitZats();
+    });
+  </script>
+
+  <!-- =========================================================
+    GOATCOUNTER
+    - Keep your existing GoatCounter endpoint
+  ========================================================== -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
+<!-- ======================= END OF FILE ======================= -->
