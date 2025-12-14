@@ -3,7 +3,7 @@
   PURPOSE:
   - ZATS – ATS Readability Score (ZAT-like UI)
   - Button flow (B): user clicks Extract / Calculate / Clear
-  - PDF.js text extraction (text-based PDFs) - LOCAL vendor
+  - PDF.js text extraction (text-based PDFs)
   - ATS Readability scoring (0–100) with EN/TR/DE support
   - Updates: #result, #hint, #previewText
   PRIVACY:
@@ -12,13 +12,6 @@
 
 (function () {
   "use strict";
-
-  /* =========================================================
-     PDF.js (LOCAL)
-     - zats.html MUST load: ./vendor/pdfjs/pdf.min.js
-     - This file sets worker: ./vendor/pdfjs/pdf.worker.min.js
-  ========================================================= */
-  const PDF_WORKER_SRC = "./vendor/pdfjs/pdf.worker.min.js?v=1";
 
   /* =========================================================
      SECTION DETECTION (EN / DE / TR)
@@ -37,7 +30,8 @@
   const FALLBACK_KEYWORDS = [
     "test","testing","qa","quality","automation","selenium","playwright","cypress","ranorex",
     "jira","xray","testrail","postman","api","rest","ci","cd","cicd","jenkins","github",
-    "docker","kubernetes","sql","python","java","c#",".net","istqb","agile","scrum","kanban"
+    "docker","kubernetes","sql","python","java","c#",".net","istqb",
+    "agile","scrum","kanban"
   ];
 
   /* =========================================================
@@ -60,7 +54,7 @@
      OWNERSHIP / IMPACT VERBS (EN + DE + TR)
   ========================================================= */
   const OWNERSHIP_RX =
-    /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|kurdu|tasarlad|geliştird|iyileştird|azaltt|optimize)/i;
+    /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|delivered|shipped|achieved|umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|erreicht|kurdu|tasarlad[ıi]?|geliştird[iı]?|iyileştird[iı]?|azaltt[ıi]?|optimiz(e|e etti|edip))/i;
 
   const GENERIC_RX =
     /(responsible for|worked on|involved in|verantwortlich für|beteiligt|mitgewirkt|sorumlu|görev aldım|destek oldum)/i;
@@ -69,6 +63,8 @@
      DOM
   ========================================================= */
   const els = {};
+  let issues = [];
+  let fixes = [];
 
   document.addEventListener("DOMContentLoaded", () => {
     els.pdf = q("#pdfUpload");
@@ -77,21 +73,24 @@
     els.btnExtract = q("#btnExtract");
     els.btnScore = q("#btnScore");
     els.btnClear = q("#btnClear");
-
     els.result = q("#result");
     els.hint = q("#hint");
     els.preview = q("#previewText");
 
-    // Guard
     if (!els.pdf || !els.cv || !els.jd || !els.btnExtract || !els.btnScore || !els.btnClear || !els.result || !els.hint || !els.preview) {
       return;
+    }
+
+    // IMPORTANT: worker must be local to avoid CDN blocks
+    if (window.pdfjsLib?.GlobalWorkerOptions) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.js?v=1";
     }
 
     els.btnExtract.addEventListener("click", onExtract);
     els.btnScore.addEventListener("click", onScore);
     els.btnClear.addEventListener("click", onClear);
 
-    setState("Ready. Upload a CV PDF.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste CV text instead.");
+    setState("Ready.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.");
     els.preview.textContent = "Nothing extracted yet.";
   });
 
@@ -112,16 +111,15 @@
       const text = await extractTextFromPdf(file);
       const clean = normalize(text);
 
-      setState(`Extracted (${clean.length} chars).`, "Now click 'Calculate score'.");
-
       if (!clean || clean.length < 80) {
-        setState("Extract failed.", "This PDF seems scanned (image-only). Paste CV text instead or upload a text-based PDF.");
+        setState("Extract failed.", "This PDF seems scanned (image-only) or has no text layer. Paste CV text instead, or export a text-based PDF.");
         els.preview.textContent = "No readable text layer detected.";
         return;
       }
 
       els.cv.value = clean;
       els.preview.textContent = clean.slice(0, 2600);
+      setState(`Extracted (${clean.length} chars).`, "Now click 'Calculate score'.");
     } catch (e) {
       setState("Error: extract failed.", String(e?.message || e));
     } finally {
@@ -151,23 +149,21 @@
     els.cv.value = "";
     els.jd.value = "";
     els.preview.textContent = "Nothing extracted yet.";
-    setState("Ready. Upload a CV PDF.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste CV text instead.");
+    setState("Ready.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.");
   }
 
   /* =========================================================
      PDF.js extraction (LOCAL)
   ========================================================= */
-  async function ensurePdfJsReady() {
-    if (!window.pdfjsLib) {
-      throw new Error("PDF.js not loaded. Check zats.html loads ./vendor/pdfjs/pdf.min.js");
-    }
-    if (window.pdfjsLib?.GlobalWorkerOptions) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
-    }
-  }
-
   async function extractTextFromPdf(file) {
-    await ensurePdfJsReady();
+    if (!window.pdfjsLib) {
+      throw new Error("PDF.js not loaded. Check zats.html loads ./vendor/pdfjs/pdf.min.js (and that file is real JS, not HTML).");
+    }
+
+    // Re-apply worker src in case something overwrote it
+    if (window.pdfjsLib?.GlobalWorkerOptions) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "./vendor/pdfjs/pdf.worker.min.js?v=1";
+    }
 
     const buffer = await file.arrayBuffer();
     const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
@@ -208,9 +204,6 @@
       meta: { jdUsed: (jd || "").trim().length >= 80 }
     };
   }
-
-  let issues = [];
-  let fixes = [];
 
   function resetFindings() { issues = []; fixes = []; }
 
@@ -276,9 +269,7 @@
     const kws = jdGood ? extractKeywordsFromJd(jd) : FALLBACK_KEYWORDS;
 
     let matched = 0;
-    for (const k of kws) {
-      if (cvSet.has(k)) matched++;
-    }
+    for (const k of kws) if (cvSet.has(k)) matched++;
 
     const ratio = matched / Math.max(kws.length, 1);
     const s = Math.round(ratio * 30);
@@ -431,8 +422,12 @@
     return out;
   }
 
-  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
 
-  function q(sel) { return document.querySelector(sel); }
+  function q(sel) {
+    return document.querySelector(sel);
+  }
 
 })();
