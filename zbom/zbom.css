@@ -273,3 +273,43 @@ a{color:inherit}
   border:1px solid var(--line);
   border-radius:16px;
 }
+/* =========================================================
+   Sidebar bottom (Submit area) – FIX
+========================================================= */
+
+.sidebarBottom{
+  position: sticky;
+  top: calc(100vh - 140px);
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.submitBtn{
+  width:100%;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor:pointer;
+  font-weight: 650;
+  transition: background .14s ease, border-color .14s ease, transform .12s ease;
+}
+
+.submitBtn:hover{
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.20);
+  transform: translateY(-1px);
+}
+
+.submitBtn:active{
+  transform: translateY(0);
+}
+
+.mini{
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: .58;
+  line-height: 1.45;
+}
