@@ -1,157 +1,540 @@
 <!-- =========================================================
   FILE: /zats/zats.html
   PURPOSE:
-  - ZATS: ATS Okunabilirlik (ATS-Readiness) Skoru
-  - CV PDF upload (text-based) OR paste text
+  - User uploads a CV PDF (text-based) OR pastes CV text
   - Optional Job Description paste for keyword matching
-  - Runs 100% client-side (no upload)
-  - SEO + OpenGraph + Twitter + JSON-LD + GoatCounter included
-  NOTES:
-  - Shared CSS: /ubt-shared.css (LOCKED)
-  - Scripts inside injected templates DO NOT EXECUTE
-  - Therefore PDF.js + zats.js are loaded here and init is manual
+  - ATS Readability (ATS-Readiness) score runs IN THE BROWSER
+  - No data is uploaded to the server
+  - ZAT/ZAIS-like UI + SEO + GoatCounter
 ========================================================= -->
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <!-- =========================================================
     BASIC META
   ========================================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ZATS – ATS Okunabilirlik Skoru</title>
+  <title>ZATS – ATS Readability Score</title>
 
   <link rel="canonical" href="https://ubterzioglu.de/zats/zats.html" />
-  <meta name="description" content="CV’nizin ATS sistemleri tarafından ne kadar okunabilir olduğunu tahmin edin. PDF yükleyin (text-based) veya metin yapıştırın. Tüm analiz tarayıcınızda çalışır, upload yok." />
+  <meta name="description" content="Upload a text-based CV PDF or paste CV text and estimate ATS readability in your browser. Optional job description keyword match. No data is uploaded." />
   <meta name="robots" content="index,follow" />
 
-  <!-- Shared stylesheet (LOCKED) -->
+  <!-- Shared stylesheet (optional) -->
   <link rel="stylesheet" href="/ubt-shared.css" />
 
   <!-- =========================================================
-    FAVICON
-  ========================================================== -->
-  <link rel="icon" type="image/png" href="/img/logo.png" />
-
-  <!-- =========================================================
-    OPEN GRAPH
+    OPEN GRAPH / TWITTER
   ========================================================== -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="ZATS – ATS Okunabilirlik Skoru" />
-  <meta property="og:description" content="PDF yükle veya metin yapıştır. ATS okunabilirliğini tarayıcıda ölç. Upload yok." />
+  <meta property="og:title" content="ZATS – ATS Readability Score" />
+  <meta property="og:description" content="Upload a CV PDF or paste text. Estimate ATS readability in-browser (no upload). Optional JD keyword match." />
   <meta property="og:url" content="https://ubterzioglu.de/zats/zats.html" />
-  <meta property="og:image" content="https://ubterzioglu.de/img/logo.png" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ZATS – ATS Readability Score" />
+  <meta name="twitter:description" content="Upload a CV PDF or paste text. Estimate ATS readability in-browser (no upload)." />
+  <meta name="twitter:image" content="https://ubterzioglu.de/img/logoubt.png" />
 
   <!-- =========================================================
-    TWITTER
+    STRUCTURED DATA
   ========================================================== -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="ZATS – ATS Okunabilirlik Skoru" />
-  <meta name="twitter:description" content="CV ATS-dostu mu? PDF yükle veya metin yapıştır. Her şey tarayıcıda çalışır." />
-  <meta name="twitter:image" content="https://ubterzioglu.de/img/logo.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://ubterzioglu.de/#person",
+    "name": "Umut Barış Terzioğlu",
+    "url": "https://ubterzioglu.de",
+    "image": "https://ubterzioglu.de/img/logoubt.png",
+    "jobTitle": "Senior Software Quality Assurance Engineer",
+    "sameAs": [
+      "https://www.linkedin.com/in/umutbaristerzioglu"
+    ]
+  }
+  </script>
 
-  <!-- =========================================================
-    STRUCTURED DATA (JSON-LD)
-    - WebPage schema for the tool page
-    - Person points to your site person entity
-  ========================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://ubterzioglu.de/#website",
+    "name": "Umut Barış Terzioğlu",
+    "url": "https://ubterzioglu.de",
+    "description": "Personal website of Umut Barış Terzioğlu. Articles, tools, apps, and insights about software testing and technology."
+  }
+  </script>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": "https://ubterzioglu.de/zats/zats.html#webpage",
     "url": "https://ubterzioglu.de/zats/zats.html",
-    "name": "ZATS – ATS Okunabilirlik Skoru",
-    "description": "CV’nizin ATS sistemleri tarafından ne kadar okunabilir olduğunu tahmin edin. PDF yükleyin (text-based) veya metin yapıştırın. Analiz tarayıcınızda çalışır, upload yok.",
+    "name": "ZATS – ATS Readability Score",
+    "description": "Upload a text-based CV PDF or paste CV text and estimate ATS readability in your browser. Optional job description keyword match. No data is uploaded.",
+    "inLanguage": "en",
     "isPartOf": {
       "@type": "WebSite",
-      "@id": "https://ubterzioglu.de/#website"
+      "@id": "https://ubterzioglu.de/#website",
+      "url": "https://ubterzioglu.de/",
+      "name": "Umut Barış Terzioğlu"
     },
     "about": {
-      "@type": "Thing",
-      "name": "ATS Readability"
-    },
-    "author": {
       "@type": "Person",
-      "@id": "https://ubterzioglu.de/#person"
+      "@id": "https://ubterzioglu.de/#person",
+      "name": "Umut Barış Terzioğlu",
+      "url": "https://ubterzioglu.de/"
     }
   }
   </script>
 
   <!-- =========================================================
-    PDF.js (CDN)
-    - Works for text-based PDFs
-    - Scanned (image-only) PDFs will not yield text without OCR (V2)
+    UI STYLES (ZAT/ZAIS LOOK)
   ========================================================== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#111a33;
+      --text:#e9eefc;
+      --muted:#a9b4d6;
+      --line:rgba(255,255,255,.10);
+      --btn:#1d2a55;
+      --btn2:#233166;
+    }
 
-  <!-- Tool JS -->
-  <script defer src="/zats/zats.js"></script>
+    *{box-sizing:border-box}
+
+    html, body { height: auto; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(900px 600px at 20% 10%, rgba(97,124,255,.18), transparent 60%),
+                  radial-gradient(900px 600px at 80% 30%, rgba(73,209,125,.14), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+
+      min-height:100vh;
+      overflow-y:auto;
+
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:24px;
+      font-size: 16px;
+    }
+
+    .wrap{ width: min(1200px, 100%); }
+
+    .card{
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%), var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      overflow:hidden;
+      padding-bottom: 86px;
+    }
+
+    header{
+      padding:20px 22px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    header h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+
+    header p{
+      margin:6px 0 0 0;
+      color:var(--muted);
+      font-size: clamp(13px, 1.1vw, 15px);
+      line-height:1.35;
+      max-width:78ch;
+    }
+
+    .meta{
+      text-align:right;
+      min-width:190px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:10px;
+      white-space:nowrap;
+    }
+
+    .bar{
+      height:8px;
+      background: rgba(255,255,255,.08);
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(97,124,255,.9), rgba(73,209,125,.9));
+      border-radius:999px;
+      transition: width .25s ease;
+    }
+
+    main{padding:22px}
+
+    /* single column layout like your current ZAT */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .panel h2{
+      margin:0 0 10px 0;
+      font-size:14px;
+      color:var(--muted);
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+
+    .fileRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    input[type="file"]{
+      width: 100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    textarea{
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.45;
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .btnRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    button{
+      appearance:none;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+
+    button:hover{ filter: brightness(1.05); }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
+
+    .status{
+      margin-top:14px;
+      font-size: clamp(18px, 1.6vw, 22px);
+      line-height:1.35;
+      font-weight:800;
+    }
+
+    .hint{
+      margin:8px 0 0 0;
+      color:var(--muted);
+      font-size: clamp(13px, 1.1vw, 15px);
+      line-height:1.45;
+    }
+
+    .sep{height:1px;background:var(--line); margin:22px 0}
+
+    .ai-cta{
+      margin-top: 18px;
+      padding-right: 120px;
+    }
+
+    .ai-cta p{
+      margin: 6px 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* preview panel stable */
+    .panel.preview-panel{
+      min-height: 520px;
+      padding-bottom: 72px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #previewText{
+      width:100%;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      padding: 12px;
+      white-space: pre-wrap;
+      overflow:auto;
+      max-height: 440px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(233,238,252,.92);
+    }
+
+    .panel.preview-panel .hint.small{
+      margin-top: auto;
+    }
+
+    .corner-widget{
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .widget-avatar{
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,.25);
+      background: rgba(0,0,0,.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+
+    .widget-avatar.logo{
+      background: rgba(255,255,255,.9);
+    }
+
+    .tiny{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.4;
+      margin-top:10px;
+    }
+
+    @media (max-width:900px){
+      header{flex-direction:column; align-items:stretch}
+      .meta{text-align:left}
+    }
+
+    @media (max-width:700px){
+      .corner-widget{
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .widget-avatar{
+        width: 36px;
+        height: 36px;
+      }
+
+      .ai-cta{
+        padding-right: 0;
+        margin-bottom: 56px;
+      }
+
+      .panel.preview-panel{
+        min-height: 520px;
+        padding-bottom: 92px;
+      }
+
+      #previewText{
+        max-height: 360px;
+      }
+
+      .card{
+        padding-bottom: 110px;
+      }
+    }
+  </style>
+
+  <!-- COUNTER GOAT -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <!-- /COUNTER GOAT -->
+
+  <!-- PDF.js -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.js"></script>
+
+  <!-- ZATS tool JS -->
+  <script defer src="./js/zats-tool.js"></script>
 </head>
 
 <body>
-  <!-- =========================================================
-    HERO (MANUAL)
-  ========================================================== -->
-  <div class="card hero-card">
-    <div class="hero-top">
-      <div class="hero-logo-box">
-        <img src="/img/logo.png" class="hero-logo" alt="UBT logo" />
-        <span class="hero-domain">ubterzioglu.de</span>
-      </div>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div>
+          <h1>ZATS – ATS Readability Score</h1>
+          <p>
+            Your CV is never uploaded. Analysis is performed entirely in your browser.
+            (Client-side • No upload • Not affiliated with any ATS)
+          </p>
+        </div>
 
-      <a href="/index.html">
-        <img src="/img/cliphome.png" class="home-icon" alt="Home" />
-      </a>
+        <div class="meta">
+          <div class="pill" id="counter">Status</div>
+          <div class="bar" aria-label="Progress">
+            <div id="progress"></div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="grid">
+          <!-- TOP: INPUT + RESULT -->
+          <div class="panel">
+            <h2>Upload CV PDF or paste text</h2>
+
+            <div class="fileRow">
+              <input type="file" id="pdfUpload" accept="application/pdf" />
+            </div>
+
+            <div class="btnRow">
+              <button id="btnExtract" type="button">Extract text from PDF</button>
+              <button id="btnScore" type="button">Calculate score</button>
+              <button id="btnClear" type="button">Clear</button>
+            </div>
+
+            <div id="result" class="status">Ready.</div>
+            <p id="hint" class="hint">
+              Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste text instead.
+            </p>
+
+            <div class="sep"></div>
+
+            <div>
+              <h2>CV Text</h2>
+              <textarea id="cvText" placeholder="Paste CV text here (or extract from PDF)..." rows="8"></textarea>
+
+              <div style="height:12px"></div>
+
+              <h2>Job Description (optional)</h2>
+              <textarea id="jdText" placeholder="Paste job description to get keyword match-based scoring..." rows="6"></textarea>
+
+              <div class="tiny">
+                This tool estimates ATS-readiness (parseability + structure + keyword + evidence). It does not guarantee interview outcomes.
+              </div>
+            </div>
+
+            <div class="sep"></div>
+
+            <div class="ai-cta">
+              <p>Feel free to like, comment, or share to help spread it.</p>
+              <p>Your feedback keeps this alive and pushes me to build more.</p>
+
+              <p>
+                Looking for more tools?
+                <a href="https://ubterzioglu.de/ztools.html" target="_blank" rel="noopener">
+                  Click!
+                </a>
+              </p>
+
+              <p>Thanks. <strong>UBT</strong>.</p>
+            </div>
+          </div>
+
+          <!-- BOTTOM: PREVIEW -->
+          <div class="panel preview-panel">
+            <h2>Preview (extracted text)</h2>
+            <div id="previewText">Nothing extracted yet.</div>
+
+            <p class="hint small">
+              Tip: If the preview looks messy (multi-column), export a single-column PDF for better ATS parsing.
+            </p>
+          </div>
+        </div>
+
+        <!-- Corner Widget (bottom-right) -->
+        <div class="corner-widget">
+          <a href="../index.html" aria-label="Go to Home">
+            <img src="/img/logoubt.png" alt="UBT Profile" class="widget-avatar" />
+          </a>
+
+          <a href="../index.html" aria-label="Go to Home">
+            <img src="/img/picprofile.png" alt="UBT Logo" class="widget-avatar logo" />
+          </a>
+        </div>
+        <!-- /Corner Widget -->
+      </main>
     </div>
-
-    <h1>ZATS</h1>
-    <p class="title">ATS Okunabilirlik (ATS-Readiness) Skoru</p>
-
-    <p style="opacity:.85; margin-top:10px; font-size:13px; line-height:1.55;">
-      CV’nizi <b>PDF (text-based)</b> olarak yükleyin veya metin yapıştırın.
-      İsterseniz Job Description ekleyin → keyword eşleşmesiyle skor daha anlamlı olur.
-      <br />
-      <span style="opacity:.9;">
-        Her şey tarayıcıda çalışır. Upload yok. Bu araç herhangi bir ATS ile bağlantılı değildir.
-      </span>
-    </p>
   </div>
-  <!-- END: HERO -->
 
-  <!-- =========================================================
-    CONTENT ROOT
-    - zats.js renders cards here
-  ========================================================== -->
-  <div id="cards-root"></div>
-
-  <!-- =========================================================
-    FOOTER
-  ========================================================== -->
-  <div style="text-align:center; margin:24px 0 16px 0; color:#fff; font-size:12px;">
-    © ubterzioglu · 2025
-  </div>
-  <!-- END: FOOTER -->
-
-  <!-- =========================================================
-    PAGE INIT (MANUAL)
-    - Required because injected template scripts do not execute
-  ========================================================== -->
+  <!-- OPTIONAL UI SYNC (updates pill + bar from #result text) -->
   <script>
-    // =========================================================
-    // Purpose: Initialize ZATS once DOM is ready
-    // =========================================================
-    window.addEventListener("DOMContentLoaded", () => {
-      if (window.ubtInitZats) window.ubtInitZats();
-    });
-  </script>
+    const counterEl = document.getElementById("counter");
+    const barEl = document.getElementById("progress");
+    const resultEl = document.getElementById("result");
 
-  <!-- =========================================================
-    GOATCOUNTER
-    - Keep your existing GoatCounter endpoint
-  ========================================================== -->
-  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+    function setUI(label, pct){
+      counterEl.textContent = label;
+      barEl.style.width = (pct || 0) + "%";
+    }
+
+    setUI("Ready", 20);
+
+    const obs = new MutationObserver(() => {
+      const t = (resultEl.textContent || "").toLowerCase();
+
+      if (t.includes("loading")) setUI("Loading…", 30);
+      else if (t.includes("extract")) setUI("Extracting…", 55);
+      else if (t.includes("scoring")) setUI("Scoring…", 80);
+      else if (t.includes("/100")) setUI("Done", 100);
+      else if (t.includes("error") || t.includes("failed")) setUI("Error", 35);
+      else if (t.includes("ready")) setUI("Ready", 20);
+    });
+
+    obs.observe(resultEl, { childList:true, characterData:true, subtree:true });
+  </script>
 </body>
 </html>
-<!-- ======================= END OF FILE ======================= -->
+<!-- =========================================================
+  END OF FILE: /zats/zats.html
+========================================================= -->
