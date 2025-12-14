@@ -3,7 +3,7 @@
   PURPOSE:
   - ZATS – ATS Readability Score (ZAT-like UI)
   - Button flow (B): user clicks Extract / Calculate / Clear
-  - PDF.js text extraction (text-based PDFs)
+  - PDF.js text extraction (text-based PDFs) - LOCAL vendor
   - ATS Readability scoring (0–100) with EN/TR/DE support
   - Updates: #result, #hint, #previewText
   PRIVACY:
@@ -13,32 +13,22 @@
 (function () {
   "use strict";
 
-  const PDFJS_VERSION = "4.7.76";
+  /* =========================================================
+     PDF.js (LOCAL)
+     - zats.html MUST load: ./vendor/pdfjs/pdf.min.js
+     - This file sets worker: ./vendor/pdfjs/pdf.worker.min.js
+  ========================================================= */
+  const PDF_WORKER_SRC = "./vendor/pdfjs/pdf.worker.min.js?v=1";
 
   /* =========================================================
      SECTION DETECTION (EN / DE / TR)
   ========================================================= */
   const SECTION_HINTS = [
-    {
-      name: "Experience",
-      rx: /(experience|work experience|employment|professional experience|berufserfahrung|erfahrung|iş deneyimi|deneyim)/i
-    },
-    {
-      name: "Skills",
-      rx: /(skills|skill set|tech stack|technologies|tools|kenntnisse|fähigkeiten|kompetenzen|yetenek|beceri)/i
-    },
-    {
-      name: "Education",
-      rx: /(education|educational background|studium|ausbildung|bildung|eğitim|üniversite|school)/i
-    },
-    {
-      name: "Certifications",
-      rx: /(certification|certifications|certified|zertifikat|zertifikate|zertifizierung|sertifika)/i
-    },
-    {
-      name: "Summary/Profile",
-      rx: /(summary|profile|about me|kurzprofil|profil|über mich|özet|hakkımda)/i
-    }
+    { name: "Experience",      rx: /(experience|work experience|employment|professional experience|berufserfahrung|erfahrung|iş deneyimi|deneyim)/i },
+    { name: "Skills",          rx: /(skills|skill set|tech stack|technologies|tools|kenntnisse|fähigkeiten|kompetenzen|yetenek|beceri)/i },
+    { name: "Education",       rx: /(education|educational background|studium|ausbildung|bildung|eğitim|üniversite|school)/i },
+    { name: "Certifications",  rx: /(certification|certifications|certified|zertifikat|zertifikate|zertifizierung|sertifika)/i },
+    { name: "Summary/Profile", rx: /(summary|profile|about me|kurzprofil|profil|über mich|özet|hakkımda)/i }
   ];
 
   /* =========================================================
@@ -47,8 +37,7 @@
   const FALLBACK_KEYWORDS = [
     "test","testing","qa","quality","automation","selenium","playwright","cypress","ranorex",
     "jira","xray","testrail","postman","api","rest","ci","cd","cicd","jenkins","github",
-    "docker","kubernetes","sql","python","java","c#",".net","istqb",
-    "agile","scrum","kanban"
+    "docker","kubernetes","sql","python","java","c#",".net","istqb","agile","scrum","kanban"
   ];
 
   /* =========================================================
@@ -67,22 +56,21 @@
     "werden","wird","kann","muss","soll","wir","sie","ich","du","nicht"
   ]);
 
-/* =========================================================
+  /* =========================================================
      OWNERSHIP / IMPACT VERBS (EN + DE + TR)
   ========================================================= */
-const OWNERSHIP_RX = /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|kurdu|tasarlad|geliştird|iyileştird|azaltt|optimize)/i;
+  const OWNERSHIP_RX =
+    /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|kurdu|tasarlad|geliştird|iyileştird|azaltt|optimize)/i;
 
-const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|beteiligt|mitgewirkt|sorumlu|görev aldım|destek oldum)/i;
+  const GENERIC_RX =
+    /(responsible for|worked on|involved in|verantwortlich für|beteiligt|mitgewirkt|sorumlu|görev aldım|destek oldum)/i;
 
+  /* =========================================================
+     DOM
+  ========================================================= */
   const els = {};
 
   document.addEventListener("DOMContentLoaded", () => {
-    // PDF.js worker
-    if (window.pdfjsLib?.GlobalWorkerOptions) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-        `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
-    }
-
     els.pdf = q("#pdfUpload");
     els.cv = q("#cvText");
     els.jd = q("#jdText");
@@ -96,7 +84,6 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
 
     // Guard
     if (!els.pdf || !els.cv || !els.jd || !els.btnExtract || !els.btnScore || !els.btnClear || !els.result || !els.hint || !els.preview) {
-      // Fail silently (page IDs must match)
       return;
     }
 
@@ -104,7 +91,7 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
     els.btnScore.addEventListener("click", onScore);
     els.btnClear.addEventListener("click", onClear);
 
-    setState("Ready. Upload a CV PDF.", "Tip: If extraction fails, your PDF is likely scanned (image-only). Paste CV text instead.");
+    setState("Ready. Upload a CV PDF.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste CV text instead.");
     els.preview.textContent = "Nothing extracted yet.";
   });
 
@@ -112,56 +99,87 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
      ACTIONS
   ========================================================= */
   async function onExtract() {
-  const file = els.pdf.files?.[0];
-  if (!file) {
-    setState("Error: no PDF selected.", "Choose a PDF first.");
-    return;
-  }
-
-  try {
-    setBusy(true);
-    setState("Extracting…", "Reading PDF text layer (client-side).");
-
-    const text = await extractTextFromPdf(file);
-    const clean = normalize(text);
-
-    // debug + user feedback
-    setState(`Extracted (${clean.length} chars).`, "Now click 'Calculate score'.");
-
-    if (!clean || clean.length < 80) {
-      setState("Extract failed.", "This PDF seems scanned (image-only). Paste CV text instead or upload a text-based PDF.");
-      els.preview.textContent = "No readable text layer detected.";
+    const file = els.pdf.files?.[0];
+    if (!file) {
+      setState("Error: no PDF selected.", "Choose a PDF first.");
       return;
     }
 
-    els.cv.value = clean;
-    els.preview.textContent = clean.slice(0, 2600);
-  } catch (e) {
-    setState("Error: extract failed.", String(e?.message || e));
-  } finally {
-    setBusy(false);
-  }
-}
+    try {
+      setBusy(true);
+      setState("Extracting…", "Reading PDF text layer (client-side).");
 
+      const text = await extractTextFromPdf(file);
+      const clean = normalize(text);
+
+      setState(`Extracted (${clean.length} chars).`, "Now click 'Calculate score'.");
+
+      if (!clean || clean.length < 80) {
+        setState("Extract failed.", "This PDF seems scanned (image-only). Paste CV text instead or upload a text-based PDF.");
+        els.preview.textContent = "No readable text layer detected.";
+        return;
+      }
+
+      els.cv.value = clean;
+      els.preview.textContent = clean.slice(0, 2600);
+    } catch (e) {
+      setState("Error: extract failed.", String(e?.message || e));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function onScore() {
+    const cv = normalize(els.cv.value || "");
+    const jd = normalize(els.jd.value || "");
+
+    if (cv.length < 120) {
+      setState("Error: CV text too short.", "Paste more CV text or extract from a text-based PDF.");
+      return;
+    }
+
+    setState("Scoring…", "Estimating ATS-readiness (parseability + structure + keywords + evidence).");
+
+    const res = scoreAts(cv, jd);
+
+    setState(`${res.total}/100`, res.badge);
+    els.preview.textContent = buildReport(res);
+  }
+
+  function onClear() {
+    els.pdf.value = "";
+    els.cv.value = "";
+    els.jd.value = "";
+    els.preview.textContent = "Nothing extracted yet.";
+    setState("Ready. Upload a CV PDF.", "Tip: Text-based PDFs work best. If your PDF is scanned (image-only), paste CV text instead.");
+  }
 
   /* =========================================================
-     PDF.js extraction
+     PDF.js extraction (LOCAL)
   ========================================================= */
- async function extractTextFromPdf(file) {
-  await ensurePdfJsLoaded();
-
-  const buffer = await file.arrayBuffer();
-  const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
-
-  let out = "";
-  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum);
-    const content = await page.getTextContent();
-    out += "\n" + content.items.map(it => (it?.str ? it.str : "")).join(" ");
+  async function ensurePdfJsReady() {
+    if (!window.pdfjsLib) {
+      throw new Error("PDF.js not loaded. Check zats.html loads ./vendor/pdfjs/pdf.min.js");
+    }
+    if (window.pdfjsLib?.GlobalWorkerOptions) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+    }
   }
-  return out;
-}
 
+  async function extractTextFromPdf(file) {
+    await ensurePdfJsReady();
+
+    const buffer = await file.arrayBuffer();
+    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+
+    let out = "";
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const content = await page.getTextContent();
+      out += "\n" + content.items.map(it => (it?.str ? it.str : "")).join(" ");
+    }
+    return out;
+  }
 
   /* =========================================================
      SCORING
@@ -187,19 +205,14 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
       badge: badgeText(total),
       issues: uniq(issues).slice(0, 10),
       fixes: uniq(fixes).slice(0, 10),
-      meta: {
-        jdUsed: (jd || "").trim().length >= 80
-      }
+      meta: { jdUsed: (jd || "").trim().length >= 80 }
     };
   }
 
   let issues = [];
   let fixes = [];
 
-  function resetFindings() {
-    issues = [];
-    fixes = [];
-  }
+  function resetFindings() { issues = []; fixes = []; }
 
   function scoreParseability(text) {
     let s = 30;
@@ -207,7 +220,6 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
     const hasEmail = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text);
     const hasPhone = /(\+?\d[\d\s().-]{7,}\d)/.test(text);
 
-    // Date signals: years + common formats
     const hasDates =
       /\b(19|20)\d{2}\b/.test(text) ||
       /\b(0?[1-9]|1[0-2])[\/.-](19|20)\d{2}\b/.test(text) ||
@@ -217,7 +229,6 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
     if (!hasPhone) { s -= 4; issues.push("Phone number not detected."); fixes.push("Add phone number with country code (e.g., +49…)."); }
     if (!hasDates) { s -= 6; issues.push("Dates not clearly detected (timeline may be unclear)."); fixes.push("Use consistent dates like MM/YYYY – MM/YYYY."); }
 
-    // Special bullets/icons
     const specialBullets = (text.match(/[•·▪►➤★✓✔✦✧]/g) || []).length;
     if (specialBullets > 20) {
       s -= 4;
@@ -225,7 +236,6 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
       fixes.push("Use simple '-' bullets for maximum ATS compatibility.");
     }
 
-    // Multi-column extraction hint
     const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
     const longLines = lines.filter(l => l.length > 180).length;
     if (longLines >= 6) {
@@ -345,57 +355,6 @@ const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|b
   /* =========================================================
      KEYWORD HELPERS
   ========================================================= */
- async function ensurePdfJsLoaded() {
-  if (window.pdfjsLib) return;
-
-  await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.js")
-    .catch(() =>
-      loadScriptOnce("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.min.js")
-    );
-
-  if (!window.pdfjsLib) {
-    throw new Error("PDF.js failed to load (CDN blocked or network error).");
-  }
-
-  if (window.pdfjsLib?.GlobalWorkerOptions) {
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.js";
-  }
-}
-
-function loadScriptOnce(src) {
-  return new Promise((resolve, reject) => {
-    const filename = src.split("/").pop();
-    const alreadyLoaded = [...document.scripts].some(
-      s => (s.src || "").includes(filename)
-    );
-
-    if (alreadyLoaded) {
-      resolve();
-      return;
-    }
-
-    const s = document.createElement("script");
-    s.src = src;
-    s.async = true;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error("Script load error: " + src));
-    document.head.appendChild(s);
-  });
-}
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   function extractKeywordsFromJd(jd) {
     const toks = jd
       .toLowerCase()
@@ -472,12 +431,8 @@ function loadScriptOnce(src) {
     return out;
   }
 
-  function clamp(n, min, max) {
-    return Math.max(min, Math.min(max, n));
-  }
+  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
-  function q(sel) {
-    return document.querySelector(sel);
-  }
+  function q(sel) { return document.querySelector(sel); }
 
 })();
