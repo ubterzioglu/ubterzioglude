@@ -30,18 +30,14 @@
     "docker","sql","python","java","c#",".net","istqb","agile","scrum"
   ];
 
-  /* ===================== VERBS ===================== */
-  const OWNERSHIP_RX =
-    /(led|owned|implemented|designed|built|improved|optimized|delivered|achieved|
-      umgesetzt|entwickelt|verbessert|optimiert|
-      geliştird|iyileştird|kurdu|azaltt)/i;
+ 
+ /* ===================== VERBS ===================== */
+const OWNERSHIP_RX = /(led|owned|implemented|designed|built|improved|optimized|delivered|achieved|umgesetzt|entwickelt|verbessert|optimiert|geliştird|iyileştird|kurdu|azaltt)/i;
 
-  const GENERIC_RX =
-    /(responsible for|worked on|involved in|
-      verantwortlich für|beteiligt|
-      sorumlu|destek oldum)/i;
+const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|beteiligt|sorumlu|destek oldum)/i;
 
-  /* ===================== DOM ===================== */
+/* ===================== DOM ===================== */
+
   const els = {};
   let issues = [];
   let fixes = [];
