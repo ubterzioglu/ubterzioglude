@@ -67,22 +67,13 @@
     "werden","wird","kann","muss","soll","wir","sie","ich","du","nicht"
   ]);
 
-  /* =========================================================
+/* =========================================================
      OWNERSHIP / IMPACT VERBS (EN + DE + TR)
   ========================================================= */
-  const OWNERSHIP_RX =
-    /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|
-      umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|
-      kurdu|tasarlad|geliştird|iyileştird|azaltt|optimize)/i;
+const OWNERSHIP_RX = /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|umgesetzt|implementiert|entwickelt|verbessert|optimiert|reduziert|aufgebaut|geleitet|verantwortlich|kurdu|tasarlad|geliştird|iyileştird|azaltt|optimize)/i;
 
-  const GENERIC_RX =
-    /(responsible for|worked on|involved in|
-      verantwortlich für|beteiligt|mitgewirkt|
-      sorumlu|görev aldım|destek oldum)/i;
+const GENERIC_RX = /(responsible for|worked on|involved in|verantwortlich für|beteiligt|mitgewirkt|sorumlu|görev aldım|destek oldum)/i;
 
-  /* =========================================================
-     DOM
-  ========================================================= */
   const els = {};
 
   document.addEventListener("DOMContentLoaded", () => {
