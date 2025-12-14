@@ -12,7 +12,7 @@ window.EXPLORER_DATA = {
     },
 
     {
-      id: "testing-age-of-ai",
+      id: "perfect-order-or-flawed",
       title: "Perfect order, or flawed but free individuals?",
       date: "12-12-2025",
       img: "/img/z0article0030.png",
@@ -93,7 +93,7 @@ window.EXPLORER_DATA = {
     }
   ],
 
- tools: [
+  tools: [
     {
       id: "aiselector",
       title: "AI Selectior",
@@ -116,10 +116,10 @@ window.EXPLORER_DATA = {
   img: "/img/z0tool0030.jpg",
   href: "https://ubterzioglu.de/zats/zats.html",
   note: "A simple tool that checks how readable and ATS-friendly your CV is. It highlights potential issues in structure, wording, and formatting, so you can make quick improvements before applying."
-}
+    }
 
     
-  ],
+        ],
 
   apps: [
     {
@@ -129,7 +129,26 @@ window.EXPLORER_DATA = {
       href: "https://drive.google.com/file/d/1jkWZcovcBWqn08p585dpsN2Rpv7HBOGW/view?usp=drive_link",
       note: "Ghost Mouse automatically moves your mouse to keep your system active."
     }
-  ]
+  ],
+
+  zbom: [
+    {
+      id: "portable-apps",
+      title: "PortableApps",
+      img: "/img/z0bookmark0010.png",
+      href: "https://portableapps.com/",
+      note:
+        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
+    }
+  ],
+
+
+
+
+
+
+
+
 };
 
 

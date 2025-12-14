@@ -50,7 +50,7 @@
   // (Only if that file is loaded on this page; by default it isn't.)
   function getExplorerBookmarksIfAny() {
     try {
-      const b = window.EXPLORER_DATA?.bookmarks;
+      const b = window.EXPLORER_DATA?.zbom;
       if (!Array.isArray(b)) return [];
       return b.map(x => ({
         id: x.id,
