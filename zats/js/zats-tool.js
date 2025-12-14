@@ -1,11 +1,13 @@
 /* =========================================================
   FILE: /zats/js/zats-tool.js
   PURPOSE:
-  - ZATS: ATS Readability / ATS-Readiness Tool
-  - EN / TR / DE support
+  - ZATS – ATS Readability Score (ZAT-like UI)
+  - Button flow (B): user clicks Extract / Calculate / Clear
   - PDF.js text extraction (text-based PDFs)
-  - ATS readability scoring (0–100)
-  - Client-side only, no upload
+  - ATS Readability scoring (0–100) with EN/TR/DE support
+  - Updates: #result, #hint, #previewText
+  PRIVACY:
+  - 100% client-side, no upload
 ========================================================= */
 
 (function () {
@@ -14,7 +16,7 @@
   const PDFJS_VERSION = "4.7.76";
 
   /* =========================================================
-     SECTION DETECTION (EN / TR / DE)
+     SECTION DETECTION (EN / DE / TR)
   ========================================================= */
   const SECTION_HINTS = [
     {
@@ -50,7 +52,7 @@
   ];
 
   /* =========================================================
-     STOPWORDS (EN + TR + DE)
+     STOPWORDS (EN + DE + TR)
   ========================================================= */
   const STOPWORDS = new Set([
     // EN
@@ -66,7 +68,7 @@
   ]);
 
   /* =========================================================
-     OWNERSHIP / IMPACT VERBS (EN + TR + DE)
+     OWNERSHIP / IMPACT VERBS (EN + DE + TR)
   ========================================================= */
   const OWNERSHIP_RX =
     /(led|owned|designed|implemented|built|created|improved|reduced|optimized|established|
@@ -84,6 +86,7 @@
   const els = {};
 
   document.addEventListener("DOMContentLoaded", () => {
+    // PDF.js worker
     if (window.pdfjsLib?.GlobalWorkerOptions) {
       window.pdfjsLib.GlobalWorkerOptions.workerSrc =
         `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
@@ -92,18 +95,26 @@
     els.pdf = q("#pdfUpload");
     els.cv = q("#cvText");
     els.jd = q("#jdText");
-    els.extract = q("#btnExtract");
-    els.score = q("#btnScore");
-    els.clear = q("#btnClear");
+    els.btnExtract = q("#btnExtract");
+    els.btnScore = q("#btnScore");
+    els.btnClear = q("#btnClear");
+
     els.result = q("#result");
     els.hint = q("#hint");
     els.preview = q("#previewText");
 
-    els.extract.onclick = onExtract;
-    els.score.onclick = onScore;
-    els.clear.onclick = onClear;
+    // Guard
+    if (!els.pdf || !els.cv || !els.jd || !els.btnExtract || !els.btnScore || !els.btnClear || !els.result || !els.hint || !els.preview) {
+      // Fail silently (page IDs must match)
+      return;
+    }
 
-    setState("Ready.", "Upload a text-based PDF or paste CV text.");
+    els.btnExtract.addEventListener("click", onExtract);
+    els.btnScore.addEventListener("click", onScore);
+    els.btnClear.addEventListener("click", onClear);
+
+    setState("Ready. Upload a CV PDF.", "Tip: If extraction fails, your PDF is likely scanned (image-only). Paste CV text instead.");
+    els.preview.textContent = "Nothing extracted yet.";
   });
 
   /* =========================================================
@@ -111,7 +122,10 @@
   ========================================================= */
   async function onExtract() {
     const file = els.pdf.files?.[0];
-    if (!file) return setState("Error.", "Please select a PDF first.");
+    if (!file) {
+      setState("Error: no PDF selected.", "Choose a PDF first.");
+      return;
+    }
 
     try {
       setBusy(true);
@@ -120,17 +134,17 @@
       const text = await extractTextFromPdf(file);
       const clean = normalize(text);
 
-      if (clean.length < 80) {
-        setState("Extract failed.", "PDF seems scanned (image-only). Paste text instead.");
+      if (!clean || clean.length < 80) {
+        setState("Extract failed.", "This PDF seems scanned (image-only). Paste CV text instead or upload a text-based PDF.");
         els.preview.textContent = "No readable text layer detected.";
         return;
       }
 
       els.cv.value = clean;
-      els.preview.textContent = clean.slice(0, 2500);
-      setState("Extracted.", "Text extracted. You can now calculate the score.");
+      els.preview.textContent = clean.slice(0, 2600);
+      setState("Extracted.", "Text extracted into the CV box. Now click 'Calculate score'.");
     } catch (e) {
-      setState("Error.", e.message || "PDF extract failed.");
+      setState("Error: extract failed.", String(e?.message || e));
     } finally {
       setBusy(false);
     }
@@ -141,29 +155,16 @@
     const jd = normalize(els.jd.value || "");
 
     if (cv.length < 120) {
-      return setState("Error.", "CV text is too short.");
+      setState("Error: CV text too short.", "Paste more CV text or extract from a text-based PDF.");
+      return;
     }
 
-    setState("Scoring…", "Estimating ATS readability.");
+    setState("Scoring…", "Estimating ATS-readiness (parseability + structure + keywords + evidence).");
 
     const res = scoreAts(cv, jd);
-    setState(`${res.total}/100`, res.badge);
 
-    els.preview.textContent = [
-      `ATS Readability Score: ${res.total}/100`,
-      "",
-      "Subscores:",
-      `- Parseability: ${res.sub.parse}/30`,
-      `- Structure: ${res.sub.structure}/20`,
-      `- Keywords: ${res.sub.keywords}/30`,
-      `- Evidence: ${res.sub.evidence}/20`,
-      "",
-      "Top Issues:",
-      ...(res.issues.length ? res.issues.map(i => "- " + i) : ["- None detected"]),
-      "",
-      "Top Fixes:",
-      ...(res.fixes.length ? res.fixes.map(f => "- " + f) : ["- No suggestions"])
-    ].join("\n");
+    setState(`${res.total}/100`, res.badge);
+    els.preview.textContent = buildReport(res);
   }
 
   function onClear() {
@@ -171,7 +172,25 @@
     els.cv.value = "";
     els.jd.value = "";
     els.preview.textContent = "Nothing extracted yet.";
-    setState("Ready.", "Upload a text-based PDF or paste CV text.");
+    setState("Ready. Upload a CV PDF.", "Tip: If extraction fails, your PDF is likely scanned (image-only). Paste CV text instead.");
+  }
+
+  /* =========================================================
+     PDF.js extraction
+  ========================================================= */
+  async function extractTextFromPdf(file) {
+    if (!window.pdfjsLib) throw new Error("PDF.js not loaded.");
+
+    const buffer = await file.arrayBuffer();
+    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+
+    let out = "";
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const content = await page.getTextContent();
+      out += "\n" + content.items.map(it => (it?.str ? it.str : "")).join(" ");
+    }
+    return out;
   }
 
   /* =========================================================
@@ -180,24 +199,27 @@
   function scoreAts(cv, jd) {
     resetFindings();
 
-    const parse = scoreParse(cv);
-    const structure = scoreStructure(cv);
-    const keywords = scoreKeywords(cv, jd);
-    const evidence = scoreEvidence(cv);
+    const parse = scoreParseability(cv);   // 0..30
+    const struct = scoreStructure(cv);     // 0..20
+    const kw = scoreKeywords(cv, jd);      // 0..30
+    const ev = scoreEvidence(cv);          // 0..20
 
-    const total = clamp(Math.round(parse + structure + keywords + evidence), 0, 100);
+    const total = clamp(Math.round(parse + struct + kw + ev), 0, 100);
 
     return {
       total,
       sub: {
         parse: Math.round(parse),
-        structure: Math.round(structure),
-        keywords: Math.round(keywords),
-        evidence: Math.round(evidence)
+        structure: Math.round(struct),
+        keywords: Math.round(kw),
+        evidence: Math.round(ev)
       },
       badge: badgeText(total),
       issues: uniq(issues).slice(0, 10),
-      fixes: uniq(fixes).slice(0, 10)
+      fixes: uniq(fixes).slice(0, 10),
+      meta: {
+        jdUsed: (jd || "").trim().length >= 80
+      }
     };
   }
 
@@ -209,24 +231,37 @@
     fixes = [];
   }
 
-  function scoreParse(text) {
+  function scoreParseability(text) {
     let s = 30;
 
-    if (!/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text)) {
-      s -= 6; issues.push("Email not detected."); fixes.push("Add email as plain text near the top.");
+    const hasEmail = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text);
+    const hasPhone = /(\+?\d[\d\s().-]{7,}\d)/.test(text);
+
+    // Date signals: years + common formats
+    const hasDates =
+      /\b(19|20)\d{2}\b/.test(text) ||
+      /\b(0?[1-9]|1[0-2])[\/.-](19|20)\d{2}\b/.test(text) ||
+      /\b(0?[1-9]|[12]\d|3[01])[\/.-](0?[1-9]|1[0-2])[\/.-](19|20)\d{2}\b/.test(text);
+
+    if (!hasEmail) { s -= 6; issues.push("Email not detected."); fixes.push("Add your email as plain text near the top."); }
+    if (!hasPhone) { s -= 4; issues.push("Phone number not detected."); fixes.push("Add phone number with country code (e.g., +49…)."); }
+    if (!hasDates) { s -= 6; issues.push("Dates not clearly detected (timeline may be unclear)."); fixes.push("Use consistent dates like MM/YYYY – MM/YYYY."); }
+
+    // Special bullets/icons
+    const specialBullets = (text.match(/[•·▪►➤★✓✔✦✧]/g) || []).length;
+    if (specialBullets > 20) {
+      s -= 4;
+      issues.push("Heavy use of special bullets/icons (can break parsing).");
+      fixes.push("Use simple '-' bullets for maximum ATS compatibility.");
     }
 
-    if (!/(\+?\d[\d\s().-]{7,}\d)/.test(text)) {
-      s -= 4; issues.push("Phone number not detected."); fixes.push("Add phone number with country code.");
-    }
-
-    if (!/\b(19|20)\d{2}\b/.test(text)) {
-      s -= 6; issues.push("Dates not clearly detected."); fixes.push("Use consistent date format (MM/YYYY – MM/YYYY).");
-    }
-
-    const bullets = (text.match(/[•·▪►➤★✓✔✦✧]/g) || []).length;
-    if (bullets > 20) {
-      s -= 4; issues.push("Heavy use of special bullets/icons."); fixes.push("Use simple '-' bullets.");
+    // Multi-column extraction hint
+    const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+    const longLines = lines.filter(l => l.length > 180).length;
+    if (longLines >= 6) {
+      s -= 6;
+      issues.push("Text looks like multi-column extraction (messy parsing).");
+      fixes.push("Export a single-column PDF (ATS parsing improves a lot).");
     }
 
     return clamp(s, 0, 30);
@@ -241,13 +276,13 @@
     }
 
     if (found.has("Experience")) s += 8;
-    else { issues.push("Missing clear Experience section."); fixes.push("Add 'Experience / Berufserfahrung' heading."); }
+    else { issues.push("Missing a clear Experience / Berufserfahrung section."); fixes.push("Add an 'Experience' heading and keep company/role/date format consistent."); }
 
     if (found.has("Skills")) s += 6;
-    else { issues.push("Missing Skills section."); fixes.push("Add dedicated Skills / Kenntnisse section."); }
+    else { issues.push("Missing a dedicated Skills / Kenntnisse section."); fixes.push("Add a Skills section to boost keyword hits."); }
 
     if (found.has("Education")) s += 4;
-    else { issues.push("Missing Education section."); fixes.push("Add Education / Ausbildung section."); }
+    else { issues.push("Missing an Education / Ausbildung section."); fixes.push("Add Education (school/program/year)."); }
 
     if (found.has("Certifications")) s += 2;
 
@@ -256,17 +291,24 @@
 
   function scoreKeywords(cv, jd) {
     const cvSet = buildTokenSet(cv);
-    const kws = jd.length > 80 ? extractKeywordsFromJd(jd) : FALLBACK_KEYWORDS;
+
+    const jdGood = (jd || "").trim().length >= 80;
+    const kws = jdGood ? extractKeywordsFromJd(jd) : FALLBACK_KEYWORDS;
 
     let matched = 0;
-    kws.forEach(k => { if (cvSet.has(k)) matched++; });
+    for (const k of kws) {
+      if (cvSet.has(k)) matched++;
+    }
 
     const ratio = matched / Math.max(kws.length, 1);
     const s = Math.round(ratio * 30);
 
-    if (jd.length < 80) {
+    if (!jdGood) {
       issues.push("No job description provided (generic keyword list used).");
       fixes.push("Paste the job description for accurate keyword matching.");
+    } else if (ratio < 0.35) {
+      issues.push("Low keyword match vs job description.");
+      fixes.push("Add missing keywords naturally into Skills/Experience (avoid stuffing).");
     }
 
     return clamp(s, 0, 30);
@@ -275,69 +317,119 @@
   function scoreEvidence(text) {
     let s = 20;
 
-    if (!/\b\d+/.test(text) && !/%/.test(text)) {
-      s -= 8; issues.push("Few measurable results (numbers/metrics).");
-      fixes.push("Add metrics: % coverage, # tests, time saved.");
+    const hasNumbers = /\b\d{1,3}(?:[.,]\d+)?\b/.test(text);
+    const hasPercent = /%/.test(text);
+
+    if (!hasNumbers && !hasPercent) {
+      s -= 8;
+      issues.push("Few measurable outcomes (numbers/metrics).");
+      fixes.push("Add metrics: % coverage, # test cases, time saved, defect reduction.");
     }
 
     if (!OWNERSHIP_RX.test(text)) {
-      s -= 4; issues.push("Weak ownership/impact verbs.");
-      fixes.push("Use verbs like implemented / umgesetzt / geliştirildi.");
+      s -= 4;
+      issues.push("Weak ownership/impact verbs.");
+      fixes.push("Use verbs like implemented / improved / optimized / umgesetzt / verbessert.");
     }
 
     if (GENERIC_RX.test(text)) {
-      s -= 4; issues.push("Generic responsibility phrases detected.");
-      fixes.push("Rewrite generics into impact-focused statements.");
+      s -= 4;
+      issues.push("Generic responsibility phrases detected.");
+      fixes.push("Rewrite into impact: “Implemented X resulting in Y”.");
     }
 
     return clamp(s, 0, 20);
   }
 
   function badgeText(score) {
-    if (score >= 85) return "Excellent ATS-readiness.";
-    if (score >= 70) return "Good ATS-readiness.";
-    if (score >= 55) return "Medium ATS-readiness.";
-    return "Risky ATS-readiness.";
+    if (score >= 85) return "Excellent ATS-readiness. Small refinements can make it even stronger.";
+    if (score >= 70) return "Good ATS-readiness. Fix a few gaps to improve ranking.";
+    if (score >= 55) return "Medium ATS-readiness. Structure/keywords/metrics can boost results a lot.";
+    return "Risky ATS-readiness. Simplify layout, add clear sections, and strengthen keywords + metrics.";
+  }
+
+  function buildReport(res) {
+    const lines = [];
+
+    lines.push(`ATS Readability Score: ${res.total}/100`);
+    lines.push("");
+    lines.push("Subscores:");
+    lines.push(`- Parseability: ${res.sub.parse}/30`);
+    lines.push(`- Structure: ${res.sub.structure}/20`);
+    lines.push(`- Keywords: ${res.sub.keywords}/30${res.meta.jdUsed ? "" : " (generic list)"}`);
+    lines.push(`- Evidence: ${res.sub.evidence}/20`);
+    lines.push("");
+
+    lines.push("Top Issues:");
+    if (res.issues.length) res.issues.forEach(i => lines.push(`- ${i}`));
+    else lines.push("- None detected");
+
+    lines.push("");
+    lines.push("Top Fixes:");
+    if (res.fixes.length) res.fixes.forEach(f => lines.push(`- ${f}`));
+    else lines.push("- No suggestions");
+
+    return lines.join("\n");
   }
 
   /* =========================================================
-     PDF.js
-  ========================================================= */
-  async function extractTextFromPdf(file) {
-    const buffer = await file.arrayBuffer();
-    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
-
-    let out = "";
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const c = await page.getTextContent();
-      out += "\n" + c.items.map(it => it.str || "").join(" ");
-    }
-    return out;
-  }
-
-  /* =========================================================
-     HELPERS
+     KEYWORD HELPERS
   ========================================================= */
   function extractKeywordsFromJd(jd) {
-    return jd
+    const toks = jd
       .toLowerCase()
       .replace(/[^\p{L}\p{N}#+.\s-]/gu, " ")
       .split(/\s+/)
-      .filter(w => w.length >= 3 && !STOPWORDS.has(w))
-      .slice(0, 80);
+      .map(t => t.trim())
+      .filter(t => t.length >= 3)
+      .filter(t => !STOPWORDS.has(t));
+
+    const out = [];
+    const seen = new Set();
+
+    for (const t of toks) {
+      const k = t.replace(/^-+|-+$/g, "");
+      if (!k) continue;
+      if (!seen.has(k)) { seen.add(k); out.push(k); }
+      if (out.length >= 80) break;
+    }
+
+    return out.length ? out : FALLBACK_KEYWORDS;
   }
 
   function buildTokenSet(text) {
-    const clean = text.toLowerCase().replace(/[^\p{L}\p{N}#+.\s-]/gu, " ");
-    const words = clean.split(/\s+/).filter(Boolean);
+    const clean = text
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}#+.\s-]/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const w = clean.split(" ").filter(Boolean);
     const set = new Set();
 
-    for (let i = 0; i < words.length; i++) {
-      set.add(words[i]);
-      if (i < words.length - 1) set.add(words[i] + " " + words[i + 1]);
+    for (let i = 0; i < w.length; i++) {
+      const a = w[i];
+      if (a.length >= 2) set.add(a);
+      if (i < w.length - 1) {
+        const bg = (a + " " + w[i + 1]).trim();
+        if (bg.length >= 4) set.add(bg);
+      }
     }
     return set;
+  }
+
+  /* =========================================================
+     UI HELPERS
+  ========================================================= */
+  function setState(statusText, hintText) {
+    els.result.textContent = statusText;
+    if (typeof hintText === "string") els.hint.textContent = hintText;
+  }
+
+  function setBusy(b) {
+    els.btnExtract.disabled = b;
+    els.btnScore.disabled = b;
+    els.btnClear.disabled = b;
   }
 
   function normalize(s) {
@@ -349,27 +441,22 @@
       .trim();
   }
 
-  function setState(txt, hint) {
-    els.result.textContent = txt;
-    if (hint) els.hint.textContent = hint;
-  }
-
-  function setBusy(b) {
-    els.extract.disabled = b;
-    els.score.disabled = b;
-    els.clear.disabled = b;
-  }
-
   function uniq(arr) {
-    return [...new Set(arr)];
+    const out = [];
+    const seen = new Set();
+    for (const x of (arr || [])) {
+      const k = String(x);
+      if (!seen.has(k)) { seen.add(k); out.push(x); }
+    }
+    return out;
   }
 
   function clamp(n, min, max) {
     return Math.max(min, Math.min(max, n));
   }
 
-  function q(s) {
-    return document.querySelector(s);
+  function q(sel) {
+    return document.querySelector(sel);
   }
 
 })();
