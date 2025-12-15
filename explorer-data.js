@@ -57,13 +57,49 @@ window.EXPLORER_DATA = {
 
   updates: [
     {
+      id: "zats-live",
+      title: "ATS Score Tool Launched",
+      date: "15-12-2025",
+      text:
+        "ATS Score Tool to calculate how ATS-friendly your CV!",
+      href: "/zats/zats.html",
+      pinned: false
+    },
+    {
+      id: "zais-live",
+      title: "AI Selection Tool Launched",
+      date: "15-12-2025",
+      text:
+        "AI Tool Selector to help you pick the right AI tool with simple yes/no questions.",
+      href: "/zais/zais.html",
+      pinned: false
+    },
+     {
+      id: "zpath-live",
+      title: "Career Decision Tool Launched",
+      date: "15-12-2025",
+      text:
+        "Carrer decision tool to help you make clear yes/no decisions with logic and emotion scoring.",
+      href: "/zbom/zbom.html",
+      pinned: false
+    },
+    {
+      id: "zbam-live",
+      title: "Bookmark Collection Added",
+      date: "14-12-2025",
+      text:
+        "Lots of remarkleable bookmarks! Check it out!",
+      href: "/zbom/zbom.html",
+      pinned: false
+    },
+    {
       id: "explorer-live",
       title: "Explorer is live",
       date: "12-12-2025",
       text:
         "Explorer pages (Articles, Bookmarks, Notes) are now running with a shared data file. Next step: add more content and keep it fresh.",
       href: "zexplorer.html",
-      pinned: true
+      pinned: false
     },
     {
       id: "contact-polish",

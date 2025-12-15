@@ -1422,32 +1422,43 @@ register("insights", () => `
 
 /* =====================================================
    CARD: UPDATES / NEWS (DATA-DRIVEN – TEXT ONLY)
+   - Date format in data: DD-MM-YYYY (e.g. 12-12-2025)
+   - No conversion, just print as-is
    ===================================================== */
 register("updates", () => {
   const itemsRaw = (window.EXPLORER_DATA && window.EXPLORER_DATA.updates) || [];
+
+  // If you store DD-MM-YYYY, string sort is not reliable.
+  // So we sort pinned first, then parse date safely (DD-MM-YYYY).
+  const parseDMY = (d) => {
+    if (!d) return 0;
+    const parts = String(d).split("-");
+    if (parts.length !== 3) return 0;
+    const [dd, mm, yyyy] = parts;
+    const D = Number(dd), M = Number(mm), Y = Number(yyyy);
+    if (!Y || !M || !D) return 0;
+    return new Date(Y, M - 1, D).getTime();
+  };
 
   const items = [...itemsRaw].sort((a, b) => {
     const ap = a?.pinned ? 1 : 0;
     const bp = b?.pinned ? 1 : 0;
     if (ap !== bp) return bp - ap;
-    return (b?.date || "").localeCompare(a?.date || "");
+
+    // Latest on top
+    return parseDMY(b?.date) - parseDMY(a?.date);
   });
 
-  const fmt = (d) => {
-    if (!d) return "";
-    const [y, m, dd] = d.split("-");
-    return `${dd}-${m}-${y.slice(2)}`;
-  };
+  const fmt = (d) => (d ? String(d) : "");
 
   return `
     <div id="updates" class="detail-card card-color-3">
 
-    <div class="card-buttons">
+      <div class="card-buttons">
         <a href="index.html"><img src="/img/z0cliphome.png" class="btn-icon" alt="Home" /></a>
         <a href="zexplorer.html"><img src="/img/z0clipexplorer.png" class="btn-icon" alt="Explorer" /></a>
         <a href="#top"><img src="/img/z0clipup.png" class="btn-icon" alt="Up" /></a>
       </div>
-      
 
       <h2 class="section-title">Updates / News</h2>
 
@@ -1465,11 +1476,12 @@ register("updates", () => {
                   background:rgba(255,255,255,.14);
                   box-shadow:0 6px 16px rgba(0,0,0,.18);
                 ">
-                  <div style="display:flex; justify-content:space-between; gap:12px;">
-                    <div style="font-weight:900;">
+                  <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+                    <div style="font-weight:900; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                       ${it?.pinned ? "📌 " : ""}${it?.title || "Update"}
                     </div>
-                    <div style="opacity:.8; font-size:.9em;">
+
+                    <div style="opacity:.8; font-size:.9em; flex-shrink:0; white-space:nowrap;">
                       ${fmt(it?.date)}
                     </div>
                   </div>
@@ -1494,6 +1506,7 @@ register("updates", () => {
   `;
 });
 /* END of block: Card Template — updates */
+
 
 
 /* =====================================================
