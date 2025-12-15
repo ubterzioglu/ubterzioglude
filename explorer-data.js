@@ -289,7 +289,147 @@ window.EXPLORER_DATA = {
   href: "https://www.freecodecamp.org/",
   category: "libraries",
   note: "freeCodeCamp helps you learn coding through interactive lessons and projects. Perfect for building real skills step by step."
+},
+
+// ------------------------------------
+// https://jsoncrack.com/
+// ------------------------------------
+{
+  id: "jsoncrack",
+  title: "JSON Crack",
+  img: "/img/z0bookmark0905.jpg",
+  href: "https://jsoncrack.com/",
+  category: "tools",
+  note: "JSON Crack helps you visualize complex JSON data as interactive graphs. Perfect for understanding, debugging, and exploring nested structures."
 }
+// ------------------------------------
+
+
+// ------------------------------------
+// https://omatsuri.app/
+// ------------------------------------
+{
+  id: "omatsuri",
+  title: "Omatsuri",
+  img: "/img/z0bookmark0906.jpg",
+  href: "https://omatsuri.app/",
+  category: "tools",
+  note: "Omatsuri gives you a collection of small frontend tools for everyday development tasks. Perfect for quick calculations, generators, and UI helpers."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://tinywow.com/
+// ------------------------------------
+{
+  id: "tinywow",
+  title: "TinyWow",
+  img: "/img/z0bookmark0907.jpg",
+  href: "https://tinywow.com/",
+  category: "tools",
+  note: "TinyWow offers free online tools for PDFs, videos, images, and files. Perfect for quick tasks without sign-up or installation."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://codeimg.io/
+// ------------------------------------
+{
+  id: "codeimg",
+  title: "Codeimg",
+  img: "/img/z0bookmark0908.jpg",
+  href: "https://codeimg.io/",
+  category: "design",
+  note: "Codeimg lets you turn code snippets into clean, shareable images. Perfect for posts, documentation, and social sharing."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://ray.so/
+// ------------------------------------
+{
+  id: "ray-so",
+  title: "Ray.so",
+  img: "/img/z0bookmark0909.jpg",
+  href: "https://ray.so/",
+  category: "design",
+  note: "Ray.so helps you create beautiful images from code snippets instantly. Perfect for sharing clean and stylish code visuals."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://hoppscotch.io/
+// ------------------------------------
+{
+  id: "hoppscotch",
+  title: "Hoppscotch",
+  img: "/img/z0bookmark0910.jpg",
+  href: "https://hoppscotch.io/",
+  category: "open-source",
+  note: "Hoppscotch lets you test APIs quickly in a fast, lightweight interface. Perfect for exploring and debugging requests without heavy tools."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://excalidraw.com/
+// ------------------------------------
+{
+  id: "excalidraw",
+  title: "Excalidraw",
+  img: "/img/z0bookmark0911.jpg",
+  href: "https://excalidraw.com/",
+  category: "open-source",
+  note: "Excalidraw helps you create simple hand-drawn style diagrams collaboratively. Perfect for sketches, flows, and quick visual thinking."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://devdocs.io/
+// ------------------------------------
+{
+  id: "devdocs",
+  title: "DevDocs",
+  img: "/img/z0bookmark0912.jpg",
+  href: "https://devdocs.io/",
+  category: "libraries",
+  note: "DevDocs brings multiple developer documentations into one fast interface. Perfect for quick reference without switching sites."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://neatnik.net/view-image/
+// ------------------------------------
+{
+  id: "view-image",
+  title: "View Image",
+  img: "/img/z0bookmark0913.jpg",
+  href: "https://neatnik.net/view-image/",
+  category: "tools",
+  note: "View Image lets you open and inspect images directly in your browser. Perfect for quick checks without extra software."
+}
+// ------------------------------------
+
+
+// ------------------------------------
+// https://www.squoosh.app/
+// ------------------------------------
+{
+  id: "squoosh",
+  title: "Squoosh",
+  img: "/img/z0bookmark0914.jpg",
+  href: "https://www.squoosh.app/",
+  category: "open-source",
+  note: "Squoosh helps you compress and optimize images directly in your browser. Perfect for reducing file size without losing quality."
+}
+// ------------------------------------
+
 
 
   ],
