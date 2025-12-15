@@ -5,11 +5,15 @@
   - Curated data comes from window.EXPLORER_DATA.zbom (manual-first)
   - User submissions are loaded from /api/zbom-list (KV)
   - Submit modal posts to /api/zbom-submit
+  - Mobile: hamburger sidebar (<=980px)
 ========================================================= */
 
 (function () {
   const $ = (id) => document.getElementById(id);
 
+  // -------------------------------------------------------
+  // Elements
+  // -------------------------------------------------------
   const navEl = $("nav");
   const gridEl = $("grid");
   const qEl = $("q");
@@ -30,9 +34,26 @@
   const sCat = $("sCat");
   const submitMsg = $("submitMsg");
 
-  // ----------------------------
+  // Mobile sidebar (hamburger)
+  const hamb = $("hamb");
+  const sbOverlay = $("sbOverlay");
+
+  // -------------------------------------------------------
+  // Sidebar open/close
+  // -------------------------------------------------------
+  function openSidebar() {
+    document.body.classList.add("sb-open");
+    if (hamb) hamb.setAttribute("aria-expanded", "true");
+  }
+
+  function closeSidebar() {
+    document.body.classList.remove("sb-open");
+    if (hamb) hamb.setAttribute("aria-expanded", "false");
+  }
+
+  // -------------------------------------------------------
   // FALLBACK CURATED (only if EXPLORER_DATA.zbom is missing/empty)
-  // ----------------------------
+  // -------------------------------------------------------
   const FALLBACK_CURATED = [
     {
       id: "portable-apps",
@@ -54,26 +75,35 @@
     }
   }
 
+  // More tolerant mapper (so explorer-data can be flexible)
   function toZbomItem(x, forcedBy) {
-  const url =
-    x.href || x.url || x.link || x.website || x.site || x.homepage || "";
+    const url =
+      x.href || x.url || x.link || x.website || x.site || x.homepage || "";
 
-  const note =
-    x.note || x.desc || x.description || x.summary || x.text || "";
+    const note =
+      x.note || x.desc || x.description || x.summary || x.text || "";
 
-  return {
-    id: x.id || (x.title ? x.title.toLowerCase().replace(/\s+/g, "-") : crypto.randomUUID()),
-    title: x.title || x.name || "Untitled",
-    url,
-    note,
-    img: x.img || x.image || x.thumb || "",
-    category: ((x.category || "tools") + "").trim(),
-    tags: Array.isArray(x.tags) ? x.tags : [],
-    by: forcedBy || x.by || "curated"
-  };
-}
+    const title = x.title || x.name || "Untitled";
 
+    return {
+      id:
+        x.id ||
+        (title
+          ? String(title).toLowerCase().trim().replace(/\s+/g, "-")
+          : (crypto?.randomUUID ? crypto.randomUUID() : String(Date.now()))),
+      title,
+      url,
+      note,
+      img: x.img || x.image || x.thumb || "",
+      category: ((x.category || "tools") + "").trim(),
+      tags: Array.isArray(x.tags) ? x.tags : [],
+      by: forcedBy || x.by || "curated"
+    };
+  }
+
+  // -------------------------------------------------------
   // Categories (sidebar)
+  // -------------------------------------------------------
   const MENU = [
     { key: "explore", label: "Explore" },
     { key: "libraries", label: "Libraries" },
@@ -90,6 +120,9 @@
   let userAdded = [];
   let allCurated = [];
 
+  // -------------------------------------------------------
+  // Helpers
+  // -------------------------------------------------------
   function setPill(kind, text) {
     if (!syncPill) return;
     syncPill.className = "pill " + kind;
@@ -133,12 +166,15 @@
 
   function cardThumb(item) {
     if (item.img) {
-      return `<img src="${item.img}" alt="" loading="lazy" />`;
+      return `<img src="${escapeHtml(item.img)}" alt="" loading="lazy" />`;
     }
     const h = (item.title || "").trim().slice(0, 2).toUpperCase();
-    return `<div class="fallback">${h || "★"}</div>`;
+    return `<div class="fallback">${escapeHtml(h || "★")}</div>`;
   }
 
+  // -------------------------------------------------------
+  // Render
+  // -------------------------------------------------------
   function renderGrid(items) {
     if (!gridEl || !emptyEl) return;
 
@@ -164,19 +200,21 @@
       el.className = "zbom-card";
       el.innerHTML = `
         <div class="zbom-thumb">${cardThumb(item)}</div>
-<div class="zbom-body">
-  <p class="zbom-name">${escapeHtml(item.title || "Untitled")}</p>
-  <p class="zbom-desc">${escapeHtml(item.note || host || url)}</p>
-  <div class="zbom-meta">
-    ${tagHtml}
-    <span class="zbom-by">${escapeHtml(by)}</span>
-  </div>
-</div>
+        <div class="zbom-body">
+          <p class="zbom-name">${escapeHtml(item.title || "Untitled")}</p>
+          <p class="zbom-desc">${escapeHtml(item.note || host || url)}</p>
+          <div class="zbom-meta">
+            ${tagHtml}
+            <span class="zbom-by">${escapeHtml(by)}</span>
+          </div>
+        </div>
       `;
+
       el.addEventListener("click", () => {
         if (!url) return;
         window.open(url, "_blank", "noopener,noreferrer");
       });
+
       gridEl.appendChild(el);
     }
   }
@@ -224,13 +262,8 @@
   function getActiveList() {
     const q = (qEl?.value || "").trim();
 
-    if (activeKey === "user-added") {
-      return userAdded.filter((x) => matches(x, q));
-    }
-
-    if (activeKey === "explore") {
-      return allCurated.filter((x) => matches(x, q));
-    }
+    if (activeKey === "user-added") return userAdded.filter((x) => matches(x, q));
+    if (activeKey === "explore") return allCurated.filter((x) => matches(x, q));
 
     return allCurated
       .filter((x) => x.category === activeKey)
@@ -249,6 +282,9 @@
     renderGrid(getActiveList());
   }
 
+  // -------------------------------------------------------
+  // Data loading
+  // -------------------------------------------------------
   async function loadUserAdded() {
     try {
       setPill("warn", "Loading…");
@@ -261,8 +297,10 @@
         return;
       }
 
-      userAdded = (Array.isArray(data.items) ? data.items : [])
-      .map((x) => toZbomItem(x, "user"));
+      userAdded = (Array.isArray(data.items) ? data.items : []).map((x) =>
+        toZbomItem(x, "user")
+      );
+
       setPill("ok", "Live");
     } catch {
       userAdded = [];
@@ -274,15 +312,17 @@
     if (!sCat) return;
 
     const cats = MENU
-      .filter((x) => !["user-added"].includes(x.key))
-      .map((x) => x.key)
-      .filter((x) => x !== "explore");
+      .filter((x) => x.key !== "user-added" && x.key !== "explore")
+      .map((x) => x.key);
 
     sCat.innerHTML = cats
       .map((k) => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`)
       .join("");
   }
 
+  // -------------------------------------------------------
+  // Modal
+  // -------------------------------------------------------
   function openModal() {
     if (!modalOverlay) return;
 
@@ -332,6 +372,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, url, note, category, img })
       });
+
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
@@ -344,7 +385,6 @@
       submitMsg.textContent = "Thanks! Your submission is now under 'Added by users'.";
 
       await loadUserAdded();
-      userAdded = (userAdded || []).map((x) => ({ ...x, by: "user" }));
       updateView();
 
       setTimeout(closeModalNow, 700);
@@ -357,6 +397,9 @@
     }
   }
 
+  // -------------------------------------------------------
+  // Init
+  // -------------------------------------------------------
   async function init() {
     fillCategorySelect();
 
@@ -364,17 +407,17 @@
     const curatedSource = curatedRaw.length ? curatedRaw : FALLBACK_CURATED;
 
     allCurated = curatedSource
-      .map(toZbomItem)
+      .map((x) => toZbomItem(x, "curated"))
       .filter((x) => x.url || x.title);
 
     await loadUserAdded();
-    userAdded = (userAdded || []).map((x) => ({ ...x, by: "user" }));
 
     updateView();
 
+    // Search
     if (qEl) qEl.addEventListener("input", updateView);
 
-    // ✅ SAFE bindings (won't crash if an element is missing)
+    // Modal bindings
     if (openSubmit) openSubmit.addEventListener("click", openModal);
     if (closeModal) closeModal.addEventListener("click", closeModalNow);
     if (submitCancel) submitCancel.addEventListener("click", closeModalNow);
@@ -386,10 +429,37 @@
       });
     }
 
+    // Hamburger bindings
+    if (hamb) {
+      hamb.addEventListener("click", () => {
+        if (document.body.classList.contains("sb-open")) closeSidebar();
+        else openSidebar();
+      });
+    }
+
+    if (sbOverlay) sbOverlay.addEventListener("click", closeSidebar);
+
+    // Clicking menu on mobile closes sidebar
+    if (navEl) {
+      navEl.addEventListener("click", () => {
+        if (window.innerWidth <= 980) closeSidebar();
+      });
+    }
+
+    // Esc closes modal + sidebar
     window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModalNow();
+      if (e.key === "Escape") {
+        closeModalNow();
+        closeSidebar();
+      }
+    });
+
+    // If user rotates / resizes to desktop, ensure sidebar state is sane
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 980) closeSidebar();
     });
   }
 
+  // ✅ only once
   init();
 })();
