@@ -1,0 +1,184 @@
+/* =========================================================
+  FILE: /zais/zais.css
+  PURPOSE:
+  - Standalone ZAIS styling
+  - ZBOM / Arca directory layout look & feel
+========================================================= */
+
+:root{
+  --bg:#0b1020;
+  --card:#111a33;
+  --text:#e9eefc;
+  --muted:#a9b4d6;
+  --line:rgba(255,255,255,.10);
+  --btn:#1d2a55;
+  --btn2:#233166;
+  --shadow:0 18px 60px rgba(0,0,0,.35);
+  --r:18px;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(900px 600px at 20% 10%, rgba(97,124,255,.18), transparent 60%),
+    radial-gradient(900px 600px at 80% 30%, rgba(73,209,125,.14), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+}
+
+.wrap{ width:min(1200px,100%); }
+
+.card{
+  position:relative;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%), var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+/* TOPBAR */
+.topbar{
+  padding:20px 22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.title{ margin:0; font-size:18px; }
+.subtitle{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.4;
+  max-width:70ch;
+}
+
+.topbar-right{ text-align:right; min-width:180px; }
+
+.pill{
+  display:inline-flex;
+  padding:6px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.bar{
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.bar > div{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#617cff,#49d17d);
+  transition:width .25s ease;
+}
+
+/* CONTENT */
+.content{ padding:22px; }
+
+.q{
+  font-size:clamp(20px,1.8vw,26px);
+  margin:0 0 14px;
+}
+
+.hint{
+  margin:0 0 18px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.btnrow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:1px solid var(--line);
+  background:var(--btn);
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+button:hover{ background:var(--btn2); }
+.ghost{ background:transparent; color:var(--muted); }
+
+.sep{ height:1px; background:var(--line); margin:22px 0; }
+
+/* RESULTS */
+.results{
+  display:none;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.results.show{ display:grid; }
+
+.tool{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  background:rgba(255,255,255,.04);
+}
+
+.tags{ display:flex; gap:8px; flex-wrap:wrap; }
+.tag{
+  font-size:12px;
+  padding:5px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+}
+
+/* CTA */
+.ai-cta{
+  margin-top:18px;
+  padding-right:120px;
+}
+.ai-cta p{
+  font-size:12px;
+  color:var(--muted);
+  margin:6px 0;
+}
+
+/* CORNER WIDGET */
+.corner-widget{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  display:flex;
+  gap:10px;
+}
+
+.widget-avatar{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.25);
+  object-fit:cover;
+}
+
+/* MOBILE */
+@media (max-width:700px){
+  .topbar{ flex-direction:column; }
+  .results.show{ grid-template-columns:1fr; }
+  .ai-cta{ padding-right:0; margin-bottom:56px; }
+}
