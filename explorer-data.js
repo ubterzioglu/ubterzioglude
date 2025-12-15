@@ -457,11 +457,100 @@ window.EXPLORER_DATA = {
   href: "https://zapier.com/",
   category: "services",
   note: "Zapier helps you automate tasks by connecting apps and services. Perfect for saving time and reducing manual work."
+},
+
+
+
+
+{
+  id: "archive",
+  title: "Internet Archive",
+  img: "/img/z0bookmark0940.jpg",
+  href: "https://archive.org/",
+  category: "libraries",
+  note: "Internet Archive helps you access archived websites, books, videos, and software. Perfect for research, history, and digital preservation."
+},
+
+{
+  id: "tinywow",
+  title: "TinyWow",
+  img: "/img/z0bookmark0941.jpg",
+  href: "https://tinywow.com/",
+  category: "tools",
+  note: "TinyWow helps you solve everyday file and document tasks online for free. Perfect for quick PDF, image, and text fixes."
+},
+
+{
+  id: "removebg",
+  title: "Remove.bg",
+  img: "/img/z0bookmark0942.jpg",
+  href: "https://www.remove.bg/",
+  category: "tools",
+  note: "Remove.bg helps you remove image backgrounds automatically in seconds. Perfect for clean visuals without manual editing."
+},
+
+{
+  id: "cleanup",
+  title: "Cleanup.pictures",
+  img: "/img/z0bookmark0943.jpg",
+  href: "https://cleanup.pictures/",
+  category: "tools",
+  note: "Cleanup.pictures helps you remove unwanted objects from images easily. Perfect for fast photo cleanup without complex tools."
+},
+
+{
+  id: "drawio",
+  title: "diagrams.net",
+  img: "/img/z0bookmark0944.jpg",
+  href: "https://www.diagrams.net/",
+  category: "tools",
+  note: "Diagrams.net helps you create flowcharts and diagrams directly in your browser. Perfect for visualizing ideas and systems."
+},
+
+{
+  id: "jsonformatter",
+  title: "JSON Formatter",
+  img: "/img/z0bookmark0945.jpg",
+  href: "https://jsonformatter.org/",
+  category: "tools",
+  note: "JSON Formatter helps you format, validate, and inspect JSON data quickly. Perfect for debugging and API work."
+},
+
+{
+  id: "downforeveryone",
+  title: "Down For Everyone Or Just Me",
+  img: "/img/z0bookmark0946.jpg",
+  href: "https://downforeveryoneorjustme.com/",
+  category: "services",
+  note: "Down For Everyone Or Just Me helps you check if a website is down globally. Perfect for quick availability checks."
+},
+
+{
+  id: "regex101",
+  title: "Regex101",
+  img: "/img/z0bookmark0947.jpg",
+  href: "https://regex101.com/",
+  category: "tools",
+  note: "Regex101 helps you test and debug regular expressions interactively. Perfect for learning and validating regex patterns."
+},
+
+{
+  id: "wetransfer",
+  title: "WeTransfer",
+  img: "/img/z0bookmark0948.jpg",
+  href: "https://wetransfer.com/",
+  category: "services",
+  note: "WeTransfer helps you send large files quickly without complex setup. Perfect for sharing files fast."
+},
+
+{
+  id: "12ftladder",
+  title: "12ft Ladder",
+  img: "/img/z0bookmark0949.jpg",
+  href: "https://12ft.io/",
+  category: "tools",
+  note: "12ft Ladder helps you read articles without distractions or overlays. Perfect for clean and focused reading."
 }
-
-
-
-
 
 
 
