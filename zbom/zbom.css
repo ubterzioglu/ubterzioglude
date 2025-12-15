@@ -436,3 +436,16 @@ textarea{ min-height: 110px; resize: vertical; }
   transform: translateY(-1px);
   border-color: rgba(255,255,255,.28);
 }
+
+/* Mobile: grow brand avatars */
+@media (max-width: 600px){
+  .sidebar-avatars img{
+    width: 52px;
+    height: 52px;
+  }
+
+  .sidebar-avatars{
+    margin: 12px 0 18px;
+    gap: 14px;
+  }
+}
