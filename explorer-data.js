@@ -244,7 +244,53 @@ window.EXPLORER_DATA = {
   href: "https://medium.com/",
   category: "social",
   note: "Medium helps you read and publish articles on technology, culture, and ideas. Perfect for discovering stories and sharing your own insights."
+},
+
+{
+  id: "npm",
+  title: "npm",
+  img: "/img/z0bookmark0914.jpg",
+  href: "https://www.npmjs.com/",
+  category: "libraries",
+  note: "npm helps you discover, install, and manage JavaScript packages for your projects. Perfect for reusing libraries and speeding up development."
+},
+
+{
+  id: "vercel",
+  title: "Vercel",
+  img: "/img/z0bookmark0915.jpg",
+  href: "https://vercel.com/",
+  category: "services",
+  note: "Vercel helps you deploy and host modern web projects with fast builds and previews. Perfect for frontend apps and static sites."
+},
+
+{
+  id: "cloudflare",
+  title: "Cloudflare",
+  img: "/img/z0bookmark0916.jpg",
+  href: "https://www.cloudflare.com/",
+  category: "services",
+  note: "Cloudflare helps you improve website speed, security, and reliability at scale. Perfect for protecting and optimizing web traffic."
+},
+
+{
+  id: "devto",
+  title: "DEV Community",
+  img: "/img/z0bookmark0917.jpg",
+  href: "https://dev.to/",
+  category: "social",
+  note: "DEV helps you read, write, and discuss software development topics with developers. Perfect for learning, sharing, and community interaction."
+},
+
+{
+  id: "freecodecamp",
+  title: "freeCodeCamp",
+  img: "/img/z0bookmark0918.jpg",
+  href: "https://www.freecodecamp.org/",
+  category: "libraries",
+  note: "freeCodeCamp helps you learn coding through interactive lessons and projects. Perfect for building real skills step by step."
 }
+
 
   ],
 
