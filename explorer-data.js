@@ -155,8 +155,97 @@ window.EXPLORER_DATA = {
   href: "https://www.ilovepdf.com/",
   category: "tools",
   note: "iLovePDF helps you edit, merge, compress, and convert PDF files online with ease. Perfect for handling everyday PDF tasks quickly without installing software."
+},
+  {
+  id: "canva",
+  title: "Canva",
+  img: "/img/z0bookmark0904.jpg",
+  href: "https://www.canva.com/",
+  category: "design",
+  note: "Canva helps you create designs, presentations, and social media visuals using simple drag-and-drop tools. Perfect for quick and professional-looking results."
+},
+
+{
+  id: "github",
+  title: "GitHub",
+  img: "/img/z0bookmark0905.jpg",
+  href: "https://github.com/",
+  category: "open-source",
+  note: "GitHub helps you host code, collaborate with others, and manage software projects. Perfect for version control, open-source work, and team development."
+},
+
+{
+  id: "stackoverflow",
+  title: "Stack Overflow",
+  img: "/img/z0bookmark0906.jpg",
+  href: "https://stackoverflow.com/",
+  category: "social",
+  note: "Stack Overflow helps you find answers to programming questions and share knowledge with developers. Perfect for solving technical problems fast."
+},
+
+{
+  id: "notion",
+  title: "Notion",
+  img: "/img/z0bookmark0907.jpg",
+  href: "https://www.notion.so/",
+  category: "tools",
+  note: "Notion helps you organize notes, tasks, and projects in one flexible workspace. Perfect for personal planning and team collaboration."
+},
+
+{
+  id: "figma",
+  title: "Figma",
+  img: "/img/z0bookmark0908.jpg",
+  href: "https://www.figma.com/",
+  category: "design",
+  note: "Figma helps you design user interfaces and collaborate on designs in real time. Perfect for UI, UX, and product design workflows."
+},
+
+{
+  id: "chatgpt",
+  title: "ChatGPT",
+  img: "/img/z0bookmark0909.jpg",
+  href: "https://chat.openai.com/",
+  category: "artificial-intelligence",
+  note: "ChatGPT helps you generate ideas, write text, and solve problems using AI. Perfect for learning, productivity, and creative tasks."
+},
+
+{
+  id: "excalidraw",
+  title: "Excalidraw",
+  img: "/img/z0bookmark0910.jpg",
+  href: "https://excalidraw.com/",
+  category: "tools",
+  note: "Excalidraw helps you sketch diagrams and ideas quickly using a simple whiteboard style. Perfect for brainstorming and explaining concepts visually."
+},
+
+{
+  id: "unsplash",
+  title: "Unsplash",
+  img: "/img/z0bookmark0911.jpg",
+  href: "https://unsplash.com/",
+  category: "libraries",
+  note: "Unsplash helps you find high-quality free photos for personal and commercial use. Perfect for websites, presentations, and creative projects."
+},
+
+{
+  id: "trello",
+  title: "Trello",
+  img: "/img/z0bookmark0912.jpg",
+  href: "https://trello.com/",
+  category: "tools",
+  note: "Trello helps you manage tasks and projects using simple boards and cards. Perfect for organizing work visually and staying on track."
+},
+
+{
+  id: "medium",
+  title: "Medium",
+  img: "/img/z0bookmark0913.jpg",
+  href: "https://medium.com/",
+  category: "social",
+  note: "Medium helps you read and publish articles on technology, culture, and ideas. Perfect for discovering stories and sharing your own insights."
 }
-  
+
   ],
 
 
