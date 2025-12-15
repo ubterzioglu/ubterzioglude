@@ -2,24 +2,29 @@
   FILE: /zats/zats.css
   PURPOSE:
   - Standalone styling for ZATS (no dependency on ubt-shared.css)
-  - Layout vibe aligned with ZBOM / Arca directory
+  - VISUALS aligned with ZBOM (arca.directory vibe)
+  - IMPORTANT: No layout/position changes (only look & feel)
 ========================================================= */
 
+/* ZBOM-like tokens (inspired by /zbom/zbom.css) */
 :root{
-  --bg:#0b0f17;
-  --card:#0f1628;
-  --panel:rgba(255,255,255,.05);
-  --panel2:rgba(255,255,255,.08);
-  --text:#e9eefc;
-  --muted:rgba(233,238,252,.68);
-  --line:rgba(255,255,255,.10);
-  --shadow:0 18px 60px rgba(0,0,0,.35);
+  --bg: #070707;
+  --panel: #0c0c0c;
+  --card: #0e0e0e;
 
-  --r:18px;
-  --r2:16px;
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.58);
 
-  --ok: rgba(73,209,125,.22);
-  --warn: rgba(255,210,86,.20);
+  --line: rgba(255,255,255,.10);
+  --line-soft: rgba(255,255,255,.07);
+
+  --shadow: 0 20px 70px rgba(0,0,0,.55);
+
+  --r: 18px;
+  --r2: 16px;
+
+  --ok: rgba(73,209,125,.16);
+  --warn: rgba(255,193,7,.16);
 }
 
 *{ box-sizing:border-box; }
@@ -27,12 +32,9 @@ html, body{ height:auto; }
 
 body{
   margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background:
-    radial-gradient(900px 600px at 20% 10%, rgba(97,124,255,.18), transparent 60%),
-    radial-gradient(900px 600px at 80% 30%, rgba(73,209,125,.14), transparent 60%),
-    var(--bg);
-  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   min-height:100vh;
   overflow-y:auto;
   display:flex;
@@ -46,66 +48,78 @@ body{
 
 .card{
   position:relative;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%), var(--card);
-  border:1px solid var(--line);
+  background: var(--panel);
+  border:1px solid var(--line-soft);
   border-radius:var(--r);
   box-shadow: var(--shadow);
   overflow:hidden;
-  padding-bottom:86px; /* keeps corner widget clear */
+
+  /* keep the same space for corner widget as your current file */
+  padding-bottom:86px;
 }
 
-/* -------- Topbar (directory feel) -------- */
+/* -------- Topbar -------- */
 .topbar{
-  padding:20px 22px;
-  border-bottom:1px solid var(--line);
+  padding:18px 18px;
+  border-bottom:1px solid var(--line-soft);
   display:flex;
-  gap:14px;
+  gap:12px;
   align-items:flex-start;
   justify-content:space-between;
 }
 
-.title{ margin:0; font-size:18px; letter-spacing:.2px; }
+.title{
+  margin:0;
+  font-size:15.5px;
+  letter-spacing:.2px;
+  font-weight:600;
+}
+
 .subtitle{
   margin:6px 0 0 0;
   color:var(--muted);
-  font-size: clamp(13px, 1.1vw, 15px);
-  line-height:1.35;
+  font-size:12.5px;
+  line-height:1.45;
   max-width:78ch;
 }
 
 .topbar-right{ text-align:right; min-width:190px; }
 
+/* Pill like ZBOM */
 .pill{
   display:inline-flex;
   align-items:center;
   gap:8px;
-  padding:6px 10px;
-  border:1px solid var(--line);
+  padding:5px 9px;
+  border:1px solid var(--line-soft);
   border-radius:999px;
-  color:var(--muted);
-  font-size:12px;
+  background: #0c0c0c;
+  color: var(--text);
+  font-size:11px;
   margin-bottom:10px;
   white-space:nowrap;
+  opacity:.92;
 }
 
+/* Bar subtle */
 .bar{
   height:8px;
   background: rgba(255,255,255,.08);
   border-radius:999px;
   overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid var(--line-soft);
 }
 
 .bar > div{
   height:100%;
   width:0%;
-  background: linear-gradient(90deg, rgba(97,124,255,.9), rgba(73,209,125,.9));
+  background: rgba(255,255,255,.28);
   border-radius:999px;
   transition: width .25s ease;
 }
 
 /* -------- Content / Panels -------- */
-.content{ padding:22px; }
+.content{ padding:18px; }
 
 .grid{
   display:grid;
@@ -114,16 +128,24 @@ body{
   align-items:start;
 }
 
+/* Panels now look like ZBOM cards */
 .panel{
-  border:1px solid var(--line);
+  border: 1px dashed var(--line);
   border-radius:var(--r2);
   padding:16px;
-  background: var(--panel);
+  background: var(--card);
+  transition: border-color .15s ease, background .15s ease, transform .1s ease;
+}
+
+.panel:hover{
+  border-color: rgba(255,255,255,.25);
+  background:#111;
+  transform: translateY(-1px);
 }
 
 .panel-title{
   margin:0 0 10px 0;
-  font-size:14px;
+  font-size:12px;
   color:var(--muted);
   font-weight:650;
   letter-spacing:.2px;
@@ -136,20 +158,20 @@ input[type="file"]{
   width:100%;
   padding:10px 12px;
   border-radius:12px;
-  border:1px solid var(--line);
-  background: rgba(0,0,0,.12);
+  border:1px solid var(--line-soft);
+  background: rgba(0,0,0,.18);
   color: var(--text);
-  font-size:14px;
+  font-size:13px;
 }
 
 textarea{
   width:100%;
   padding:12px;
   border-radius:12px;
-  border:1px solid var(--line);
-  background: rgba(0,0,0,.12);
+  border:1px solid var(--line-soft);
+  background: rgba(0,0,0,.18);
   color: var(--text);
-  font-size:14px;
+  font-size:13px;
   line-height:1.45;
   resize: vertical;
   min-height:140px;
@@ -158,26 +180,33 @@ textarea{
 
 textarea:focus,
 input[type="file"]:focus{
-  border-color: rgba(97,124,255,.55);
-  box-shadow: 0 0 0 3px rgba(97,124,255,.16);
+  border-color: rgba(255,255,255,.22);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.06);
 }
 
-/* Buttons */
+/* Buttons: ZBOM-style */
 .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
 
 button{
   appearance:none;
-  border:1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid var(--line-soft);
+  background: transparent;
   color: var(--text);
   padding:10px 12px;
   border-radius:12px;
   cursor:pointer;
-  font-weight:650;
+  font-weight:700;
   letter-spacing:.2px;
+  font-size:13px;
+  transition: transform .06s ease, background .14s ease, border-color .14s ease, opacity .14s ease;
 }
 
-button:hover{ filter: brightness(1.05); }
+button:hover{
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.18);
+}
+
+button:active{ transform: translateY(1px); }
 button:disabled{ opacity:.55; cursor:not-allowed; }
 
 .status{
@@ -190,15 +219,20 @@ button:disabled{ opacity:.55; cursor:not-allowed; }
 .hint{
   margin:8px 0 0 0;
   color:var(--muted);
-  font-size: clamp(13px, 1.1vw, 15px);
+  font-size:12.5px;
   line-height:1.45;
 }
-.hint.small{ font-size:12.5px; }
+.hint.small{ font-size:12px; }
 
-.sep{ height:1px; background:var(--line); margin:22px 0; }
+.sep{ height:1px; background:var(--line-soft); margin:18px 0; }
 
-/* Insights */
-.insights-panel{ margin-top:14px; background: rgba(255,255,255,.04); }
+/* Insights: keep structure, just visuals */
+.insights-panel{
+  margin-top:14px;
+  background: transparent; /* keep it clean */
+  border-style: dashed;
+}
+
 .insights-grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -207,34 +241,44 @@ button:disabled{ opacity:.55; cursor:not-allowed; }
 }
 
 .insight-block{
-  border:1px solid var(--line);
+  border:1px dashed var(--line);
   border-radius:14px;
   padding:12px;
-  background: rgba(0,0,0,.10);
+  background: #0f0f0f;
 }
 
 .insight-block strong{
   display:block;
   margin-bottom:8px;
-  font-size:13px;
+  font-size:12px;
   letter-spacing:.2px;
-  color: rgba(233,238,252,.90);
+  color: var(--text);
+  opacity:.9;
 }
 
 .insight-block ul{
   margin:0;
   padding-left:18px;
-  color: rgba(233,238,252,.88);
-  font-size:13px;
+  color: rgba(255,255,255,.82);
+  font-size:12px;
   line-height:1.45;
 }
 
 .insight-block.issues{ background: var(--warn); }
 .insight-block.fixes{ background: var(--ok); }
 
+/* CTA */
 .ai-cta{ margin-top:18px; padding-right:120px; }
 .ai-cta p{ margin:6px 0; font-size:12px; color:var(--muted); line-height:1.4; }
+.ai-cta a{
+  color: var(--text);
+  opacity:.9;
+  text-decoration:none;
+  border-bottom:1px dotted rgba(255,255,255,.25);
+}
+.ai-cta a:hover{ opacity:1; border-bottom-color: rgba(255,255,255,.45); }
 
+/* Preview */
 .preview-panel{
   min-height:520px;
   padding-bottom:72px;
@@ -245,19 +289,19 @@ button:disabled{ opacity:.55; cursor:not-allowed; }
 .previewBox{
   width:100%;
   border-radius:16px;
-  border:1px solid var(--line);
-  background: rgba(0,0,0,.12);
+  border:1px dashed var(--line);
+  background: rgba(0,0,0,.18);
   box-shadow: 0 10px 28px rgba(0,0,0,.35);
   padding:12px;
   white-space:pre-wrap;
   overflow:auto;
   max-height:440px;
-  font-size:13px;
+  font-size:12.5px;
   line-height:1.45;
-  color: rgba(233,238,252,.92);
+  color: rgba(255,255,255,.86);
 }
 
-/* Corner widget */
+/* Corner widget: keep exact positioning, ZBOM-ish visuals */
 .corner-widget{
   position:absolute;
   right:16px;
@@ -271,17 +315,25 @@ button:disabled{ opacity:.55; cursor:not-allowed; }
 .widget-avatar{
   width:44px;
   height:44px;
-  border-radius:50%;
+  border-radius:999px;
   object-fit:cover;
-  border:2px solid rgba(255,255,255,.25);
-  background: rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.14);
+  background:#000;
+  opacity:.88;
   box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  transition: opacity .15s ease, transform .12s ease, border-color .15s ease;
 }
-.widget-avatar.logo{ background: rgba(255,255,255,.9); }
+.widget-avatar.logo{ opacity:.82; background:#000; }
+
+.corner-widget a:hover .widget-avatar{
+  opacity:1;
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.28);
+}
 
 .tiny{ font-size:12px; color:var(--muted); line-height:1.4; margin-top:10px; }
 
-/* Responsive */
+/* Responsive (same behavior as your current file) */
 @media (max-width:900px){
   .topbar{ flex-direction:column; align-items:stretch; }
   .topbar-right{ text-align:left; min-width:0; }
