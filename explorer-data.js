@@ -133,113 +133,29 @@ window.EXPLORER_DATA = {
 
   zbom: [
     {
-      id: "portable-apps",
-      title: "PortableApps",
-      img: "/img/z0bookmark0010.png",
-      href: "https://portableapps.com/",
-      note:
-        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    },
+  id: "roadmap-sh",
+  title: "roadmap.sh",
+  img: "/img/z0bookmark0900.jpg",
+  href: "https://roadmap.sh/",
+  category: "libraries",
+  note: "Roadmap.sh helps you follow clear learning paths for developer roles and technologies. Perfect for understanding what to learn next and how skills connect."
+},
     {
-      id: "portable-apps-1",
-      title: "PortabaaaleApps",
-      img: "/img/z0bookmark0020.png",
-      href: "https://eben.com/",
-      category: "design",
-      note:
-        "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-
-    },
+  id: "coursera",
+  title: "Coursera",
+  img: "/img/z0bookmark0902.jpg",
+  href: "https://www.coursera.org/",
+  category: "services",
+  note: "Coursera helps you learn new skills through online courses and certificates from universities and companies. Perfect for improving your career skills at your own pace."
+},
     {
-      id: "portable-apps",
-      title: "PortableApps",
-      img: "/img/z0bookmark0010.png",
-      href: "https://portableapps.com/",
-      note:
-        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    },
-    {
-      id: "portable-apps-1",
-      title: "PortabaaaleApps",
-      img: "/img/z0bookmark0020.png",
-      href: "https://eben.com/",
-      category: "design",
-      note:
-        "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-
-    },
-    {
-      id: "portable-apps",
-      title: "PortableApps",
-      img: "/img/z0bookmark0010.png",
-      href: "https://portableapps.com/",
-      note:
-        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    },
-    {
-      id: "portable-apps-1",
-      title: "PortabaaaleApps",
-      img: "/img/z0bookmark0020.png",
-      href: "https://eben.com/",
-      category: "design",
-      note:
-        "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-
-    },
-    {
-      id: "portable-apps",
-      title: "PortableApps",
-      img: "/img/z0bookmark0010.png",
-      href: "https://portableapps.com/",
-      note:
-        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    },
-    {
-      id: "portable-apps-1",
-      title: "PortabaaaleApps",
-      img: "/img/z0bookmark0020.png",
-      href: "https://eben.com/",
-      category: "design",
-      note:
-        "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-
-    },
-    {
-      id: "portable-apps",
-      title: "PortableApps",
-      img: "/img/z0bookmark0010.png",
-      href: "https://portableapps.com/",
-      note:
-        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    },
-    {
-      id: "portable-apps-1",
-      title: "PortabaaaleApps",
-      img: "/img/z0bookmark0020.png",
-      href: "https://eben.com/",
-      category: "design",
-      note:
-        "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-
-    },
-    {
-      id: "portable-apps",
-      title: "PortableApps",
-      img: "/img/z0bookmark0010.png",
-      href: "https://portableapps.com/",
-      note:
-        "PortableApps lets you run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-    },
-    {
-      id: "portable-apps-1",
-      title: "PortabaaaleApps",
-      img: "/img/z0bookmark0020.png",
-      href: "https://eben.com/",
-      category: "design",
-      note:
-        "PortableApps lets youeiaeiua run apps without installation, directly from a USB stick or any folder. Perfect for keeping your tools with you and using them on any machine without leaving traces."
-
-    }
+  id: "ilovepdf",
+  title: "iLovePDF",
+  img: "/img/z0bookmark0903.jpg",
+  href: "https://www.ilovepdf.com/",
+  category: "tools",
+  note: "iLovePDF helps you edit, merge, compress, and convert PDF files online with ease. Perfect for handling everyday PDF tasks quickly without installing software."
+}
   
   ],
 
