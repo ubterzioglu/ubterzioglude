@@ -515,3 +515,29 @@ textarea{ min-height: 110px; resize: vertical; }
 
   .topbar{ gap:10px; }
 }
+/* =========================================================
+   ZBOM Comic Logo (under avatars, above title)
+========================================================= */
+
+.zbom-logo{
+  display:flex;
+  justify-content:center;
+  margin: 6px 0 6px; /* avatar ↔ title arası sıkı */
+}
+
+.zbom-logo img{
+  width:72px;          /* ideal boy */
+  height:auto;
+  display:block;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,.55));
+  opacity:.95;
+}
+
+
+@media (max-width: 600px){
+  .zbom-logo img{
+    width:88px; /* mobilde biraz daha vurucu */
+  }
+}
+/* =========================================================
+   Corner widget + AI CTA (ZBOM style)

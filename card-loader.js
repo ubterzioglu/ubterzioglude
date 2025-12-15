@@ -1421,15 +1421,13 @@ register("insights", () => `
 
 
 /* =====================================================
-   CARD: UPDATES / NEWS (DATA-DRIVEN – TEXT ONLY)
+   CARD: UPDATES / NEWS (DATA-DRIVEN – TEXT ONLY + LINK)
    - Date format in data: DD-MM-YYYY (e.g. 12-12-2025)
-   - No conversion, just print as-is
+   - Latest on top (pinned first)
    ===================================================== */
 register("updates", () => {
   const itemsRaw = (window.EXPLORER_DATA && window.EXPLORER_DATA.updates) || [];
 
-  // If you store DD-MM-YYYY, string sort is not reliable.
-  // So we sort pinned first, then parse date safely (DD-MM-YYYY).
   const parseDMY = (d) => {
     if (!d) return 0;
     const parts = String(d).split("-");
@@ -1444,12 +1442,20 @@ register("updates", () => {
     const ap = a?.pinned ? 1 : 0;
     const bp = b?.pinned ? 1 : 0;
     if (ap !== bp) return bp - ap;
-
-    // Latest on top
     return parseDMY(b?.date) - parseDMY(a?.date);
   });
 
   const fmt = (d) => (d ? String(d) : "");
+
+  const normalizeHref = (href) => {
+    if (!href) return "";
+    const s = String(href).trim();
+    if (!s) return "";
+    // if already absolute or root-relative, keep it
+    if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/")) return s;
+    // otherwise make it relative (same folder)
+    return s;
+  };
 
   return `
     <div id="updates" class="detail-card card-color-3">
@@ -1469,32 +1475,56 @@ register("updates", () => {
       <div style="margin-top:18px; display:flex; flex-direction:column; gap:14px;">
         ${
           items.length
-            ? items.map(it => `
-                <div style="
-                  padding:14px;
-                  border-radius:14px;
-                  background:rgba(255,255,255,.14);
-                  box-shadow:0 6px 16px rgba(0,0,0,.18);
-                ">
-                  <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
-                    <div style="font-weight:900; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                      ${it?.pinned ? "📌 " : ""}${it?.title || "Update"}
+            ? items.map(it => {
+                const link = normalizeHref(it?.href);
+                return `
+                  <div style="
+                    padding:14px;
+                    border-radius:14px;
+                    background:rgba(255,255,255,.14);
+                    box-shadow:0 6px 16px rgba(0,0,0,.18);
+                  ">
+                    <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+                      <div style="font-weight:900; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        ${it?.pinned ? "📌 " : ""}${it?.title || "Update"}
+                      </div>
+
+                      <div style="opacity:.8; font-size:.9em; flex-shrink:0; white-space:nowrap;">
+                        ${fmt(it?.date)}
+                      </div>
                     </div>
 
-                    <div style="opacity:.8; font-size:.9em; flex-shrink:0; white-space:nowrap;">
-                      ${fmt(it?.date)}
-                    </div>
+                    ${
+                      it?.text
+                        ? `<div style="margin-top:8px; line-height:1.55; opacity:.92;">
+                             ${String(it.text).replaceAll("\n", "<br>")}
+                           </div>`
+                        : ``
+                    }
+
+                    ${
+                      link
+                        ? `<div style="margin-top:10px;">
+                            <a href="${link}" style="
+                              display:inline-flex;
+                              align-items:center;
+                              gap:8px;
+                              padding:8px 12px;
+                              border-radius:999px;
+                              background:rgba(0,0,0,.18);
+                              text-decoration:none;
+                              color:inherit;
+                              font-weight:800;
+                              font-size:.92em;
+                            ">
+                              Open <span style="opacity:.7;">›</span>
+                            </a>
+                          </div>`
+                        : ``
+                    }
                   </div>
-
-                  ${
-                    it?.text
-                      ? `<div style="margin-top:8px; line-height:1.55; opacity:.92;">
-                           ${String(it.text).replaceAll("\n", "<br>")}
-                         </div>`
-                      : ``
-                  }
-                </div>
-              `).join("")
+                `;
+              }).join("")
             : `<div style="opacity:.75;">No updates yet.</div>`
         }
       </div>
@@ -1506,6 +1536,7 @@ register("updates", () => {
   `;
 });
 /* END of block: Card Template — updates */
+
 
 
 

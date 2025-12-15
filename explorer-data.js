@@ -69,8 +69,7 @@ window.EXPLORER_DATA = {
       id: "zais-live",
       title: "AI Selection Tool Launched",
       date: "15-12-2025",
-      text:
-        "AI Tool Selector to help you pick the right AI tool with simple yes/no questions.",
+      text: "AI Tool Selector to help you pick the right AI tool with simple yes/no questions.",
       href: "/zais/zais.html",
       pinned: false
     },
