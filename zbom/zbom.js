@@ -157,21 +157,21 @@
 
       const tagHtml = tags
         .filter(Boolean)
-        .map((t) => `<span class="tag">${escapeHtml(t)}</span>`)
+        .map((t) => `<span class="zbom-tag">${escapeHtml(t)}</span>`)
         .join("");
 
       const el = document.createElement("div");
-      el.className = "card";
+      el.className = "zbom-card";
       el.innerHTML = `
-        <div class="thumb">${cardThumb(item)}</div>
-        <div class="body">
-          <p class="name">${escapeHtml(item.title || "Untitled")}</p>
-          <p class="desc">${escapeHtml(item.note || host || url)}</p>
-          <div class="meta">
-            ${tagHtml}
-            <span class="by">${escapeHtml(by)}</span>
-          </div>
-        </div>
+        <div class="zbom-thumb">${cardThumb(item)}</div>
+<div class="zbom-body">
+  <p class="zbom-name">${escapeHtml(item.title || "Untitled")}</p>
+  <p class="zbom-desc">${escapeHtml(item.note || host || url)}</p>
+  <div class="zbom-meta">
+    ${tagHtml}
+    <span class="zbom-by">${escapeHtml(by)}</span>
+  </div>
+</div>
       `;
       el.addEventListener("click", () => {
         if (!url) return;
