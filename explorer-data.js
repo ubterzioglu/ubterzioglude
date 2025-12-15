@@ -368,18 +368,106 @@ window.EXPLORER_DATA = {
   href: "https://www.squoosh.app/",
   category: "open-source",
   note: "Squoosh helps you compress and optimize images directly in your browser. Perfect for reducing file size without losing quality."
+},
+{
+  id: "codepen",
+  title: "CodePen",
+  img: "/img/z0bookmark0930.jpg",
+  href: "https://codepen.io/",
+  category: "tools",
+  note: "CodePen helps you write, test, and share frontend code directly in your browser. Perfect for quick experiments and UI demos."
+},
+
+{
+  id: "netlify",
+  title: "Netlify",
+  img: "/img/z0bookmark0931.jpg",
+  href: "https://www.netlify.com/",
+  category: "services",
+  note: "Netlify helps you deploy and host static websites with simple workflows and automation. Perfect for modern web projects."
+},
+
+{
+  id: "gitlab",
+  title: "GitLab",
+  img: "/img/z0bookmark0932.jpg",
+  href: "https://gitlab.com/",
+  category: "open-source",
+  note: "GitLab helps you manage code, CI/CD pipelines, and collaboration in one platform. Perfect for end-to-end DevOps workflows."
+},
+
+{
+  id: "huggingface",
+  title: "Hugging Face",
+  img: "/img/z0bookmark0933.jpg",
+  href: "https://huggingface.co/",
+  category: "artificial-intelligence",
+  note: "Hugging Face helps you explore, build, and share machine learning models. Perfect for working with modern AI tools."
+},
+
+{
+  id: "mdn",
+  title: "MDN Web Docs",
+  img: "/img/z0bookmark0934.jpg",
+  href: "https://developer.mozilla.org/",
+  category: "libraries",
+  note: "MDN helps you learn web standards like HTML, CSS, and JavaScript. Perfect for reliable frontend documentation."
+},
+
+{
+  id: "dribbble",
+  title: "Dribbble",
+  img: "/img/z0bookmark0935.jpg",
+  href: "https://dribbble.com/",
+  category: "design",
+  note: "Dribbble helps you discover and share design inspiration from creatives. Perfect for UI and visual ideas."
+},
+
+{
+  id: "producthunt",
+  title: "Product Hunt",
+  img: "/img/z0bookmark0936.jpg",
+  href: "https://www.producthunt.com/",
+  category: "social",
+  note: "Product Hunt helps you discover new tech products and startups daily. Perfect for staying up to date with trends."
+},
+
+{
+  id: "obsidian",
+  title: "Obsidian",
+  img: "/img/z0bookmark0937.jpg",
+  href: "https://obsidian.md/",
+  category: "tools",
+  note: "Obsidian helps you build a personal knowledge base using linked notes. Perfect for thinking and writing clearly."
+},
+
+{
+  id: "pixabay",
+  title: "Pixabay",
+  img: "/img/z0bookmark0938.jpg",
+  href: "https://pixabay.com/",
+  category: "libraries",
+  note: "Pixabay helps you find free images, videos, and illustrations. Perfect for creative and commercial projects."
+},
+
+{
+  id: "zapier",
+  title: "Zapier",
+  img: "/img/z0bookmark0939.jpg",
+  href: "https://zapier.com/",
+  category: "services",
+  note: "Zapier helps you automate tasks by connecting apps and services. Perfect for saving time and reducing manual work."
 }
 
 
+
+
+
+
+
+
+
   ],
-
-
-
-
-
-
-
-
 };
 
 
