@@ -258,7 +258,7 @@ window.EXPLORER_DATA = {
 {
   id: "vercel",
   title: "Vercel",
-  img: "/img/z0bookmark0915.jpg",
+  img: "/img/z0bookmark0801.jpg",
   href: "https://vercel.com/",
   category: "services",
   note: "Vercel helps you deploy and host modern web projects with fast builds and previews. Perfect for frontend apps and static sites."
@@ -267,7 +267,7 @@ window.EXPLORER_DATA = {
 {
   id: "cloudflare",
   title: "Cloudflare",
-  img: "/img/z0bookmark0916.jpg",
+  img: "/img/z0bookmark0802.jpg",
   href: "https://www.cloudflare.com/",
   category: "services",
   note: "Cloudflare helps you improve website speed, security, and reliability at scale. Perfect for protecting and optimizing web traffic."
@@ -276,7 +276,7 @@ window.EXPLORER_DATA = {
 {
   id: "devto",
   title: "DEV Community",
-  img: "/img/z0bookmark0917.jpg",
+  img: "/img/z0bookmark0803.jpg",
   href: "https://dev.to/",
   category: "social",
   note: "DEV helps you read, write, and discuss software development topics with developers. Perfect for learning, sharing, and community interaction."
@@ -285,7 +285,7 @@ window.EXPLORER_DATA = {
 {
   id: "freecodecamp",
   title: "freeCodeCamp",
-  img: "/img/z0bookmark0918.jpg",
+  img: "/img/z0bookmark0804.jpg",
   href: "https://www.freecodecamp.org/",
   category: "libraries",
   note: "freeCodeCamp helps you learn coding through interactive lessons and projects. Perfect for building real skills step by step."
