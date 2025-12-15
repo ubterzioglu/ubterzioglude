@@ -95,6 +95,22 @@ window.EXPLORER_DATA = {
 
   tools: [
     {
+      id: "zbom",
+      title: "Bookmark Collection",
+      img: "/img/z0tool0050.jpg",
+      href: "https://ubterzioglu.de/zbom/zbom.html",
+      note: "ZBOM is a curated bookmark explorer that brings your favorite tools and websites into one clean, searchable place. Built to turn bookmark chaos into a practical library."
+    },
+
+    {
+      id: "zpath",
+      title: "Careeer Decision Tool",
+      img: "/img/z0tool0040.jpg",
+      href: "https://ubterzioglu.de/zpath/zpath.html",
+      note: "PATH helps you sanity-check career and life decisions using clear yes/no questions. It focuses on logic, consistency, and direction — without overthinking."
+    },
+
+    {
       id: "aiselector",
       title: "AI Selectior",
       img: "/img/z0tool0010.jpg",
