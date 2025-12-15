@@ -1,14 +1,14 @@
 /* =========================================================
   FILE: /zbom/zbom.css
   PURPOSE:
-  - Arca.directory inspired dark directory UI
-  - Smaller cards, dotted borders, calm contrast
-  - Add subtle thumb noise/grid
-  - Fix Submit button to be Arca-like (white pill + plus)
-  - Brand spacing + centered brand block
-  - Corner widget (top-left)
-  - FIX: cards same height, 3-line description area, meta pinned to bottom
+  - Arca.directory inspired dark directory UI (NON-CARD LAYER)
+  - Layout + Sidebar + Topbar + Modal + Submit button
+  - Corner widget + Sidebar avatars
+  - Card/Grid styles live in: /zbom/zbom-cards.css
 ========================================================= */
+
+/* IMPORTANT: cards/grid live here */
+@import url("/zbom/zbom-cards.css");
 
 :root{
   --bg: #070707;
@@ -65,7 +65,32 @@ a{color:inherit}
   padding: 16px 14px;
 }
 
-/* --- BRAND: move text down + center block --- */
+/* Sidebar Avatars (inside sidebar) */
+.sidebar-avatars{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin: 6px 0 14px;
+}
+
+.sidebar-avatars img{
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.18);
+  background:#000;
+  opacity:.9;
+  transition: transform .12s ease, opacity .12s ease, border-color .12s ease;
+}
+
+.sidebar-avatars a:hover img{
+  opacity:1;
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.32);
+}
+
+/* --- BRAND --- */
 .brand{
   display:flex;
   align-items:center;
@@ -100,6 +125,7 @@ a{color:inherit}
   line-height: 1.35;
 }
 
+/* Nav */
 .nav{
   margin-top: 20px;
   display:flex;
@@ -170,6 +196,7 @@ a{color:inherit}
   font-weight:600;
 }
 
+/* Status pill */
 .pill{
   font-size:11px;
   padding:5px 9px;
@@ -183,6 +210,7 @@ a{color:inherit}
 .pill.warn{ background: var(--warn); border-color: rgba(255,193,7,.22); }
 .pill.bad{ background: var(--bad); border-color: rgba(255,107,107,.22); }
 
+/* Search */
 .search{
   flex:1;
   min-width:260px;
@@ -208,161 +236,6 @@ a{color:inherit}
 
 .search input::placeholder{
   color:rgba(255,255,255,.45);
-}
-
-/* =========================================================
-   Grid (smaller like Arca)
-   IMPORTANT: keep normal grid, but stop stretching cards
-========================================================= */
-
-.grid{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap:14px;
-  align-items:start;
-}
-
-
-
-@media(max-width: 1200px){
-  .grid{grid-template-columns: repeat(3,1fr);}
-}
-@media(max-width: 900px){
-  .grid{grid-template-columns: repeat(2,1fr);}
-}
-@media(max-width: 600px){
-  .grid{grid-template-columns: 1fr;}
-}
-
-/* =========================================================
-   Card (fixed height + stable internal layout)
-========================================================= */
-
-.card{
-  background: var(--card);
-  border: 1px dashed var(--line);
-  border-radius: 14px;
-  cursor:pointer;
-  transition: border-color .15s ease, background .15s ease, transform .1s ease;
-  position: relative;
-
-  display:flex;
-  flex-direction:column;
-
-  min-height: 230px;   /* Arca hissi */
-  overflow: visible;   /* ÖNEMLİ */
-}
-
-
-
-.card:hover{
-  border-color: rgba(255,255,255,.25);
-  background: #111;
-  transform: translateY(-1px);
-}
-
-/* REMOVE ↗ icon completely */
-.card::after,
-.card:hover::after{
-  content:none !important;
-  display:none !important;
-}
-
-.thumb{
-  height: 108px;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position: relative;
-  overflow: hidden;
-}
-
-/* subtle noise/grain */
-.thumb::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
-  background-size: 6px 6px;
-  opacity: .08;
-  pointer-events:none;
-}
-
-/* subtle grid overlay */
-.thumb::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: .05;
-  pointer-events:none;
-}
-
-.thumb img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:.9;
-  position: relative;
-  z-index: 1;
-}
-
-.thumb .fallback{
-  font-weight:700;
-  opacity:.65;
-  position: relative;
-  z-index: 1;
-}
-
-.body{
-  padding:10px 11px 12px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-
-.name{
-  font-size:13px;
-  font-weight:600;
-  margin:0 0 6px 0;
-}
-
-/* always reserve exactly 3 lines of height */
-.desc{
-  font-size:12px;
-  opacity:.58;
-  line-height:1.4;
-  margin:0 0 8px 0;
-
-  height: calc(1.4em * 3);
-  overflow: hidden;
-}
-
-.meta{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  align-items:center;
-  margin-top:auto; /* meta pinned to bottom */
-}
-
-.tag{
-  font-size:11px;
-  padding:3px 7px;
-  border-radius:999px;
-  border:1px solid var(--line-soft);
-  opacity:.75;
-}
-
-.by{
-  margin-left:auto;
-  font-size:11px;
-  opacity:.45;
 }
 
 /* empty hint */
@@ -461,6 +334,7 @@ textarea{ min-height: 110px; resize: vertical; }
   cursor:pointer;
   font-weight: 700;
 }
+
 .btn.secondary{ background: rgba(255,255,255,.03); }
 
 /* =========================================================
@@ -542,9 +416,7 @@ textarea{ min-height: 110px; resize: vertical; }
   z-index: 10000;
 }
 
-.corner-widget a{
-  display: block;
-}
+.corner-widget a{ display:block; }
 
 .widget-avatar{
   width: 36px;
@@ -557,67 +429,10 @@ textarea{ min-height: 110px; resize: vertical; }
   transition: opacity .15s ease, transform .12s ease, border-color .15s ease;
 }
 
-.widget-avatar.logo{
-  opacity: .82;
-}
+.widget-avatar.logo{ opacity: .82; }
 
 .corner-widget a:hover .widget-avatar{
   opacity: 1;
   transform: translateY(-1px);
   border-color: rgba(255,255,255,.28);
-}
-
-/* =========================================================
-   Sidebar Avatars (inside sidebar)
-========================================================= */
-
-.sidebar-avatars{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin: 6px 0 14px;
-}
-
-.sidebar-avatars img{
-  width:36px;
-  height:36px;
-  border-radius:999px;
-  object-fit:cover;
-  border:1px solid rgba(255,255,255,.18);
-  background:#000;
-  opacity:.9;
-  transition: transform .12s ease, opacity .12s ease, border-color .12s ease;
-}
-
-.sidebar-avatars a:hover img{
-  opacity:1;
-  transform: translateY(-1px);
-  border-color: rgba(255,255,255,.32);
-}
-
-
-#grid .card .desc{
-  display:block !important;
-  visibility:visible !important;
-  opacity:.58 !important;
-  color: var(--muted) !important;
-
-  line-height:1.4 !important;
-  height: calc(1.4em * 3) !important;  /* 3 satır alan */
-  overflow:hidden !important;
-  margin:0 0 8px 0 !important;
-}
-
-#grid .card .note,
-#grid .card .text,
-#grid .card .description{
-  display:block !important;
-  visibility:visible !important;
-  opacity:.58 !important;
-  color: var(--muted) !important;
-
-  line-height:1.4 !important;
-  height: calc(1.4em * 3) !important;
-  overflow:hidden !important;
-  margin:0 0 8px 0 !important;
 }
