@@ -362,15 +362,6 @@ window.EXPLORER_DATA = {
 },
 
 {
-  id: "view-image",
-  title: "View Image",
-  img: "/img/z0bookmark0923.jpg",
-  href: "https://neatnik.net/view-image/",
-  category: "tools",
-  note: "View Image lets you open and inspect images directly in your browser. Perfect for quick checks without extra software."
-},
-
-{
   id: "squoosh",
   title: "Squoosh",
   img: "/img/z0bookmark0924.jpg",
