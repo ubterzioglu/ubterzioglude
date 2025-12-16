@@ -9,7 +9,6 @@
   <link rel="canonical" href="https://ubterzioglu.de/zprefit/zprefit.html" />
   <meta name="robots" content="index, follow" />
 
-  <!-- NOTE: your folder shows style.css (not styles.css) -->
   <link rel="stylesheet" href="./style.css" />
 
   <script type="application/ld+json">
@@ -68,8 +67,12 @@
           <!-- Upload -->
           <div id="drop" class="drop" aria-label="Upload area">
             <div class="row">
-              <label class="btn primary" for="fileInput">Upload image</label>
-              <input id="fileInput" type="file" accept="image/*" />
+              <!-- Hidden input (reliable) -->
+              <input id="fileInput" type="file" accept="image/*" hidden />
+
+              <!-- Button triggers input.click() in app.js -->
+              <button id="btnUpload" class="btn primary" type="button">Upload image</button>
+
               <button id="demoBtn" class="btn" type="button">Use demo</button>
               <button id="clearBtn" class="btn danger" type="button">Clear</button>
             </div>
@@ -162,12 +165,13 @@
     </main>
   </div>
 
-  <!-- Templates (load BEFORE app.js). Keep in the same order as your folder if you want. -->
-  <script src="./templates/linkedin.js"></script>
-  <script src="./templates/linkedin-profil.js"></script>
+  <!-- Templates (load BEFORE app.js) -->
+  <!-- NOTE: Keep file names English-only and consistent with your folder -->
+  <script src="./templates/linkedin-banner.js"></script>
+  <script src="./templates/linkedin-profile.js"></script>
   <script src="./templates/linkedin-company-banner.js"></script>
 
-  <script src="./templates/instagram-profil.js"></script>
+  <script src="./templates/instagram-profile.js"></script>
   <script src="./templates/instagram-banner.js"></script>
 
   <script src="./templates/github-profile.js"></script>
@@ -176,7 +180,7 @@
   <script src="./templates/x-profile.js"></script>
   <script src="./templates/x-header.js"></script>
 
-  <script src="./templates/reddit-profil.js"></script>
+  <script src="./templates/reddit-profile.js"></script>
   <script src="./templates/reddit-banner.js"></script>
 
   <script src="./templates/discord-server-icon.js"></script>
