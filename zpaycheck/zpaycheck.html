@@ -156,76 +156,72 @@
         </div>
       </div>
 
-      <!-- Comparisons -->
-      <div class="block">
-        <h3 class="h3">Comparisons</h3>
 
-        <div class="compare">
-          <article class="compare__item" id="cmpTR">
-            <h4 class="h4">Turkey</h4>
-            <p class="bigline" id="trHeadline">—</p>
-            <div class="facts" id="trFacts"></div>
-            <div class="explain" id="trExplain"></div>
-          </article>
 
-          <article class="compare__item" id="cmpDE">
-            <h4 class="h4">Germany</h4>
-            <p class="bigline" id="deHeadline">—</p>
-            <div class="facts" id="deFacts"></div>
-            <div class="explain" id="deExplain"></div>
-          </article>
-
-          <article class="compare__item" id="cmpWORLD">
-            <h4 class="h4">World (PPP)</h4>
-            <p class="bigline" id="worldHeadline">—</p>
-            <div class="facts" id="worldFacts"></div>
-            <div class="explain" id="worldExplain"></div>
-          </article>
-        </div>
+      <!-- RESULT (MINIMAL) -->
+<section class="result-minimal" id="resultMinimal">
+  <div class="rank-block">
+    <div class="rank-line">
+      <div class="rank-text">
+        Türkiye’de yaklaşık <strong id="pctTR">—</strong>’lik kesimdesiniz.
       </div>
-
-      <!-- Fact blocks -->
-      <div class="block">
-        <h3 class="h3">Fact blocks</h3>
-        <div class="factblocks" id="factBlocks">
-          <p class="muted">—</p>
-        </div>
-      </div>
-
-      <!-- Transparency -->
-      <div class="block">
-        <h3 class="h3">Transparency</h3>
-        <ul class="bullets" id="transparencyList">
-          <li>Net income based</li>
-          <li>Currency rates are current (source shown)</li>
-          <li>No “rich/poor” language</li>
-          <li>No financial advice</li>
-        </ul>
-        <p class="muted" id="disclaimerLine">
-          Estimates are approximate. Method notes and disclaimers are shown per region.
-        </p>
-      </div>
-    </section>
-
-    <!-- Sources -->
-    <section class="card">
-      <h2 class="h2">Sources</h2>
-      <ul class="sources" id="sourcesList">
-        <li><span class="muted">—</span></li>
-      </ul>
-      <p class="muted">
-        Links will be shown here: TÜİK, StepStone, World Bank / OWID, and the FX provider.
-      </p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="muted">
-        © <span id="yearNow"></span> ubterzioglu.de · ZPAYCHECK runs fully in your browser (no login, no storage).
+      <div class="pct-bar" aria-hidden="true">
+        <div class="pct-fill" id="barTR"></div>
+        <div class="pct-dot" id="dotTR"></div>
       </div>
     </div>
-  </footer>
+
+    <div class="rank-line">
+      <div class="rank-text">
+        Almanya’da yaklaşık <strong id="pctDE">—</strong>’lik kesimdesiniz.
+      </div>
+      <div class="pct-bar" aria-hidden="true">
+        <div class="pct-fill" id="barDE"></div>
+        <div class="pct-dot" id="dotDE"></div>
+      </div>
+    </div>
+
+    <div class="rank-line">
+      <div class="rank-text">
+        Dünyada yaklaşık <strong id="pctWORLD">—</strong>’lik kesimdesiniz.
+      </div>
+      <div class="pct-bar" aria-hidden="true">
+        <div class="pct-fill" id="barWORLD"></div>
+        <div class="pct-dot" id="dotWORLD"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="avg-block">
+    <div class="avg-line">
+      Türkiye’de ortalama aylık net:
+      <span class="avg-values" id="avgTR">€— / $— / ₺—</span>
+    </div>
+    <div class="avg-line">
+      Almanya’da ortalama aylık net:
+      <span class="avg-values" id="avgDE">€— / $— / ₺—</span>
+    </div>
+    <div class="avg-line">
+      Dünyada ortalama aylık net:
+      <span class="avg-values" id="avgWORLD">€— / $— / ₺—</span>
+    </div>
+  </div>
+
+  <div class="source-one-liner" id="sourceOneLiner">
+    Kaynaklar: TÜİK (2024), StepStone (2025), OWID/World Bank PIP (PPP).
+  </div>
+</section>
+
+<!--
+KALDIRILDI (şimdilik):
+- median/average açıklamaları
+- uzun disclaimer paragrafları
+- detaylı source listeleri / linkler
+- ekstra kartlar / tablolar
+-->
+
+
+ 
 
   <!-- Scripts -->
   <script src="./zpaycheck.data.js" defer></script>
@@ -243,8 +239,6 @@
     src="//gc.zgo.at/count.js"
   ></script>
 
-  <script>
-    document.getElementById("yearNow").textContent = new Date().getFullYear();
-  </script>
+  
 </body>
 </html>

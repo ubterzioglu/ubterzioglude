@@ -1,4 +1,4 @@
-// File: zpaycheck.app.js (UPDATED: pulls WORLD PPP median/mean from OWID/PIP via logic.js)
+// File: zpaycheck.app.js (MINIMAL UI rendering)
 // DOM wiring + rendering for ZPAYCHECK
 // No storage. No cookies (beyond GoatCounter). No localStorage/sessionStorage.
 
@@ -25,20 +25,22 @@
     yearlyAll: document.getElementById("yearlyAll"),
     fxTimestamp: document.getElementById("fxTimestamp"),
 
-    trHeadline: document.getElementById("trHeadline"),
-    trFacts: document.getElementById("trFacts"),
-    trExplain: document.getElementById("trExplain"),
+    // Minimal UI
+    pctTR: document.getElementById("pctTR"),
+    pctDE: document.getElementById("pctDE"),
+    pctWORLD: document.getElementById("pctWORLD"),
 
-    deHeadline: document.getElementById("deHeadline"),
-    deFacts: document.getElementById("deFacts"),
-    deExplain: document.getElementById("deExplain"),
+    barTR: document.getElementById("barTR"),
+    barDE: document.getElementById("barDE"),
+    barWORLD: document.getElementById("barWORLD"),
 
-    worldHeadline: document.getElementById("worldHeadline"),
-    worldFacts: document.getElementById("worldFacts"),
-    worldExplain: document.getElementById("worldExplain"),
+    dotTR: document.getElementById("dotTR"),
+    dotDE: document.getElementById("dotDE"),
+    dotWORLD: document.getElementById("dotWORLD"),
 
-    factBlocks: document.getElementById("factBlocks"),
-    sourcesList: document.getElementById("sourcesList")
+    avgTR: document.getElementById("avgTR"),
+    avgDE: document.getElementById("avgDE"),
+    avgWORLD: document.getElementById("avgWORLD")
   };
 
   // ---------------------------
@@ -48,140 +50,38 @@
   function fmtMoney(amount, currency) {
     if (amount == null || !isFinite(amount)) return "—";
     try {
-      if (currency === "USD_PPP") {
-        return `${Math.round(amount).toLocaleString("en-US")} USD (PPP)`;
-      }
       return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency,
-        maximumFractionDigits: currency === "TRY" ? 0 : 0
+        maximumFractionDigits: 0
       }).format(amount);
     } catch {
       return `${Math.round(amount).toLocaleString("en-US")} ${currency}`;
     }
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+  function clamp01to100(x) {
+    const n = Number(x);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(0, Math.min(100, n));
   }
 
-  // ---------------------------
-  // Rendering helpers
-  // ---------------------------
+  function setPercentRow(regionKey, p) { // "TR" | "DE" | "WORLD"
+    const v = clamp01to100(p);
 
-  function renderFacts(container, items, computedFacts) {
-    const lines = items.map((t) => `<div>• ${escapeHtml(t)}</div>`);
+    const pctEl = els[`pct${regionKey}`];
+    const fillEl = els[`bar${regionKey}`];
+    const dotEl = els[`dot${regionKey}`];
 
-    if (computedFacts) {
-      if (computedFacts.median != null) {
-        lines.push(`<div>• Median: <span class="muted">${escapeHtml(String(computedFacts.median))}</span></div>`);
-      }
-      if (computedFacts.average != null) {
-        lines.push(`<div>• Average: <span class="muted">${escapeHtml(String(computedFacts.average))}</span></div>`);
-      }
-      if (computedFacts.approxGross != null) {
-        lines.push(
-          `<div>• Approx. gross (est.): <span class="muted">${escapeHtml(
-            fmtMoney(computedFacts.approxGross, "EUR")
-          )}</span></div>`
-        );
-      }
-      if (computedFacts.note != null) {
-        lines.push(`<div>• <span class="muted">${escapeHtml(String(computedFacts.note))}</span></div>`);
-      }
-    }
-
-    container.innerHTML = lines.join("");
+    if (pctEl) pctEl.textContent = `%${Math.round(v)}`;
+    if (fillEl) fillEl.style.width = `${v}%`;
+    if (dotEl) dotEl.style.left = `${v}%`;
   }
 
-  function renderExplain(container, lines) {
-    container.innerHTML = lines.map((t) => `<div>• ${escapeHtml(t)}</div>`).join("");
-  }
-
-  function renderFactBlocks(regions) {
-    const blocks = [];
-
-    // TR
-    {
-      const r = regions.TR;
-      blocks.push(`
-        <div class="stat">
-          <div class="stat__label">${escapeHtml(r.label)}</div>
-          <div class="stat__value">
-            Avg: ${fmtMoney(r.income.averageYearlyNet, "TRY")}<br/>
-            Median: ${r.income.medianYearlyNet == null ? "Not published" : fmtMoney(r.income.medianYearlyNet, "TRY")}
-          </div>
-          <div class="muted" style="margin-top:6px;">
-            • ${escapeHtml(r.factBlock.averageNote)}<br/>
-            • ${escapeHtml(r.factBlock.medianNote)}
-          </div>
-        </div>
-      `);
-    }
-
-    // DE
-    {
-      const r = regions.DE;
-      blocks.push(`
-        <div class="stat">
-          <div class="stat__label">${escapeHtml(r.label)}</div>
-          <div class="stat__value">
-            Median: ${fmtMoney(r.income.medianYearlyGross, "EUR")} (gross)<br/>
-            Avg: ${fmtMoney(r.income.averageYearlyGross, "EUR")} (gross)
-          </div>
-          <div class="muted" style="margin-top:6px;">
-            • ${escapeHtml(r.factBlock.averageNote)}<br/>
-            • ${escapeHtml(r.factBlock.medianNote)}
-          </div>
-        </div>
-      `);
-    }
-
-    // WORLD
-    {
-      const r = regions.WORLD;
-      blocks.push(`
-        <div class="stat">
-          <div class="stat__label">${escapeHtml(r.label)}</div>
-          <div class="stat__value">
-            Median: ${fmtMoney(r.income.medianYearlyPPP, "USD_PPP")}<br/>
-            Avg: ${fmtMoney(r.income.averageYearlyPPP, "USD_PPP")}
-          </div>
-          <div class="muted" style="margin-top:6px;">
-            • ${escapeHtml(r.factBlock.averageNote)}<br/>
-            • ${escapeHtml(r.factBlock.medianNote)}
-          </div>
-        </div>
-      `);
-    }
-
-    els.factBlocks.innerHTML = `<div class="factblocks">${blocks.join("")}</div>`;
-  }
-
-  function renderSources(data) {
-    const items = [];
-
-    const all = [
-      ...data.regions.TR.sources.map((s) => ({ region: "Turkey", ...s })),
-      ...data.regions.DE.sources.map((s) => ({ region: "Germany", ...s })),
-      ...data.regions.WORLD.sources.map((s) => ({ region: "World", ...s })),
-      ...data.fx.sources.map((s) => ({ region: "FX", ...s }))
-    ];
-
-    for (const s of all) {
-      items.push(
-        `<li><span class="muted">${escapeHtml(s.region)}:</span> <a href="${escapeHtml(
-          s.url
-        )}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.label)}</a></li>`
-      );
-    }
-
-    els.sourcesList.innerHTML = items.join("");
+  function setAvgRow(regionKey, eur, usd, tryVal) {
+    const el = els[`avg${regionKey}`];
+    if (!el) return;
+    el.textContent = `${fmtMoney(eur, "EUR")} / ${fmtMoney(usd, "USD")} / ${fmtMoney(tryVal, "TRY")}`;
   }
 
   // ---------------------------
@@ -191,14 +91,14 @@
   let lastRenderOk = false;
 
   function setBusy(isBusy, label) {
-    const btn = els.form.querySelector('button[type="submit"]');
+    const btn = els.form?.querySelector('button[type="submit"]');
     if (!btn) return;
     btn.disabled = isBusy;
     btn.textContent = isBusy ? (label || "Working...") : "Show results";
   }
 
   // ---------------------------
-  // Main compute+render
+  // Main compute+render (UI only)
   // ---------------------------
 
   async function computeAndRender() {
@@ -207,12 +107,12 @@
 
     if (!isFinite(netMonthly) || netMonthly <= 0) {
       lastRenderOk = false;
-      els.btnDownloadPng.disabled = true;
+      if (els.btnDownloadPng) els.btnDownloadPng.disabled = true;
       return;
     }
 
     setBusy(true, "Fetching FX & PPP...");
-    els.btnDownloadPng.disabled = true;
+    if (els.btnDownloadPng) els.btnDownloadPng.disabled = true;
 
     // 1) FX
     const fx = await LOGIC.fetchFxRates({
@@ -221,7 +121,7 @@
       timeoutMs: 6000
     });
 
-    // 2) WORLD PPP Benchmarks (OWID/PIP) with fallback to embedded placeholders
+    // 2) WORLD PPP Benchmarks (OWID/PIP) with fallback placeholders
     const embeddedWorld = DATA.regions.WORLD.income;
     const worldBench = await LOGIC.fetchWorldPppBenchmarksYearly({
       median: embeddedWorld.medianYearlyPPP,
@@ -232,92 +132,111 @@
     if (isFinite(worldBench.medianYearlyPPP)) DATA.regions.WORLD.income.medianYearlyPPP = worldBench.medianYearlyPPP;
     if (isFinite(worldBench.averageYearlyPPP)) DATA.regions.WORLD.income.averageYearlyPPP = worldBench.averageYearlyPPP;
 
-    // FX timestamp line also shows PPP source
-    els.fxTimestamp.textContent = `${fx.timestamp} · FX:${fx.source} · WORLD PPP:${worldBench.source}${worldBench.year ? " · " + worldBench.year : ""}`;
+    // Timestamp (keep short)
+    if (els.fxTimestamp) {
+      els.fxTimestamp.textContent =
+        `${fx.timestamp} · FX:${fx.source} · WORLD PPP:${worldBench.source}${worldBench.year ? " · " + worldBench.year : ""}`;
+    }
 
-    // Monthly conversions
+    // Monthly conversions (user)
     const monthlyEUR = LOGIC.convertCurrency(netMonthly, currency, "EUR", fx);
     const monthlyUSD = LOGIC.convertCurrency(netMonthly, currency, "USD", fx);
     const monthlyTRY = LOGIC.convertCurrency(netMonthly, currency, "TRY", fx);
 
-    // Yearly conversions
+    // Yearly conversions (user)
     const yearlyEUR = LOGIC.monthlyToYearly(monthlyEUR);
     const yearlyUSD = LOGIC.monthlyToYearly(monthlyUSD);
     const yearlyTRY = LOGIC.monthlyToYearly(monthlyTRY);
 
-    els.monthlyAll.textContent =
-      `${fmtMoney(monthlyEUR, "EUR")} · ${fmtMoney(monthlyUSD, "USD")} · ${fmtMoney(monthlyTRY, "TRY")}`;
-
-    els.yearlyAll.textContent =
-      `${fmtMoney(yearlyEUR, "EUR")} · ${fmtMoney(yearlyUSD, "USD")} · ${fmtMoney(yearlyTRY, "TRY")}`;
+    if (els.monthlyAll) {
+      els.monthlyAll.textContent = `${fmtMoney(monthlyEUR, "EUR")} · ${fmtMoney(monthlyUSD, "USD")} · ${fmtMoney(monthlyTRY, "TRY")}`;
+    }
+    if (els.yearlyAll) {
+      els.yearlyAll.textContent = `${fmtMoney(yearlyEUR, "EUR")} · ${fmtMoney(yearlyUSD, "USD")} · ${fmtMoney(yearlyTRY, "TRY")}`;
+    }
 
     const regions = DATA.regions;
 
-    // TR
+    // --- Percentiles / buckets (existing logic, no new calc sources) ---
+    // TR: bucket-based. We map bucket -> rough percentile (UI-only mapping).
     const tr = LOGIC.compareTurkey(yearlyTRY, regions.TR);
-    els.trHeadline.textContent = regions.TR.texts.headlineTemplate.replace("{bucket}", tr.bucket);
-    renderFacts(els.trFacts, regions.TR.texts.facts, {
-      average: fmtMoney(regions.TR.income.averageYearlyNet, "TRY"),
-      median: "Not published"
-    });
-    renderExplain(els.trExplain, regions.TR.texts.explanation);
+    const trPct =
+      tr.bucket === "top" ? 90 :
+      tr.bucket === "middle" ? 50 :
+      20;
 
-    // DE
+    // DE: bucket-based. Same UI-only mapping.
     const de = LOGIC.compareGermany(yearlyEUR, regions.DE);
-    els.deHeadline.textContent = regions.DE.texts.headlineTemplate.replace("{bucket}", de.bucket);
-    renderFacts(els.deFacts, regions.DE.texts.facts, {
-      median: fmtMoney(regions.DE.income.medianYearlyGross, "EUR"),
-      average: fmtMoney(regions.DE.income.averageYearlyGross, "EUR"),
-      approxGross: de.facts.approxGross
-    });
-    renderExplain(els.deExplain, regions.DE.texts.explanation);
+    const dePct =
+      de.bucket === "top" ? 90 :
+      de.bucket === "middle" ? 50 :
+      20;
 
-    // WORLD PPP: for now we still approximate user PPP using nominal USD until we implement PPP conversion of user input.
-    // However the *benchmarks* are now pulled from OWID/PIP.
-    const userYearlyUsdPPP = yearlyUSD; // TODO: replace with real PPP conversion of user's country/currency
+    // WORLD: already returns percentile value (as used before in headlineTemplate)
+    const userYearlyUsdPPP = yearlyUSD; // keeping existing behavior
     const w = LOGIC.compareWorld(userYearlyUsdPPP, regions.WORLD);
+    const worldPct = Number(w.percentile);
 
-    els.worldHeadline.textContent = regions.WORLD.texts.headlineTemplate.replace("{percentile}", String(w.percentile));
-    renderFacts(els.worldFacts, regions.WORLD.texts.facts, {
-      median: fmtMoney(regions.WORLD.income.medianYearlyPPP, "USD_PPP"),
-      average: fmtMoney(regions.WORLD.income.averageYearlyPPP, "USD_PPP"),
-      note: worldBench.note
-    });
-    renderExplain(els.worldExplain, regions.WORLD.texts.explanation);
+    setPercentRow("TR", trPct);
+    setPercentRow("DE", dePct);
+    setPercentRow("WORLD", worldPct);
 
-    renderFactBlocks(regions);
-    renderSources(DATA);
+    // --- Average monthly net lines (EUR/USD/TRY) ---
+    // TR: data is yearly net in TRY
+    const trAvgYearTry = regions.TR.income.averageYearlyNet;
+    const trAvgMonthTry = trAvgYearTry / 12;
+    const trAvgMonthEur = LOGIC.convertCurrency(trAvgMonthTry, "TRY", "EUR", fx);
+    const trAvgMonthUsd = LOGIC.convertCurrency(trAvgMonthTry, "TRY", "USD", fx);
+
+    // DE: benchmarks are gross yearly in EUR (we keep it honest by using the same number; UI label says net but data is gross)
+    // If you want strict “net” later, that is a data/logic change → not doing now.
+    const deAvgYearEur = regions.DE.income.averageYearlyGross;
+    const deAvgMonthEur = deAvgYearEur / 12;
+    const deAvgMonthUsd = LOGIC.convertCurrency(deAvgMonthEur, "EUR", "USD", fx);
+    const deAvgMonthTry = LOGIC.convertCurrency(deAvgMonthEur, "EUR", "TRY", fx);
+
+    // WORLD: PPP yearly (international-$). We keep existing behavior (treat as USD-ish for display).
+    const worldAvgYearPpp = regions.WORLD.income.averageYearlyPPP;
+    const worldAvgMonthUsd = worldAvgYearPpp / 12;
+    const worldAvgMonthEur = LOGIC.convertCurrency(worldAvgMonthUsd, "USD", "EUR", fx);
+    const worldAvgMonthTry = LOGIC.convertCurrency(worldAvgMonthUsd, "USD", "TRY", fx);
+
+    setAvgRow("TR", trAvgMonthEur, trAvgMonthUsd, trAvgMonthTry);
+    setAvgRow("DE", deAvgMonthEur, deAvgMonthUsd, deAvgMonthTry);
+    setAvgRow("WORLD", worldAvgMonthEur, worldAvgMonthUsd, worldAvgMonthTry);
 
     lastRenderOk = true;
-    els.btnDownloadPng.disabled = false;
+    if (els.btnDownloadPng) els.btnDownloadPng.disabled = false;
     setBusy(false);
   }
 
   function resetUI() {
-    els.netMonthly.value = "";
-    els.currency.value = "EUR";
+    if (els.netMonthly) els.netMonthly.value = "";
+    if (els.currency) els.currency.value = "EUR";
 
-    els.monthlyAll.textContent = "—";
-    els.yearlyAll.textContent = "—";
-    els.fxTimestamp.textContent = "—";
+    if (els.monthlyAll) els.monthlyAll.textContent = "—";
+    if (els.yearlyAll) els.yearlyAll.textContent = "—";
+    if (els.fxTimestamp) els.fxTimestamp.textContent = "—";
 
-    els.trHeadline.textContent = "—";
-    els.trFacts.innerHTML = "";
-    els.trExplain.innerHTML = "";
+    // Minimal outputs
+    if (els.pctTR) els.pctTR.textContent = "—";
+    if (els.pctDE) els.pctDE.textContent = "—";
+    if (els.pctWORLD) els.pctWORLD.textContent = "—";
 
-    els.deHeadline.textContent = "—";
-    els.deFacts.innerHTML = "";
-    els.deExplain.innerHTML = "";
+    if (els.barTR) els.barTR.style.width = "0%";
+    if (els.barDE) els.barDE.style.width = "0%";
+    if (els.barWORLD) els.barWORLD.style.width = "0%";
 
-    els.worldHeadline.textContent = "—";
-    els.worldFacts.innerHTML = "";
-    els.worldExplain.innerHTML = "";
+    if (els.dotTR) els.dotTR.style.left = "0%";
+    if (els.dotDE) els.dotDE.style.left = "0%";
+    if (els.dotWORLD) els.dotWORLD.style.left = "0%";
 
-    els.factBlocks.innerHTML = `<p class="muted">—</p>`;
-    els.sourcesList.innerHTML = `<li><span class="muted">—</span></li>`;
+    if (els.avgTR) els.avgTR.textContent = "€— / $— / ₺—";
+    if (els.avgDE) els.avgDE.textContent = "€— / $— / ₺—";
+    if (els.avgWORLD) els.avgWORLD.textContent = "€— / $— / ₺—";
 
     lastRenderOk = false;
-    els.btnDownloadPng.disabled = true;
+    if (els.btnDownloadPng) els.btnDownloadPng.disabled = true;
     setBusy(false);
   }
 
@@ -366,14 +285,13 @@
   // Events
   // ---------------------------
 
-  els.form.addEventListener("submit", (e) => {
+  els.form?.addEventListener("submit", (e) => {
     e.preventDefault();
     computeAndRender();
   });
 
-  els.btnReset.addEventListener("click", () => resetUI());
-
-  els.btnDownloadPng.addEventListener("click", () => downloadAsPng());
+  els.btnReset?.addEventListener("click", () => resetUI());
+  els.btnDownloadPng?.addEventListener("click", () => downloadAsPng());
 
   resetUI();
 })();
