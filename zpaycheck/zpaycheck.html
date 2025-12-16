@@ -1,43 +1,31 @@
-<!-- =========================================================
-  FILE: /zpaycheck/zpaycheck.html
-  PURPOSE:
-  - ZPAYCHECK (Salary sanity check)
-  - Light theme + Microsoft palette
-  - Arca/ZBOM-like layout (sidebar + topbar + main)
-  - SEO + JSON-LD + GoatCounter
-========================================================= -->
+<!-- File: zpaycheck.html (UPDATED: adds html-to-image for PNG export) -->
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- =========================================================
-    BASIC META
-  ========================================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>ZPAYCHECK — Salary Check (DE/TR/World) · Umut Barış Terzioğlu</title>
-  <meta name="description" content="Enter your salary and instantly compare it to typical ranges in Germany, Türkiye, and worldwide. Median, average, and a simple percentile view." />
+  <title>ZPAYCHECK — Salary Reality Check (TR / DE / World)</title>
+  <meta
+    name="description"
+    content="Enter your net monthly income and see where you roughly stand in Turkey, Germany, and the world (PPP-based). No login, no storage—just context, facts, and sources."
+  />
+  <link rel="canonical" href="https://ubterzioglu.de/zpaycheck.html" />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://ubterzioglu.de/zpaycheck/zpaycheck.html" />
 
-  <!-- =========================================================
-    OPEN GRAPH / TWITTER (OPTIONAL BUT NICE)
-  ========================================================== -->
+  <!-- Open Graph -->
+  <meta property="og:title" content="ZPAYCHECK — Salary Reality Check" />
+  <meta
+    property="og:description"
+    content="Net monthly income → clear yearly summary + rough standing in Turkey, Germany, and the world (PPP-based). No login. No storage."
+  />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="ZPAYCHECK — Salary Check" />
-  <meta property="og:description" content="Enter your salary and compare it to typical ranges (DE/TR/World). Median, average, percentile." />
-  <meta property="og:url" content="https://ubterzioglu.de/zpaycheck/zpaycheck.html" />
-  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
+  <meta property="og:url" content="https://ubterzioglu.de/zpaycheck.html" />
 
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="ZPAYCHECK — Salary Check" />
-  <meta name="twitter:description" content="Enter your salary and compare it to typical ranges (DE/TR/World)." />
+  <!-- Styles (MUST be separate) -->
+  <link rel="stylesheet" href="./zpaycheck.css" />
 
-  <!-- =========================================================
-    STRUCTURED DATA (JSON-LD)
-    - Person: shared @id
-    - WebPage: unique @id + isPartOf WebSite
-  ========================================================== -->
+  <!-- JSON-LD (Person @id shared site-wide + unique WebPage @id) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,251 +34,217 @@
         "@type": "Person",
         "@id": "https://ubterzioglu.de/#person",
         "name": "Umut Barış Terzioğlu",
-        "url": "https://ubterzioglu.de",
-        "image": "https://ubterzioglu.de/img/logoubt.png",
-        "jobTitle": "Senior Software Quality Assurance Engineer",
-        "sameAs": [
-          "https://www.linkedin.com/in/ubterzioglu/",
-          "https://github.com/ubterzioglu"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://ubterzioglu.de/#website",
-        "name": "ubterzioglu.de",
-        "url": "https://ubterzioglu.de"
+        "url": "https://ubterzioglu.de/"
       },
       {
         "@type": "WebPage",
-        "@id": "https://ubterzioglu.de/zpaycheck/zpaycheck.html#webpage",
-        "url": "https://ubterzioglu.de/zpaycheck/zpaycheck.html",
-        "name": "ZPAYCHECK — Salary Check",
-        "description": "Enter your salary and instantly compare it to typical ranges in Germany, Türkiye, and worldwide. Median, average, and a simple percentile view.",
-        "isPartOf": { "@id": "https://ubterzioglu.de/#website" },
-        "about": { "@id": "https://ubterzioglu.de/#person" }
+        "@id": "https://ubterzioglu.de/zpaycheck.html#webpage",
+        "url": "https://ubterzioglu.de/zpaycheck.html",
+        "name": "ZPAYCHECK — Salary Reality Check",
+        "description": "Enter your net monthly income and see where you roughly stand in Turkey, Germany, and the world (PPP-based). No login, no storage—just context, facts, and sources.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://ubterzioglu.de/#website",
+          "url": "https://ubterzioglu.de/",
+          "name": "ubterzioglu.de"
+        },
+        "about": {
+          "@id": "https://ubterzioglu.de/#person"
+        }
       }
     ]
   }
   </script>
-
-  <!-- =========================================================
-    STYLES
-  ========================================================== -->
-  <link rel="stylesheet" href="zpaycheck.css" />
 </head>
 
 <body>
-  <!-- =========================================================
-    APP SHELL
-  ========================================================== -->
-  <div class="app" id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- =========================================================
-      SIDEBAR
-    ========================================================== -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sb-brand">
-        <a class="sb-home" href="/index.html" title="Home">
-          <img src="/img/z0cliphome.png" alt="Home" />
-        </a>
-        <div class="sb-title">
-          <div class="sb-name">ZPAYCHECK</div>
-          <div class="sb-sub">Salary reality check</div>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <a class="brand__link" href="https://ubterzioglu.de/" rel="home">ubterzioglu.de</a>
+        <span class="brand__sep">/</span>
+        <span class="brand__page">ZPAYCHECK</span>
+      </div>
+
+      <div class="tagline">
+        This tool doesn’t judge you. It simply shows where you stand — locally and globally.
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <!-- Intro -->
+    <section class="card">
+      <h1 class="h1">ZPAYCHECK</h1>
+      <p class="lead">
+        Enter your <strong>net monthly income</strong> and see a clear yearly summary plus a rough standing in
+        <strong>Turkey</strong>, <strong>Germany</strong>, and the <strong>world (PPP-based)</strong>.
+      </p>
+
+      <ul class="bullets">
+        <li>No login</li>
+        <li>No storage</li>
+        <li>Sources always shown</li>
+      </ul>
+    </section>
+
+    <!-- Input -->
+    <section class="card">
+      <h2 class="h2">Your input</h2>
+
+      <form id="incomeForm" class="form" autocomplete="off" novalidate>
+        <div class="form__row">
+          <label class="label" for="netMonthly">Net monthly income</label>
+          <input
+            id="netMonthly"
+            name="netMonthly"
+            class="input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 3500"
+            required
+          />
+        </div>
+
+        <div class="form__row">
+          <label class="label" for="currency">Currency</label>
+          <select id="currency" name="currency" class="select" required>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="TRY">TRY</option>
+          </select>
+        </div>
+
+        <div class="form__actions">
+          <button type="submit" class="btn btn--primary">Show results</button>
+          <button type="button" id="btnReset" class="btn btn--ghost">Reset</button>
+          <button type="button" id="btnDownloadPng" class="btn btn--ghost" disabled title="Enabled after results render">
+            Download as PNG
+          </button>
+        </div>
+
+        <p class="hint">
+          Net income only. No tax forms. No contracts. Nothing is saved.
+        </p>
+      </form>
+    </section>
+
+    <!-- Results wrapper (used for share-to-PNG) -->
+    <section id="resultCard" class="card" aria-live="polite">
+      <h2 class="h2">Results</h2>
+
+      <!-- Earnings summary -->
+      <div class="block">
+        <h3 class="h3">Earnings summary</h3>
+        <div class="grid3" id="earningsSummary">
+          <div class="stat">
+            <div class="stat__label">Monthly</div>
+            <div class="stat__value" id="monthlyAll">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Yearly</div>
+            <div class="stat__value" id="yearlyAll">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">FX timestamp</div>
+            <div class="stat__value" id="fxTimestamp">—</div>
+          </div>
         </div>
       </div>
 
-      <nav class="sb-nav" aria-label="Sections">
-        <button class="sb-item is-active" data-view="check">
-          <span class="dot dot-blue"></span>
-          <span>Check</span>
-        </button>
-        <button class="sb-item" data-view="about">
-          <span class="dot dot-green"></span>
-          <span>About</span>
-        </button>
-        <button class="sb-item" data-view="sources">
-          <span class="dot dot-orange"></span>
-          <span>Sources</span>
-        </button>
-      </nav>
+      <!-- Comparisons -->
+      <div class="block">
+        <h3 class="h3">Comparisons</h3>
 
-      <div class="sb-footer">
-        <div class="sb-note">
-          Light theme · Microsoft palette
+        <div class="compare">
+          <article class="compare__item" id="cmpTR">
+            <h4 class="h4">Turkey</h4>
+            <p class="bigline" id="trHeadline">—</p>
+            <div class="facts" id="trFacts"></div>
+            <div class="explain" id="trExplain"></div>
+          </article>
+
+          <article class="compare__item" id="cmpDE">
+            <h4 class="h4">Germany</h4>
+            <p class="bigline" id="deHeadline">—</p>
+            <div class="facts" id="deFacts"></div>
+            <div class="explain" id="deExplain"></div>
+          </article>
+
+          <article class="compare__item" id="cmpWORLD">
+            <h4 class="h4">World (PPP)</h4>
+            <p class="bigline" id="worldHeadline">—</p>
+            <div class="facts" id="worldFacts"></div>
+            <div class="explain" id="worldExplain"></div>
+          </article>
         </div>
       </div>
-    </aside>
 
-    <!-- =========================================================
-      MAIN
-    ========================================================== -->
-    <main class="main">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <button class="hamb" id="hamb" aria-label="Open menu" title="Menu">
-          ☰
-        </button>
-
-        <div class="topbar-left">
-          <div class="topbar-title">ZPAYCHECK</div>
-          <div class="topbar-tag">Type your pay. See where you land.</div>
+      <!-- Fact blocks -->
+      <div class="block">
+        <h3 class="h3">Fact blocks</h3>
+        <div class="factblocks" id="factBlocks">
+          <p class="muted">—</p>
         </div>
+      </div>
 
-        <div class="topbar-actions">
-          <a class="pill" href="/zexplorer.html" title="Explorer">Explorer</a>
-          <a class="pill" href="#top" title="Top">Top</a>
-        </div>
-      </header>
+      <!-- Transparency -->
+      <div class="block">
+        <h3 class="h3">Transparency</h3>
+        <ul class="bullets" id="transparencyList">
+          <li>Net income based</li>
+          <li>Currency rates are current (source shown)</li>
+          <li>No “rich/poor” language</li>
+          <li>No financial advice</li>
+        </ul>
+        <p class="muted" id="disclaimerLine">
+          Estimates are approximate. Method notes and disclaimers are shown per region.
+        </p>
+      </div>
+    </section>
 
-      <!-- CONTENT -->
-      <section class="content">
+    <!-- Sources -->
+    <section class="card">
+      <h2 class="h2">Sources</h2>
+      <ul class="sources" id="sourcesList">
+        <li><span class="muted">—</span></li>
+      </ul>
+      <p class="muted">
+        Links will be shown here: TÜİK, StepStone, World Bank / OWID, and the FX provider.
+      </p>
+    </section>
+  </main>
 
-        <!-- VIEW: CHECK -->
-        <div class="view is-active" id="view-check">
-          <div class="card">
-            <div class="card-head">
-              <h1>Salary Check</h1>
-              <p class="muted">Compare your salary vs median & average, plus a simple percentile band.</p>
-            </div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="muted">
+        © <span id="yearNow"></span> ubterzioglu.de · ZPAYCHECK runs fully in your browser (no login, no storage).
+      </div>
+    </div>
+  </footer>
 
-            <div class="grid-2">
-              <div class="field">
-                <label for="country">Region</label>
-                <select id="country">
-                  <option value="DE">Germany</option>
-                  <option value="TR">Türkiye</option>
-                  <option value="WORLD">World (PPP, per person)</option>
-                </select>
-              </div>
+  <!-- Scripts -->
+  <script src="./zpaycheck.data.js" defer></script>
+  <script src="./zpaycheck.logic.js" defer></script>
 
-              <div class="field">
-                <label for="role">Role (optional)</label>
-                <input id="role" type="text" placeholder="e.g., QA Lead, Software Engineer" />
-              </div>
+  <!-- PNG export helper (minimal, CDN) -->
+  <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.min.js" defer></script>
 
-              <div class="field">
-                <label for="amount">Your salary amount</label>
-                <input id="amount" type="number" inputmode="decimal" placeholder="e.g., 65000" />
-              </div>
+  <script src="./zpaycheck.app.js" defer></script>
 
-              <div class="field">
-                <label for="period">Period</label>
-                <select id="period">
-                  <option value="year">Yearly</option>
-                  <option value="month">Monthly</option>
-                </select>
-              </div>
+  <!-- GoatCounter Analytics (no cookies beyond analytics) -->
+  <script
+    data-goatcounter="https://ubterzioglu.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
 
-              <div class="field">
-                <label for="type">Type</label>
-                <select id="type">
-                  <option value="gross">Gross</option>
-                  <option value="net">Net</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="currency">Currency</label>
-                <select id="currency">
-                  <option value="EUR">EUR</option>
-                  <option value="TRY">TRY</option>
-                  <option value="PPP">Int-$ (PPP)</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="actions">
-              <button class="btn btn-primary" id="btnCheck">Check</button>
-              <button class="btn" id="btnReset">Reset</button>
-            </div>
-          </div>
-
-          <div class="card" id="resultCard" style="display:none;">
-            <div class="card-head">
-              <h2>Your result</h2>
-              <p class="muted" id="resultSubtitle">—</p>
-            </div>
-
-            <div class="kpis">
-              <div class="kpi kpi-blue">
-                <div class="kpi-label">Median</div>
-                <div class="kpi-value" id="kpiMedian">—</div>
-              </div>
-              <div class="kpi kpi-green">
-                <div class="kpi-label">Average</div>
-                <div class="kpi-value" id="kpiAverage">—</div>
-              </div>
-              <div class="kpi kpi-orange">
-                <div class="kpi-label">You</div>
-                <div class="kpi-value" id="kpiYou">—</div>
-              </div>
-              <div class="kpi kpi-purple">
-                <div class="kpi-label">Band</div>
-                <div class="kpi-value" id="kpiBand">—</div>
-              </div>
-            </div>
-
-            <div class="bar-wrap">
-              <div class="bar-label">
-                <span>Percentile (simple)</span>
-                <span class="muted" id="barHint">—</span>
-              </div>
-              <div class="bar">
-                <div class="bar-fill" id="barFill" style="width:0%"></div>
-              </div>
-            </div>
-
-            <div class="note-box" id="explainBox"></div>
-          </div>
-        </div>
-
-        <!-- VIEW: ABOUT -->
-        <div class="view" id="view-about">
-          <div class="card">
-            <div class="card-head">
-              <h1>What is this?</h1>
-              <p class="muted">A fast “am I underpaid?” sanity check. No login. No tracking beyond basic site analytics.</p>
-            </div>
-
-            <div class="bullets">
-              <div>• Pick a region (DE/TR/World)</div>
-              <div>• Enter your salary (yearly or monthly)</div>
-              <div>• See median, average, and a simple percentile band</div>
-              <div>• Later: add role-based filters and inflation-adjusted TR view</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- VIEW: SOURCES -->
-        <div class="view" id="view-sources">
-          <div class="card">
-            <div class="card-head">
-              <h1>Sources (V1)</h1>
-              <p class="muted">These are placeholders in code right now. You’ll replace values with real numbers.</p>
-            </div>
-
-            <div class="bullets" id="sourcesList">
-              <!-- injected by JS -->
-            </div>
-          </div>
-        </div>
-
-      </section>
-    </main>
-  </div>
-
-  <!-- =========================================================
-    SCRIPTS
-  ========================================================== -->
-  <script src="zpaycheck-data.js"></script>
-  <script src="zpaycheck.js"></script>
-
-  <!-- =========================================================
-    GOATCOUNTER (match your existing setup)
-    - If your site already injects GoatCounter globally, remove this.
-  ========================================================== -->
-  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+  <script>
+    document.getElementById("yearNow").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
