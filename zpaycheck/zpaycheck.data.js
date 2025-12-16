@@ -1,6 +1,6 @@
-// File: zpaycheck.data.js (FULL / UPDATED)
-// Data-only schema for ZPAYCHECK
-// IMPORTANT: This project uses a browser global (window.ZPAYCHECK_DATA), not ES modules.
+// File: zpaycheck.data.js (OPTIONAL UPDATE: clarifies WORLD PPP is fetched at runtime + adds OWID direct chart links)
+// Data-only schema for ZPAYCHECK (browser global)
+// NOTE: WORLD numeric median/mean are fetched at runtime (logic.js) from OWID/PIP series and overwrite these placeholders in-memory.
 
 window.ZPAYCHECK_DATA = {
   meta: {
@@ -10,7 +10,7 @@ window.ZPAYCHECK_DATA = {
       "All figures are approximate and for context only.",
       "TR: median is not used in this MVP; we compare against an average-based benchmark.",
       "DE: StepStone figures are gross; net→gross is approximated in logic.js for comparison.",
-      "WORLD PPP: still placeholder in this MVP (next pass will replace with OWID/PIP numeric series)."
+      "WORLD PPP: median/mean benchmarks are fetched at runtime from OWID (World Bank PIP-based) daily series; placeholders below are fallback only."
     ]
   },
 
@@ -22,7 +22,11 @@ window.ZPAYCHECK_DATA = {
     WORLD_PIP:
       "https://pip.worldbank.org/",
     WORLD_OWID:
-      "https://ourworldindata.org/"
+      "https://ourworldindata.org/",
+    WORLD_OWID_DAILY_MEDIAN:
+      "https://ourworldindata.org/grapher/daily-median-income",
+    WORLD_OWID_DAILY_MEAN:
+      "https://ourworldindata.org/grapher/daily-mean-income"
   },
 
   regions: {
@@ -33,27 +37,18 @@ window.ZPAYCHECK_DATA = {
       referenceYear: 2024,
 
       income: {
-        // TÜİK 2024 bulletin headline-style “per person (equivalised) disposable income” average.
-        // We use this as baseline for comparison.
         averageYearlyNet: 187728, // TRY
         medianYearlyNet: null
       },
 
       inflation: {
-        // Keep manual control. Default no uplift.
         manualMultiplier: 1.0,
         note: "Optional manual multiplier for inflation adjustment if you decide to compare older years."
       },
 
       comparisonModel: {
-        // Until we have distribution percentiles, we keep a simple bucket model.
         type: "average-only",
-        buckets: {
-          // interpreted by resolveBucket() heuristic in logic.js
-          top: 0.25,
-          middle: [0.25, 0.75],
-          bottom: 0.75
-        }
+        buckets: { top: 0.25, middle: [0.25, 0.75], bottom: 0.75 }
       },
 
       texts: {
@@ -93,7 +88,6 @@ window.ZPAYCHECK_DATA = {
       referenceYear: 2024,
 
       income: {
-        // StepStone Gehaltsreport 2025 (Germany, values shown for 2024)
         medianYearlyGross: 45800, // EUR
         averageYearlyGross: 52300 // EUR
       },
@@ -105,31 +99,14 @@ window.ZPAYCHECK_DATA = {
           "This is not a tax-accurate calculation; it’s a rough normalization to compare to gross benchmarks."
       },
 
-      // Optional anchors for a future “percentile-like” messaging in Germany (not used by current logic.js yet)
-      percentileAnchorsGrossYearly: {
-        note:
-          "Optional anchors (gross yearly) for future refinement. Not used in current MVP logic.",
-        // Leave nulls if you don’t want to claim exact thresholds yet.
-        p90: null,
-        p95: null,
-        p99: null
-      },
-
       comparisonModel: {
         type: "median-and-average",
-        buckets: {
-          top: 0.3,
-          middle: [0.3, 0.7],
-          bottom: 0.7
-        }
+        buckets: { top: 0.3, middle: [0.3, 0.7], bottom: 0.7 }
       },
 
       texts: {
         headlineTemplate: "In Germany, you are roughly in the {bucket}.",
-        facts: [
-          "Median income (gross, yearly)",
-          "Average income (gross, yearly)"
-        ],
+        facts: ["Median income (gross, yearly)", "Average income (gross, yearly)"],
         explanation: [
           "Median income represents the typical earner.",
           "Average income is higher due to top earners.",
@@ -160,26 +137,22 @@ window.ZPAYCHECK_DATA = {
       referenceYear: 2021,
 
       income: {
-        // PLACEHOLDERS (next pass: replace with OWID/PIP PPP series values)
-        medianYearlyPPP: 9200,   // USD (PPP) placeholder
-        averageYearlyPPP: 18000  // USD (PPP) placeholder
+        // FALLBACK ONLY — overwritten in-memory at runtime by logic.js → fetchWorldPppBenchmarksYearly()
+        medianYearlyPPP: 9200,
+        averageYearlyPPP: 18000
       },
 
       comparisonModel: {
         type: "percentile",
-        buckets: {
-          top: 0.1,
-          middle: [0.1, 0.9],
-          bottom: 0.9
-        }
+        buckets: { top: 0.1, middle: [0.1, 0.9], bottom: 0.9 }
       },
 
       texts: {
         headlineTemplate:
           "Globally, you are roughly in the top {percentile}% of income earners.",
         facts: [
-          "PPP-adjusted median income",
-          "PPP-adjusted average income"
+          "PPP-adjusted median income (benchmarks fetched at runtime from OWID/PIP)",
+          "PPP-adjusted average income (benchmarks fetched at runtime from OWID/PIP)"
         ],
         explanation: [
           "PPP (Purchasing Power Parity) adjusts for cost-of-living differences.",
@@ -198,7 +171,9 @@ window.ZPAYCHECK_DATA = {
 
       sources: [
         { label: "World Bank — PIP", url: "https://pip.worldbank.org/" },
-        { label: "Our World in Data", url: "https://ourworldindata.org/" }
+        { label: "Our World in Data", url: "https://ourworldindata.org/" },
+        { label: "OWID — Daily median income (World)", url: "https://ourworldindata.org/grapher/daily-median-income" },
+        { label: "OWID — Daily mean income (World)", url: "https://ourworldindata.org/grapher/daily-mean-income" }
       ]
     }
   },
