@@ -112,7 +112,6 @@
     activeTemplate = templates.find((t) => t.id === id);
     resetViewToTemplateDefaults();
     rebuildPreview();
-    syncUIFromState();
     renderAll();
   }
 
