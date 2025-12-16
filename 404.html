@@ -1,14 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>404 — Not Found</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | UBT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: 150px;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .bug-container {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+            align-items: center;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .joke {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .error-code {
+                font-size: 100px;
+            }
+            .bug-container {
+                font-size: 60px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .message {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>404</h1>
-  <p>This page does not exist.</p>
-  <a href="/">Go home</a>
+    <div class="container">
+        <div class="error-code">404</div>
+        <div class="bug-container">🐛</div>
+        <h1>Oops! This page failed the test...</h1>
+        <p class="message">
+            As a QA Engineer, I should have caught this bug earlier! 🤦‍♂️<br>
+            Looks like this page didn't make it through the test automation pipeline.
+        </p>
+
+        <div class="joke">
+            <strong>QA Joke of the Day:</strong><br>
+            "99 bugs in the code, 99 bugs in the code...<br>
+            Take one down, patch it around...<br>
+            127 bugs in the code!" 🎵
+        </div>
+
+        <div class="options">
+            <a href="/" class="btn">🏠 Go Home (Pass)</a>
+            <a href="javascript:history.back()" class="btn">⬅️ Go Back (Retry)</a>
+        </div>
+
+        <div class="footer">
+            <p>Status: Page Not Found ❌</p>
+            <p>Expected: 200 OK | Actual: 404 Not Found</p>
+            <p>Test Failed - Please file a bug report! 📝</p>
+        </div>
+    </div>
 </body>
 </html>
-
