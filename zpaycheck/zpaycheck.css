@@ -1,0 +1,365 @@
+/* File: zpaycheck.css */
+
+/* ---------------------------
+   Base / Reset
+--------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0b0f14;
+  --panel: #121823;
+  --panel-soft: #161e2e;
+  --text: #e6e9ef;
+  --muted: #9aa3b2;
+  --accent: #5da9ff;
+  --accent-2: #7ee787;
+  --danger: #ff7a7a;
+  --border: #232b3d;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --font-base: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-base);
+  line-height: 1.5;
+}
+
+/* ---------------------------
+   Layout
+--------------------------- */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.site-header,
+.site-footer {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.brand__link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.brand__sep {
+  color: var(--muted);
+}
+
+.brand__page {
+  color: var(--accent);
+}
+
+.tagline {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 10px;
+  top: 10px;
+  background: var(--panel);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  z-index: 999;
+}
+
+/* ---------------------------
+   Cards & Blocks
+--------------------------- */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.block {
+  margin-top: 20px;
+}
+
+.block + .block {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+/* ---------------------------
+   Typography
+--------------------------- */
+.h1 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+}
+
+.h2 {
+  margin: 0 0 12px 0;
+  font-size: 22px;
+}
+
+.h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.h4 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}
+
+.lead {
+  color: var(--muted);
+  max-width: 720px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.bigline {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ---------------------------
+   Lists
+--------------------------- */
+.bullets {
+  margin: 12px 0 0 0;
+  padding-left: 18px;
+}
+
+.bullets li {
+  margin-bottom: 4px;
+}
+
+.sources {
+  padding-left: 18px;
+}
+
+/* ---------------------------
+   Form
+--------------------------- */
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.form__row {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.input,
+.select {
+  background: var(--panel-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+.input::placeholder {
+  color: #6f7a8f;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------------------------
+   Buttons
+--------------------------- */
+.btn {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #081018;
+  font-weight: 600;
+}
+
+.btn--primary:hover {
+  opacity: 0.9;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent);
+}
+
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------------------------
+   Stats & Grids
+--------------------------- */
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.stat {
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.stat__label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.stat__value {
+  font-size: 16px;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------
+   Comparison Section
+--------------------------- */
+.compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.compare__item {
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.facts {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.explain {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------------------------
+   Fact blocks
+--------------------------- */
+.factblocks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+/* ---------------------------
+   Result Card (for PNG export)
+--------------------------- */
+#resultCard {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-soft) 100%);
+}
+
+/* ---------------------------
+   Footer
+--------------------------- */
+.site-footer .container {
+  text-align: center;
+  font-size: 13px;
+}
+
+/* ---------------------------
+   Print (for PDF fallback)
+--------------------------- */
+@media print {
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .site-header,
+  .site-footer,
+  .form,
+  .btn {
+    display: none !important;
+  }
+
+  .card {
+    border: none;
+    background: #ffffff;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+}

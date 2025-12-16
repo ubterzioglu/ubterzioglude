@@ -1,0 +1,296 @@
+<!-- =========================================================
+  FILE: /zpaycheck/zpaycheck.html
+  PURPOSE:
+  - ZPAYCHECK (Salary sanity check)
+  - Light theme + Microsoft palette
+  - Arca/ZBOM-like layout (sidebar + topbar + main)
+  - SEO + JSON-LD + GoatCounter
+========================================================= -->
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+    BASIC META
+  ========================================================== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>ZPAYCHECK — Salary Check (DE/TR/World) · Umut Barış Terzioğlu</title>
+  <meta name="description" content="Enter your salary and instantly compare it to typical ranges in Germany, Türkiye, and worldwide. Median, average, and a simple percentile view." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://ubterzioglu.de/zpaycheck/zpaycheck.html" />
+
+  <!-- =========================================================
+    OPEN GRAPH / TWITTER (OPTIONAL BUT NICE)
+  ========================================================== -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ZPAYCHECK — Salary Check" />
+  <meta property="og:description" content="Enter your salary and compare it to typical ranges (DE/TR/World). Median, average, percentile." />
+  <meta property="og:url" content="https://ubterzioglu.de/zpaycheck/zpaycheck.html" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ZPAYCHECK — Salary Check" />
+  <meta name="twitter:description" content="Enter your salary and compare it to typical ranges (DE/TR/World)." />
+
+  <!-- =========================================================
+    STRUCTURED DATA (JSON-LD)
+    - Person: shared @id
+    - WebPage: unique @id + isPartOf WebSite
+  ========================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://ubterzioglu.de/#person",
+        "name": "Umut Barış Terzioğlu",
+        "url": "https://ubterzioglu.de",
+        "image": "https://ubterzioglu.de/img/logoubt.png",
+        "jobTitle": "Senior Software Quality Assurance Engineer",
+        "sameAs": [
+          "https://www.linkedin.com/in/ubterzioglu/",
+          "https://github.com/ubterzioglu"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://ubterzioglu.de/#website",
+        "name": "ubterzioglu.de",
+        "url": "https://ubterzioglu.de"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://ubterzioglu.de/zpaycheck/zpaycheck.html#webpage",
+        "url": "https://ubterzioglu.de/zpaycheck/zpaycheck.html",
+        "name": "ZPAYCHECK — Salary Check",
+        "description": "Enter your salary and instantly compare it to typical ranges in Germany, Türkiye, and worldwide. Median, average, and a simple percentile view.",
+        "isPartOf": { "@id": "https://ubterzioglu.de/#website" },
+        "about": { "@id": "https://ubterzioglu.de/#person" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- =========================================================
+    STYLES
+  ========================================================== -->
+  <link rel="stylesheet" href="zpaycheck.css" />
+</head>
+
+<body>
+  <!-- =========================================================
+    APP SHELL
+  ========================================================== -->
+  <div class="app" id="top">
+
+    <!-- =========================================================
+      SIDEBAR
+    ========================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-brand">
+        <a class="sb-home" href="/index.html" title="Home">
+          <img src="/img/z0cliphome.png" alt="Home" />
+        </a>
+        <div class="sb-title">
+          <div class="sb-name">ZPAYCHECK</div>
+          <div class="sb-sub">Salary reality check</div>
+        </div>
+      </div>
+
+      <nav class="sb-nav" aria-label="Sections">
+        <button class="sb-item is-active" data-view="check">
+          <span class="dot dot-blue"></span>
+          <span>Check</span>
+        </button>
+        <button class="sb-item" data-view="about">
+          <span class="dot dot-green"></span>
+          <span>About</span>
+        </button>
+        <button class="sb-item" data-view="sources">
+          <span class="dot dot-orange"></span>
+          <span>Sources</span>
+        </button>
+      </nav>
+
+      <div class="sb-footer">
+        <div class="sb-note">
+          Light theme · Microsoft palette
+        </div>
+      </div>
+    </aside>
+
+    <!-- =========================================================
+      MAIN
+    ========================================================== -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <button class="hamb" id="hamb" aria-label="Open menu" title="Menu">
+          ☰
+        </button>
+
+        <div class="topbar-left">
+          <div class="topbar-title">ZPAYCHECK</div>
+          <div class="topbar-tag">Type your pay. See where you land.</div>
+        </div>
+
+        <div class="topbar-actions">
+          <a class="pill" href="/zexplorer.html" title="Explorer">Explorer</a>
+          <a class="pill" href="#top" title="Top">Top</a>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <section class="content">
+
+        <!-- VIEW: CHECK -->
+        <div class="view is-active" id="view-check">
+          <div class="card">
+            <div class="card-head">
+              <h1>Salary Check</h1>
+              <p class="muted">Compare your salary vs median & average, plus a simple percentile band.</p>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label for="country">Region</label>
+                <select id="country">
+                  <option value="DE">Germany</option>
+                  <option value="TR">Türkiye</option>
+                  <option value="WORLD">World (PPP, per person)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="role">Role (optional)</label>
+                <input id="role" type="text" placeholder="e.g., QA Lead, Software Engineer" />
+              </div>
+
+              <div class="field">
+                <label for="amount">Your salary amount</label>
+                <input id="amount" type="number" inputmode="decimal" placeholder="e.g., 65000" />
+              </div>
+
+              <div class="field">
+                <label for="period">Period</label>
+                <select id="period">
+                  <option value="year">Yearly</option>
+                  <option value="month">Monthly</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="type">Type</label>
+                <select id="type">
+                  <option value="gross">Gross</option>
+                  <option value="net">Net</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="currency">Currency</label>
+                <select id="currency">
+                  <option value="EUR">EUR</option>
+                  <option value="TRY">TRY</option>
+                  <option value="PPP">Int-$ (PPP)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-primary" id="btnCheck">Check</button>
+              <button class="btn" id="btnReset">Reset</button>
+            </div>
+          </div>
+
+          <div class="card" id="resultCard" style="display:none;">
+            <div class="card-head">
+              <h2>Your result</h2>
+              <p class="muted" id="resultSubtitle">—</p>
+            </div>
+
+            <div class="kpis">
+              <div class="kpi kpi-blue">
+                <div class="kpi-label">Median</div>
+                <div class="kpi-value" id="kpiMedian">—</div>
+              </div>
+              <div class="kpi kpi-green">
+                <div class="kpi-label">Average</div>
+                <div class="kpi-value" id="kpiAverage">—</div>
+              </div>
+              <div class="kpi kpi-orange">
+                <div class="kpi-label">You</div>
+                <div class="kpi-value" id="kpiYou">—</div>
+              </div>
+              <div class="kpi kpi-purple">
+                <div class="kpi-label">Band</div>
+                <div class="kpi-value" id="kpiBand">—</div>
+              </div>
+            </div>
+
+            <div class="bar-wrap">
+              <div class="bar-label">
+                <span>Percentile (simple)</span>
+                <span class="muted" id="barHint">—</span>
+              </div>
+              <div class="bar">
+                <div class="bar-fill" id="barFill" style="width:0%"></div>
+              </div>
+            </div>
+
+            <div class="note-box" id="explainBox"></div>
+          </div>
+        </div>
+
+        <!-- VIEW: ABOUT -->
+        <div class="view" id="view-about">
+          <div class="card">
+            <div class="card-head">
+              <h1>What is this?</h1>
+              <p class="muted">A fast “am I underpaid?” sanity check. No login. No tracking beyond basic site analytics.</p>
+            </div>
+
+            <div class="bullets">
+              <div>• Pick a region (DE/TR/World)</div>
+              <div>• Enter your salary (yearly or monthly)</div>
+              <div>• See median, average, and a simple percentile band</div>
+              <div>• Later: add role-based filters and inflation-adjusted TR view</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: SOURCES -->
+        <div class="view" id="view-sources">
+          <div class="card">
+            <div class="card-head">
+              <h1>Sources (V1)</h1>
+              <p class="muted">These are placeholders in code right now. You’ll replace values with real numbers.</p>
+            </div>
+
+            <div class="bullets" id="sourcesList">
+              <!-- injected by JS -->
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- =========================================================
+    SCRIPTS
+  ========================================================== -->
+  <script src="zpaycheck-data.js"></script>
+  <script src="zpaycheck.js"></script>
+
+  <!-- =========================================================
+    GOATCOUNTER (match your existing setup)
+    - If your site already injects GoatCounter globally, remove this.
+  ========================================================== -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
