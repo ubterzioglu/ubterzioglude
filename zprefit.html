@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LinkedIn Banner Preview — ubterzioglu.de</title>
+  <meta name="description" content="Preview how your LinkedIn banner (background photo) will look on desktop and mobile before uploading." />
+  <link rel="canonical" href="https://ubterzioglu.de/tools/linkedin-banner-preview.html" />
+  <meta name="robots" content="index, follow" />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#121826;
+      --muted:#9aa7b2;
+      --text:#e7eef5;
+      --line:rgba(255,255,255,.08);
+      --accent:#7aa2ff;
+      --warn:#ffcc66;
+      --bad:#ff6b6b;
+      --good:#7ee787;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --r:18px;
+      --pad:16px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(122,162,255,.18), transparent 55%),
+                  radial-gradient(900px 700px at 80% 40%, rgba(126,231,135,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      font-family:var(--font);
+    }
+    a{color:inherit}
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 16px 40px;
+    }
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:16px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+      font-weight:700;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      max-width:720px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 380px 1fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background:rgba(18,24,38,.85);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd .k{
+      font-weight:700;
+      font-size:13px;
+      color:var(--text);
+    }
+    .card .bd{ padding:16px; }
+
+    .drop{
+      border:1px dashed rgba(255,255,255,.22);
+      border-radius:16px;
+      padding:16px;
+      background:rgba(255,255,255,.03);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .drop.dragover{
+      border-color: rgba(122,162,255,.8);
+      background: rgba(122,162,255,.10);
+    }
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:650;
+      font-size:13px;
+      cursor:pointer;
+      transition: .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ background:rgba(255,255,255,.07); }
+    .btn.primary{
+      border-color: rgba(122,162,255,.55);
+      background: rgba(122,162,255,.16);
+    }
+    .btn.primary:hover{ background: rgba(122,162,255,.22); }
+    .btn.danger{
+      border-color: rgba(255,107,107,.55);
+      background: rgba(255,107,107,.14);
+    }
+    .btn.small{ padding:8px 10px; border-radius:12px; font-size:12px; }
+
+    input[type="file"]{ display:none; }
+
+    .control{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:14px;
+    }
+    .control label{
+      font-size:12px;
+      color:var(--muted);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .control label span.value{
+      color:var(--text);
+      font-variant-numeric: tabular-nums;
+      font-size:12px;
+      opacity:.9;
+    }
+    input[type="range"]{ width:100%; }
+
+    .toggles{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      color:var(--text);
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip.on{
+      border-color: rgba(122,162,255,.55);
+      background: rgba(122,162,255,.16);
+    }
+
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    .status{
+      margin-top:14px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.16);
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .status .line{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .dot{
+      width:9px; height:9px; border-radius:50%;
+      margin-top:3px;
+      flex:0 0 auto;
+      background:rgba(255,255,255,.25);
+    }
+    .dot.good{ background: var(--good); }
+    .dot.warn{ background: var(--warn); }
+    .dot.bad{ background: var(--bad); }
+    .status b{ color:var(--text); font-weight:650; }
+
+    /* Preview area */
+    .previewWrap{
+      padding:0;
+    }
+    .previewTopBar{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:12px 16px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      flex-wrap:wrap;
+    }
+    .seg{
+      display:inline-flex;
+      border:1px solid var(--line);
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .seg button{
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      padding:8px 10px;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .seg button.on{
+      color:var(--text);
+      background: rgba(255,255,255,.05);
+    }
+    .spacer{ flex:1 1 auto; }
+
+    .mock{
+      padding:16px;
+      display:grid;
+      gap:14px;
+    }
+
+    .liCard{
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      background:rgba(255,255,255,.03);
+    }
+
+    .bannerArea{
+      position:relative;
+      width:100%;
+      aspect-ratio: 4 / 1; /* LinkedIn banner ratio */
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        radial-gradient(700px 260px at 30% 40%, rgba(122,162,255,.12), transparent 60%),
+        radial-gradient(700px 260px at 75% 70%, rgba(126,231,135,.10), transparent 60%),
+        rgba(0,0,0,.18);
+      overflow:hidden;
+      cursor:grab;
+      user-select:none;
+    }
+    .bannerArea:active{ cursor:grabbing; }
+
+    .bannerCanvas{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
+    }
+
+    .safeOverlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      display:none;
+    }
+    .safeOverlay.on{ display:block; }
+
+    .safeOverlay .mask{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,.35);
+      -webkit-mask: none;
+      mask: none;
+      opacity:.95;
+    }
+    .safeOverlay .rect{
+      position:absolute;
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:10px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+      background: rgba(122,162,255,.08);
+      backdrop-filter: blur(1px);
+    }
+    .safeOverlay .label{
+      position:absolute;
+      left:12px; bottom:10px;
+      font-size:11px;
+      color:rgba(255,255,255,.75);
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
+      padding:6px 8px;
+      border-radius:999px;
+    }
+
+    .below{
+      padding:14px 16px 16px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .avatar{
+      width:66px; height:66px;
+      border-radius:16px;
+      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .liMeta{
+      display:flex; flex-direction:column; gap:6px;
+      min-width:0;
+    }
+    .liMeta .name{
+      font-weight:750; font-size:14px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .liMeta .headline{
+      color:var(--muted); font-size:12px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+    .twoPreviews{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 780px){
+      .twoPreviews{ grid-template-columns: 1fr; }
+    }
+    .miniTitle{
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 8px 2px;
+    }
+
+    .footNote{
+      padding:12px 16px 16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:11px;
+      padding:2px 6px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:8px;
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.8);
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"LinkedIn Banner Preview",
+    "description":"Preview how your LinkedIn banner (background photo) will look on desktop and mobile before uploading.",
+    "url":"https://ubterzioglu.de/tools/linkedin-banner-preview.html",
+    "isPartOf":{
+      "@type":"WebSite",
+      "name":"ubterzioglu.de",
+      "url":"https://ubterzioglu.de/"
+    },
+    "about":{
+      "@type":"Person",
+      "name":"Umut Barış Terzioğlu"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="title">
+        <h1>LinkedIn Banner Preview</h1>
+        <div class="sub">
+          Upload a banner image and preview how it will look in a LinkedIn-like layout. Drag to reposition, zoom, and check a “safe area” overlay.
+          No uploads leave your browser.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Controls -->
+      <div class="card">
+        <div class="hd">
+          <div class="k">Controls</div>
+          <button id="resetBtn" class="btn small">Reset</button>
+        </div>
+        <div class="bd">
+          <div id="drop" class="drop">
+            <div class="row">
+              <label class="btn primary" for="file">
+                Upload image
+              </label>
+              <input id="file" type="file" accept="image/*" />
+              <button id="demoBtn" class="btn">Use demo gradient</button>
+              <button id="clearBtn" class="btn danger">Clear</button>
+            </div>
+            <div class="hint">
+              Recommended LinkedIn banner: <b>1584×396</b> (4:1). Bigger is fine; too small may look blurry.
+              <br/>Tip: drag the banner to position. Use the zoom slider for fine tuning.
+            </div>
+          </div>
+
+          <div class="control">
+            <label>
+              Zoom
+              <span class="value" id="zoomVal">100%</span>
+            </label>
+            <input id="zoom" type="range" min="80" max="220" value="100" />
+          </div>
+
+          <div class="control">
+            <label>
+              Fit mode
+              <span class="value" id="fitVal">Fill (cover)</span>
+            </label>
+            <div class="toggles">
+              <div id="modeFill" class="chip on" role="button" tabindex="0">Fill (cover)</div>
+              <div id="modeFit" class="chip" role="button" tabindex="0">Fit (contain)</div>
+            </div>
+            <div class="hint">
+              <b>Fill</b> looks like LinkedIn most of the time (covers the area, may crop edges). <b>Fit</b avoids cropping but may leave empty space.
+            </div>
+          </div>
+
+          <div class="control">
+            <label>
+              Safe area overlay
+              <span class="value" id="safeVal">On</span>
+            </label>
+            <div class="toggles">
+              <div id="safeToggle" class="chip on" role="button" tabindex="0">Show safe zone</div>
+              <div id="mobileToggle" class="chip" role="button" tabindex="0">Emphasize mobile crop</div>
+            </div>
+            <div class="hint">
+              Safe zone is an approximate “keep important stuff here” guide. Real LinkedIn crop can vary by device and UI changes.
+            </div>
+          </div>
+
+          <div class="status" id="status">
+            <div class="line"><span class="dot" id="dotRes"></span><div id="msgRes"><b>No image yet.</b> Upload a banner to get feedback.</div></div>
+            <div class="line"><span class="dot" id="dotCrop"></span><div id="msgCrop">Drag/zoom until the crop feels right.</div></div>
+            <div class="line"><span class="dot" id="dotSafe"></span><div id="msgSafe">Keep text/faces inside the safe zone.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Preview -->
+      <div class="card previewWrap">
+        <div class="previewTopBar">
+          <div class="seg" aria-label="Preview mode">
+            <button id="viewBoth" class="on" type="button">Desktop + Mobile</button>
+            <button id="viewDesktop" type="button">Desktop only</button>
+            <button id="viewMobile" type="button">Mobile only</button>
+          </div>
+          <div class="spacer"></div>
+          <div class="hint">Drag banner: <span class="kbd">mouse</span> / <span class="kbd">touch</span></div>
+        </div>
+
+        <div class="mock" id="mock">
+          <div class="twoPreviews" id="two">
+            <div>
+              <p class="miniTitle">Desktop (approx)</p>
+              <div class="liCard">
+                <div class="bannerArea" data-kind="desktop">
+                  <canvas class="bannerCanvas" id="canvasDesktop"></canvas>
+                  <div class="safeOverlay on" id="safeDesktop">
+                    <div class="rect" id="safeRectDesktop"></div>
+                    <div class="label">Safe zone (desktop)</div>
+                  </div>
+                </div>
+                <div class="below">
+                  <div class="avatar"></div>
+                  <div class="liMeta">
+                    <div class="name">Your Name</div>
+                    <div class="headline">Headline goes here · Company · Location</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="miniTitle">Mobile (approx)</p>
+              <div class="liCard">
+                <div class="bannerArea" data-kind="mobile">
+                  <canvas class="bannerCanvas" id="canvasMobile"></canvas>
+                  <div class="safeOverlay on" id="safeMobile">
+                    <div class="rect" id="safeRectMobile"></div>
+                    <div class="label">Safe zone (mobile)</div>
+                  </div>
+                </div>
+                <div class="below">
+                  <div class="avatar"></div>
+                  <div class="liMeta">
+                    <div class="name">Your Name</div>
+                    <div class="headline">Headline goes here · Company · Location</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="single" style="display:none;"></div>
+        </div>
+
+        <div class="footNote">
+          This is a practical preview, not a pixel-perfect clone. LinkedIn may change UI and crop rules.
+          The goal is to prevent surprises and keep important content away from risky edges.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- LinkedIn banner preview (single file, no storage, no network) ----
+
+    // Recommended size (LinkedIn personal background photo)
+    const RECOMMENDED_W = 1584;
+    const RECOMMENDED_H = 396;
+    const RATIO = 4 / 1;
+
+    // Approximate visible crop differences (guide, not guarantee)
+    // Desktop: usually closer to full 4:1, Mobile: often center-cropped a bit.
+    const desktopSafe = { x: 0.10, y: 0.18, w: 0.80, h: 0.64 };
+    const mobileSafe  = { x: 0.17, y: 0.18, w: 0.66, h: 0.64 };
+
+    // State
+    let img = null;
+    let imgMeta = { w: 0, h: 0 };
+    let zoom = 1.0;
+    let mode = "fill"; // "fill" (cover) or "fit" (contain)
+    let offsetX = 0;   // in banner pixels (normalized later)
+    let offsetY = 0;
+    let dragging = false;
+    let last = { x: 0, y: 0 };
+    let showSafe = true;
+    let emphasizeMobile = false;
+
+    // Elements
+    const file = document.getElementById("file");
+    const drop = document.getElementById("drop");
+    const zoomEl = document.getElementById("zoom");
+    const zoomVal = document.getElementById("zoomVal");
+    const fitVal = document.getElementById("fitVal");
+    const modeFill = document.getElementById("modeFill");
+    const modeFit = document.getElementById("modeFit");
+    const safeToggle = document.getElementById("safeToggle");
+    const mobileToggle = document.getElementById("mobileToggle");
+    const safeVal = document.getElementById("safeVal");
+    const resetBtn = document.getElementById("resetBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const demoBtn = document.getElementById("demoBtn");
+
+    const canvasDesktop = document.getElementById("canvasDesktop");
+    const canvasMobile = document.getElementById("canvasMobile");
+    const ctxD = canvasDesktop.getContext("2d");
+    const ctxM = canvasMobile.getContext("2d");
+
+    const safeDesktop = document.getElementById("safeDesktop");
+    const safeMobile = document.getElementById("safeMobile");
+    const safeRectDesktop = document.getElementById("safeRectDesktop");
+    const safeRectMobile = document.getElementById("safeRectMobile");
+
+    const dotRes = document.getElementById("dotRes");
+    const dotCrop = document.getElementById("dotCrop");
+    const dotSafe = document.getElementById("dotSafe");
+    const msgRes = document.getElementById("msgRes");
+    const msgCrop = document.getElementById("msgCrop");
+    const msgSafe = document.getElementById("msgSafe");
+
+    const viewBoth = document.getElementById("viewBoth");
+    const viewDesktop = document.getElementById("viewDesktop");
+    const viewMobile = document.getElementById("viewMobile");
+    const two = document.getElementById("two");
+    const single = document.getElementById("single");
+
+    function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+    function setSeg(on){
+      [viewBoth, viewDesktop, viewMobile].forEach(b => b.classList.remove("on"));
+      on.classList.add("on");
+    }
+
+    function layoutSafeRects(){
+      // Place safe rectangles as percentages of the bannerArea (canvas size)
+      const wD = canvasDesktop.clientWidth || canvasDesktop.width;
+      const hD = canvasDesktop.clientHeight || canvasDesktop.height;
+      const wM = canvasMobile.clientWidth || canvasMobile.width;
+      const hM = canvasMobile.clientHeight || canvasMobile.height;
+
+      const ds = emphasizeMobile ? mobileSafe : desktopSafe;
+      safeRectDesktop.style.left = (ds.x * 100) + "%";
+      safeRectDesktop.style.top  = (ds.y * 100) + "%";
+      safeRectDesktop.style.width  = (ds.w * 100) + "%";
+      safeRectDesktop.style.height = (ds.h * 100) + "%";
+
+      const ms = mobileSafe;
+      safeRectMobile.style.left = (ms.x * 100) + "%";
+      safeRectMobile.style.top  = (ms.y * 100) + "%";
+      safeRectMobile.style.width  = (ms.w * 100) + "%";
+      safeRectMobile.style.height = (ms.h * 100) + "%";
+    }
+
+    function resizeCanvases(){
+      // Match canvas internal resolution to displayed size (sharp)
+      [canvasDesktop, canvasMobile].forEach(c => {
+        const rect = c.getBoundingClientRect();
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        c.width = Math.round(rect.width * dpr);
+        c.height = Math.round(rect.height * dpr);
+      });
+      layoutSafeRects();
+      renderAll();
+    }
+
+    window.addEventListener("resize", resizeCanvases);
+
+    function renderBanner(ctx, canvas, kind){
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Background if no image
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = "rgba(0,0,0,.18)";
+      ctx.fillRect(0,0,w,h);
+
+      if (!img){
+        // Placeholder
+        ctx.fillStyle = "rgba(255,255,255,.12)";
+        ctx.font = Math.round(14 * (window.devicePixelRatio||1)) + "px " + getComputedStyle(document.body).fontFamily;
+        ctx.fillText("Upload an image to preview your LinkedIn banner", Math.round(w*0.06), Math.round(h*0.55));
+        return;
+      }
+
+      const imgW = imgMeta.w, imgH = imgMeta.h;
+
+      // Desired canvas ratio is 4:1; image gets mapped with cover/contain + zoom + offsets
+      const canvasRatio = w / h;
+      const imgRatio = imgW / imgH;
+
+      // base scale to either cover or contain
+      let scale;
+      if (mode === "fill") {
+        scale = (imgRatio > canvasRatio) ? (h / imgH) : (w / imgW); // cover
+      } else {
+        scale = (imgRatio > canvasRatio) ? (w / imgW) : (h / imgH); // contain
+      }
+
+      // extra zoom
+      scale *= zoom;
+
+      // Mobile emphasis: simulate a slightly tighter center crop by applying a viewport padding
+      // We don't actually change the canvas size; we render the same banner but apply a gentle "auto-crop" feel on mobile.
+      // This is a guide effect, not a real rule.
+      let autoCropX = 0, autoCropY = 0;
+      if (kind === "mobile") {
+        autoCropX = emphasizeMobile ? 0.06 : 0.03; // push important content to center
+      } else {
+        autoCropX = emphasizeMobile ? 0.03 : 0.0;
+      }
+
+      // Centered placement
+      const drawW = imgW * scale;
+      const drawH = imgH * scale;
+
+      // offsets are in CSS pixels; convert to device pixels scale relative to DPR
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const ox = offsetX * dpr;
+      const oy = offsetY * dpr;
+
+      let x = (w - drawW)/2 + ox;
+      let y = (h - drawH)/2 + oy;
+
+      // Auto-crop guidance shifts (subtle)
+      x += (-(autoCropX) * w);
+      // y shift left as 0 for now (LinkedIn mostly crops horizontally)
+
+      // Draw image
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, x, y, drawW, drawH);
+
+      // If mode=fit and empty space exists, show subtle checker-ish fade
+      if (mode === "fit") {
+        // detect if any empty area exists
+        const fitsW = drawW < w - 1;
+        const fitsH = drawH < h - 1;
+        if (fitsW || fitsH) {
+          ctx.save();
+          ctx.fillStyle = "rgba(0,0,0,.25)";
+          // draw top/bottom or sides overlays to hint empty space
+          if (drawW < w) {
+            const left = x;
+            const right = x + drawW;
+            ctx.fillRect(0,0,Math.max(0,left),h);
+            ctx.fillRect(Math.min(w,right),0,Math.max(0,w-right),h);
+          }
+          if (drawH < h) {
+            const top = y;
+            const bottom = y + drawH;
+            ctx.fillRect(0,0,w,Math.max(0,top));
+            ctx.fillRect(0,Math.min(h,bottom),w,Math.max(0,h-bottom));
+          }
+          ctx.restore();
+        }
+      }
+    }
+
+    function renderAll(){
+      renderBanner(ctxD, canvasDesktop, "desktop");
+      renderBanner(ctxM, canvasMobile, "mobile");
+      updateStatus();
+    }
+
+    function updateStatus(){
+      if (!img){
+        dotRes.className = "dot";
+        dotCrop.className = "dot";
+        dotSafe.className = "dot";
+        msgRes.innerHTML = "<b>No image yet.</b> Upload a banner to get feedback.";
+        msgCrop.textContent = "Drag/zoom until the crop feels right.";
+        msgSafe.textContent = "Keep text/faces inside the safe zone.";
+        return;
+      }
+
+      // Resolution check
+      const tooSmall = (imgMeta.w < RECOMMENDED_W) || (imgMeta.h < RECOMMENDED_H);
+      const muchSmaller = (imgMeta.w < RECOMMENDED_W*0.75) || (imgMeta.h < RECOMMENDED_H*0.75);
+      if (muchSmaller){
+        dotRes.className = "dot bad";
+        msgRes.innerHTML = `<b>Low resolution:</b> ${imgMeta.w}×${imgMeta.h}. Likely blurry on LinkedIn. Aim for at least ${RECOMMENDED_W}×${RECOMMENDED_H}.`;
+      } else if (tooSmall){
+        dotRes.className = "dot warn";
+        msgRes.innerHTML = `<b>Borderline resolution:</b> ${imgMeta.w}×${imgMeta.h}. Might look soft. Recommended: ${RECOMMENDED_W}×${RECOMMENDED_H} or bigger.`;
+      } else {
+        dotRes.className = "dot good";
+        msgRes.innerHTML = `<b>Resolution looks fine:</b> ${imgMeta.w}×${imgMeta.h}.`;
+      }
+
+      // Crop risk heuristic: if fill mode + zoom > 1.3 => likely heavy crop
+      const heavyCrop = (mode === "fill" && zoom >= 1.35);
+      if (heavyCrop){
+        dotCrop.className = "dot warn";
+        msgCrop.innerHTML = `<b>Crop is aggressive.</b> Consider lowering zoom or keeping critical content centered.`;
+      } else {
+        dotCrop.className = "dot good";
+        msgCrop.innerHTML = `<b>Crop looks reasonable.</b> If anything important is near edges, adjust slightly.`;
+      }
+
+      // Safe zone guidance
+      if (!showSafe){
+        dotSafe.className = "dot warn";
+        msgSafe.innerHTML = `<b>Safe zone hidden.</b> Turn it on if your banner contains faces, logos, or text.`;
+      } else if (emphasizeMobile){
+        dotSafe.className = "dot warn";
+        msgSafe.innerHTML = `<b>Mobile crop emphasized.</b> Keep important content inside the tighter (mobile) safe zone.`;
+      } else {
+        dotSafe.className = "dot good";
+        msgSafe.innerHTML = `<b>Safe zone shown.</b> Keep important content inside it for best results.`;
+      }
+    }
+
+    function setMode(next){
+      mode = next;
+      modeFill.classList.toggle("on", mode==="fill");
+      modeFit.classList.toggle("on", mode==="fit");
+      fitVal.textContent = mode==="fill" ? "Fill (cover)" : "Fit (contain)";
+      renderAll();
+    }
+
+    function setSafe(on){
+      showSafe = on;
+      safeToggle.classList.toggle("on", showSafe);
+      safeDesktop.classList.toggle("on", showSafe);
+      safeMobile.classList.toggle("on", showSafe);
+      safeVal.textContent = showSafe ? "On" : "Off";
+      renderAll();
+    }
+
+    function setMobileEmphasis(on){
+      emphasizeMobile = on;
+      mobileToggle.classList.toggle("on", emphasizeMobile);
+      layoutSafeRects();
+      renderAll();
+    }
+
+    function resetView(){
+      zoomEl.value = 100;
+      zoom = 1.0;
+      zoomVal.textContent = "100%";
+      offsetX = 0;
+      offsetY = 0;
+      mode = "fill";
+      setMode("fill");
+      setSafe(true);
+      setMobileEmphasis(false);
+      renderAll();
+    }
+
+    function loadImageFromFile(f){
+      const reader = new FileReader();
+      reader.onload = () => {
+        const i = new Image();
+        i.onload = () => {
+          img = i;
+          imgMeta.w = i.naturalWidth;
+          imgMeta.h = i.naturalHeight;
+          offsetX = 0;
+          offsetY = 0;
+          zoom = 1.0;
+          zoomEl.value = 100;
+          zoomVal.textContent = "100%";
+          renderAll();
+        };
+        i.src = reader.result;
+      };
+      reader.readAsDataURL(f);
+    }
+
+    // Demo image (generated on the fly)
+    function loadDemo(){
+      const c = document.createElement("canvas");
+      c.width = 2200;
+      c.height = 550; // 4:1
+      const g = c.getContext("2d");
+      const grd = g.createLinearGradient(0,0,c.width,c.height);
+      grd.addColorStop(0, "#0b0f14");
+      grd.addColorStop(0.45, "#1a2550");
+      grd.addColorStop(1, "#0f2a1a");
+      g.fillStyle = grd;
+      g.fillRect(0,0,c.width,c.height);
+
+      g.fillStyle = "rgba(255,255,255,.10)";
+      for(let k=0;k<26;k++){
+        const x = (k/26)*c.width;
+        g.fillRect(x, 0, 2, c.height);
+      }
+      g.fillStyle = "rgba(255,255,255,.18)";
+      g.beginPath();
+      g.arc(c.width*0.22, c.height*0.35, 150, 0, Math.PI*2);
+      g.fill();
+      g.fillStyle = "rgba(255,255,255,.12)";
+      g.beginPath();
+      g.arc(c.width*0.72, c.height*0.68, 220, 0, Math.PI*2);
+      g.fill();
+
+      const i = new Image();
+      i.onload = () => {
+        img = i;
+        imgMeta.w = i.naturalWidth;
+        imgMeta.h = i.naturalHeight;
+        resetView();
+        renderAll();
+      };
+      i.src = c.toDataURL("image/png");
+    }
+
+    // Drag handling for both banners (shared state)
+    function attachDrag(el){
+      const getPoint = (ev) => {
+        if (ev.touches && ev.touches[0]) return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+        return { x: ev.clientX, y: ev.clientY };
+      };
+
+      el.addEventListener("mousedown", (ev) => {
+        dragging = true;
+        last = getPoint(ev);
+      });
+      window.addEventListener("mouseup", () => dragging = false);
+      window.addEventListener("mousemove", (ev) => {
+        if (!dragging || !img) return;
+        const p = getPoint(ev);
+        offsetX += (p.x - last.x);
+        offsetY += (p.y - last.y);
+        last = p;
+        renderAll();
+      });
+
+      el.addEventListener("touchstart", (ev) => {
+        dragging = true;
+        last = getPoint(ev);
+      }, {passive:true});
+      window.addEventListener("touchend", () => dragging = false, {passive:true});
+      window.addEventListener("touchmove", (ev) => {
+        if (!dragging || !img) return;
+        const p = getPoint(ev);
+        offsetX += (p.x - last.x);
+        offsetY += (p.y - last.y);
+        last = p;
+        renderAll();
+      }, {passive:true});
+    }
+
+    // Drop zone
+    drop.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      drop.classList.add("dragover");
+    });
+    drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
+    drop.addEventListener("drop", (e) => {
+      e.preventDefault();
+      drop.classList.remove("dragover");
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) loadImageFromFile(f);
+    });
+
+    // UI bindings
+    file.addEventListener("change", (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) loadImageFromFile(f);
+      file.value = "";
+    });
+
+    zoomEl.addEventListener("input", () => {
+      zoom = parseInt(zoomEl.value, 10) / 100;
+      zoomVal.textContent = `${Math.round(zoom*100)}%`;
+      renderAll();
+    });
+
+    modeFill.addEventListener("click", () => setMode("fill"));
+    modeFit.addEventListener("click", () => setMode("fit"));
+
+    safeToggle.addEventListener("click", () => setSafe(!showSafe));
+    mobileToggle.addEventListener("click", () => setMobileEmphasis(!emphasizeMobile));
+
+    resetBtn.addEventListener("click", resetView);
+    clearBtn.addEventListener("click", () => {
+      img = null;
+      imgMeta = { w: 0, h: 0 };
+      offsetX = 0; offsetY = 0;
+      zoom = 1.0;
+      renderAll();
+    });
+    demoBtn.addEventListener("click", loadDemo);
+
+    // Preview mode segment
+    function showBoth(){
+      setSeg(viewBoth);
+      two.style.display = "";
+      single.style.display = "none";
+    }
+    function showOne(kind){
+      setSeg(kind==="desktop" ? viewDesktop : viewMobile);
+      two.style.display = "none";
+      single.style.display = "";
+      single.innerHTML = "";
+
+      const block = document.createElement("div");
+      const label = document.createElement("p");
+      label.className = "miniTitle";
+      label.textContent = kind==="desktop" ? "Desktop (approx)" : "Mobile (approx)";
+
+      const card = document.createElement("div");
+      card.className = "liCard";
+
+      const banner = document.createElement("div");
+      banner.className = "bannerArea";
+      banner.dataset.kind = kind;
+
+      const c = document.createElement("canvas");
+      c.className = "bannerCanvas";
+
+      const overlay = document.createElement("div");
+      overlay.className = "safeOverlay " + (showSafe ? "on" : "");
+      const rect = document.createElement("div");
+      rect.className = "rect";
+      const lab = document.createElement("div");
+      lab.className = "label";
+      lab.textContent = kind==="desktop" ? "Safe zone (desktop)" : "Safe zone (mobile)";
+      overlay.appendChild(rect);
+      overlay.appendChild(lab);
+
+      banner.appendChild(c);
+      banner.appendChild(overlay);
+
+      const below = document.createElement("div");
+      below.className = "below";
+      const av = document.createElement("div");
+      av.className = "avatar";
+      const meta = document.createElement("div");
+      meta.className = "liMeta";
+      meta.innerHTML = `<div class="name">Your Name</div><div class="headline">Headline goes here · Company · Location</div>`;
+      below.appendChild(av); below.appendChild(meta);
+
+      card.appendChild(banner);
+      card.appendChild(below);
+
+      block.appendChild(label);
+      block.appendChild(card);
+      single.appendChild(block);
+
+      // set canvas size
+      const ctx = c.getContext("2d");
+      const resize = () => {
+        const rectB = banner.getBoundingClientRect();
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        c.width = Math.round(rectB.width * dpr);
+        c.height = Math.round(rectB.height * dpr);
+
+        // safe rect sizing
+        const s = (kind==="mobile") ? mobileSafe : (emphasizeMobile ? mobileSafe : desktopSafe);
+        rect.style.left = (s.x*100)+"%";
+        rect.style.top = (s.y*100)+"%";
+        rect.style.width = (s.w*100)+"%";
+        rect.style.height = (s.h*100)+"%";
+        overlay.classList.toggle("on", showSafe);
+
+        // render
+        renderBanner(ctx, c, kind);
+      };
+      resize();
+      attachDrag(banner);
+      window.addEventListener("resize", resize, { once:true });
+    }
+
+    viewBoth.addEventListener("click", showBoth);
+    viewDesktop.addEventListener("click", () => showOne("desktop"));
+    viewMobile.addEventListener("click", () => showOne("mobile"));
+
+    // Attach drag to existing previews
+    document.querySelectorAll(".bannerArea").forEach(attachDrag);
+
+    // Init
+    setMode("fill");
+    setSafe(true);
+    setMobileEmphasis(false);
+
+    // First sizing after paint
+    requestAnimationFrame(() => {
+      resizeCanvases();
+      renderAll();
+    });
+  </script>
+</body>
+</html>
