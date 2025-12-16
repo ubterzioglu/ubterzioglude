@@ -9,14 +9,15 @@
   <link rel="canonical" href="https://ubterzioglu.de/zprefit/zprefit.html" />
   <meta name="robots" content="index, follow" />
 
-  <link rel="stylesheet" href="./styles.css" />
+  <!-- NOTE: your folder shows style.css (not styles.css) -->
+  <link rel="stylesheet" href="./style.css" />
 
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"WebPage",
     "name":"ZPREFIT",
-    "description":"Preview how your images will look on social platforms before you upload. Start with LinkedIn banner.",
+    "description":"Preview how your images will look on social platforms before you upload.",
     "url":"https://ubterzioglu.de/zprefit/zprefit.html",
     "isPartOf":{
       "@type":"WebSite",
@@ -37,7 +38,7 @@
       <div class="title">
         <h1>ZPREFIT</h1>
         <p class="sub">
-          Upload once, preview like the platform. Start with LinkedIn Banner.
+          Upload once, preview like the platform.
           Nothing leaves your browser.
         </p>
       </div>
@@ -73,9 +74,7 @@
               <button id="clearBtn" class="btn danger" type="button">Clear</button>
             </div>
 
-            <p class="hint" id="templateHint">
-              <!-- filled by app.js (recommended size, ratio, etc.) -->
-            </p>
+            <p class="hint" id="templateHint"></p>
           </div>
 
           <!-- Dynamic controls (shown/hidden per template) -->
@@ -100,7 +99,7 @@
                 <button id="modeFit" class="chip" type="button">Fit (contain)</button>
               </div>
               <p class="hint">
-                Fill is closest to real platform behavior (may crop edges). Fit avoids cropping but may show empty space.
+                Fill is closest to platform behavior (may crop edges). Fit avoids cropping but may show empty space.
               </p>
             </div>
 
@@ -151,56 +150,51 @@
 
           <div class="spacer"></div>
 
-          <div class="hint">
-            Drag inside preview to reposition
-          </div>
+          <div class="hint">Drag inside preview to reposition</div>
         </div>
 
         <div class="mock" id="previewRoot">
           <!-- app.js renders the selected template preview here -->
         </div>
 
-        <footer class="footNote" id="footNote">
-          <!-- template-specific note (optional) -->
-        </footer>
+        <footer class="footNote" id="footNote"></footer>
       </section>
     </main>
   </div>
 
- <!-- Templates -->
-<script src="./templates/linkedin.js"></script>
-<script src="./templates/linkedin-profile.js"></script>
-<script src="./templates/linkedin-company-banner.js"></script>
+  <!-- Templates (load BEFORE app.js). Keep in the same order as your folder if you want. -->
+  <script src="./templates/linkedin.js"></script>
+  <script src="./templates/linkedin-profil.js"></script>
+  <script src="./templates/linkedin-company-banner.js"></script>
 
-<script src="./templates/instagram-profile.js"></script>
-<script src="./templates/instagram-banner.js"></script>
+  <script src="./templates/instagram-profil.js"></script>
+  <script src="./templates/instagram-banner.js"></script>
 
-<script src="./templates/reddit-profile.js"></script>
-<script src="./templates/reddit-banner.js"></script>
+  <script src="./templates/github-profile.js"></script>
+  <script src="./templates/github-repo-social.js"></script>
 
-<script src="./templates/x-profile.js"></script>
-<script src="./templates/x-header.js"></script>
+  <script src="./templates/x-profile.js"></script>
+  <script src="./templates/x-header.js"></script>
 
-<script src="./templates/youtube-channel-art.js"></script>
+  <script src="./templates/reddit-profil.js"></script>
+  <script src="./templates/reddit-banner.js"></script>
 
-<script src="./templates/github-profile.js"></script>
-<script src="./templates/github-repo-social.js"></script>
+  <script src="./templates/discord-server-icon.js"></script>
+  <script src="./templates/discord-server-banner.js"></script>
 
-<script src="./templates/discord-server-icon.js"></script>
-<script src="./templates/discord-server-banner.js"></script>
+  <script src="./templates/medium-profile.js"></script>
+  <script src="./templates/medium-article-header.js"></script>
 
-<script src="./templates/tiktok-profile.js"></script>
-<script src="./templates/tiktok-video-cover.js"></script>
+  <script src="./templates/tiktok-profile.js"></script>
+  <script src="./templates/tiktok-video-cover.js"></script>
 
-<script src="./templates/medium-profile.js"></script>
-<script src="./templates/medium-article-header.js"></script>
+  <script src="./templates/twitch-profile-banner.js"></script>
+  <script src="./templates/twitch-offline-screen.js"></script>
+  <script src="./templates/twitch-panel-image.js"></script>
 
-<script src="./templates/twitch-profile-banner.js"></script>
-<script src="./templates/twitch-offline-screen.js"></script>
-<script src="./templates/twitch-panel-image.js"></script>
+  <script src="./templates/youtube-channel-art.js"></script>
 
-<!-- App core -->
-<script src="./app.js"></script>
-
+  <!-- App core -->
+  <script src="./app.js"></script>
 </body>
 </html>
