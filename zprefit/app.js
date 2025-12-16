@@ -1,7 +1,7 @@
 /* app.js — ZPREFIT core
    - Template registry driven (options grow as you add templates)
    - No storage, no network
-   - Starts with LinkedIn Banner (from templates/linkedin.js)
+   - Renderer currently supports: linkedin.banner
 */
 
 (() => {
@@ -9,10 +9,55 @@
   const $ = (id) => document.getElementById(id);
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
+  // Accept both {w,h} and {width,height}
+  const getRec = (t) => {
+    const r = t?.recommended || {};
+    const w = r.width ?? r.w ?? 0;
+    const h = r.height ?? r.h ?? 0;
+    return { w, h };
+  };
+
+  // Accept defaults.zoom as 1.0 or 100-style, accept cover/contain naming too
+  const getDefaults = (t) => {
+    const d = t?.defaults || {};
+    let zoom = d.zoom ?? 1.0;
+
+    // If someone set zoom as 100 instead of 1.0, normalize
+    if (typeof zoom === "number" && zoom > 10) zoom = zoom / 100;
+
+    // mode: "fill"|"fit" (internal)
+    // accept: "fill"/"fit" OR "cover"/"contain" OR "fitMode"
+    const fitMode = d.fitMode ?? d.mode ?? "fill";
+    let mode = fitMode;
+
+    if (mode === "cover") mode = "fill";
+    if (mode === "contain") mode = "fit";
+    if (mode !== "fill" && mode !== "fit") mode = "fill";
+
+    return { zoom, mode };
+  };
+
+  // Accept safeZones as:
+  // A) { desktop:{x,y,w,h}, mobile:{x,y,w,h} }
+  // B) [ {..desktop..}, {..mobile..} ]
+  const getZones = (t) => {
+    const z = t?.safeZones;
+    if (!z) return { desktop: null, mobile: null };
+
+    if (Array.isArray(z)) {
+      const desktop = z[0] || null;
+      const mobile = z.find(x => (x?.emphasis === "mobile") || (x?.id || "").includes("mobile")) || z[1] || desktop || null;
+      return { desktop, mobile };
+    }
+
+    return { desktop: z.desktop || null, mobile: z.mobile || null };
+  };
+
   // ---------- DOM ----------
   const templateSelect = $("templateSelect");
   const drop = $("drop");
   const fileInput = $("fileInput");
+  const btnUpload = $("btnUpload");
   const demoBtn = $("demoBtn");
   const clearBtn = $("clearBtn");
   const resetBtn = $("resetBtn");
@@ -46,14 +91,12 @@
   const msgSafe = $("msgSafe");
 
   // ---------- Templates ----------
-  // templates/linkedin.js should set: window.ZPREFIT_TEMPLATES = [...]
   const templates = Array.isArray(window.ZPREFIT_TEMPLATES) ? window.ZPREFIT_TEMPLATES : [];
 
   if (!templates.length) {
-    templateHint.textContent = "No templates loaded. Did you include ./templates/linkedin.js before app.js?";
+    templateHint.textContent = "No templates loaded. Did you include template scripts before app.js?";
   }
 
-  // Choose first template as default
   let activeTemplate = templates[0] || null;
 
   // ---------- State ----------
@@ -63,16 +106,16 @@
   const state = {
     zoom: 1.0,
     mode: "fill",           // "fill" (cover) or "fit" (contain)
-    offsetX: 0,             // CSS pixels (drag)
+    offsetX: 0,
     offsetY: 0,
     showSafe: true,
-    emphasizeMobile: false, // makes mobile crop guide tighter + safe zone tighter
-    view: "both"            // "both" | "desktop" | "mobile"
+    emphasizeMobile: false,
+    view: "both"
   };
 
   // Preview node refs (rebuilt per template)
   let previewNodes = {
-    desktop: null, // { area, canvas, ctx, overlay, rect }
+    desktop: null,
     mobile: null
   };
 
@@ -104,8 +147,11 @@
   function resetViewToTemplateDefaults() {
     if (!activeTemplate) return;
 
-    state.zoom = activeTemplate.defaults?.zoom ?? 1.0;
-    state.mode = activeTemplate.defaults?.mode ?? "fill";
+    const defs = getDefaults(activeTemplate);
+
+    state.zoom = defs.zoom;
+    state.mode = defs.mode;
+
     state.offsetX = 0;
     state.offsetY = 0;
 
@@ -120,16 +166,18 @@
   function applyTemplateCopy() {
     if (!activeTemplate) return;
 
-    const rec = activeTemplate.recommended;
+    const rec = getRec(activeTemplate);
     const ratioTxt = activeTemplate.aspectRatio ? `${(activeTemplate.aspectRatio).toFixed(2)}:1` : "";
-    const recTxt = rec ? `${rec.w}×${rec.h}` : "—";
+    const recTxt = (rec.w && rec.h) ? `${rec.w}×${rec.h}` : "—";
 
     templateHint.innerHTML =
       `Recommended: <b>${recTxt}</b>` +
       (activeTemplate.aspectRatio ? ` · Ratio: <b>${activeTemplate.aspectRatio === 4 ? "4:1" : ratioTxt}</b>` : "") +
       (activeTemplate.hint ? `<br/>${activeTemplate.hint}` : "");
 
-    footNote.textContent = activeTemplate.footnote || "This is a practical preview, not a pixel-perfect clone. Platforms may change UI and crop rules.";
+    footNote.textContent =
+      activeTemplate.footnote ||
+      "This is a practical preview, not a pixel-perfect clone. Platforms may change UI and crop rules.";
   }
 
   function showHideControls() {
@@ -145,8 +193,8 @@
     set("fitmode", !!c.fitmode);
     set("safezone", !!c.safezone);
 
-    // Mobile toggle is only meaningful if template has mobile safe zone
-    const hasMobile = !!activeTemplate.safeZones?.mobile;
+    const zones = getZones(activeTemplate);
+    const hasMobile = !!zones.mobile;
     mobileToggleBtn.style.display = (c.safezone && hasMobile) ? "" : "none";
   }
 
@@ -216,7 +264,6 @@
 
     if (!activeTemplate) return;
 
-    // For now: only LinkedIn Banner type supported
     if (activeTemplate.type !== "linkedin.banner") {
       const p = document.createElement("p");
       p.className = "hint";
@@ -242,7 +289,6 @@
     attachDrag(desk.area);
     attachDrag(mob.area);
 
-    // Ensure canvases are correctly sized
     resizeCanvases();
     syncViewMode();
   }
@@ -258,10 +304,13 @@
   function applySafeRect(node, kind) {
     if (!node || !activeTemplate) return;
 
-    const zones = activeTemplate.safeZones || {};
+    const zones = getZones(activeTemplate);
+    const desktopZ = zones.desktop || zones.mobile;
+    const mobileZ = zones.mobile || zones.desktop;
+
     const z = (kind === "mobile")
-      ? (zones.mobile || zones.desktop)
-      : (state.emphasizeMobile ? (zones.mobile || zones.desktop) : (zones.desktop || zones.mobile));
+      ? (mobileZ || desktopZ)
+      : (state.emphasizeMobile ? (mobileZ || desktopZ) : (desktopZ || mobileZ));
 
     if (!z) return;
 
@@ -295,7 +344,6 @@
     const w = c.width;
     const h = c.height;
 
-    // Background
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = "rgba(0,0,0,.18)";
     ctx.fillRect(0, 0, w, h);
@@ -311,7 +359,6 @@
     const canvasRatio = w / h;
     const imgRatio = imgW / imgH;
 
-    // Base scale: cover vs contain
     let scale;
     if (state.mode === "fill") {
       scale = (imgRatio > canvasRatio) ? (h / imgH) : (w / imgW); // cover
@@ -330,7 +377,6 @@
     let x = (w - drawW) / 2 + ox;
     let y = (h - drawH) / 2 + oy;
 
-    // Subtle “mobile crop feels tighter” guidance (not a hard rule)
     const mobileAutoCrop = activeTemplate.cropGuidance?.mobileTighter;
     if (kind === "mobile" && mobileAutoCrop) {
       const shift = state.emphasizeMobile ? 0.06 : 0.03;
@@ -341,7 +387,6 @@
     ctx.imageSmoothingQuality = "high";
     ctx.drawImage(img, x, y, drawW, drawH);
 
-    // If "fit" produces empty space, tint it slightly to make it obvious
     if (state.mode === "fit") {
       const fitsW = drawW < w - 1;
       const fitsH = drawH < h - 1;
@@ -364,7 +409,6 @@
       }
     }
 
-    // Overlay visibility
     node.overlay.classList.toggle("on", state.showSafe);
   }
 
@@ -396,8 +440,7 @@
       return;
     }
 
-    // Resolution
-    const rec = activeTemplate.recommended || { w: 0, h: 0 };
+    const rec = getRec(activeTemplate);
     const tooSmall = rec.w && rec.h && (imgMeta.w < rec.w || imgMeta.h < rec.h);
     const muchSmaller = rec.w && rec.h && (imgMeta.w < rec.w * 0.75 || imgMeta.h < rec.h * 0.75);
 
@@ -412,7 +455,6 @@
       msgRes.innerHTML = `<b>Resolution looks fine:</b> ${imgMeta.w}×${imgMeta.h}.`;
     }
 
-    // Crop aggressiveness heuristic
     const heavyCrop = (state.mode === "fill" && state.zoom >= 1.35);
     if (heavyCrop) {
       setDot(dotCrop, "warn");
@@ -422,7 +464,6 @@
       msgCrop.innerHTML = `<b>Crop looks reasonable.</b> If anything important is near edges, adjust slightly.`;
     }
 
-    // Safe zone
     if (!state.showSafe) {
       setDot(dotSafe, "warn");
       msgSafe.innerHTML = `<b>Safe zone hidden.</b> Turn it on if your banner contains faces, logos, or text.`;
@@ -488,8 +529,11 @@
         img = i;
         imgMeta.w = i.naturalWidth;
         imgMeta.h = i.naturalHeight;
+
+        // reset position for new image
         state.offsetX = 0;
         state.offsetY = 0;
+
         renderAll();
       };
       i.src = reader.result;
@@ -544,6 +588,14 @@
     if (f) loadImageFromFile(f);
   });
 
+  // Upload button -> open picker (important for your new HTML)
+  if (btnUpload) {
+    btnUpload.addEventListener("click", (e) => {
+      e.preventDefault();
+      fileInput?.click();
+    });
+  }
+
   // File input
   fileInput.addEventListener("change", (e) => {
     const f = e.target.files && e.target.files[0];
@@ -597,7 +649,6 @@
   function setMobileEmphasis(on) {
     state.emphasizeMobile = on;
     mobileToggleBtn.classList.toggle("on", state.emphasizeMobile);
-    // Re-apply safe rect sizes because desktop safe zone changes when emphasizing mobile
     applySafeRect(previewNodes.desktop, "desktop");
     applySafeRect(previewNodes.mobile, "mobile");
     renderAll();
@@ -616,7 +667,7 @@
     const grid = previewRoot.querySelector(".previewGrid2");
     if (!grid) return;
 
-    const blocks = Array.from(grid.children); // 2 blocks
+    const blocks = Array.from(grid.children);
     const showDesk = state.view === "both" || state.view === "desktop";
     const showMob = state.view === "both" || state.view === "mobile";
 
@@ -675,7 +726,6 @@
     rebuildPreview();
     syncUIFromState();
 
-    // Initial paint after layout
     requestAnimationFrame(() => {
       resizeCanvases();
       renderAll();

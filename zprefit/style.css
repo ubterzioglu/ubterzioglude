@@ -390,3 +390,12 @@ input[type="range"]{ width:100%; }
   overflow:hidden;
   text-overflow:ellipsis;
 }
+.drop,
+.drop * {
+  pointer-events: auto;
+}
+
+.drop::before,
+.drop::after {
+  pointer-events: none;
+}
