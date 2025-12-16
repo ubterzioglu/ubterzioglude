@@ -1,472 +1,347 @@
 /* app.js — ZPREFIT core
-   - Static / no storage / no network
-   - Template registry driven (window.ZPREFIT_TEMPLATES)
-   - MVP: banner renderer (LinkedIn banner)
+   - Template registry driven (options grow as you add templates)
+   - No storage, no network
+   - Starts with LinkedIn Banner (from templates/linkedin.js)
 */
 
-(function () {
-  "use strict";
-
-  // ---------- Registry ----------
-  const TEMPLATES = Array.isArray(window.ZPREFIT_TEMPLATES) ? window.ZPREFIT_TEMPLATES : [];
-  if (!TEMPLATES.length) {
-    console.warn("ZPREFIT: No templates found. Did you include templates/*.js before app.js ?");
-  }
-
-  // ---------- DOM ----------
-  const el = {
-    templateSelect: document.getElementById("templateSelect"),
-    templateHint: document.getElementById("templateHint"),
-    footNote: document.getElementById("footNote"),
-
-    drop: document.getElementById("drop"),
-    fileInput: document.getElementById("fileInput"),
-    demoBtn: document.getElementById("demoBtn"),
-    clearBtn: document.getElementById("clearBtn"),
-    resetBtn: document.getElementById("resetBtn"),
-
-    controlsArea: document.getElementById("controlsArea"),
-
-    zoom: document.getElementById("zoom"),
-    zoomVal: document.getElementById("zoomVal"),
-
-    modeFill: document.getElementById("modeFill"),
-    modeFit: document.getElementById("modeFit"),
-    fitVal: document.getElementById("fitVal"),
-
-    safeToggle: document.getElementById("safeToggle"),
-    mobileToggle: document.getElementById("mobileToggle"),
-    safeVal: document.getElementById("safeVal"),
-
-    dotRes: document.getElementById("dotRes"),
-    dotCrop: document.getElementById("dotCrop"),
-    dotSafe: document.getElementById("dotSafe"),
-    msgRes: document.getElementById("msgRes"),
-    msgCrop: document.getElementById("msgCrop"),
-    msgSafe: document.getElementById("msgSafe"),
-
-    viewBoth: document.getElementById("viewBoth"),
-    viewDesktop: document.getElementById("viewDesktop"),
-    viewMobile: document.getElementById("viewMobile"),
-
-    previewRoot: document.getElementById("previewRoot")
-  };
-
-  // ---------- Utils ----------
+(() => {
+  // ---------- Helpers ----------
+  const $ = (id) => document.getElementById(id);
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-  function setDot(dotEl, kind /* good|warn|bad|empty */) {
-    dotEl.className = "dot" + (kind ? ` ${kind}` : "");
+  // ---------- DOM ----------
+  const templateSelect = $("templateSelect");
+  const drop = $("drop");
+  const fileInput = $("fileInput");
+  const demoBtn = $("demoBtn");
+  const clearBtn = $("clearBtn");
+  const resetBtn = $("resetBtn");
+
+  const templateHint = $("templateHint");
+  const controlsArea = $("controlsArea");
+
+  const zoomEl = $("zoom");
+  const zoomVal = $("zoomVal");
+
+  const modeFillBtn = $("modeFill");
+  const modeFitBtn = $("modeFit");
+  const fitVal = $("fitVal");
+
+  const safeToggleBtn = $("safeToggle");
+  const mobileToggleBtn = $("mobileToggle");
+  const safeVal = $("safeVal");
+
+  const previewRoot = $("previewRoot");
+  const footNote = $("footNote");
+
+  const viewBothBtn = $("viewBoth");
+  const viewDesktopBtn = $("viewDesktop");
+  const viewMobileBtn = $("viewMobile");
+
+  const dotRes = $("dotRes");
+  const dotCrop = $("dotCrop");
+  const dotSafe = $("dotSafe");
+  const msgRes = $("msgRes");
+  const msgCrop = $("msgCrop");
+  const msgSafe = $("msgSafe");
+
+  // ---------- Templates ----------
+  // templates/linkedin.js should set: window.ZPREFIT_TEMPLATES = [...]
+  const templates = Array.isArray(window.ZPREFIT_TEMPLATES) ? window.ZPREFIT_TEMPLATES : [];
+
+  if (!templates.length) {
+    templateHint.textContent = "No templates loaded. Did you include ./templates/linkedin.js before app.js?";
   }
 
-  function setSeg(activeBtn) {
-    [el.viewBoth, el.viewDesktop, el.viewMobile].forEach(b => b.classList.remove("on"));
-    activeBtn.classList.add("on");
-  }
-
-  function fmtWH(w, h) {
-    return `${Math.round(w)}×${Math.round(h)}`;
-  }
-
-  function dpr() {
-    return Math.max(1, window.devicePixelRatio || 1);
-  }
+  // Choose first template as default
+  let activeTemplate = templates[0] || null;
 
   // ---------- State ----------
+  let img = null;
+  let imgMeta = { w: 0, h: 0 };
+
   const state = {
-    template: null,
-
-    // image
-    img: null,
-    imgW: 0,
-    imgH: 0,
-
-    // view
-    viewMode: "both", // both | desktop | mobile
-
-    // transforms
     zoom: 1.0,
-    mode: "fill", // fill | fit
-    offsetX: 0,   // in CSS px
+    mode: "fill",           // "fill" (cover) or "fit" (contain)
+    offsetX: 0,             // CSS pixels (drag)
     offsetY: 0,
-
-    // overlays
     showSafe: true,
-    emphasizeMobile: false,
-
-    // runtime refs (current preview)
-    preview: {
-      canvases: [],      // [{kind, canvas, ctx, bannerEl, overlayEl, rectEl}]
-      resizeHandler: null
-    }
+    emphasizeMobile: false, // makes mobile crop guide tighter + safe zone tighter
+    view: "both"            // "both" | "desktop" | "mobile"
   };
 
-  // ---------- Template-driven UI ----------
+  // Preview node refs (rebuilt per template)
+  let previewNodes = {
+    desktop: null, // { area, canvas, ctx, overlay, rect }
+    mobile: null
+  };
+
+  // ---------- Init: template select ----------
   function buildTemplateSelect() {
-    el.templateSelect.innerHTML = "";
-    TEMPLATES.forEach(t => {
+    templateSelect.innerHTML = "";
+    templates.forEach((t) => {
       const opt = document.createElement("option");
       opt.value = t.id;
       opt.textContent = t.label || t.id;
-      el.templateSelect.appendChild(opt);
+      templateSelect.appendChild(opt);
     });
 
-    // default select first
-    if (TEMPLATES.length) {
-      el.templateSelect.value = TEMPLATES[0].id;
-    }
+    if (activeTemplate) templateSelect.value = activeTemplate.id;
   }
 
-  function getTemplateById(id) {
-    return TEMPLATES.find(t => t.id === id) || null;
-  }
+  function setActiveTemplate(id) {
+    const t = templates.find(x => x.id === id);
+    if (!t) return;
 
-  function applyTemplate(t) {
-    state.template = t;
-
-    // defaults
-    const def = (t && t.defaults) ? t.defaults : {};
-    state.mode = def.mode || "fill";
-    state.zoom = typeof def.zoom === "number" ? def.zoom : 1.0;
-    state.showSafe = def.showSafe !== false;
-    state.emphasizeMobile = !!def.emphasizeMobile;
-    state.offsetX = 0;
-    state.offsetY = 0;
-    state.viewMode = "both";
-    setSeg(el.viewBoth);
-
-    // controls visibility
-    const c = (t && t.controls) ? t.controls : {};
-    toggleControl("zoom", !!c.zoom);
-    toggleControl("fitmode", !!c.fitMode);
-    toggleControl("safezone", !!c.safeZone);
-
-    // mobile emphasis toggle lives under safezone section
-    el.mobileToggle.style.display = c.mobileEmphasis ? "" : "none";
-
-    // hint text
-    if (t && t.recommended && t.aspectRatio) {
-      const rec = t.recommended;
-      el.templateHint.innerHTML =
-        `Recommended: <b>${fmtWH(rec.w, rec.h)}</b> (${Math.round(t.aspectRatio * 100) / 100}:1). Bigger is fine; too small may look blurry.`;
-    } else {
-      el.templateHint.textContent = "";
-    }
-
-    el.footNote.textContent = (t && t.notes) ? t.notes : "";
-
-    // sync control UI values
-    syncControlsUI();
-
-    // rebuild preview DOM for this template
-    renderTemplatePreview();
+    activeTemplate = t;
+    resetViewToTemplateDefaults();
+    rebuildPreview();
+    syncUIFromState();
     renderAll();
   }
 
-  function toggleControl(name, on) {
-    const node = el.controlsArea.querySelector(`[data-control="${name}"]`);
-    if (node) node.style.display = on ? "" : "none";
+  // ---------- Template-driven UI ----------
+  function resetViewToTemplateDefaults() {
+    if (!activeTemplate) return;
+
+    state.zoom = activeTemplate.defaults?.zoom ?? 1.0;
+    state.mode = activeTemplate.defaults?.mode ?? "fill";
+    state.offsetX = 0;
+    state.offsetY = 0;
+
+    state.showSafe = true;
+    state.emphasizeMobile = false;
+    state.view = "both";
+
+    zoomEl.value = Math.round(state.zoom * 100);
+    zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
   }
 
-  function syncControlsUI() {
-    // zoom
-    el.zoom.value = String(Math.round(state.zoom * 100));
-    el.zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
+  function applyTemplateCopy() {
+    if (!activeTemplate) return;
 
-    // fit/fill
-    setModeUI(state.mode);
+    const rec = activeTemplate.recommended;
+    const ratioTxt = activeTemplate.aspectRatio ? `${(activeTemplate.aspectRatio).toFixed(2)}:1` : "";
+    const recTxt = rec ? `${rec.w}×${rec.h}` : "—";
 
-    // safe zone
-    setSafeUI(state.showSafe);
+    templateHint.innerHTML =
+      `Recommended: <b>${recTxt}</b>` +
+      (activeTemplate.aspectRatio ? ` · Ratio: <b>${activeTemplate.aspectRatio === 4 ? "4:1" : ratioTxt}</b>` : "") +
+      (activeTemplate.hint ? `<br/>${activeTemplate.hint}` : "");
 
-    // emphasize mobile
-    el.mobileToggle.classList.toggle("on", state.emphasizeMobile);
+    footNote.textContent = activeTemplate.footnote || "This is a practical preview, not a pixel-perfect clone. Platforms may change UI and crop rules.";
   }
 
-  function setModeUI(mode) {
-    state.mode = mode;
-    el.modeFill.classList.toggle("on", mode === "fill");
-    el.modeFit.classList.toggle("on", mode === "fit");
-    el.fitVal.textContent = mode === "fill" ? "Fill (cover)" : "Fit (contain)";
+  function showHideControls() {
+    if (!activeTemplate) return;
+
+    const c = activeTemplate.controls || {};
+    const set = (key, on) => {
+      const el = controlsArea.querySelector(`[data-control="${key}"]`);
+      if (el) el.style.display = on ? "" : "none";
+    };
+
+    set("zoom", !!c.zoom);
+    set("fitmode", !!c.fitmode);
+    set("safezone", !!c.safezone);
+
+    // Mobile toggle is only meaningful if template has mobile safe zone
+    const hasMobile = !!activeTemplate.safeZones?.mobile;
+    mobileToggleBtn.style.display = (c.safezone && hasMobile) ? "" : "none";
   }
 
-  function setSafeUI(on) {
-    state.showSafe = on;
-    el.safeToggle.classList.toggle("on", on);
-    el.safeVal.textContent = on ? "On" : "Off";
+  // ---------- Preview builders ----------
+  function createLiCard(kindLabel) {
+    const wrap = document.createElement("div");
 
-    // apply to existing overlays
-    state.preview.canvases.forEach(p => {
-      if (p.overlayEl) p.overlayEl.classList.toggle("on", on);
-    });
+    const title = document.createElement("p");
+    title.className = "miniTitle";
+    title.textContent = kindLabel;
+    wrap.appendChild(title);
+
+    const card = document.createElement("div");
+    card.className = "liCard";
+
+    const area = document.createElement("div");
+    area.className = "bannerArea";
+    area.dataset.kind = kindLabel.toLowerCase().includes("mobile") ? "mobile" : "desktop";
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "bannerCanvas";
+
+    const overlay = document.createElement("div");
+    overlay.className = "safeOverlay on";
+
+    const rect = document.createElement("div");
+    rect.className = "rect";
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = kindLabel.toLowerCase().includes("mobile") ? "Safe zone (mobile)" : "Safe zone (desktop)";
+
+    overlay.appendChild(rect);
+    overlay.appendChild(label);
+
+    area.appendChild(canvas);
+    area.appendChild(overlay);
+
+    const below = document.createElement("div");
+    below.className = "below";
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+
+    const meta = document.createElement("div");
+    meta.className = "liMeta";
+    meta.innerHTML = `<div class="name">Your Name</div><div class="headline">Headline goes here · Company · Location</div>`;
+
+    below.appendChild(avatar);
+    below.appendChild(meta);
+
+    card.appendChild(area);
+    card.appendChild(below);
+
+    wrap.appendChild(card);
+
+    return { wrap, area, canvas, ctx: canvas.getContext("2d"), overlay, rect };
   }
 
-  // ---------- Preview rendering ----------
-  function clearPreview() {
-    // remove any old resize handler
-    if (state.preview.resizeHandler) {
-      window.removeEventListener("resize", state.preview.resizeHandler);
-      state.preview.resizeHandler = null;
-    }
-    el.previewRoot.innerHTML = "";
-    state.preview.canvases = [];
-  }
+  function rebuildPreview() {
+    previewRoot.innerHTML = "";
+    previewNodes.desktop = null;
+    previewNodes.mobile = null;
 
-  function renderTemplatePreview() {
-    clearPreview();
+    applyTemplateCopy();
+    showHideControls();
 
-    const t = state.template;
-    if (!t) return;
+    if (!activeTemplate) return;
 
-    // Currently only banner type is implemented
-    if (t.preview && t.preview.type === "banner") {
-      renderBannerPreview(t);
-    } else {
-      // fallback
+    // For now: only LinkedIn Banner type supported
+    if (activeTemplate.type !== "linkedin.banner") {
       const p = document.createElement("p");
       p.className = "hint";
-      p.textContent = "This template preview type is not implemented yet.";
-      el.previewRoot.appendChild(p);
+      p.textContent = "Template type not supported by the current renderer.";
+      previewRoot.appendChild(p);
+      return;
     }
-  }
 
-  function renderBannerPreview(t) {
     const grid = document.createElement("div");
     grid.className = "previewGrid2";
-    grid.id = "bannerPreviewGrid";
-    el.previewRoot.appendChild(grid);
 
-    const makeBlock = (kind, titleText) => {
-      const block = document.createElement("div");
+    const desk = createLiCard("Desktop (approx)");
+    const mob = createLiCard("Mobile (approx)");
 
-      const title = document.createElement("p");
-      title.className = "miniTitle";
-      title.textContent = titleText;
+    grid.appendChild(desk.wrap);
+    grid.appendChild(mob.wrap);
 
-      const card = document.createElement("div");
-      card.className = "liCard";
+    previewRoot.appendChild(grid);
 
-      const banner = document.createElement("div");
-      banner.className = "bannerArea";
-      banner.dataset.kind = kind;
+    previewNodes.desktop = desk;
+    previewNodes.mobile = mob;
 
-      const canvas = document.createElement("canvas");
-      canvas.className = "bannerCanvas";
+    attachDrag(desk.area);
+    attachDrag(mob.area);
 
-      const overlay = document.createElement("div");
-      overlay.className = "safeOverlay " + (state.showSafe ? "on" : "");
-
-      const rect = document.createElement("div");
-      rect.className = "rect";
-
-      const lab = document.createElement("div");
-      lab.className = "label";
-      lab.textContent = kind === "desktop" ? "Safe zone (desktop)" : "Safe zone (mobile)";
-
-      overlay.appendChild(rect);
-      overlay.appendChild(lab);
-
-      banner.appendChild(canvas);
-      banner.appendChild(overlay);
-
-      const below = document.createElement("div");
-      below.className = "below";
-
-      const avatar = document.createElement("div");
-      avatar.className = "avatar";
-
-      const meta = document.createElement("div");
-      meta.className = "liMeta";
-      meta.innerHTML = `<div class="name">Your Name</div><div class="headline">Headline goes here · Company · Location</div>`;
-
-      below.appendChild(avatar);
-      below.appendChild(meta);
-
-      card.appendChild(banner);
-      card.appendChild(below);
-
-      block.appendChild(title);
-      block.appendChild(card);
-
-      return { block, banner, canvas, overlay, rect, kind };
-    };
-
-    const wantsDesktop = t.preview.showDesktop !== false;
-    const wantsMobile = t.preview.showMobile !== false;
-
-    const desktopBlock = wantsDesktop ? makeBlock("desktop", "Desktop (approx)") : null;
-    const mobileBlock = wantsMobile ? makeBlock("mobile", "Mobile (approx)") : null;
-
-    if (desktopBlock) grid.appendChild(desktopBlock.block);
-    if (mobileBlock) grid.appendChild(mobileBlock.block);
-
-    // Keep references
-    const addRef = (b) => {
-      if (!b) return;
-      const ctx = b.canvas.getContext("2d");
-      state.preview.canvases.push({
-        kind: b.kind,
-        canvas: b.canvas,
-        ctx,
-        bannerEl: b.banner,
-        overlayEl: b.overlay,
-        rectEl: b.rect
-      });
-      attachDrag(b.banner, b.kind);
-    };
-    addRef(desktopBlock);
-    addRef(mobileBlock);
-
-    // Set safe rect positions (percentage)
-    layoutSafeRects();
-
-    // Size canvases now and on resize
-    const onResize = () => {
-      resizeCanvases();
-      layoutSafeRects();
-      renderAll();
-    };
-    state.preview.resizeHandler = onResize;
-    window.addEventListener("resize", onResize);
-
-    // initial
-    requestAnimationFrame(onResize);
+    // Ensure canvases are correctly sized
+    resizeCanvases();
+    syncViewMode();
   }
 
-  function layoutSafeRects() {
-    const t = state.template;
-    if (!t || !t.safeZones) return;
+  // ---------- Resize / safe rects ----------
+  function resizeCanvasToDisplay(canvas) {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = Math.max(1, Math.round(rect.width * dpr));
+    canvas.height = Math.max(1, Math.round(rect.height * dpr));
+  }
 
-    const dz = state.emphasizeMobile ? t.safeZones.mobile : t.safeZones.desktop;
-    const mz = t.safeZones.mobile;
+  function applySafeRect(node, kind) {
+    if (!node || !activeTemplate) return;
 
-    state.preview.canvases.forEach(p => {
-      const z = (p.kind === "mobile") ? mz : dz;
-      if (!z || !p.rectEl) return;
+    const zones = activeTemplate.safeZones || {};
+    const z = (kind === "mobile")
+      ? (zones.mobile || zones.desktop)
+      : (state.emphasizeMobile ? (zones.mobile || zones.desktop) : (zones.desktop || zones.mobile));
 
-      p.rectEl.style.left = (z.x * 100) + "%";
-      p.rectEl.style.top = (z.y * 100) + "%";
-      p.rectEl.style.width = (z.w * 100) + "%";
-      p.rectEl.style.height = (z.h * 100) + "%";
-      if (p.overlayEl) p.overlayEl.classList.toggle("on", state.showSafe);
-    });
+    if (!z) return;
+
+    node.rect.style.left = (z.x * 100) + "%";
+    node.rect.style.top = (z.y * 100) + "%";
+    node.rect.style.width = (z.w * 100) + "%";
+    node.rect.style.height = (z.h * 100) + "%";
+
+    node.overlay.classList.toggle("on", state.showSafe);
   }
 
   function resizeCanvases() {
-    state.preview.canvases.forEach(p => {
-      const rect = p.bannerEl.getBoundingClientRect();
-      const k = dpr();
-      p.canvas.width = Math.max(1, Math.round(rect.width * k));
-      p.canvas.height = Math.max(1, Math.round(rect.height * k));
-    });
+    if (!previewNodes.desktop || !previewNodes.mobile) return;
+
+    resizeCanvasToDisplay(previewNodes.desktop.canvas);
+    resizeCanvasToDisplay(previewNodes.mobile.canvas);
+
+    applySafeRect(previewNodes.desktop, "desktop");
+    applySafeRect(previewNodes.mobile, "mobile");
+
+    renderAll();
   }
 
-  function drawPlaceholder(ctx, w, h) {
+  window.addEventListener("resize", resizeCanvases);
+
+  // ---------- Rendering ----------
+  function renderBanner(node, kind) {
+    if (!node) return;
+    const ctx = node.ctx;
+    const c = node.canvas;
+    const w = c.width;
+    const h = c.height;
+
+    // Background
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = "rgba(0,0,0,.18)";
     ctx.fillRect(0, 0, w, h);
 
-    ctx.fillStyle = "rgba(255,255,255,.12)";
-    ctx.font = `${Math.round(14 * dpr())}px ${getComputedStyle(document.body).fontFamily}`;
-    ctx.fillText("Upload an image to preview", Math.round(w * 0.06), Math.round(h * 0.56));
-  }
-
-  function renderAll() {
-    const t = state.template;
-    if (!t) return;
-
-    // show/hide preview blocks based on view mode
-    applyViewModeVisibility();
-
-    // render each canvas
-    state.preview.canvases.forEach(p => renderCanvasForTemplate(t, p));
-    updateStatus();
-  }
-
-  function applyViewModeVisibility() {
-    // For banner renderer, easiest is: hide the opposite column blocks
-    // We do it by toggling display on the liCard container's parent block.
-    const showDesktop = (state.viewMode === "both" || state.viewMode === "desktop");
-    const showMobile = (state.viewMode === "both" || state.viewMode === "mobile");
-
-    state.preview.canvases.forEach(p => {
-      const block = p.bannerEl.closest("div"); // block wrapper
-      // nearest block is the block's inner div; we want the outer column wrapper (block)
-      // safer: the parent of liCard is block, which contains miniTitle + liCard
-      const outer = p.bannerEl.closest(".liCard")?.parentElement;
-      if (!outer) return;
-      if (p.kind === "desktop") outer.style.display = showDesktop ? "" : "none";
-      if (p.kind === "mobile") outer.style.display = showMobile ? "" : "none";
-    });
-  }
-
-  function renderCanvasForTemplate(t, p) {
-    const ctx = p.ctx;
-    const canvas = p.canvas;
-    const w = canvas.width;
-    const h = canvas.height;
-
-    if (!state.img) {
-      drawPlaceholder(ctx, w, h);
+    if (!img) {
+      ctx.fillStyle = "rgba(255,255,255,.12)";
+      ctx.font = `${Math.round(14 * (window.devicePixelRatio || 1))}px ${getComputedStyle(document.body).fontFamily}`;
+      ctx.fillText("Upload an image to preview your banner", Math.round(w * 0.06), Math.round(h * 0.55));
       return;
     }
 
-    // banner renderer
-    if (t.preview && t.preview.type === "banner") {
-      renderBanner(ctx, w, h, p.kind);
-      return;
-    }
-
-    // fallback
-    drawPlaceholder(ctx, w, h);
-  }
-
-  function renderBanner(ctx, w, h, kind) {
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "rgba(0,0,0,.18)";
-    ctx.fillRect(0, 0, w, h);
-
-    const img = state.img;
-    const imgW = state.imgW;
-    const imgH = state.imgH;
+    const imgW = imgMeta.w, imgH = imgMeta.h;
     const canvasRatio = w / h;
     const imgRatio = imgW / imgH;
 
-    // cover/contain
-    let baseScale;
+    // Base scale: cover vs contain
+    let scale;
     if (state.mode === "fill") {
-      baseScale = (imgRatio > canvasRatio) ? (h / imgH) : (w / imgW); // cover
+      scale = (imgRatio > canvasRatio) ? (h / imgH) : (w / imgW); // cover
     } else {
-      baseScale = (imgRatio > canvasRatio) ? (w / imgW) : (h / imgH); // contain
+      scale = (imgRatio > canvasRatio) ? (w / imgW) : (h / imgH); // contain
     }
-
-    const scale = baseScale * state.zoom;
-
-    // optional mobile "tighter crop" guidance: subtle center bias
-    let autoShiftX = 0;
-    if (kind === "mobile") {
-      autoShiftX = state.emphasizeMobile ? 0.06 : 0.03;
-    } else {
-      autoShiftX = state.emphasizeMobile ? 0.03 : 0.0;
-    }
+    scale *= state.zoom;
 
     const drawW = imgW * scale;
     const drawH = imgH * scale;
 
-    // offsets in CSS pixels -> device pixels
-    const ox = state.offsetX * dpr();
-    const oy = state.offsetY * dpr();
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const ox = state.offsetX * dpr;
+    const oy = state.offsetY * dpr;
 
     let x = (w - drawW) / 2 + ox;
     let y = (h - drawH) / 2 + oy;
 
-    x += (-(autoShiftX) * w);
+    // Subtle “mobile crop feels tighter” guidance (not a hard rule)
+    const mobileAutoCrop = activeTemplate.cropGuidance?.mobileTighter;
+    if (kind === "mobile" && mobileAutoCrop) {
+      const shift = state.emphasizeMobile ? 0.06 : 0.03;
+      x += (-shift * w);
+    }
 
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     ctx.drawImage(img, x, y, drawW, drawH);
 
-    // If fit mode leaves empty space, dim it slightly so user notices
+    // If "fit" produces empty space, tint it slightly to make it obvious
     if (state.mode === "fit") {
       const fitsW = drawW < w - 1;
       const fitsH = drawH < h - 1;
@@ -488,74 +363,144 @@
         ctx.restore();
       }
     }
+
+    // Overlay visibility
+    node.overlay.classList.toggle("on", state.showSafe);
   }
 
-  // ---------- Drag (reposition) ----------
-  function attachDrag(bannerEl, kind) {
-    let dragging = false;
-    let lastX = 0;
-    let lastY = 0;
+  function renderAll() {
+    if (!activeTemplate) return;
+    if (activeTemplate.type !== "linkedin.banner") return;
 
-    const getPoint = (ev) => {
-      if (ev.touches && ev.touches[0]) return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
-      return { x: ev.clientX, y: ev.clientY };
-    };
+    if (previewNodes.desktop) renderBanner(previewNodes.desktop, "desktop");
+    if (previewNodes.mobile) renderBanner(previewNodes.mobile, "mobile");
 
-    const onDown = (ev) => {
-      if (!state.img) return;
+    updateStatus();
+  }
+
+  // ---------- Status / warnings ----------
+  function setDot(el, cls) {
+    el.className = "dot" + (cls ? ` ${cls}` : "");
+  }
+
+  function updateStatus() {
+    if (!activeTemplate) return;
+
+    if (!img) {
+      setDot(dotRes, "");
+      setDot(dotCrop, "");
+      setDot(dotSafe, "");
+      msgRes.innerHTML = "<b>No image yet.</b> Upload an image to get feedback.";
+      msgCrop.textContent = "Drag/zoom until the crop feels right.";
+      msgSafe.textContent = "Keep faces/logos/text inside the safe zone.";
+      return;
+    }
+
+    // Resolution
+    const rec = activeTemplate.recommended || { w: 0, h: 0 };
+    const tooSmall = rec.w && rec.h && (imgMeta.w < rec.w || imgMeta.h < rec.h);
+    const muchSmaller = rec.w && rec.h && (imgMeta.w < rec.w * 0.75 || imgMeta.h < rec.h * 0.75);
+
+    if (muchSmaller) {
+      setDot(dotRes, "bad");
+      msgRes.innerHTML = `<b>Low resolution:</b> ${imgMeta.w}×${imgMeta.h}. Likely blurry. Aim for at least ${rec.w}×${rec.h}.`;
+    } else if (tooSmall) {
+      setDot(dotRes, "warn");
+      msgRes.innerHTML = `<b>Borderline resolution:</b> ${imgMeta.w}×${imgMeta.h}. Might look soft. Recommended: ${rec.w}×${rec.h} or bigger.`;
+    } else {
+      setDot(dotRes, "good");
+      msgRes.innerHTML = `<b>Resolution looks fine:</b> ${imgMeta.w}×${imgMeta.h}.`;
+    }
+
+    // Crop aggressiveness heuristic
+    const heavyCrop = (state.mode === "fill" && state.zoom >= 1.35);
+    if (heavyCrop) {
+      setDot(dotCrop, "warn");
+      msgCrop.innerHTML = `<b>Crop is aggressive.</b> Consider lowering zoom or keep important content centered.`;
+    } else {
+      setDot(dotCrop, "good");
+      msgCrop.innerHTML = `<b>Crop looks reasonable.</b> If anything important is near edges, adjust slightly.`;
+    }
+
+    // Safe zone
+    if (!state.showSafe) {
+      setDot(dotSafe, "warn");
+      msgSafe.innerHTML = `<b>Safe zone hidden.</b> Turn it on if your banner contains faces, logos, or text.`;
+    } else if (state.emphasizeMobile) {
+      setDot(dotSafe, "warn");
+      msgSafe.innerHTML = `<b>Mobile crop emphasized.</b> Keep important content inside the tighter (mobile) safe zone.`;
+    } else {
+      setDot(dotSafe, "good");
+      msgSafe.innerHTML = `<b>Safe zone shown.</b> Keep important content inside it for best results.`;
+    }
+  }
+
+  // ---------- Drag handling ----------
+  let dragging = false;
+  let last = { x: 0, y: 0 };
+
+  function getPoint(ev) {
+    if (ev.touches && ev.touches[0]) return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+    return { x: ev.clientX, y: ev.clientY };
+  }
+
+  function attachDrag(area) {
+    area.addEventListener("mousedown", (ev) => {
+      if (!img) return;
       dragging = true;
-      const p = getPoint(ev);
-      lastX = p.x;
-      lastY = p.y;
-      ev.preventDefault?.();
-    };
+      last = getPoint(ev);
+    });
 
-    const onMove = (ev) => {
-      if (!dragging || !state.img) return;
-      const p = getPoint(ev);
-      state.offsetX += (p.x - lastX);
-      state.offsetY += (p.y - lastY);
-      lastX = p.x;
-      lastY = p.y;
-      renderAll();
-    };
-
-    const onUp = () => {
-      dragging = false;
-    };
-
-    bannerEl.addEventListener("mousedown", onDown);
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-
-    bannerEl.addEventListener("touchstart", onDown, { passive: false });
-    window.addEventListener("touchmove", onMove, { passive: true });
-    window.addEventListener("touchend", onUp, { passive: true });
+    area.addEventListener("touchstart", (ev) => {
+      if (!img) return;
+      dragging = true;
+      last = getPoint(ev);
+    }, { passive: true });
   }
+
+  window.addEventListener("mouseup", () => (dragging = false));
+  window.addEventListener("touchend", () => (dragging = false), { passive: true });
+
+  window.addEventListener("mousemove", (ev) => {
+    if (!dragging || !img) return;
+    const p = getPoint(ev);
+    state.offsetX += (p.x - last.x);
+    state.offsetY += (p.y - last.y);
+    last = p;
+    renderAll();
+  });
+
+  window.addEventListener("touchmove", (ev) => {
+    if (!dragging || !img) return;
+    const p = getPoint(ev);
+    state.offsetX += (p.x - last.x);
+    state.offsetY += (p.y - last.y);
+    last = p;
+    renderAll();
+  }, { passive: true });
 
   // ---------- Upload / Demo ----------
-  function loadImageFromFile(file) {
+  function loadImageFromFile(f) {
     const reader = new FileReader();
     reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        state.img = img;
-        state.imgW = img.naturalWidth;
-        state.imgH = img.naturalHeight;
+      const i = new Image();
+      i.onload = () => {
+        img = i;
+        imgMeta.w = i.naturalWidth;
+        imgMeta.h = i.naturalHeight;
         state.offsetX = 0;
         state.offsetY = 0;
         renderAll();
       };
-      img.src = reader.result;
+      i.src = reader.result;
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(f);
   }
 
-  function loadDemoImage() {
-    // 4:1 demo banner
+  function loadDemo() {
     const c = document.createElement("canvas");
     c.width = 2200;
-    c.height = 550;
+    c.height = 550; // 4:1
     const g = c.getContext("2d");
 
     const grd = g.createLinearGradient(0, 0, c.width, c.height);
@@ -570,200 +515,170 @@
       const x = (k / 26) * c.width;
       g.fillRect(x, 0, 2, c.height);
     }
-
     g.fillStyle = "rgba(255,255,255,.18)";
-    g.beginPath();
-    g.arc(c.width * 0.22, c.height * 0.35, 150, 0, Math.PI * 2);
-    g.fill();
-
+    g.beginPath(); g.arc(c.width * 0.22, c.height * 0.35, 150, 0, Math.PI * 2); g.fill();
     g.fillStyle = "rgba(255,255,255,.12)";
-    g.beginPath();
-    g.arc(c.width * 0.72, c.height * 0.68, 220, 0, Math.PI * 2);
-    g.fill();
+    g.beginPath(); g.arc(c.width * 0.72, c.height * 0.68, 220, 0, Math.PI * 2); g.fill();
 
-    const img = new Image();
-    img.onload = () => {
-      state.img = img;
-      state.imgW = img.naturalWidth;
-      state.imgH = img.naturalHeight;
-      state.offsetX = 0;
-      state.offsetY = 0;
+    const i = new Image();
+    i.onload = () => {
+      img = i;
+      imgMeta.w = i.naturalWidth;
+      imgMeta.h = i.naturalHeight;
+      resetViewToTemplateDefaults();
       renderAll();
     };
-    img.src = c.toDataURL("image/png");
+    i.src = c.toDataURL("image/png");
   }
 
-  function clearImage() {
-    state.img = null;
-    state.imgW = 0;
-    state.imgH = 0;
+  // Drop zone
+  drop.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    drop.classList.add("dragover");
+  });
+  drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
+  drop.addEventListener("drop", (e) => {
+    e.preventDefault();
+    drop.classList.remove("dragover");
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) loadImageFromFile(f);
+  });
+
+  // File input
+  fileInput.addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (f) loadImageFromFile(f);
+    fileInput.value = "";
+  });
+
+  // Buttons
+  demoBtn.addEventListener("click", loadDemo);
+  clearBtn.addEventListener("click", () => {
+    img = null;
+    imgMeta = { w: 0, h: 0 };
     state.offsetX = 0;
     state.offsetY = 0;
     renderAll();
+  });
+
+  resetBtn.addEventListener("click", () => {
+    resetViewToTemplateDefaults();
+    syncUIFromState();
+    renderAll();
+  });
+
+  // ---------- Controls bindings ----------
+  zoomEl.addEventListener("input", () => {
+    state.zoom = parseInt(zoomEl.value, 10) / 100;
+    zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
+    renderAll();
+  });
+
+  function setMode(next) {
+    state.mode = next;
+    modeFillBtn.classList.toggle("on", state.mode === "fill");
+    modeFitBtn.classList.toggle("on", state.mode === "fit");
+    fitVal.textContent = state.mode === "fill" ? "Fill (cover)" : "Fit (contain)";
+    renderAll();
   }
 
-  // ---------- Status / Warnings ----------
-  function updateStatus() {
-    const t = state.template;
+  modeFillBtn.addEventListener("click", () => setMode("fill"));
+  modeFitBtn.addEventListener("click", () => setMode("fit"));
 
-    if (!state.img || !t) {
-      setDot(el.dotRes, "");
-      setDot(el.dotCrop, "");
-      setDot(el.dotSafe, "");
-      el.msgRes.innerHTML = "<b>No image yet.</b> Upload an image to get feedback.";
-      el.msgCrop.textContent = "Drag/zoom until the crop feels right.";
-      el.msgSafe.textContent = "Keep faces/logos/text inside the safe zone.";
-      return;
-    }
+  function setSafe(on) {
+    state.showSafe = on;
+    safeToggleBtn.classList.toggle("on", state.showSafe);
+    safeVal.textContent = state.showSafe ? "On" : "Off";
+    if (previewNodes.desktop) previewNodes.desktop.overlay.classList.toggle("on", state.showSafe);
+    if (previewNodes.mobile) previewNodes.mobile.overlay.classList.toggle("on", state.showSafe);
+    renderAll();
+  }
 
-    // Resolution check (template-driven if recommended exists)
-    if (t.recommended && t.recommended.w && t.recommended.h) {
-      const rw = t.recommended.w;
-      const rh = t.recommended.h;
-      const tooSmall = (state.imgW < rw) || (state.imgH < rh);
-      const muchSmaller = (state.imgW < rw * 0.75) || (state.imgH < rh * 0.75);
+  function setMobileEmphasis(on) {
+    state.emphasizeMobile = on;
+    mobileToggleBtn.classList.toggle("on", state.emphasizeMobile);
+    // Re-apply safe rect sizes because desktop safe zone changes when emphasizing mobile
+    applySafeRect(previewNodes.desktop, "desktop");
+    applySafeRect(previewNodes.mobile, "mobile");
+    renderAll();
+  }
 
-      if (muchSmaller) {
-        setDot(el.dotRes, "bad");
-        el.msgRes.innerHTML = `<b>Low resolution:</b> ${fmtWH(state.imgW, state.imgH)}. Likely blurry. Aim for at least ${fmtWH(rw, rh)}.`;
-      } else if (tooSmall) {
-        setDot(el.dotRes, "warn");
-        el.msgRes.innerHTML = `<b>Borderline resolution:</b> ${fmtWH(state.imgW, state.imgH)}. Might look soft. Recommended: ${fmtWH(rw, rh)} or bigger.`;
-      } else {
-        setDot(el.dotRes, "good");
-        el.msgRes.innerHTML = `<b>Resolution looks fine:</b> ${fmtWH(state.imgW, state.imgH)}.`;
-      }
-    } else {
-      setDot(el.dotRes, "good");
-      el.msgRes.innerHTML = `<b>Image loaded:</b> ${fmtWH(state.imgW, state.imgH)}.`;
-    }
+  safeToggleBtn.addEventListener("click", () => setSafe(!state.showSafe));
+  mobileToggleBtn.addEventListener("click", () => setMobileEmphasis(!state.emphasizeMobile));
 
-    // Crop heuristic
-    const heavyCrop = (state.mode === "fill" && state.zoom >= 1.35);
-    if (heavyCrop) {
-      setDot(el.dotCrop, "warn");
-      el.msgCrop.innerHTML = "<b>Crop is aggressive.</b> Consider lowering zoom and keeping critical content centered.";
-    } else {
-      setDot(el.dotCrop, "good");
-      el.msgCrop.innerHTML = "<b>Crop looks reasonable.</b> If important content is near edges, adjust slightly.";
-    }
+  // ---------- View mode ----------
+  function setSeg(onBtn) {
+    [viewBothBtn, viewDesktopBtn, viewMobileBtn].forEach(b => b.classList.remove("on"));
+    onBtn.classList.add("on");
+  }
 
-    // Safe zone
-    if (!state.showSafe) {
-      setDot(el.dotSafe, "warn");
-      el.msgSafe.innerHTML = "<b>Safe zone hidden.</b> Turn it on if your banner contains faces, logos, or text.";
-    } else if (state.emphasizeMobile) {
-      setDot(el.dotSafe, "warn");
-      el.msgSafe.innerHTML = "<b>Mobile crop emphasized.</b> Keep important content within the tighter (mobile) safe zone.";
-    } else {
-      setDot(el.dotSafe, "good");
-      el.msgSafe.innerHTML = "<b>Safe zone shown.</b> Keep important content inside it for best results.";
-    }
+  function syncViewMode() {
+    const grid = previewRoot.querySelector(".previewGrid2");
+    if (!grid) return;
+
+    const blocks = Array.from(grid.children); // 2 blocks
+    const showDesk = state.view === "both" || state.view === "desktop";
+    const showMob = state.view === "both" || state.view === "mobile";
+
+    if (blocks[0]) blocks[0].style.display = showDesk ? "" : "none";
+    if (blocks[1]) blocks[1].style.display = showMob ? "" : "none";
+  }
+
+  viewBothBtn.addEventListener("click", () => {
+    state.view = "both";
+    setSeg(viewBothBtn);
+    syncViewMode();
+  });
+
+  viewDesktopBtn.addEventListener("click", () => {
+    state.view = "desktop";
+    setSeg(viewDesktopBtn);
+    syncViewMode();
+  });
+
+  viewMobileBtn.addEventListener("click", () => {
+    state.view = "mobile";
+    setSeg(viewMobileBtn);
+    syncViewMode();
+  });
+
+  // ---------- Sync UI ----------
+  function syncUIFromState() {
+    zoomEl.value = Math.round(state.zoom * 100);
+    zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
+
+    modeFillBtn.classList.toggle("on", state.mode === "fill");
+    modeFitBtn.classList.toggle("on", state.mode === "fit");
+    fitVal.textContent = state.mode === "fill" ? "Fill (cover)" : "Fit (contain)";
+
+    safeToggleBtn.classList.toggle("on", state.showSafe);
+    safeVal.textContent = state.showSafe ? "On" : "Off";
+
+    mobileToggleBtn.classList.toggle("on", state.emphasizeMobile);
+
+    if (state.view === "both") setSeg(viewBothBtn);
+    if (state.view === "desktop") setSeg(viewDesktopBtn);
+    if (state.view === "mobile") setSeg(viewMobileBtn);
+
+    syncViewMode();
   }
 
   // ---------- Events ----------
-  function bindEvents() {
-    // template change
-    el.templateSelect.addEventListener("change", () => {
-      const t = getTemplateById(el.templateSelect.value);
-      if (t) applyTemplate(t);
-    });
+  templateSelect.addEventListener("change", () => setActiveTemplate(templateSelect.value));
 
-    // drop zone
-    el.drop.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      el.drop.classList.add("dragover");
-    });
-    el.drop.addEventListener("dragleave", () => el.drop.classList.remove("dragover"));
-    el.drop.addEventListener("drop", (e) => {
-      e.preventDefault();
-      el.drop.classList.remove("dragover");
-      const f = e.dataTransfer.files && e.dataTransfer.files[0];
-      if (f) loadImageFromFile(f);
-    });
+  // ---------- Boot ----------
+  buildTemplateSelect();
 
-    // file input
-    el.fileInput.addEventListener("change", (e) => {
-      const f = e.target.files && e.target.files[0];
-      if (f) loadImageFromFile(f);
-      el.fileInput.value = "";
-    });
+  if (activeTemplate) {
+    applyTemplateCopy();
+    resetViewToTemplateDefaults();
+    rebuildPreview();
+    syncUIFromState();
 
-    // demo / clear / reset
-    el.demoBtn.addEventListener("click", loadDemoImage);
-    el.clearBtn.addEventListener("click", clearImage);
-    el.resetBtn.addEventListener("click", () => {
-      const t = state.template;
-      if (!t) return;
-      // re-apply template defaults but keep current image
-      const currentImg = state.img;
-      const w = state.imgW;
-      const h = state.imgH;
-      applyTemplate(t);
-      state.img = currentImg;
-      state.imgW = w;
-      state.imgH = h;
-      renderAll();
-    });
-
-    // zoom
-    el.zoom.addEventListener("input", () => {
-      state.zoom = parseInt(el.zoom.value, 10) / 100;
-      el.zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
-      renderAll();
-    });
-
-    // mode
-    el.modeFill.addEventListener("click", () => {
-      setModeUI("fill");
-      renderAll();
-    });
-    el.modeFit.addEventListener("click", () => {
-      setModeUI("fit");
-      renderAll();
-    });
-
-    // safe overlay
-    el.safeToggle.addEventListener("click", () => {
-      setSafeUI(!state.showSafe);
-      renderAll();
-    });
-
-    // mobile emphasis
-    el.mobileToggle.addEventListener("click", () => {
-      state.emphasizeMobile = !state.emphasizeMobile;
-      el.mobileToggle.classList.toggle("on", state.emphasizeMobile);
-      layoutSafeRects();
-      renderAll();
-    });
-
-    // view modes
-    el.viewBoth.addEventListener("click", () => {
-      state.viewMode = "both";
-      setSeg(el.viewBoth);
-      renderAll();
-    });
-    el.viewDesktop.addEventListener("click", () => {
-      state.viewMode = "desktop";
-      setSeg(el.viewDesktop);
-      renderAll();
-    });
-    el.viewMobile.addEventListener("click", () => {
-      state.viewMode = "mobile";
-      setSeg(el.viewMobile);
+    // Initial paint after layout
+    requestAnimationFrame(() => {
+      resizeCanvases();
       renderAll();
     });
   }
-
-  // ---------- Init ----------
-  function init() {
-    buildTemplateSelect();
-    bindEvents();
-
-    const first = getTemplateById(el.templateSelect.value) || TEMPLATES[0] || null;
-    if (first) applyTemplate(first);
-    else updateStatus();
-  }
-
-  init();
 })();
