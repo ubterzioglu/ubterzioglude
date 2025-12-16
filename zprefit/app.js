@@ -1,57 +1,44 @@
 /* app.js — ZPREFIT core
-   - Template registry driven (options grow as you add templates)
-   - No storage, no network
-   - Renderer currently supports: linkedin.banner
+   - Template registry driven
+   - Rectangular banner renderer (generic)
 */
 
 (() => {
   // ---------- Helpers ----------
   const $ = (id) => document.getElementById(id);
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-  // Accept both {w,h} and {width,height}
   const getRec = (t) => {
     const r = t?.recommended || {};
-    const w = r.width ?? r.w ?? 0;
-    const h = r.height ?? r.h ?? 0;
-    return { w, h };
+    return { w: r.width ?? r.w ?? 0, h: r.height ?? r.h ?? 0 };
   };
 
-  // Accept defaults.zoom as 1.0 or 100-style, accept cover/contain naming too
   const getDefaults = (t) => {
     const d = t?.defaults || {};
     let zoom = d.zoom ?? 1.0;
+    if (zoom > 10) zoom = zoom / 100;
 
-    // If someone set zoom as 100 instead of 1.0, normalize
-    if (typeof zoom === "number" && zoom > 10) zoom = zoom / 100;
-
-    // mode: "fill"|"fit" (internal)
-    // accept: "fill"/"fit" OR "cover"/"contain" OR "fitMode"
-    const fitMode = d.fitMode ?? d.mode ?? "fill";
-    let mode = fitMode;
-
+    let mode = d.fitMode ?? d.mode ?? "fill";
     if (mode === "cover") mode = "fill";
     if (mode === "contain") mode = "fit";
-    if (mode !== "fill" && mode !== "fit") mode = "fill";
+    if (!["fill", "fit"].includes(mode)) mode = "fill";
 
     return { zoom, mode };
   };
 
-  // Accept safeZones as:
-  // A) { desktop:{x,y,w,h}, mobile:{x,y,w,h} }
-  // B) [ {..desktop..}, {..mobile..} ]
   const getZones = (t) => {
     const z = t?.safeZones;
     if (!z) return { desktop: null, mobile: null };
-
     if (Array.isArray(z)) {
       const desktop = z[0] || null;
-      const mobile = z.find(x => (x?.emphasis === "mobile") || (x?.id || "").includes("mobile")) || z[1] || desktop || null;
+      const mobile =
+        z.find((x) => x?.emphasis === "mobile") || z[1] || desktop;
       return { desktop, mobile };
     }
-
     return { desktop: z.desktop || null, mobile: z.mobile || null };
   };
+
+  const isRectTemplate = (t) =>
+    !!t && typeof t.aspectRatio === "number" && t.aspectRatio > 0;
 
   // ---------- DOM ----------
   const templateSelect = $("templateSelect");
@@ -67,7 +54,6 @@
 
   const zoomEl = $("zoom");
   const zoomVal = $("zoomVal");
-
   const modeFillBtn = $("modeFill");
   const modeFitBtn = $("modeFit");
   const fitVal = $("fitVal");
@@ -91,12 +77,7 @@
   const msgSafe = $("msgSafe");
 
   // ---------- Templates ----------
-  const templates = Array.isArray(window.ZPREFIT_TEMPLATES) ? window.ZPREFIT_TEMPLATES : [];
-
-  if (!templates.length) {
-    templateHint.textContent = "No templates loaded. Did you include template scripts before app.js?";
-  }
-
+  const templates = window.ZPREFIT_TEMPLATES || [];
   let activeTemplate = templates[0] || null;
 
   // ---------- State ----------
@@ -104,631 +85,242 @@
   let imgMeta = { w: 0, h: 0 };
 
   const state = {
-    zoom: 1.0,
-    mode: "fill",           // "fill" (cover) or "fit" (contain)
+    zoom: 1,
+    mode: "fill",
     offsetX: 0,
     offsetY: 0,
     showSafe: true,
     emphasizeMobile: false,
-    view: "both"
+    view: "both",
   };
 
-  // Preview node refs (rebuilt per template)
-  let previewNodes = {
-    desktop: null,
-    mobile: null
-  };
+  let previewNodes = { desktop: null, mobile: null };
 
-  // ---------- Init: template select ----------
+  // ---------- Template select ----------
   function buildTemplateSelect() {
     templateSelect.innerHTML = "";
     templates.forEach((t) => {
-      const opt = document.createElement("option");
-      opt.value = t.id;
-      opt.textContent = t.label || t.id;
-      templateSelect.appendChild(opt);
+      const o = document.createElement("option");
+      o.value = t.id;
+      o.textContent = t.label || t.id;
+      templateSelect.appendChild(o);
     });
-
     if (activeTemplate) templateSelect.value = activeTemplate.id;
   }
 
   function setActiveTemplate(id) {
-    const t = templates.find(x => x.id === id);
-    if (!t) return;
-
-    activeTemplate = t;
+    activeTemplate = templates.find((t) => t.id === id);
     resetViewToTemplateDefaults();
     rebuildPreview();
     syncUIFromState();
     renderAll();
   }
 
-  // ---------- Template-driven UI ----------
+  // ---------- UI ----------
   function resetViewToTemplateDefaults() {
     if (!activeTemplate) return;
-
-    const defs = getDefaults(activeTemplate);
-
-    state.zoom = defs.zoom;
-    state.mode = defs.mode;
-
+    const d = getDefaults(activeTemplate);
+    state.zoom = d.zoom;
+    state.mode = d.mode;
     state.offsetX = 0;
     state.offsetY = 0;
-
     state.showSafe = true;
     state.emphasizeMobile = false;
     state.view = "both";
-
-    zoomEl.value = Math.round(state.zoom * 100);
-    zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
   }
 
   function applyTemplateCopy() {
     if (!activeTemplate) return;
-
-    const rec = getRec(activeTemplate);
-    const ratioTxt = activeTemplate.aspectRatio ? `${(activeTemplate.aspectRatio).toFixed(2)}:1` : "";
-    const recTxt = (rec.w && rec.h) ? `${rec.w}×${rec.h}` : "—";
-
+    const r = getRec(activeTemplate);
     templateHint.innerHTML =
-      `Recommended: <b>${recTxt}</b>` +
-      (activeTemplate.aspectRatio ? ` · Ratio: <b>${activeTemplate.aspectRatio === 4 ? "4:1" : ratioTxt}</b>` : "") +
-      (activeTemplate.hint ? `<br/>${activeTemplate.hint}` : "");
-
+      `Recommended: <b>${r.w && r.h ? `${r.w}×${r.h}` : "—"}</b>` +
+      (activeTemplate.aspectRatio
+        ? ` · Ratio: <b>${activeTemplate.aspectRatio.toFixed(2)}:1</b>`
+        : "") +
+      (activeTemplate.hint ? `<br>${activeTemplate.hint}` : "");
     footNote.textContent =
       activeTemplate.footnote ||
-      "This is a practical preview, not a pixel-perfect clone. Platforms may change UI and crop rules.";
+      "This is a practical preview, not a pixel-perfect clone.";
   }
 
   function showHideControls() {
-    if (!activeTemplate) return;
-
-    const c = activeTemplate.controls || {};
-    const set = (key, on) => {
-      const el = controlsArea.querySelector(`[data-control="${key}"]`);
-      if (el) el.style.display = on ? "" : "none";
-    };
-
-    set("zoom", !!c.zoom);
-    set("fitmode", !!c.fitmode);
-    set("safezone", !!c.safezone);
-
-    const zones = getZones(activeTemplate);
-    const hasMobile = !!zones.mobile;
-    mobileToggleBtn.style.display = (c.safezone && hasMobile) ? "" : "none";
+    const c = activeTemplate?.controls || {};
+    ["zoom", "fitmode", "safezone"].forEach((k) => {
+      const el = controlsArea.querySelector(`[data-control="${k}"]`);
+      if (el) el.style.display = c[k] ? "" : "none";
+    });
   }
 
-  // ---------- Preview builders ----------
-  function createLiCard(kindLabel) {
+  // ---------- Preview ----------
+  function createCard(label) {
     const wrap = document.createElement("div");
-
-    const title = document.createElement("p");
-    title.className = "miniTitle";
-    title.textContent = kindLabel;
-    wrap.appendChild(title);
-
-    const card = document.createElement("div");
-    card.className = "liCard";
-
-    const area = document.createElement("div");
-    area.className = "bannerArea";
-    area.dataset.kind = kindLabel.toLowerCase().includes("mobile") ? "mobile" : "desktop";
-
-    const canvas = document.createElement("canvas");
-    canvas.className = "bannerCanvas";
-
-    const overlay = document.createElement("div");
-    overlay.className = "safeOverlay on";
-
-    const rect = document.createElement("div");
-    rect.className = "rect";
-
-    const label = document.createElement("div");
-    label.className = "label";
-    label.textContent = kindLabel.toLowerCase().includes("mobile") ? "Safe zone (mobile)" : "Safe zone (desktop)";
-
-    overlay.appendChild(rect);
-    overlay.appendChild(label);
-
-    area.appendChild(canvas);
-    area.appendChild(overlay);
-
-    const below = document.createElement("div");
-    below.className = "below";
-
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-
-    const meta = document.createElement("div");
-    meta.className = "liMeta";
-    meta.innerHTML = `<div class="name">Your Name</div><div class="headline">Headline goes here · Company · Location</div>`;
-
-    below.appendChild(avatar);
-    below.appendChild(meta);
-
-    card.appendChild(area);
-    card.appendChild(below);
-
-    wrap.appendChild(card);
-
-    return { wrap, area, canvas, ctx: canvas.getContext("2d"), overlay, rect };
+    wrap.innerHTML = `
+      <p class="miniTitle">${label}</p>
+      <div class="liCard">
+        <div class="bannerArea">
+          <canvas class="bannerCanvas"></canvas>
+          <div class="safeOverlay on"><div class="rect"></div></div>
+        </div>
+      </div>`;
+    const area = wrap.querySelector(".bannerArea");
+    const canvas = wrap.querySelector("canvas");
+    return { wrap, area, canvas, ctx: canvas.getContext("2d"), rect: wrap.querySelector(".rect") };
   }
 
   function rebuildPreview() {
     previewRoot.innerHTML = "";
-    previewNodes.desktop = null;
-    previewNodes.mobile = null;
+    previewNodes = { desktop: null, mobile: null };
 
     applyTemplateCopy();
     showHideControls();
 
-    if (!activeTemplate) return;
-
-    if (activeTemplate.type !== "linkedin.banner") {
-      const p = document.createElement("p");
-      p.className = "hint";
-      p.textContent = "Template type not supported by the current renderer.";
-      previewRoot.appendChild(p);
+    if (!isRectTemplate(activeTemplate)) {
+      previewRoot.innerHTML =
+        `<p class="hint">Template type not supported by the current renderer.</p>`;
       return;
     }
 
     const grid = document.createElement("div");
     grid.className = "previewGrid2";
 
-    const desk = createLiCard("Desktop (approx)");
-    const mob = createLiCard("Mobile (approx)");
+    const d = createCard("Desktop (approx)");
+    const m = createCard("Mobile (approx)");
 
-    grid.appendChild(desk.wrap);
-    grid.appendChild(mob.wrap);
-
+    grid.append(d.wrap, m.wrap);
     previewRoot.appendChild(grid);
 
-    previewNodes.desktop = desk;
-    previewNodes.mobile = mob;
-
-    attachDrag(desk.area);
-    attachDrag(mob.area);
+    previewNodes.desktop = d;
+    previewNodes.mobile = m;
 
     resizeCanvases();
-    syncViewMode();
-  }
-
-  // ---------- Resize / safe rects ----------
-  function resizeCanvasToDisplay(canvas) {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = Math.max(1, window.devicePixelRatio || 1);
-    canvas.width = Math.max(1, Math.round(rect.width * dpr));
-    canvas.height = Math.max(1, Math.round(rect.height * dpr));
-  }
-
-  function applySafeRect(node, kind) {
-    if (!node || !activeTemplate) return;
-
-    const zones = getZones(activeTemplate);
-    const desktopZ = zones.desktop || zones.mobile;
-    const mobileZ = zones.mobile || zones.desktop;
-
-    const z = (kind === "mobile")
-      ? (mobileZ || desktopZ)
-      : (state.emphasizeMobile ? (mobileZ || desktopZ) : (desktopZ || mobileZ));
-
-    if (!z) return;
-
-    node.rect.style.left = (z.x * 100) + "%";
-    node.rect.style.top = (z.y * 100) + "%";
-    node.rect.style.width = (z.w * 100) + "%";
-    node.rect.style.height = (z.h * 100) + "%";
-
-    node.overlay.classList.toggle("on", state.showSafe);
   }
 
   function resizeCanvases() {
-    if (!previewNodes.desktop || !previewNodes.mobile) return;
-
-    resizeCanvasToDisplay(previewNodes.desktop.canvas);
-    resizeCanvasToDisplay(previewNodes.mobile.canvas);
-
-    applySafeRect(previewNodes.desktop, "desktop");
-    applySafeRect(previewNodes.mobile, "mobile");
-
+    [previewNodes.desktop, previewNodes.mobile].forEach((n) => {
+      if (!n) return;
+      const r = n.canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      n.canvas.width = r.width * dpr;
+      n.canvas.height = r.height * dpr;
+    });
     renderAll();
   }
 
   window.addEventListener("resize", resizeCanvases);
 
   // ---------- Rendering ----------
-  function renderBanner(node, kind) {
+  function renderBanner(node) {
     if (!node) return;
-    const ctx = node.ctx;
-    const c = node.canvas;
-    const w = c.width;
-    const h = c.height;
-
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "rgba(0,0,0,.18)";
-    ctx.fillRect(0, 0, w, h);
+    const { ctx, canvas } = node;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (!img) {
-      ctx.fillStyle = "rgba(255,255,255,.12)";
-      ctx.font = `${Math.round(14 * (window.devicePixelRatio || 1))}px ${getComputedStyle(document.body).fontFamily}`;
-      ctx.fillText("Upload an image to preview your banner", Math.round(w * 0.06), Math.round(h * 0.55));
+      ctx.fillStyle = "rgba(255,255,255,.15)";
+      ctx.fillText("Upload an image to preview", 20, canvas.height / 2);
       return;
     }
 
-    const imgW = imgMeta.w, imgH = imgMeta.h;
-    const canvasRatio = w / h;
-    const imgRatio = imgW / imgH;
+    const scale =
+      state.mode === "fill"
+        ? Math.max(canvas.width / imgMeta.w, canvas.height / imgMeta.h)
+        : Math.min(canvas.width / imgMeta.w, canvas.height / imgMeta.h);
 
-    let scale;
-    if (state.mode === "fill") {
-      scale = (imgRatio > canvasRatio) ? (h / imgH) : (w / imgW); // cover
-    } else {
-      scale = (imgRatio > canvasRatio) ? (w / imgW) : (h / imgH); // contain
-    }
-    scale *= state.zoom;
+    const s = scale * state.zoom;
+    const w = imgMeta.w * s;
+    const h = imgMeta.h * s;
 
-    const drawW = imgW * scale;
-    const drawH = imgH * scale;
-
-    const dpr = Math.max(1, window.devicePixelRatio || 1);
-    const ox = state.offsetX * dpr;
-    const oy = state.offsetY * dpr;
-
-    let x = (w - drawW) / 2 + ox;
-    let y = (h - drawH) / 2 + oy;
-
-    const mobileAutoCrop = activeTemplate.cropGuidance?.mobileTighter;
-    if (kind === "mobile" && mobileAutoCrop) {
-      const shift = state.emphasizeMobile ? 0.06 : 0.03;
-      x += (-shift * w);
-    }
-
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(img, x, y, drawW, drawH);
-
-    if (state.mode === "fit") {
-      const fitsW = drawW < w - 1;
-      const fitsH = drawH < h - 1;
-      if (fitsW || fitsH) {
-        ctx.save();
-        ctx.fillStyle = "rgba(0,0,0,.25)";
-        if (drawW < w) {
-          const left = x;
-          const right = x + drawW;
-          ctx.fillRect(0, 0, Math.max(0, left), h);
-          ctx.fillRect(Math.min(w, right), 0, Math.max(0, w - right), h);
-        }
-        if (drawH < h) {
-          const top = y;
-          const bottom = y + drawH;
-          ctx.fillRect(0, 0, w, Math.max(0, top));
-          ctx.fillRect(0, Math.min(h, bottom), w, Math.max(0, h - bottom));
-        }
-        ctx.restore();
-      }
-    }
-
-    node.overlay.classList.toggle("on", state.showSafe);
+    ctx.drawImage(
+      img,
+      (canvas.width - w) / 2 + state.offsetX,
+      (canvas.height - h) / 2 + state.offsetY,
+      w,
+      h
+    );
   }
 
   function renderAll() {
-    if (!activeTemplate) return;
-    if (activeTemplate.type !== "linkedin.banner") return;
-
-    if (previewNodes.desktop) renderBanner(previewNodes.desktop, "desktop");
-    if (previewNodes.mobile) renderBanner(previewNodes.mobile, "mobile");
-
+    if (!isRectTemplate(activeTemplate)) return;
+    renderBanner(previewNodes.desktop);
+    renderBanner(previewNodes.mobile);
     updateStatus();
   }
 
-  // ---------- Status / warnings ----------
-  function setDot(el, cls) {
-    el.className = "dot" + (cls ? ` ${cls}` : "");
-  }
-
+  // ---------- Status ----------
   function updateStatus() {
-    if (!activeTemplate) return;
-
     if (!img) {
-      setDot(dotRes, "");
-      setDot(dotCrop, "");
-      setDot(dotSafe, "");
       msgRes.innerHTML = "<b>No image yet.</b> Upload an image to get feedback.";
-      msgCrop.textContent = "Drag/zoom until the crop feels right.";
-      msgSafe.textContent = "Keep faces/logos/text inside the safe zone.";
       return;
     }
-
-    const rec = getRec(activeTemplate);
-    const tooSmall = rec.w && rec.h && (imgMeta.w < rec.w || imgMeta.h < rec.h);
-    const muchSmaller = rec.w && rec.h && (imgMeta.w < rec.w * 0.75 || imgMeta.h < rec.h * 0.75);
-
-    if (muchSmaller) {
-      setDot(dotRes, "bad");
-      msgRes.innerHTML = `<b>Low resolution:</b> ${imgMeta.w}×${imgMeta.h}. Likely blurry. Aim for at least ${rec.w}×${rec.h}.`;
-    } else if (tooSmall) {
-      setDot(dotRes, "warn");
-      msgRes.innerHTML = `<b>Borderline resolution:</b> ${imgMeta.w}×${imgMeta.h}. Might look soft. Recommended: ${rec.w}×${rec.h} or bigger.`;
-    } else {
-      setDot(dotRes, "good");
-      msgRes.innerHTML = `<b>Resolution looks fine:</b> ${imgMeta.w}×${imgMeta.h}.`;
-    }
-
-    const heavyCrop = (state.mode === "fill" && state.zoom >= 1.35);
-    if (heavyCrop) {
-      setDot(dotCrop, "warn");
-      msgCrop.innerHTML = `<b>Crop is aggressive.</b> Consider lowering zoom or keep important content centered.`;
-    } else {
-      setDot(dotCrop, "good");
-      msgCrop.innerHTML = `<b>Crop looks reasonable.</b> If anything important is near edges, adjust slightly.`;
-    }
-
-    if (!state.showSafe) {
-      setDot(dotSafe, "warn");
-      msgSafe.innerHTML = `<b>Safe zone hidden.</b> Turn it on if your banner contains faces, logos, or text.`;
-    } else if (state.emphasizeMobile) {
-      setDot(dotSafe, "warn");
-      msgSafe.innerHTML = `<b>Mobile crop emphasized.</b> Keep important content inside the tighter (mobile) safe zone.`;
-    } else {
-      setDot(dotSafe, "good");
-      msgSafe.innerHTML = `<b>Safe zone shown.</b> Keep important content inside it for best results.`;
-    }
+    const r = getRec(activeTemplate);
+    msgRes.innerHTML =
+      r.w && r.h
+        ? `<b>Resolution:</b> ${imgMeta.w}×${imgMeta.h}`
+        : "";
   }
 
-  // ---------- Drag handling ----------
-  let dragging = false;
-  let last = { x: 0, y: 0 };
-
-  function getPoint(ev) {
-    if (ev.touches && ev.touches[0]) return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
-    return { x: ev.clientX, y: ev.clientY };
-  }
-
-  function attachDrag(area) {
-    area.addEventListener("mousedown", (ev) => {
-      if (!img) return;
-      dragging = true;
-      last = getPoint(ev);
-    });
-
-    area.addEventListener("touchstart", (ev) => {
-      if (!img) return;
-      dragging = true;
-      last = getPoint(ev);
-    }, { passive: true });
-  }
-
-  window.addEventListener("mouseup", () => (dragging = false));
-  window.addEventListener("touchend", () => (dragging = false), { passive: true });
-
-  window.addEventListener("mousemove", (ev) => {
-    if (!dragging || !img) return;
-    const p = getPoint(ev);
-    state.offsetX += (p.x - last.x);
-    state.offsetY += (p.y - last.y);
-    last = p;
-    renderAll();
-  });
-
-  window.addEventListener("touchmove", (ev) => {
-    if (!dragging || !img) return;
-    const p = getPoint(ev);
-    state.offsetX += (p.x - last.x);
-    state.offsetY += (p.y - last.y);
-    last = p;
-    renderAll();
-  }, { passive: true });
-
-  // ---------- Upload / Demo ----------
-  function loadImageFromFile(f) {
-    const reader = new FileReader();
-    reader.onload = () => {
+  // ---------- Upload ----------
+  btnUpload.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
       const i = new Image();
       i.onload = () => {
         img = i;
-        imgMeta.w = i.naturalWidth;
-        imgMeta.h = i.naturalHeight;
-
-        // reset position for new image
-        state.offsetX = 0;
-        state.offsetY = 0;
-
+        imgMeta = { w: i.naturalWidth, h: i.naturalHeight };
         renderAll();
       };
-      i.src = reader.result;
+      i.src = r.result;
     };
-    reader.readAsDataURL(f);
-  }
+    r.readAsDataURL(f);
+  });
 
-  function loadDemo() {
+  demoBtn.addEventListener("click", () => {
     const c = document.createElement("canvas");
-    c.width = 2200;
-    c.height = 550; // 4:1
+    c.width = 2000;
+    c.height = 500;
     const g = c.getContext("2d");
-
-    const grd = g.createLinearGradient(0, 0, c.width, c.height);
-    grd.addColorStop(0, "#0b0f14");
-    grd.addColorStop(0.45, "#1a2550");
-    grd.addColorStop(1, "#0f2a1a");
-    g.fillStyle = grd;
+    g.fillStyle = "#1a2550";
     g.fillRect(0, 0, c.width, c.height);
-
-    g.fillStyle = "rgba(255,255,255,.10)";
-    for (let k = 0; k < 26; k++) {
-      const x = (k / 26) * c.width;
-      g.fillRect(x, 0, 2, c.height);
-    }
-    g.fillStyle = "rgba(255,255,255,.18)";
-    g.beginPath(); g.arc(c.width * 0.22, c.height * 0.35, 150, 0, Math.PI * 2); g.fill();
-    g.fillStyle = "rgba(255,255,255,.12)";
-    g.beginPath(); g.arc(c.width * 0.72, c.height * 0.68, 220, 0, Math.PI * 2); g.fill();
-
     const i = new Image();
     i.onload = () => {
       img = i;
-      imgMeta.w = i.naturalWidth;
-      imgMeta.h = i.naturalHeight;
-      resetViewToTemplateDefaults();
+      imgMeta = { w: i.naturalWidth, h: i.naturalHeight };
       renderAll();
     };
-    i.src = c.toDataURL("image/png");
-  }
-
-  // Drop zone
-  drop.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    drop.classList.add("dragover");
-  });
-  drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
-  drop.addEventListener("drop", (e) => {
-    e.preventDefault();
-    drop.classList.remove("dragover");
-    const f = e.dataTransfer.files && e.dataTransfer.files[0];
-    if (f) loadImageFromFile(f);
+    i.src = c.toDataURL();
   });
 
-  // Upload button -> open picker (important for your new HTML)
-  if (btnUpload) {
-    btnUpload.addEventListener("click", (e) => {
-      e.preventDefault();
-      fileInput?.click();
-    });
-  }
-
-  // File input
-  fileInput.addEventListener("change", (e) => {
-    const f = e.target.files && e.target.files[0];
-    if (f) loadImageFromFile(f);
-    fileInput.value = "";
-  });
-
-  // Buttons
-  demoBtn.addEventListener("click", loadDemo);
   clearBtn.addEventListener("click", () => {
     img = null;
-    imgMeta = { w: 0, h: 0 };
-    state.offsetX = 0;
-    state.offsetY = 0;
     renderAll();
   });
 
   resetBtn.addEventListener("click", () => {
     resetViewToTemplateDefaults();
-    syncUIFromState();
     renderAll();
   });
 
-  // ---------- Controls bindings ----------
+  // ---------- Controls ----------
   zoomEl.addEventListener("input", () => {
-    state.zoom = parseInt(zoomEl.value, 10) / 100;
-    zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
+    state.zoom = zoomEl.value / 100;
+    zoomVal.textContent = `${zoomEl.value}%`;
     renderAll();
   });
 
-  function setMode(next) {
-    state.mode = next;
-    modeFillBtn.classList.toggle("on", state.mode === "fill");
-    modeFitBtn.classList.toggle("on", state.mode === "fit");
-    fitVal.textContent = state.mode === "fill" ? "Fill (cover)" : "Fit (contain)";
-    renderAll();
-  }
-
-  modeFillBtn.addEventListener("click", () => setMode("fill"));
-  modeFitBtn.addEventListener("click", () => setMode("fit"));
-
-  function setSafe(on) {
-    state.showSafe = on;
-    safeToggleBtn.classList.toggle("on", state.showSafe);
-    safeVal.textContent = state.showSafe ? "On" : "Off";
-    if (previewNodes.desktop) previewNodes.desktop.overlay.classList.toggle("on", state.showSafe);
-    if (previewNodes.mobile) previewNodes.mobile.overlay.classList.toggle("on", state.showSafe);
-    renderAll();
-  }
-
-  function setMobileEmphasis(on) {
-    state.emphasizeMobile = on;
-    mobileToggleBtn.classList.toggle("on", state.emphasizeMobile);
-    applySafeRect(previewNodes.desktop, "desktop");
-    applySafeRect(previewNodes.mobile, "mobile");
-    renderAll();
-  }
-
-  safeToggleBtn.addEventListener("click", () => setSafe(!state.showSafe));
-  mobileToggleBtn.addEventListener("click", () => setMobileEmphasis(!state.emphasizeMobile));
-
-  // ---------- View mode ----------
-  function setSeg(onBtn) {
-    [viewBothBtn, viewDesktopBtn, viewMobileBtn].forEach(b => b.classList.remove("on"));
-    onBtn.classList.add("on");
-  }
-
-  function syncViewMode() {
-    const grid = previewRoot.querySelector(".previewGrid2");
-    if (!grid) return;
-
-    const blocks = Array.from(grid.children);
-    const showDesk = state.view === "both" || state.view === "desktop";
-    const showMob = state.view === "both" || state.view === "mobile";
-
-    if (blocks[0]) blocks[0].style.display = showDesk ? "" : "none";
-    if (blocks[1]) blocks[1].style.display = showMob ? "" : "none";
-  }
-
-  viewBothBtn.addEventListener("click", () => {
-    state.view = "both";
-    setSeg(viewBothBtn);
-    syncViewMode();
-  });
-
-  viewDesktopBtn.addEventListener("click", () => {
-    state.view = "desktop";
-    setSeg(viewDesktopBtn);
-    syncViewMode();
-  });
-
-  viewMobileBtn.addEventListener("click", () => {
-    state.view = "mobile";
-    setSeg(viewMobileBtn);
-    syncViewMode();
-  });
-
-  // ---------- Sync UI ----------
-  function syncUIFromState() {
-    zoomEl.value = Math.round(state.zoom * 100);
-    zoomVal.textContent = `${Math.round(state.zoom * 100)}%`;
-
-    modeFillBtn.classList.toggle("on", state.mode === "fill");
-    modeFitBtn.classList.toggle("on", state.mode === "fit");
-    fitVal.textContent = state.mode === "fill" ? "Fill (cover)" : "Fit (contain)";
-
-    safeToggleBtn.classList.toggle("on", state.showSafe);
-    safeVal.textContent = state.showSafe ? "On" : "Off";
-
-    mobileToggleBtn.classList.toggle("on", state.emphasizeMobile);
-
-    if (state.view === "both") setSeg(viewBothBtn);
-    if (state.view === "desktop") setSeg(viewDesktopBtn);
-    if (state.view === "mobile") setSeg(viewMobileBtn);
-
-    syncViewMode();
-  }
-
-  // ---------- Events ----------
-  templateSelect.addEventListener("change", () => setActiveTemplate(templateSelect.value));
+  modeFillBtn.onclick = () => (state.mode = "fill", renderAll());
+  modeFitBtn.onclick = () => (state.mode = "fit", renderAll());
 
   // ---------- Boot ----------
   buildTemplateSelect();
-
   if (activeTemplate) {
-    applyTemplateCopy();
     resetViewToTemplateDefaults();
     rebuildPreview();
-    syncUIFromState();
-
-    requestAnimationFrame(() => {
-      resizeCanvases();
-      renderAll();
-    });
+    renderAll();
   }
+
+  templateSelect.addEventListener("change", () =>
+    setActiveTemplate(templateSelect.value)
+  );
 })();
