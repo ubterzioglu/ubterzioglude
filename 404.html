@@ -1,15 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- BASIC -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 - Page Not Found | UBT</title>
 
+  <title>404 - Page Not Found | Umut Barış Terzioğlu (UBT)</title>
+
+  <meta name="description"
+        content="404 error page of ubterzioglu.de. The requested page failed QA checks and could not be found." />
+
+  <link rel="canonical" href="https://ubterzioglu.de/404" />
+  <link rel="icon" type="image/png" href="/img/logoubt.png" />
+
+  <!-- SCHEMA: PERSON -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://ubterzioglu.de/#person",
+    "name": "Umut Barış Terzioğlu",
+    "url": "https://ubterzioglu.de",
+    "image": "https://ubterzioglu.de/img/picprofile.png",
+    "jobTitle": "Senior Software Quality Assurance Engineer",
+    "sameAs": [
+      "https://www.linkedin.com/in/umutbaristerzioglu"
+    ]
+  }
+  </script>
+
+  <!-- SCHEMA: WEBSITE -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Umut Barış Terzioğlu",
+    "url": "https://ubterzioglu.de",
+    "description": "Personal website of Umut Barış Terzioğlu. Articles, tools, apps, and insights about software testing and technology."
+  }
+  </script>
+
+  <!-- STYLE -->
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
     :root{
-      /* Microsoft / Fluent UI palette */
       --bg0:#f3f2f1;
       --bg1:#ffffff;
 
@@ -29,7 +64,7 @@
     }
 
     body{
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
       min-height:100vh;
       display:flex;
       align-items:center;
@@ -237,7 +272,6 @@
         </div>
 
         <div class="grid">
-          <!-- STATUS (moved here) -->
           <div class="subCard">
             <div class="subTitle">Test Result</div>
             <div class="metaRow">
@@ -248,7 +282,6 @@
             </div>
           </div>
 
-          <!-- ACTIONS -->
           <div class="subCard">
             <div class="subTitle">Actions</div>
             <div class="actions">
@@ -264,5 +297,9 @@
       </div>
     </div>
   </div>
+
+  <!-- GOATCOUNTER -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

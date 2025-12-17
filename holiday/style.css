@@ -106,9 +106,11 @@ h2{ margin: 0 0 10px; font-size: 15px; }
 }
 
 .ubtLogo{
-  height: 26px;
-  width: auto;
-  display: block;
+  height: 34px;
+  width: 34px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(0,0,0,.08);
 }
 
 .ubtPic{
