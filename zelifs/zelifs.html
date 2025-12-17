@@ -87,26 +87,58 @@
     </section>
 
     <script>
-      // Bilgi kartı toggle (tek kart)
-      (function () {
-        const card = document.getElementById("accInfo");
-        const btn = document.getElementById("btnInfoToggle");
-        if (!card || !btn) return;
 
-        function sync() {
-          const collapsed = card.classList.contains("is-collapsed");
-          btn.textContent = collapsed ? "Aç" : "Kapat";
-          btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
-        }
 
-        btn.addEventListener("click", () => {
-          card.classList.toggle("is-collapsed");
-          sync();
-        });
 
-        sync();
-      })();
-    </script>
+
+
+     <script>
+  // Genel accordion toggle (Bilgi + Artı + Eksi)
+  (function () {
+    // Bilgi butonu (id ile)
+    const infoCard = document.getElementById("accInfo");
+    const infoBtn = document.getElementById("btnInfoToggle");
+
+    function syncBtn(btn, card) {
+      if (!btn || !card) return;
+      const collapsed = card.classList.contains("is-collapsed");
+      btn.textContent = collapsed ? "Aç" : "Kapat";
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    }
+
+    if (infoCard && infoBtn) {
+      infoBtn.addEventListener("click", () => {
+        infoCard.classList.toggle("is-collapsed");
+        syncBtn(infoBtn, infoCard);
+      });
+      syncBtn(infoBtn, infoCard);
+    }
+
+    // Diğerleri (data-acc-toggle ile)
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-acc-toggle]");
+      if (!btn) return;
+
+      const card = btn.closest(".accordion");
+      if (!card) return;
+
+      card.classList.toggle("is-collapsed");
+      syncBtn(btn, card);
+    });
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- ANA KART: SEYAHAT EKLE + TOPLAM -->
     <section class="card card-orange">
@@ -172,48 +204,70 @@
       </div>
     </section>
 
-    <!-- ARTI / EKSİ -->
-    <section class="grid">
-      <article class="card card-blue">
-        <div class="cardHead">
-          <h2>Artı</h2>
-          <span class="pill pill-blue">Karar destek</span>
-        </div>
+  <!-- ARTI / EKSİ (alt alta + aç/kapa) -->
+<section class="stack">
 
-        <div class="noteRow">
-          <input id="plusInput" type="text" autocomplete="off" placeholder="Tek satır artı notu..." />
-          <button id="btnAddPlus" class="btn btn-blue" type="button">Ekle</button>
-        </div>
+  <!-- ARTI -->
+  <article class="card card-blue accordion is-collapsed">
+    <div class="accBar">
+      <div class="accBarLeft">
+        <h2 class="accBarTitle">Artı</h2>
+        <div class="accBarHint muted small">Karar destek</div>
+      </div>
 
-        <div class="innerCard">
-          <div class="innerHead">
-            <h3>Artılar listesi</h3>
-            <div id="plusCount" class="muted small">0 kayıt</div>
-          </div>
-          <ul id="plusList" class="notesList"></ul>
-        </div>
-      </article>
+      <div class="accBarRight">
+        <span class="pill pill-blue">+</span>
+        <button class="accToggleBtn" type="button" data-acc-toggle aria-expanded="false">Aç</button>
+      </div>
+    </div>
 
-      <article class="card card-purple">
-        <div class="cardHead">
-          <h2>Eksi</h2>
-          <span class="pill pill-purple">Karar destek</span>
-        </div>
+    <div class="accBody">
+      <div class="noteRow">
+        <input id="plusInput" type="text" autocomplete="off" placeholder="Tek satır artı notu..." />
+        <button id="btnAddPlus" class="btn btn-blue" type="button">Ekle</button>
+      </div>
 
-        <div class="noteRow">
-          <input id="minusInput" type="text" autocomplete="off" placeholder="Tek satır eksi notu..." />
-          <button id="btnAddMinus" class="btn btn-purple" type="button">Ekle</button>
+      <div class="innerCard">
+        <div class="innerHead">
+          <h3>Artılar listesi</h3>
+          <div id="plusCount" class="muted small">0 kayıt</div>
         </div>
+        <ul id="plusList" class="notesList"></ul>
+      </div>
+    </div>
+  </article>
 
-        <div class="innerCard">
-          <div class="innerHead">
-            <h3>Eksiler listesi</h3>
-            <div id="minusCount" class="muted small">0 kayıt</div>
-          </div>
-          <ul id="minusList" class="notesList"></ul>
+  <!-- EKSİ -->
+  <article class="card card-purple accordion is-collapsed">
+    <div class="accBar">
+      <div class="accBarLeft">
+        <h2 class="accBarTitle">Eksi</h2>
+        <div class="accBarHint muted small">Karar destek</div>
+      </div>
+
+      <div class="accBarRight">
+        <span class="pill pill-purple">−</span>
+        <button class="accToggleBtn" type="button" data-acc-toggle aria-expanded="false">Aç</button>
+      </div>
+    </div>
+
+    <div class="accBody">
+      <div class="noteRow">
+        <input id="minusInput" type="text" autocomplete="off" placeholder="Tek satır eksi notu..." />
+        <button id="btnAddMinus" class="btn btn-purple" type="button">Ekle</button>
+      </div>
+
+      <div class="innerCard">
+        <div class="innerHead">
+          <h3>Eksiler listesi</h3>
+          <div id="minusCount" class="muted small">0 kayıt</div>
         </div>
-      </article>
-    </section>
+        <ul id="minusList" class="notesList"></ul>
+      </div>
+    </div>
+  </article>
+
+</section>
 
     <!-- DURUM KARTI (HER ZAMAN GÖRÜNÜR) -->
     <section class="card card-yellow" id="summaryCard">
