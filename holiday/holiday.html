@@ -109,7 +109,58 @@
 
 <!-- RESULTS -->
 <div class="panel panel--purple">
-  <!-- KPI ve plan bölümü değişmedi -->
+  <div class="resultsHead">
+    <div>
+      <h2 class="panel__title">Sonuçlar</h2>
+      <div id="tripBadge" class="tripBadge hidden"></div>
+    </div>
+
+    <div class="effBox">
+      <div class="effLabel">İzin Verimliliği</div>
+      <div class="effBar">
+        <div id="effFill" class="effFill"></div>
+      </div>
+      <div id="effText" class="effText">—</div>
+    </div>
+  </div>
+
+  <div class="kpis kpis--stack">
+    <div class="kpi kpi--green">
+      <div class="kpi__label">Toplam tatil</div>
+      <div id="kpiTotal" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Seçtiğin aralıktaki toplam gün</div>
+    </div>
+
+    <div class="kpi kpi--orange">
+      <div class="kpi__label">İzinden giden</div>
+      <div id="kpiLeaveHuman" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Hafta içi ve tatil olmayan günler</div>
+    </div>
+
+    <div class="kpi kpi--purple">
+      <div class="kpi__label">Resmî tatil (iş gününe denk)</div>
+      <div id="kpiHolidaysHuman" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Arefeler 0.5 sayılır</div>
+    </div>
+
+    <div class="kpi kpi--yellow">
+      <div class="kpi__label">Hafta sonu</div>
+      <div id="kpiWeekends" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Cumartesi + Pazar</div>
+    </div>
+  </div>
+
+  <div class="miniSection">
+    <div class="miniTitle">Haftalık Ritim</div>
+    <div id="rhythmRow" class="rhythmRow">—</div>
+  </div>
+
+  <div class="miniSection">
+    <div class="miniTitle">Hafta Hafta Plan</div>
+    <div id="weeklyPlan" class="weeklyPlan muted">
+      Tarih seçip hesaplayınca burada haftalık özet çıkacak.
+    </div>
+  </div>
 </div>
 
 <footer class="footer">
