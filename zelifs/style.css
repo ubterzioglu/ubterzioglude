@@ -667,3 +667,11 @@ body{
   justify-content:center;
   padding:6px 0 0;
 }
+
+
+/* Stack layout (Artı/Eksi alt alta) */
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
