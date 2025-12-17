@@ -23,6 +23,28 @@ const TR_2026_HOLIDAYS = [
   { date: "2026-10-29", name_tr: "Cumhuriyet Bayramı", weight: 1 }
 ];
 
+
+const HOLIDAY_SHORT = {
+  "Yılbaşı": "Yılbaşı",
+  "Ramazan Bayramı Arifesi": "Ramazan B. Arife",
+  "Ramazan Bayramı (1. Gün)": "Ramazan B. (1)",
+  "Ramazan Bayramı (2. Gün)": "Ramazan B. (2)",
+  "Ramazan Bayramı (3. Gün)": "Ramazan B. (3)",
+  "Ulusal Egemenlik ve Çocuk Bayramı": "23 Nisan",
+  "Emek ve Dayanışma Günü": "1 Mayıs",
+  "Atatürk'ü Anma, Gençlik ve Spor Bayramı": "19 Mayıs",
+  "Kurban Bayramı Arifesi": "Kurban B. Arife",
+  "Kurban Bayramı (1. Gün)": "Kurban B. (1)",
+  "Kurban Bayramı (2. Gün)": "Kurban B. (2)",
+  "Kurban Bayramı (3. Gün)": "Kurban B. (3)",
+  "Kurban Bayramı (4. Gün)": "Kurban B. (4)",
+  "Demokrasi ve Millî Birlik Günü": "15 Temmuz",
+  "Zafer Bayramı": "30 Ağustos",
+  "Cumhuriyet Bayramı Arifesi": "29 Ekim Arife",
+  "Cumhuriyet Bayramı": "29 Ekim"
+};
+
+
 /* --------- ELEMENTS --------- */
 const els = {
   // inputs
@@ -225,6 +247,8 @@ function renderHolidays() {
 
     const tr = document.createElement("tr");
 
+   
+   
     const tdDate = document.createElement("td");
     tdDate.textContent = prettyDateTR(h.date);
 
@@ -232,7 +256,7 @@ function renderHolidays() {
     tdDay.textContent = weekdayTR(h.date);
 
     const tdName = document.createElement("td");
-    tdName.textContent = h.name_tr;
+    tdName.textContent = HOLIDAY_SHORT[h.name_tr] || h.name_tr; h.name_tr;
 
     const tdW = document.createElement("td");
     tdW.textContent = String(h.weight);
