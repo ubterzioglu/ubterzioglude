@@ -88,29 +88,29 @@ function bindEvents() {
   toggleInfoBtn.addEventListener("click", () => toggleSection({
     btn: toggleInfoBtn,
     body: infoBodyEl,
-    showText: "Hesaplama aç",
-    hideText: "Hesaplama kapat"
+    showText: "Bilgi Aç",
+    hideText: "Bilgi Kapat"
   }));
 
   toggleHolidayListBtn.addEventListener("click", () => toggleSection({
     btn: toggleHolidayListBtn,
     body: holidayListEl,
-    showText: "2026 Tatiller aç",
-    hideText: "2026 Tatiller kapat"
+    showText: "2026 Tatiller Aç",
+    hideText: "2026 Tatiller Kapat"
   }));
 
   toggleTipsBtn.addEventListener("click", () => toggleSection({
     btn: toggleTipsBtn,
     body: tipsCardEl,
-    showText: "Tüyoları aç",
-    hideText: "Tüyoları kapat"
+    showText: "Tüyoları Aç",
+    hideText: "Tüyoları Kapat"
   }));
 }
 
 function ensureInitialToggleState() {
-  setToggleUI(toggleInfoBtn, infoBodyEl, "Hesaplama aç", "Hesaplama kapat");
-  setToggleUI(toggleHolidayListBtn, holidayListEl, "2026 Tatiller aç", "2026 Tatiller kapat");
-  setToggleUI(toggleTipsBtn, tipsCardEl, "Tüyoları aç", "Tüyoları kapat");
+  setToggleUI(toggleInfoBtn, infoBodyEl, "Bilgi Aç", "Bilgi Kapat");
+  setToggleUI(toggleHolidayListBtn, holidayListEl, "2026 Tatiller Aç", "2026 Tatiller Kapat");
+  setToggleUI(toggleTipsBtn, tipsCardEl, "Tüyoları Aç", "Tüyoları Kapat");
 }
 
 // --------------------
@@ -304,7 +304,7 @@ function renderTripBadge(r) {
   if (leave <= 0 && total > 0) label = "🌿 Tam “resmî tatil + hafta sonu” modu";
   else {
     const ratio = total / leave;
-    if (ratio >= 3.2) label = "🚀 Çok verimli kaçamak";
+    if (ratio >= 3.2) label = "🚀 Çok verimli kAçamak";
     else if (ratio >= 2.4) label = "☀️ Verimli tatil";
     else label = "🧳 Klasik izin planı";
   }
