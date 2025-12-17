@@ -7,9 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="bg"></div>
-
   <main class="wrap">
+    <!-- TOP BAR -->
     <header class="topbar">
       <div class="brand">
         <div class="logo">Z</div>
@@ -23,20 +22,22 @@
         <span class="chip chip-blue">Office Blue</span>
         <span class="chip chip-green">Excel Green</span>
         <span class="chip chip-orange">PowerPoint Orange</span>
-        <span class="chip chip-red">Outlook Red</span>
+        <span class="chip chip-purple">Outlook Red</span>
       </div>
     </header>
 
     <!-- ÜST BİLGİ KARTLARI -->
     <section class="grid">
-      <article class="card">
+      <article class="card card-blue">
         <div class="cardHead">
           <h2>Bilgi Kartı 1 — Takvim / Günler</h2>
           <span class="pill pill-blue">Placeholder</span>
         </div>
+
         <p class="muted">
           Buraya ileride: önemli günler, haftalar, resmi tatiller, zaman farkındalığı gibi kısa bir içerik gelecek.
         </p>
+
         <div class="placeholderBox">
           <div class="phLine"></div>
           <div class="phLine"></div>
@@ -44,14 +45,16 @@
         </div>
       </article>
 
-      <article class="card">
+      <article class="card card-purple">
         <div class="cardHead">
           <h2>Bilgi Kartı 2 — Tool mesajı</h2>
           <span class="pill pill-orange">Placeholder</span>
         </div>
+
         <p class="muted">
           Buraya ileride: tool’un amacını anlatan hafif, komikli, rahatlatıcı bir metin gelecek.
         </p>
+
         <div class="placeholderBox">
           <div class="phLine"></div>
           <div class="phLine short"></div>
@@ -60,7 +63,7 @@
     </section>
 
     <!-- ANA KART: SEYAHAT EKLE + TOPLAM -->
-    <section class="card cardMain">
+    <section class="card card-orange">
       <div class="cardHead">
         <h2>DE dışı gün hesabı</h2>
         <div id="statusBadge" class="statusBadge status-unknown">Durum: —</div>
@@ -84,31 +87,21 @@
         <div class="resultCard">
           <div class="resultTitle">Toplam DE dışı gün</div>
           <div id="daysValue" class="resultValue">—</div>
-          <div class="muted small">
-            Toplam = tüm seyahatler için (Dönüş − Çıkış)
-          </div>
+          <div class="muted small">Toplam = tüm seyahatler için (Dönüş − Çıkış)</div>
         </div>
 
         <div class="actions">
-          <button id="btnTodayIn" class="btn btn-green" type="button" title="Dönüş tarihini bugüne set et">
-            Bugün: Dönüş
-          </button>
-          <button id="btnAddTrip" class="btn btn-blue" type="button" title="Bu çıkış/dönüş çiftini seyahat listesine ekle">
-            Seyahat ekle
-          </button>
-          <button id="btnClearInputs" class="btn btn-ghost" type="button" title="Sadece üstteki tarih girişlerini temizle">
-            Girişi temizle
-          </button>
-          <button id="btnClearAll" class="btn btn-ghost" type="button" title="Tüm seyahatleri ve girişleri temizle">
-            Hepsini temizle
-          </button>
+          <button id="btnTodayIn" class="btn btn-green" type="button">Bugün: Dönüş</button>
+          <button id="btnAddTrip" class="btn btn-blue" type="button">Seyahat ekle</button>
+          <button id="btnClearInputs" class="btn btn-ghost" type="button">Girişi temizle</button>
+          <button id="btnClearAll" class="btn btn-ghost" type="button">Hepsini temizle</button>
         </div>
       </div>
 
       <div id="errors" class="errors" aria-live="polite"></div>
 
-      <div class="subCard">
-        <div class="subHead">
+      <div class="innerCard">
+        <div class="innerHead">
           <h3>Seyahatler</h3>
           <div id="tripCount" class="muted small">0 kayıt</div>
         </div>
@@ -123,9 +116,7 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody id="tripsTbody">
-              <!-- JS doldurur -->
-            </tbody>
+            <tbody id="tripsTbody"></tbody>
           </table>
         </div>
 
@@ -135,43 +126,124 @@
       </div>
     </section>
 
-    <!-- ARTI / EKSİ: İKİ AYRI KART -->
+    <!-- ARTI / EKSİ -->
     <section class="grid">
-      <article class="card">
+      <article class="card card-blue">
         <div class="cardHead">
           <h2>Artı</h2>
           <span class="pill pill-blue">Karar destek</span>
         </div>
+
         <div class="noteRow">
           <input id="plusInput" type="text" autocomplete="off" placeholder="Tek satır artı notu..." />
           <button id="btnAddPlus" class="btn btn-blue" type="button">Ekle</button>
         </div>
-        <div class="notesListWrap">
-          <div class="notesHeader">
-            <div class="muted">Liste birikir.</div>
+
+        <div class="innerCard">
+          <div class="innerHead">
+            <h3>Artılar listesi</h3>
             <div id="plusCount" class="muted small">0 kayıt</div>
           </div>
           <ul id="plusList" class="notesList"></ul>
         </div>
       </article>
 
-      <article class="card">
+      <article class="card card-purple">
         <div class="cardHead">
           <h2>Eksi</h2>
-          <span class="pill pill-red">Karar destek</span>
+          <span class="pill pill-purple">Karar destek</span>
         </div>
+
         <div class="noteRow">
           <input id="minusInput" type="text" autocomplete="off" placeholder="Tek satır eksi notu..." />
-          <button id="btnAddMinus" class="btn btn-red" type="button">Ekle</button>
+          <button id="btnAddMinus" class="btn btn-purple" type="button">Ekle</button>
         </div>
-        <div class="notesListWrap">
-          <div class="notesHeader">
-            <div class="muted">Liste birikir.</div>
+
+        <div class="innerCard">
+          <div class="innerHead">
+            <h3>Eksiler listesi</h3>
             <div id="minusCount" class="muted small">0 kayıt</div>
           </div>
           <ul id="minusList" class="notesList"></ul>
         </div>
       </article>
+    </section>
+
+    <!-- DURUM KARTI (HER ZAMAN GÖRÜNÜR) -->
+    <section class="card card-yellow" id="summaryCard">
+      <div class="cardHead">
+        <h2>Durum Özeti (Screenshot-ready)</h2>
+        <span id="summaryBadge" class="pill pill-yellow">ZELIFS</span>
+      </div>
+
+      <div class="summaryGrid">
+        <div class="metric">
+          <div class="metricLabel">Toplam DE dışı gün</div>
+          <div id="sumTotalDays" class="metricValue">—</div>
+        </div>
+
+        <div class="metric">
+          <div class="metricLabel">180 limiti</div>
+          <div id="sumLimit" class="metricValue">—</div>
+          <div id="sumLimitNote" class="muted small">—</div>
+        </div>
+
+        <div class="metric">
+          <div class="metricLabel">Seyahat sayısı</div>
+          <div id="sumTripCount" class="metricValue">0</div>
+        </div>
+
+        <div class="metric">
+          <div class="metricLabel">Aralık</div>
+          <div id="sumRange" class="metricValue">—</div>
+          <div id="sumRangeNote" class="muted small">—</div>
+        </div>
+      </div>
+
+      <div class="summaryBody">
+        <div class="innerCard">
+          <div class="innerHead">
+            <h3>Seyahat listesi</h3>
+            <div id="sumTripsMeta" class="muted small">—</div>
+          </div>
+
+          <div class="tableWrap">
+            <table class="table tableCompact" aria-label="Özet seyahatler tablosu">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Çıkış</th>
+                  <th>Dönüş</th>
+                  <th>Gün</th>
+                </tr>
+              </thead>
+              <tbody id="sumTripsTbody"></tbody>
+            </table>
+          </div>
+
+          <div id="sumTripsEmpty" class="muted small" style="display:none; padding-top:8px;">
+            Henüz seyahat eklenmedi.
+          </div>
+        </div>
+
+        <div class="gridInner">
+          <div class="innerCard">
+            <div class="innerHead">
+              <h3>Artılar</h3>
+              <div id="sumPlusMeta" class="muted small">0 kayıt</div>
+            </div>
+            <ul id="sumPlusList" class="notesList"></ul>
+          </div>
+
+          <div class="innerCard">
+            <div class="innerHead">
+              <h3>Eksiler</h3>
+              <div id="sumMinusMeta" class="muted small">0 kayıt</div>
+            </div>
+            <ul id="sumMinusList" class="notesList"></ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
