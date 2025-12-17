@@ -88,8 +88,8 @@ function bindEvents() {
   toggleInfoBtn.addEventListener("click", () => toggleSection({
     btn: toggleInfoBtn,
     body: infoBodyEl,
-    showText: "Bilgi aç",
-    hideText: "Bilgi kapat"
+    showText: "Hesaplama aç",
+    hideText: "Hesaplama kapat"
   }));
 
   toggleHolidayListBtn.addEventListener("click", () => toggleSection({
