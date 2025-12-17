@@ -13,7 +13,7 @@
   <meta name="robots" content="index,follow" />
 
   <!-- Standalone CSS -->
-  <link rel="stylesheet" href="/zgen/style.css?v=4" />
+  <link rel="stylesheet" href="/zgen/style.css?v=5" />
 
   <!-- =========================================================
     OPEN GRAPH / TWITTER
@@ -124,10 +124,20 @@
               </ul>
             </div>
 
-            <!-- RIGHT: avatar + 5 bullets -->
+            <!-- RIGHT: image avatar + 5 bullets -->
             <aside class="sidebox">
               <div class="avatar-row">
-                <div class="avatar" id="avatarYou" aria-hidden="true">🙂</div>
+                <div class="avatar lg">
+                  <img
+                    id="avatarYouImg"
+                    class="avatar-img"
+                    src="/img/gen_placeholder.png"
+                    alt="Your generation avatar"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
                 <div>
                   <div class="avatar-title" id="avatarTitle">Your vibe (placeholder)</div>
                   <div class="avatar-sub" id="avatarSub">Short, punchy bullets.</div>
@@ -173,24 +183,11 @@
     </div>
   </div>
 
-  <!-- =========================================================
-    DATA (separate file)
-    Path: /zgen/zgen-data.js
-  ========================================================== -->
-  <script src="/zgen/zgen-data.js?v=1"></script>
+  <!-- DATA -->
+  <script src="/zgen/zgen-data.js?v=2"></script>
 
-  <!-- =========================================================
-    APP LOGIC (kept inline to avoid extra files)
-  ========================================================== -->
+  <!-- APP LOGIC -->
   <script>
-    // Hard stop if data didn't load
-    if (!window.ZGEN_DATA && typeof ZGEN_DATA === "undefined") {
-      console.error("ZGEN_DATA not found. Make sure /zgen/zgen-data.js is loaded.");
-    }
-
-    /* =========================================================
-      ELEMENTS
-      ========================================================= */
     const birthYearEl = document.getElementById("birthYear");
     const showBtn = document.getElementById("showBtn");
 
@@ -200,14 +197,11 @@
 
     const avatarTitle = document.getElementById("avatarTitle");
     const avatarSub = document.getElementById("avatarSub");
-    const avatarYou = document.getElementById("avatarYou");
+    const avatarYouImg = document.getElementById("avatarYouImg");
 
     const compatHeader = document.getElementById("compatHeader");
     const accordions = document.getElementById("accordions");
 
-    /* =========================================================
-      HELPERS
-      ========================================================= */
     function getGenByYear(year) {
       return ZGEN_DATA.generations.find(g => year >= g.range[0] && year <= g.range[1]) || ZGEN_DATA.generations[ZGEN_DATA.generations.length - 1];
     }
@@ -226,7 +220,29 @@
       return arr[i % arr.length];
     }
 
+    function makeAvatarImg(src, alt, sizeClass) {
+      return `
+        <div class="avatar ${sizeClass}">
+          <img class="avatar-img" src="${src}" alt="${alt}" loading="lazy" decoding="async" />
+        </div>
+      `;
+    }
+
+    function esc(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
     function makeCard({ youGen, otherGen, content, colorClass }) {
+      const youSrc = youGen.avatarImg || "/img/gen_placeholder.png";
+      const youAlt = youGen.avatarAlt || "Your avatar";
+      const otherSrc = otherGen.avatarImg || "/img/gen_placeholder.png";
+      const otherAlt = otherGen.avatarAlt || `${otherGen.name} avatar`;
+
       const card = document.createElement("article");
       card.className = `acc card ${colorClass}`;
       card.dataset.gen = otherGen.id;
@@ -235,19 +251,19 @@
         <button class="acc-head" type="button" aria-expanded="false">
           <div class="acc-title">
             <span class="acc-kicker">How to get along with</span>
-            <span class="acc-name">${otherGen.name}</span>
+            <span class="acc-name">${esc(otherGen.name)}</span>
           </div>
           <span class="acc-icon" aria-hidden="true">+</span>
         </button>
 
         <div class="acc-body" hidden>
           <div class="acc-avatars">
-            <div class="avatar sm" aria-hidden="true">${youGen.avatar || "🙂"}</div>
-            <div class="avatar sm" aria-hidden="true">${otherGen.avatar || "⚡"}</div>
+            ${makeAvatarImg(youSrc, youAlt, "xl")}
+            ${makeAvatarImg(otherSrc, otherAlt, "xl")}
 
             <div class="avatar-tags">
               <span class="tag">You</span>
-              <span class="tag">${otherGen.name}</span>
+              <span class="tag">${esc(otherGen.name)}</span>
             </div>
           </div>
 
@@ -255,19 +271,19 @@
             <div class="dos">
               <h3 class="mini-title dos-title">✅ Do’s</h3>
               <ul class="bullets">
-                ${content.dos.map(x => `<li>${x}</li>`).join("")}
+                ${content.dos.map(x => `<li>${esc(x)}</li>`).join("")}
               </ul>
             </div>
 
             <div class="donts">
               <h3 class="mini-title donts-title">❌ Don’ts</h3>
               <ul class="bullets">
-                ${content.donts.map(x => `<li>${x}</li>`).join("")}
+                ${content.donts.map(x => `<li>${esc(x)}</li>`).join("")}
               </ul>
             </div>
           </div>
 
-          <p class="micro joke-line">“${content.joke}”</p>
+          <p class="micro joke-line">“${esc(content.joke)}”</p>
         </div>
       `;
 
@@ -296,19 +312,6 @@
       });
     }
 
-    function setYouAvatar(genName){
-      const map = {
-        "Silent Generation": "🕰️",
-        "Baby Boomers": "📞",
-        "Gen X": "🧩",
-        "Millennials (Gen Y)": "☕",
-        "Gen Z": "⚡",
-        "Gen Alpha": "🤖",
-        "Gen Beta": "🧠"
-      };
-      avatarYou.textContent = map[genName] || "🙂";
-    }
-
     function updateUI(){
       const raw = (birthYearEl.value || "").trim();
       const year = Number(raw);
@@ -324,12 +327,15 @@
 
       const youGen = getGenByYear(year);
       statusPill.textContent = `Detected: ${youGen.name}`;
-      youGenLine.innerHTML = `You are <strong>${youGen.name}</strong>.`;
+      youGenLine.innerHTML = `You are <strong>${esc(youGen.name)}</strong>.`;
+
+      // Set big avatar image
+      avatarYouImg.src = youGen.avatarImg || "/img/gen_placeholder.png";
+      avatarYouImg.alt = youGen.avatarAlt || `${youGen.name} avatar`;
 
       // placeholders (traits/vibe will be data-driven later)
       avatarTitle.textContent = `${youGen.name} vibe (placeholder)`;
       avatarSub.textContent = "We’ll fill these with real content later.";
-      setYouAvatar(youGen.name);
 
       renderCompatibility(youGen);
 

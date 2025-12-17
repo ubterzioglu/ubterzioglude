@@ -1,29 +1,76 @@
 /* =========================================================
    ZGEN – zgen-data.js
-   Paste-only data file (keeps HTML clean)
    Path: /zgen/zgen-data.js
+
+   CHANGE (avatars):
+   - Use image placeholders instead of emoji so Canva visuals can be real.
+   - Put your generated images under: /img/
+     Example filenames:
+       gen_silent_image.png
+       gen_boomer_image.png
+       gen_genx_image.png
+       gen_geny_image.png
+       gen_genz_image.png
+       gen_alpha_image.png
+       gen_beta_image.png
 
    Directional compatibility:
    compat[youGenId][otherGenId] => { dos: [5], donts: [5], joke: "..." }
-
-   NOTE: This file contains ONLY data.
    ========================================================= */
 
 const ZGEN_DATA = {
   generations: [
-    { id: "silent", name: "Silent Generation", range: [1928, 1945], avatar: "🕰️" },
-    { id: "boomer", name: "Baby Boomers", range: [1946, 1964], avatar: "📞" },
-    { id: "genx",   name: "Gen X", range: [1965, 1980], avatar: "🧩" },
-    { id: "geny",   name: "Millennials (Gen Y)", range: [1981, 1996], avatar: "☕" },
-    { id: "genz",   name: "Gen Z", range: [1997, 2012], avatar: "⚡" },
-    { id: "alpha",  name: "Gen Alpha", range: [2013, 2025], avatar: "🤖" },
-    { id: "beta",   name: "Gen Beta", range: [2026, 2100], avatar: "🧠" }
+    {
+      id: "silent",
+      name: "Silent Generation",
+      range: [1928, 1945],
+      avatarImg: "/img/gen_silent_image.png",
+      avatarAlt: "Silent Generation avatar"
+    },
+    {
+      id: "boomer",
+      name: "Baby Boomers",
+      range: [1946, 1964],
+      avatarImg: "/img/gen_boomer_image.png",
+      avatarAlt: "Baby Boomers avatar"
+    },
+    {
+      id: "genx",
+      name: "Gen X",
+      range: [1965, 1980],
+      avatarImg: "/img/gen_genx_image.png",
+      avatarAlt: "Gen X avatar"
+    },
+    {
+      id: "geny",
+      name: "Millennials (Gen Y)",
+      range: [1981, 1996],
+      avatarImg: "/img/gen_geny_image.png",
+      avatarAlt: "Millennials avatar"
+    },
+    {
+      id: "genz",
+      name: "Gen Z",
+      range: [1997, 2012],
+      avatarImg: "/img/gen_genz_image.png",
+      avatarAlt: "Gen Z avatar"
+    },
+    {
+      id: "alpha",
+      name: "Gen Alpha",
+      range: [2013, 2025],
+      avatarImg: "/img/gen_alpha_image.png",
+      avatarAlt: "Gen Alpha avatar"
+    },
+    {
+      id: "beta",
+      name: "Gen Beta",
+      range: [2026, 2100],
+      avatarImg: "/img/gen_beta_image.png",
+      avatarAlt: "Gen Beta avatar"
+    }
   ],
 
-  /* =========================================================
-     42 directional scenarios (7 * 6)
-     Fill ONLY what you want; missing entries fallback to placeholders.
-     ========================================================= */
   compat: {
     silent: {
       boomer: { dos: placeholderDos(), donts: placeholderDonts(), joke: placeholderJoke() },
@@ -56,8 +103,6 @@ const ZGEN_DATA = {
       silent: { dos: placeholderDos(), donts: placeholderDonts(), joke: placeholderJoke() },
       boomer: { dos: placeholderDos(), donts: placeholderDonts(), joke: placeholderJoke() },
       genx:   { dos: placeholderDos(), donts: placeholderDonts(), joke: placeholderJoke() },
-
-      /* Example filled entry (directional): Gen Y -> Gen Z */
       genz: {
         dos: [
           "Do keep it short and clear",
@@ -75,7 +120,6 @@ const ZGEN_DATA = {
         ],
         joke: "If your message needs scrolling, Gen Z already moved on."
       },
-
       alpha:  { dos: placeholderDos(), donts: placeholderDonts(), joke: placeholderJoke() },
       beta:   { dos: placeholderDos(), donts: placeholderDonts(), joke: placeholderJoke() }
     },
@@ -109,30 +153,12 @@ const ZGEN_DATA = {
   }
 };
 
-/* =========================================================
-   PLACEHOLDER HELPERS (to keep compat skeleton compact)
-   You can delete these helpers later and paste real arrays.
-   ========================================================= */
 function placeholderDos() {
-  return [
-    "Do #1 (placeholder)",
-    "Do #2 (placeholder)",
-    "Do #3 (placeholder)",
-    "Do #4 (placeholder)",
-    "Do #5 (placeholder)"
-  ];
+  return ["Do #1 (placeholder)","Do #2 (placeholder)","Do #3 (placeholder)","Do #4 (placeholder)","Do #5 (placeholder)"];
 }
-
 function placeholderDonts() {
-  return [
-    "Don’t #1 (placeholder)",
-    "Don’t #2 (placeholder)",
-    "Don’t #3 (placeholder)",
-    "Don’t #4 (placeholder)",
-    "Don’t #5 (placeholder)"
-  ];
+  return ["Don’t #1 (placeholder)","Don’t #2 (placeholder)","Don’t #3 (placeholder)","Don’t #4 (placeholder)","Don’t #5 (placeholder)"];
 }
-
 function placeholderJoke() {
   return "Placeholder joke (optional).";
 }
