@@ -11,8 +11,6 @@ body{
 }
 
 :root{
-  --bg: #ffffff;
-
   --c-blue:   #01A1F1;
   --c-green:  #7CBB00;
   --c-orange: #F65314;
@@ -35,39 +33,19 @@ body{
    Layout
 ========= */
 .wrap{
-  max-width: 1100px;
+  max-width: 980px;
   margin: 0 auto;
   padding: 22px 14px 40px;
 }
 
-.grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
-/* Top stack: info + date range stacked */
-.topStack{
+.stack{
   display: grid;
   gap: 14px;
-}
-
-/* Desktop: topStack sits right and is narrower; results full width below */
-@media (min-width: 940px){
-  .grid{
-    grid-template-columns: 1fr 420px; /* right column fixed-ish */
-    align-items: start;
-  }
-  .topStack{
-    grid-column: 2 / 3;
-  }
-  .panel--purple{
-    grid-column: 1 / -1; /* results full width */
-  }
+  padding: 14px;
 }
 
 /* =========
-   Card
+   Main card
 ========= */
 .card{
   border: 1px solid var(--border);
@@ -84,7 +62,6 @@ body{
   position: relative;
 }
 
-/* color accent bar (header) */
 .card__head::before{
   content:"";
   position:absolute;
@@ -92,65 +69,36 @@ body{
   width: 10px;
   background: var(--c-blue);
 }
-.card--blue .card__head::before{ background: var(--c-blue); }
 
 h1{
   margin: 0 0 6px;
   font-size: 20px;
   line-height: 1.25;
 }
-@media (min-width: 520px){
-  h1{ font-size: 22px; }
-}
+@media (min-width: 520px){ h1{ font-size: 22px; } }
 
-h2{
-  margin: 0 0 10px;
-  font-size: 15px;
-}
+h2{ margin: 0 0 10px; font-size: 15px; }
 
 /* =========
-   Panels (these are the "cards" you want colorful)
+   Panels (rengarenk)
 ========= */
 .panel{
   padding: 14px;
-  border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow2);
   background: #fff;
-}
-
-/* RENGARENK PANELS: tinted backgrounds + colored left bar */
-.panel--blue,
-.panel--green,
-.panel--orange,
-.panel--purple,
-.panel--yellow{
+  border: 1px solid rgba(0,0,0,.10);
   position: relative;
   overflow: hidden;
 }
 
-.panel--blue{
-  background: rgba(1,161,241,.10);
-  border-color: rgba(1,161,241,.25);
-}
-.panel--green{
-  background: rgba(124,187,0,.10);
-  border-color: rgba(124,187,0,.25);
-}
-.panel--orange{
-  background: rgba(246,83,20,.10);
-  border-color: rgba(246,83,20,.25);
-}
-.panel--purple{
-  background: rgba(143,3,183,.08);
-  border-color: rgba(143,3,183,.22);
-}
-.panel--yellow{
-  background: rgba(255,187,0,.10);
-  border-color: rgba(255,187,0,.28);
-}
+/* tinted bg + colored left bar */
+.panel--blue{   background: rgba(1,161,241,.10);  border-color: rgba(1,161,241,.25); }
+.panel--green{  background: rgba(124,187,0,.10);  border-color: rgba(124,187,0,.25); }
+.panel--orange{ background: rgba(246,83,20,.10);  border-color: rgba(246,83,20,.25); }
+.panel--purple{ background: rgba(143,3,183,.08);  border-color: rgba(143,3,183,.22); }
+.panel--yellow{ background: rgba(255,187,0,.10);  border-color: rgba(255,187,0,.28); }
 
-/* left color bar on panels */
 .panel--blue::before,
 .panel--green::before,
 .panel--orange::before,
@@ -160,7 +108,6 @@ h2{
   position:absolute;
   left:0; top:0; bottom:0;
   width: 10px;
-  background: var(--c-blue);
 }
 .panel--blue::before{ background: var(--c-blue); }
 .panel--green::before{ background: var(--c-green); }
@@ -168,15 +115,20 @@ h2{
 .panel--purple::before{ background: var(--c-purple); }
 .panel--yellow::before{ background: var(--c-yellow); }
 
-/* soft variant: keep subtle but still readable */
-.panel--soft{
-  background: rgba(0,0,0,.02);
-}
-
 .panel__title{
   margin: 0 0 10px;
   font-size: 14px;
   letter-spacing: .2px;
+}
+
+/* =========
+   Info buttons row
+========= */
+.stackBtns{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 /* =========
@@ -187,10 +139,7 @@ h2{
   padding-left: 18px;
   color: var(--ink);
 }
-.bullets li{
-  margin: 6px 0;
-  line-height: 1.35;
-}
+.bullets li{ margin: 6px 0; line-height: 1.35; }
 
 /* =========
    Fields
@@ -200,26 +149,18 @@ h2{
   grid-template-columns: 1fr;
   gap: 10px;
 }
-@media (min-width: 520px){
-  .row2{ grid-template-columns: 1fr 1fr; }
-}
+@media (min-width: 520px){ .row2{ grid-template-columns: 1fr 1fr; } }
 
-.field{
-  display: grid;
-  gap: 6px;
-}
-.field__label{
-  font-size: 12px;
-  color: var(--muted);
-}
+.field{ display: grid; gap: 6px; }
+.field__label{ font-size: 12px; color: var(--muted); }
 
 input[type="date"]{
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(0,0,0,.12);
   border-radius: 12px;
   font-size: 14px;
-  background: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.92);
   color: var(--ink);
 }
 
@@ -234,7 +175,7 @@ input[type="date"]:focus{
   padding: 10px 12px;
   border: 1px dashed rgba(17,24,39,.18);
   border-radius: 12px;
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.88);
   line-height: 1.35;
 }
 
@@ -255,7 +196,7 @@ input[type="date"]:focus{
   font-weight: 650;
   font-size: 14px;
   cursor: pointer;
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.90);
   color: var(--ink);
 }
 
@@ -264,24 +205,12 @@ input[type="date"]:focus{
   box-shadow: 0 0 0 4px rgba(1,161,241,.18);
 }
 
-.btn--primary{
-  background: var(--c-blue);
-  border-color: rgba(0,0,0,.08);
-  color: #fff;
-}
-
-.btn--danger{
-  background: var(--c-orange);
-  border-color: rgba(0,0,0,.08);
-  color: #fff;
-}
-
-.btn--ghost{
-  background: rgba(255,255,255,.75);
-}
+.btn--primary{ background: var(--c-blue); color: #fff; border-color: rgba(0,0,0,.08); }
+.btn--danger{ background: var(--c-orange); color: #fff; border-color: rgba(0,0,0,.08); }
+.btn--ghost{ background: rgba(255,255,255,.82); }
 
 /* =========
-   Tips box
+   Tips
 ========= */
 .tips{
   margin-top: 12px;
@@ -293,7 +222,7 @@ input[type="date"]:focus{
 }
 
 /* =========
-   KPI cards
+   KPI cards (alt alta)
 ========= */
 .kpis{
   display: grid;
@@ -301,17 +230,13 @@ input[type="date"]:focus{
   gap: 10px;
 }
 
-@media (min-width: 520px){
-  .kpis{
-    grid-template-columns: 1fr 1fr;
-  }
-}
+.kpis--stack{ grid-template-columns: 1fr !important; }
 
 .kpi{
   border: 1px solid rgba(0,0,0,.08);
   border-radius: 16px;
   padding: 12px 12px 10px;
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.90);
   position: relative;
   overflow: hidden;
 }
@@ -324,20 +249,9 @@ input[type="date"]:focus{
   background: var(--c-blue);
 }
 
-.kpi__label{
-  font-size: 12px;
-  color: var(--muted);
-  margin-left: 4px;
-}
-.kpi__value{
-  font-size: 26px;
-  font-weight: 800;
-  margin: 4px 0 0 4px;
-}
-.kpi__sub{
-  margin-left: 4px;
-  font-size: 12px;
-}
+.kpi__label{ font-size: 12px; color: var(--muted); margin-left: 4px; }
+.kpi__value{ font-size: 26px; font-weight: 800; margin: 4px 0 0 4px; }
+.kpi__sub{ margin-left: 4px; font-size: 12px; }
 
 .kpi--green::before{ background: var(--c-green); }
 .kpi--orange::before{ background: var(--c-orange); }
@@ -352,7 +266,7 @@ input[type="date"]:focus{
   border: 1px solid rgba(0,0,0,.08);
   border-radius: 14px;
   padding: 10px 12px;
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.90);
 }
 
 .details summary{
@@ -370,133 +284,36 @@ input[type="date"]:focus{
   overflow: auto;
   font-size: 12px;
   line-height: 1.35;
-  max-height: 220px; /* patlamayı görsel olarak kes */
+  max-height: 220px;
 }
 
 /* =========
-   Holiday list
+   Holiday list + Info box
 ========= */
-.holidaylist{
+.holidaylist, .infobox{
   margin-top: 10px;
   border: 1px solid rgba(0,0,0,.08);
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.90);
   border-radius: 14px;
   padding: 10px 12px;
-  max-height: 240px;
-  overflow: auto;
   font-size: 13px;
   line-height: 1.35;
 }
+
+.holidaylist{
+  max-height: 240px;
+  overflow: auto;
+}
+
 .holidaylist .hl-row{
   display:flex;
   gap: 10px;
   padding: 6px 0;
   border-bottom: 1px dashed rgba(17,24,39,.12);
 }
-.holidaylist .hl-row:last-child{
-  border-bottom: none;
-}
-.holidaylist .hl-date{
-  min-width: 92px;
-  font-weight: 800;
-}
-.holidaylist .hl-name{
-  color: var(--ink);
-}
+.holidaylist .hl-row:last-child{ border-bottom: none; }
+.holidaylist .hl-date{ min-width: 92px; font-weight: 800; }
+.holidaylist .hl-name{ color: var(--ink); }
 
-/* =========
-   Info box (same feel as holiday list)
-========= */
-.infobox{
-  margin-top: 10px;
-  border: 1px solid rgba(0,0,0,.08);
-  background: rgba(255,255,255,.85);
-  border-radius: 14px;
-  padding: 10px 12px;
-  font-size: 13px;
-  line-height: 1.35;
-}
-.infobox .bullets{
-  margin: 0;
-  padding-left: 18px;
-}
-.infobox .bullets li{
-  margin: 6px 0;
-}
-/* --- Accordion (Top cards) --- */
-.accordion .accHeader{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  border:0;
-  background: transparent;
-  padding: 0;
-  cursor:pointer;
-  text-align:left;
-}
-
-.accordion .accTitle h2{
-  margin:0;
-}
-
-.accordion .accBody{
-  margin-top:10px;
-}
-
-.accordion.is-collapsed .accBody{
-  display:none;
-}
-
-/* make header feel clickable */
-.accordion .accHeader:hover .pill{
-  filter: saturate(1.15);
-}
-
-/* Slightly tighter inner card */
-.innerCompact{
-  padding:10px;
-}
-.innerCompact .innerHead{
-  margin-bottom:8px;
-}
-.innerCompact .innerHead h3{
-  font-size: 12.5px;
-}
-
-/* --- Table tightening to avoid horizontal scroll --- */
-.tableTight{
-  min-width: unset;              /* removes forced min-width */
-  width:100%;
-  table-layout: fixed;           /* lets columns wrap */
-}
-.tableTight th, .tableTight td{
-  padding: 8px 8px;              /* tighter padding */
-  font-size: 12px;               /* smaller font */
-}
-.tableTight th{
-  font-size: 11px;
-}
-
-/* Column sizing (holiday table) */
-.tableTight .col-date{ width: 92px; }
-.tableTight .col-day{  width: 88px; }
-.tableTight .col-w{    width: 34px; text-align:right; }
-.tableTight td:last-child, .tableTight th:last-child{ text-align:right; }
-
-.tableTight .col-name{
-  width: auto;
-}
-
-/* Allow wrapping in Name column */
-.tableTight td{
-  overflow:hidden;
-  text-overflow: ellipsis;
-}
-.tableTight td:nth-child(3){
-  white-space: normal;
-  overflow: visible;
-  text-overflow: unset;
-  word-break: break-word;
-}
+.infobox .bullets{ margin: 0; padding-left: 18px; }
+.infobox .bullets li{ margin: 6px 0; }

@@ -1,12 +1,4 @@
-/* ZELIFS — White background + colorful cards + softer buttons + UBT media */
-
-/* NOTE:
-   Buttons were “too bold”. This version makes them softer:
-   - slightly lower font-weight
-   - more padding balance
-   - gradient backgrounds
-   - subtle shadow + hover lift
-*/
+/* ZELIFS — White background + colorful cards + softer buttons + compact “Bilgi” accordion bar */
 
 :root{
   /* Canvas */
@@ -46,7 +38,12 @@
   --small: 12px;
 
   --fw-title: 800;
-  --fw-ui: 650;  /* softer than before */
+  --fw-ui: 600;  /* softer */
+
+  /* Button feel */
+  --btn-radius: 999px;
+  --btn-shadow: 0 10px 22px rgba(2,8,23,.10);
+  --btn-shadow-hover: 0 14px 28px rgba(2,8,23,.12);
 }
 
 *{ box-sizing:border-box; }
@@ -127,22 +124,6 @@ body{
   border-radius: 999px;
 }
 
-/* Chips */
-.chips{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
-.chip{
-  font-size: 12px;
-  padding:7px 10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:#fff;
-  color: var(--text);
-  font-weight: 700;
-}
-.chip-blue{ border-color: color-mix(in srgb, var(--p-blue) 55%, #0000); }
-.chip-green{ border-color: color-mix(in srgb, var(--p-green) 55%, #0000); }
-.chip-orange{ border-color: color-mix(in srgb, var(--p-orange) 55%, #0000); }
-.chip-purple{ border-color: color-mix(in srgb, var(--p-purple) 55%, #0000); }
-
 /* Layout grids */
 .grid{
   display:grid;
@@ -151,12 +132,11 @@ body{
 }
 @media (max-width: 860px){
   .topbar{ flex-direction:column; align-items:stretch; }
-  .chips{ justify-content:flex-start; }
   .grid{ grid-template-columns: 1fr; }
   .brandMedia{ justify-content:flex-start; }
 }
 
-/* Cards — truly colorful */
+/* Cards */
 .card{
   border:1px solid var(--border);
   border-radius: var(--radius);
@@ -207,7 +187,7 @@ body{
   background: linear-gradient(90deg, var(--p-yellow), color-mix(in srgb, var(--p-yellow) 55%, var(--p-orange)));
 }
 
-/* Card headers */
+/* Standard card header (other cards) */
 .cardHead{
   display:flex;
   align-items:center;
@@ -222,35 +202,12 @@ body{
   letter-spacing: -0.2px;
 }
 
-/* Inner card (card inside card) */
-.innerCard{
-  margin-top:12px;
-  border-radius: 16px;
-  border:1px solid var(--border2);
-  background: rgba(255,255,255,.78);
-  backdrop-filter: blur(2px);
-  padding:12px;
-}
-.innerHead{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:10px;
-}
-.innerHead h3{
-  margin:0;
-  font-size: var(--h3);
-  font-weight: 800;
-  letter-spacing: -0.15px;
-}
-
-/* Text helpers */
+/* Helpers */
 .muted{ color: var(--muted); font-weight: 500; }
 .small{ font-size: var(--small); }
 .hint{ margin-top:6px; font-size: var(--small); color: var(--muted2); }
 
-/* Pills / badges */
+/* Pills */
 .pill{
   font-size: 12px;
   padding:7px 10px;
@@ -275,50 +232,94 @@ body{
   background: rgba(255,255,255,.90);
   color: var(--text);
   font-weight: 800;
-  letter-spacing: 0;
 }
 .status-unknown{ border-color: rgba(11,18,32,.18); }
 .status-safe{ border-color: color-mix(in srgb, var(--p-green) 70%, #0000); }
 .status-risk{ border-color: color-mix(in srgb, var(--p-orange) 75%, #0000); }
 
-/* Tool message box */
-.toolMsg{
-  margin-top:6px;
+/* Inner card */
+.innerCard{
+  margin-top:12px;
   border-radius: 16px;
   border:1px solid var(--border2);
   background: rgba(255,255,255,.78);
+  backdrop-filter: blur(2px);
   padding:12px;
+}
+.innerHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.innerHead h3{
+  margin:0;
+  font-size: var(--h3);
+  font-weight: 800;
+  letter-spacing: -0.15px;
+}
+.innerCompact{ padding:10px; }
+.innerCompact .innerHead{ margin-bottom:8px; }
+.innerCompact .innerHead h3{ font-size: 12.5px; }
+
+/* ---------- NEW: “Bilgi” accordion bar (single-line) ---------- */
+.accordion .accBody{ margin-top:10px; }
+.accordion.is-collapsed .accBody{ display:none; }
+
+.accBar{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  flex-wrap:wrap;
+  margin-bottom: 0; /* keep it tight */
+}
+.accBarLeft{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.accBarTitle{
+  margin:0;
+  font-size: var(--h2);
+  font-weight: var(--fw-title);
+  letter-spacing:-0.2px;
+}
+.accBarRight{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* Toggle button in info bar */
+.accToggleBtn{
+  border:1px solid rgba(11,18,32,.14);
+  background: rgba(255,255,255,.92);
+  color: rgba(11,18,32,.92);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 750;
+  font-size: 12px;
+  cursor:pointer;
+  box-shadow: 0 10px 22px rgba(2,8,23,.08);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.accToggleBtn:hover{
+  box-shadow: 0 14px 28px rgba(2,8,23,.10);
+  filter: saturate(1.08);
+}
+.accToggleBtn:active{ transform: translateY(1px); }
+
+/* Tool message inside info */
+.toolMsg{
+  border-radius: 16px;
+  border:1px solid var(--border2);
+  background: rgba(255,255,255,.82);
+  padding:12px;
 }
 .toolMsgText{
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: -0.1px;
-}
-.toolMsgMedia{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-.mediaChip{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border-radius: 999px;
-  border:1px solid var(--border2);
-  background: rgba(255,255,255,.92);
-  font-weight: 700;
-  font-size: 12px;
-}
-.mediaChip img{
-  width:22px;
-  height:22px;
-  border-radius: 8px;
-  object-fit: cover;
 }
 .miniNote{ margin-top:10px; }
 
@@ -355,7 +356,7 @@ body{
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--p-blue) 18%, #0000);
 }
 
-/* Row with result + buttons */
+/* Result + actions row */
 .rowBetween{
   margin-top:12px;
   display:flex;
@@ -385,7 +386,7 @@ body{
   letter-spacing: -0.3px;
 }
 
-/* Buttons — softer + more colorful */
+/* ---------- Buttons (FIXED: softer, less “kalın”, more “filled”) ---------- */
 .actions{
   flex:0 0 auto;
   display:flex;
@@ -395,58 +396,65 @@ body{
   flex-wrap:wrap;
 }
 
+/* Base: pill + less border dominance */
 .btn{
-  border:none;
   cursor:pointer;
-  border-radius: 14px;
+  border-radius: var(--btn-radius);
   padding: 11px 14px;
   font-size: 14px;
   font-weight: var(--fw-ui);
   letter-spacing: -0.1px;
   color: rgba(11,18,32,.92);
-  border:1px solid rgba(11,18,32,.14);
-  background: rgba(255,255,255,.92);
-  box-shadow: 0 10px 22px rgba(2,8,23,.10);
-  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+
+  border: 1px solid rgba(11,18,32,.10);
+  box-shadow: var(--btn-shadow);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease;
 }
 .btn:hover{
-  box-shadow: 0 14px 28px rgba(2,8,23,.12);
-  filter: saturate(1.08);
+  box-shadow: var(--btn-shadow-hover);
+  filter: saturate(1.12);
 }
 .btn:active{ transform: translateY(1px); }
 
+/* More “filled” color buttons */
 .btn-blue{
-  border-color: color-mix(in srgb, var(--p-blue) 65%, #0000);
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--p-blue) 18%, #fff),
-    rgba(255,255,255,.96)
+    color-mix(in srgb, var(--p-blue) 26%, #fff),
+    color-mix(in srgb, var(--p-blue) 10%, #fff)
   );
+  border-color: color-mix(in srgb, var(--p-blue) 35%, rgba(11,18,32,.10));
 }
 .btn-green{
-  border-color: color-mix(in srgb, var(--p-green) 70%, #0000);
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--p-green) 18%, #fff),
-    rgba(255,255,255,.96)
+    color-mix(in srgb, var(--p-green) 26%, #fff),
+    color-mix(in srgb, var(--p-green) 10%, #fff)
   );
+  border-color: color-mix(in srgb, var(--p-green) 35%, rgba(11,18,32,.10));
 }
 .btn-orange{
-  border-color: color-mix(in srgb, var(--p-orange) 70%, #0000);
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--p-orange) 18%, #fff),
-    rgba(255,255,255,.96)
+    color-mix(in srgb, var(--p-orange) 26%, #fff),
+    color-mix(in srgb, var(--p-orange) 10%, #fff)
   );
+  border-color: color-mix(in srgb, var(--p-orange) 35%, rgba(11,18,32,.10));
 }
 .btn-purple{
-  border-color: color-mix(in srgb, var(--p-purple) 70%, #0000);
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--p-purple) 18%, #fff),
-    rgba(255,255,255,.96)
+    color-mix(in srgb, var(--p-purple) 26%, #fff),
+    color-mix(in srgb, var(--p-purple) 10%, #fff)
   );
+  border-color: color-mix(in srgb, var(--p-purple) 35%, rgba(11,18,32,.10));
 }
+
+/* Ghost buttons: keep light but still pill */
 .btn-ghost{
-  background: rgba(255,255,255,.85);
-  border-style:dashed;
-  box-shadow:none;
+  background: rgba(255,255,255,.84);
+  border-style: dashed;
+  box-shadow: none;
+}
+.btn-ghost:hover{
+  background: rgba(255,255,255,.92);
+  filter:none;
 }
 
 /* Errors */
@@ -500,6 +508,34 @@ body{
   color: var(--muted2);
   margin-top:2px;
   font-weight: 550;
+}
+
+/* Tight table to avoid scroll */
+.tableTight{
+  min-width: unset;
+  width:100%;
+  table-layout: fixed;
+}
+.tableTight th, .tableTight td{
+  padding: 8px 8px;
+  font-size: 12px;
+}
+.tableTight th{ font-size: 11px; }
+
+.tableTight .col-date{ width: 92px; }
+.tableTight .col-day{  width: 88px; }
+.tableTight .col-w{    width: 34px; text-align:right; }
+.tableTight td:last-child, .tableTight th:last-child{ text-align:right; }
+
+.tableTight td{
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+.tableTight td:nth-child(3){
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-word;
 }
 
 /* Icon button (delete) */
@@ -582,7 +618,7 @@ body{
   font-weight: 600;
 }
 
-/* Summary layout */
+/* Summary */
 .summaryGrid{
   display:grid;
   grid-template-columns: repeat(4, 1fr);

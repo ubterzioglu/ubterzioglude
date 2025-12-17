@@ -23,7 +23,7 @@ const TR_2026_HOLIDAYS = [
   { date: "2026-10-29", name_tr: "Cumhuriyet Bayramı", weight: 1 }
 ];
 
-
+/* --------- HOLIDAY SHORT NAMES (for tighter table) --------- */
 const HOLIDAY_SHORT = {
   "Yılbaşı": "Yılbaşı",
   "Ramazan Bayramı Arifesi": "Ramazan B. Arife",
@@ -43,7 +43,6 @@ const HOLIDAY_SHORT = {
   "Cumhuriyet Bayramı Arifesi": "29 Ekim Arife",
   "Cumhuriyet Bayramı": "29 Ekim"
 };
-
 
 /* --------- ELEMENTS --------- */
 const els = {
@@ -121,6 +120,42 @@ function init() {
   renderHolidays();  // info card
   wire();
   renderAll();
+
+  // UI: keep buttons readable on narrow screens (labels become shorter)
+  setupResponsiveButtons();
+  applyResponsiveButtons();
+  window.addEventListener("resize", applyResponsiveButtons);
+}
+
+function setupResponsiveButtons() {
+  // Store full labels + define short labels (for narrow widths)
+  const mapping = {
+    btnTodayIn: "Bugün",
+    btnAddTrip: "Ekle",
+    btnClearInputs: "Temizle",
+    btnClearAll: "Sıfırla",
+    btnAddPlus: "Ekle",
+    btnAddMinus: "Ekle",
+  };
+
+  for (const [id, shortLabel] of Object.entries(mapping)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    if (!el.dataset.fullLabel) el.dataset.fullLabel = (el.textContent || "").trim();
+    el.dataset.shortLabel = shortLabel;
+  }
+}
+
+function applyResponsiveButtons() {
+  const compact = window.innerWidth < 720;
+  document.documentElement.classList.toggle("ui-compact", compact);
+
+  const all = document.querySelectorAll("[data-full-label][data-short-label]");
+  all.forEach((el) => {
+    const full = el.dataset.fullLabel || "";
+    const shortL = el.dataset.shortLabel || full;
+    el.textContent = compact ? shortL : full;
+  });
 }
 
 /* ---------------- WIRING ---------------- */
@@ -247,8 +282,6 @@ function renderHolidays() {
 
     const tr = document.createElement("tr");
 
-   
-   
     const tdDate = document.createElement("td");
     tdDate.textContent = prettyDateTR(h.date);
 
@@ -256,7 +289,7 @@ function renderHolidays() {
     tdDay.textContent = weekdayTR(h.date);
 
     const tdName = document.createElement("td");
-    tdName.textContent = HOLIDAY_SHORT[h.name_tr] || h.name_tr; h.name_tr;
+    tdName.textContent = HOLIDAY_SHORT[h.name_tr] || h.name_tr;
 
     const tdW = document.createElement("td");
     tdW.textContent = String(h.weight);

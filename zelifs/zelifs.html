@@ -24,93 +24,89 @@
       </div>
     </header>
 
-   <!-- ÜST BİLGİ KARTLARI (Aç/Kapa) -->
-<section class="grid">
-
-  <!-- Bilgi Kartı 1: 2026 TR Tatilleri -->
-  <article class="card card-blue accordion is-collapsed" id="accHolidays">
-    <button class="accHeader" type="button" data-acc-toggle>
-      <div class="accTitle">
-        <h2>Takvim — TR Tatiller (2026)</h2>
-        <div class="muted small">Aç/Kapa</div>
-      </div>
-      <span class="pill pill-blue">Liste</span>
-    </button>
-
-    <div class="accBody">
-      <p class="muted small">
-        Not: “Arefe” günleri <b>0.5</b> olarak sayılır.
-      </p>
-
-      <div class="innerCard innerCompact">
-        <div class="innerHead">
-          <h3>2026 Tatil Listesi</h3>
-          <div id="holidayCount" class="muted small">—</div>
+    <!-- BİLGİ (tek kart, aç/kapa) -->
+    <section class="card card-blue accordion is-collapsed" id="accInfo">
+      <div class="accBar">
+        <div class="accBarLeft">
+          <h2 class="accBarTitle">Bilgi</h2>
+          <div class="accBarHint muted small">Tool mesajı + TR tatiller (2026)</div>
         </div>
 
-        <div class="tableWrap">
-          <table class="table tableCompact tableTight" aria-label="TR 2026 holidays table">
-            <thead>
-              <tr>
-                <th class="col-date">Tarih</th>
-                <th class="col-day">Gün</th>
-                <th class="col-name">Ad</th>
-                <th class="col-w">W</th>
-              </tr>
-            </thead>
-            <tbody id="holidaysTbody"></tbody>
-          </table>
+        <div class="accBarRight">
+          <span class="pill pill-blue">Bilgi</span>
+          <button class="accToggleBtn" type="button" id="btnInfoToggle" aria-expanded="false">
+            Aç
+          </button>
         </div>
       </div>
-    </div>
-  </article>
 
-  <!-- Bilgi Kartı 2: Tool mesajı -->
-  <article class="card card-purple accordion is-collapsed" id="accToolMsg">
-    <button class="accHeader" type="button" data-acc-toggle>
-      <div class="accTitle">
-        <h2>Tool mesajı</h2>
-        <div class="muted small">Aç/Kapa</div>
-      </div>
-      <span class="pill pill-yellow">Not</span>
-    </button>
-
-    <div class="accBody">
-      <div class="toolMsg">
-        <div class="toolMsgText">
-          Umarım işine yarar; istediğin güncellemeleri söyle, yapalım!
-        </div>
-
-        <div class="toolMsgMedia">
-          <div class="mediaChip">
-            <img src="img/logoubt.png" alt="UBT logo" />
-            <span>UBT</span>
+      <div class="accBody">
+        <!-- Tool mesajı -->
+        <div class="innerCard innerCompact">
+          <div class="innerHead">
+            <h3>Tool mesajı</h3>
+            <span class="pill pill-yellow">Not</span>
           </div>
-          <div class="mediaChip">
-            <img src="img/picprofile.png" alt="UBT profile" />
-            <span>Profile</span>
+
+          <div class="toolMsg" style="margin-top:0;">
+            <div class="toolMsgText">
+              Umarım işine yarar; istediğin güncellemeleri söyle, yapalım!
+            </div>
+            <div class="miniNote muted small" style="margin-top:6px;">
+              Bu tool Elif için hazırlanmıştır.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tatiller -->
+        <div class="innerCard innerCompact">
+          <div class="innerHead">
+            <h3>Takvim — TR Tatiller (2026)</h3>
+            <div id="holidayCount" class="muted small">—</div>
+          </div>
+
+          <div class="muted small" style="margin-top:-2px;">
+            Not: “Arefe” günleri <b>0.5</b> olarak sayılır.
+          </div>
+
+          <div class="tableWrap" style="margin-top:8px;">
+            <table class="table tableCompact tableTight" aria-label="TR 2026 holidays table">
+              <thead>
+                <tr>
+                  <th class="col-date">Tarih</th>
+                  <th class="col-day">Gün</th>
+                  <th class="col-name">Ad</th>
+                  <th class="col-w">W</th>
+                </tr>
+              </thead>
+              <tbody id="holidaysTbody"></tbody>
+            </table>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="miniNote muted small">
-        Bu karttaki görseller ve metin, her zaman sayfada “bağlam” olarak kalır.
-      </div>
-    </div>
-  </article>
+    <script>
+      // Bilgi kartı toggle (tek kart)
+      (function () {
+        const card = document.getElementById("accInfo");
+        const btn = document.getElementById("btnInfoToggle");
+        if (!card || !btn) return;
 
-</section>
+        function sync() {
+          const collapsed = card.classList.contains("is-collapsed");
+          btn.textContent = collapsed ? "Aç" : "Kapat";
+          btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+        }
 
-<script>
-  // Tiny accordion (no app.js touch)
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-acc-toggle]");
-    if (!btn) return;
-    const card = btn.closest(".accordion");
-    if (!card) return;
-    card.classList.toggle("is-collapsed");
-  });
-</script>
+        btn.addEventListener("click", () => {
+          card.classList.toggle("is-collapsed");
+          sync();
+        });
+
+        sync();
+      })();
+    </script>
 
     <!-- ANA KART: SEYAHAT EKLE + TOPLAM -->
     <section class="card card-orange">
