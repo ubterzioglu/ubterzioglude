@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Elif Seyahat Planlayıcı</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <h1>Elif Seyahat Planlayıcı</h1>
+      <p class="sub">
+        Gün hesabı: <strong>Dönüş − Gidiş</strong> (PDF’dekiyle aynı).
+      </p>
+      <div class="actions">
+        <button id="btnAddPlan">+ Yeni Plan</button>
+        <button id="btnExport">JSON Dışa Aktar</button>
+        <label class="import">
+          JSON İçe Aktar
+          <input id="fileImport" type="file" accept="application/json" />
+        </label>
+        <button class="danger" id="btnReset">Sıfırla</button>
+      </div>
+    </header>
+
+    <main id="plans"></main>
+
+    <footer class="footer">
+      <small>Veriler tarayıcıda (localStorage) saklanır. İstersen JSON olarak dışa aktar.</small>
+    </footer>
+  </div>
+
+  <template id="planTemplate">
+    <section class="card plan">
+      <div class="planHead">
+        <input class="planTitle" placeholder="Plan adı (örn: Öneri 2)" />
+        <div class="totalBox">
+          <div class="label">TOPLAM (Türkiye)</div>
+          <div class="totalDays">0</div>
+          <div class="unit">gün</div>
+        </div>
+      </div>
+
+      <div class="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Gidiş (TR)</th>
+              <th>Kaş’a geliş</th>
+              <th>Dönüş (TR)</th>
+              <th>TR toplam</th>
+              <th>Kaş’a kadar</th>
+              <th>Kaş’ta</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="tripBody"></tbody>
+        </table>
+      </div>
+
+      <div class="rowActions">
+        <button class="btnAddTrip">+ Seyahat ekle</button>
+      </div>
+
+      <div class="notes">
+        <div class="noteCol">
+          <label>Artılar</label>
+          <textarea class="pros" placeholder="Artılar..."></textarea>
+        </div>
+        <div class="noteCol">
+          <label>Eksiler</label>
+          <textarea class="cons" placeholder="Eksiler..."></textarea>
+        </div>
+      </div>
+
+      <div class="planFooter">
+        <button class="danger btnDeletePlan">Planı sil</button>
+      </div>
+    </section>
+  </template>
+
+  <template id="tripRowTemplate">
+    <tr>
+      <td><input type="date" class="dTurkey" /></td>
+      <td><input type="date" class="dKas" /></td>
+      <td><input type="date" class="dReturn" /></td>
+      <td class="calc trTotal">—</td>
+      <td class="calc toKas">—</td>
+      <td class="calc inKas">—</td>
+      <td><button class="danger btnDeleteTrip">Sil</button></td>
+    </tr>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
