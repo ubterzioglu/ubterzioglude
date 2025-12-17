@@ -15,7 +15,7 @@
         <div class="logo">Z</div>
         <div class="brandText">
           <h1>ZELIFS</h1>
-          <p>DE dışı gün sayacı (v1) — sade, hızlı, net.</p>
+          <p>DE dışı gün takibi (v1) — sade, hızlı, net.</p>
         </div>
       </div>
 
@@ -35,8 +35,7 @@
           <span class="pill pill-blue">Placeholder</span>
         </div>
         <p class="muted">
-          Buraya ileride: önemli günler, haftalar, resmi tatiller, zaman farkındalığı gibi
-          kısa bir içerik gelecek.
+          Buraya ileride: önemli günler, haftalar, resmi tatiller, zaman farkındalığı gibi kısa bir içerik gelecek.
         </p>
         <div class="placeholderBox">
           <div class="phLine"></div>
@@ -60,7 +59,7 @@
       </article>
     </section>
 
-    <!-- ANA KART -->
+    <!-- ANA KART: SEYAHAT EKLE + TOPLAM -->
     <section class="card cardMain">
       <div class="cardHead">
         <h2>DE dışı gün hesabı</h2>
@@ -70,37 +69,23 @@
       <div class="formGrid">
         <div class="field">
           <label for="dateOut">DE ➡️ TR (Çıkış)</label>
-          <input
-            id="dateOut"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="DD-MM-YYYY (örn: 01-05-2025)"
-            maxlength="10"
-          />
-          <div class="hint">Yazarken otomatik formatlanır.</div>
+          <input id="dateOut" type="date" />
+          <div id="outPretty" class="hint">Seçim: —</div>
         </div>
 
         <div class="field">
           <label for="dateIn">TR ➡️ DE (Dönüş)</label>
-          <input
-            id="dateIn"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="DD-MM-YYYY (örn: 20-09-2025)"
-            maxlength="10"
-          />
-          <div class="hint">Yazarken otomatik formatlanır.</div>
+          <input id="dateIn" type="date" />
+          <div id="inPretty" class="hint">Seçim: —</div>
         </div>
       </div>
 
-      <div class="resultRow">
+      <div class="rowBetween">
         <div class="resultCard">
-          <div class="resultTitle">Toplam Gün</div>
+          <div class="resultTitle">Toplam DE dışı gün</div>
           <div id="daysValue" class="resultValue">—</div>
-          <div id="calcNote" class="muted small">
-            Toplam Gün = (TR ➡️ DE) − (DE ➡️ TR)
+          <div class="muted small">
+            Toplam = tüm seyahatler için (Dönüş − Çıkış)
           </div>
         </div>
 
@@ -108,53 +93,89 @@
           <button id="btnTodayIn" class="btn btn-green" type="button" title="Dönüş tarihini bugüne set et">
             Bugün: Dönüş
           </button>
-          <button id="btnClearDates" class="btn btn-ghost" type="button" title="Tarihleri temizle">
-            Tarihleri Temizle
+          <button id="btnAddTrip" class="btn btn-blue" type="button" title="Bu çıkış/dönüş çiftini seyahat listesine ekle">
+            Seyahat ekle
+          </button>
+          <button id="btnClearInputs" class="btn btn-ghost" type="button" title="Sadece üstteki tarih girişlerini temizle">
+            Girişi temizle
+          </button>
+          <button id="btnClearAll" class="btn btn-ghost" type="button" title="Tüm seyahatleri ve girişleri temizle">
+            Hepsini temizle
           </button>
         </div>
       </div>
 
       <div id="errors" class="errors" aria-live="polite"></div>
+
+      <div class="subCard">
+        <div class="subHead">
+          <h3>Seyahatler</h3>
+          <div id="tripCount" class="muted small">0 kayıt</div>
+        </div>
+
+        <div class="tableWrap">
+          <table class="table" aria-label="Seyahatler tablosu">
+            <thead>
+              <tr>
+                <th>Çıkış</th>
+                <th>Dönüş</th>
+                <th>Gün</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tripsTbody">
+              <!-- JS doldurur -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="emptyTrips" class="muted small" style="display:none; padding-top:8px;">
+          Henüz seyahat yok. Üstten tarih seçip “Seyahat ekle” ile ekleyebilirsin.
+        </div>
+      </div>
     </section>
 
-    <!-- ARTI / EKSİ -->
-    <section class="card">
-      <div class="cardHead">
-        <h2>Artı / Eksi Notları</h2>
-        <span class="pill pill-green">Karar destek</span>
-      </div>
-
-      <div class="noteGrid">
-        <div class="field">
-          <label for="plusInput">Artı</label>
+    <!-- ARTI / EKSİ: İKİ AYRI KART -->
+    <section class="grid">
+      <article class="card">
+        <div class="cardHead">
+          <h2>Artı</h2>
+          <span class="pill pill-blue">Karar destek</span>
+        </div>
+        <div class="noteRow">
           <input id="plusInput" type="text" autocomplete="off" placeholder="Tek satır artı notu..." />
+          <button id="btnAddPlus" class="btn btn-blue" type="button">Ekle</button>
         </div>
+        <div class="notesListWrap">
+          <div class="notesHeader">
+            <div class="muted">Liste birikir.</div>
+            <div id="plusCount" class="muted small">0 kayıt</div>
+          </div>
+          <ul id="plusList" class="notesList"></ul>
+        </div>
+      </article>
 
-        <div class="field">
-          <label for="minusInput">Eksi</label>
+      <article class="card">
+        <div class="cardHead">
+          <h2>Eksi</h2>
+          <span class="pill pill-red">Karar destek</span>
+        </div>
+        <div class="noteRow">
           <input id="minusInput" type="text" autocomplete="off" placeholder="Tek satır eksi notu..." />
+          <button id="btnAddMinus" class="btn btn-red" type="button">Ekle</button>
         </div>
-
-        <div class="noteActions">
-          <button id="btnAddPlus" class="btn btn-blue" type="button">Artı ekle</button>
-          <button id="btnAddMinus" class="btn btn-red" type="button">Eksi ekle</button>
-          <button id="btnClearNotes" class="btn btn-ghost" type="button">Notları temizle</button>
+        <div class="notesListWrap">
+          <div class="notesHeader">
+            <div class="muted">Liste birikir.</div>
+            <div id="minusCount" class="muted small">0 kayıt</div>
+          </div>
+          <ul id="minusList" class="notesList"></ul>
         </div>
-      </div>
-
-      <div class="notesListWrap">
-        <div class="notesHeader">
-          <div class="muted">Liste birikir, üzerine yazılmaz.</div>
-          <div id="notesCount" class="muted small">0 kayıt</div>
-        </div>
-        <ul id="notesList" class="notesList"></ul>
-      </div>
+      </article>
     </section>
 
     <footer class="footer">
-      <span class="muted small">
-        Local kullanım. State tarayıcıda tutulur. Screenshot ile paylaşılabilir.
-      </span>
+      <span class="muted small">Local kullanım. State tarayıcıda tutulur. Screenshot ile paylaşılabilir.</span>
     </footer>
   </main>
 

@@ -1,52 +1,112 @@
-/* ZELIFS v1 — tek sayfa, local state, tek hesap */
+/* ZELIFS v1 — Çoklu seyahat + toplam DE dışı gün + 180 uyarı + artı/eksi ayrı */
 
 const STORAGE_KEY = "zelifs_v1_state";
 
 const els = {
   dateOut: document.getElementById("dateOut"),
   dateIn: document.getElementById("dateIn"),
+  outPretty: document.getElementById("outPretty"),
+  inPretty: document.getElementById("inPretty"),
+
+  btnTodayIn: document.getElementById("btnTodayIn"),
+  btnAddTrip: document.getElementById("btnAddTrip"),
+  btnClearInputs: document.getElementById("btnClearInputs"),
+  btnClearAll: document.getElementById("btnClearAll"),
+
   daysValue: document.getElementById("daysValue"),
   statusBadge: document.getElementById("statusBadge"),
   errors: document.getElementById("errors"),
-  calcNote: document.getElementById("calcNote"),
 
-  btnTodayIn: document.getElementById("btnTodayIn"),
-  btnClearDates: document.getElementById("btnClearDates"),
+  tripCount: document.getElementById("tripCount"),
+  tripsTbody: document.getElementById("tripsTbody"),
+  emptyTrips: document.getElementById("emptyTrips"),
 
   plusInput: document.getElementById("plusInput"),
   minusInput: document.getElementById("minusInput"),
   btnAddPlus: document.getElementById("btnAddPlus"),
   btnAddMinus: document.getElementById("btnAddMinus"),
-  btnClearNotes: document.getElementById("btnClearNotes"),
-
-  notesList: document.getElementById("notesList"),
-  notesCount: document.getElementById("notesCount"),
+  plusList: document.getElementById("plusList"),
+  minusList: document.getElementById("minusList"),
+  plusCount: document.getElementById("plusCount"),
+  minusCount: document.getElementById("minusCount"),
 };
 
 const state = {
-  dateOut: "",
-  dateIn: "",
-  notes: [], // {type:'plus'|'minus', text:'', ts:number}
+  inputOut: "",  // YYYY-MM-DD
+  inputIn: "",   // YYYY-MM-DD
+  trips: [],     // { id, out, in }
+  plus: [],      // { text, ts }
+  minus: [],     // { text, ts }
 };
 
 init();
 
 function init() {
   loadState();
-  els.dateOut.value = state.dateOut || "";
-  els.dateIn.value = state.dateIn || "";
 
-  wireInputs();
-  renderNotes();
-  recalc();
+  els.dateOut.value = state.inputOut || "";
+  els.dateIn.value = state.inputIn || "";
+
+  wire();
+  renderAll();
 }
 
-function wireInputs() {
-  // Auto-format DD-MM-YYYY while typing
-  els.dateOut.addEventListener("input", () => onDateInput("dateOut"));
-  els.dateIn.addEventListener("input", () => onDateInput("dateIn"));
+function wire() {
+  els.dateOut.addEventListener("change", () => {
+    state.inputOut = els.dateOut.value || "";
+    saveState();
+    renderInputsPretty();
+    recalcTotal();
+  });
 
-  // Enter key convenience
+  els.dateIn.addEventListener("change", () => {
+    state.inputIn = els.dateIn.value || "";
+    saveState();
+    renderInputsPretty();
+    recalcTotal();
+  });
+
+  els.btnTodayIn.addEventListener("click", () => {
+    const today = new Date();
+    const iso = toISO(today);
+    state.inputIn = iso;
+    els.dateIn.value = iso;
+    saveState();
+    renderInputsPretty();
+    recalcTotal();
+  });
+
+  els.btnAddTrip.addEventListener("click", addTripFromInputs);
+
+  els.btnClearInputs.addEventListener("click", () => {
+    state.inputOut = "";
+    state.inputIn = "";
+    els.dateOut.value = "";
+    els.dateIn.value = "";
+    saveState();
+    renderInputsPretty();
+    recalcTotal();
+  });
+
+  els.btnClearAll.addEventListener("click", () => {
+    state.inputOut = "";
+    state.inputIn = "";
+    state.trips = [];
+    state.plus = [];
+    state.minus = [];
+
+    els.dateOut.value = "";
+    els.dateIn.value = "";
+    els.plusInput.value = "";
+    els.minusInput.value = "";
+
+    saveState();
+    renderAll();
+  });
+
+  els.btnAddPlus.addEventListener("click", () => addNote("plus"));
+  els.btnAddMinus.addEventListener("click", () => addNote("minus"));
+
   els.plusInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") addNote("plus");
   });
@@ -54,190 +114,181 @@ function wireInputs() {
     if (e.key === "Enter") addNote("minus");
   });
 
-  els.btnAddPlus.addEventListener("click", () => addNote("plus"));
-  els.btnAddMinus.addEventListener("click", () => addNote("minus"));
-  els.btnClearNotes.addEventListener("click", clearNotes);
-
-  els.btnClearDates.addEventListener("click", () => {
-    state.dateOut = "";
-    state.dateIn = "";
-    els.dateOut.value = "";
-    els.dateIn.value = "";
+  // Delete trip delegation
+  els.tripsTbody.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-del]");
+    if (!btn) return;
+    const id = btn.getAttribute("data-del");
+    state.trips = state.trips.filter(t => t.id !== id);
     saveState();
-    recalc();
-  });
-
-  els.btnTodayIn.addEventListener("click", () => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const yyyy = String(today.getFullYear());
-    const v = `${dd}-${mm}-${yyyy}`;
-    state.dateIn = v;
-    els.dateIn.value = v;
-    saveState();
-    recalc();
+    renderTrips();
+    recalcTotal();
   });
 }
 
-function onDateInput(which) {
-  const el = which === "dateOut" ? els.dateOut : els.dateIn;
-
-  const raw = el.value;
-  const digits = raw.replace(/\D/g, "").slice(0, 8); // DDMMYYYY
-  const parts = [];
-  if (digits.length >= 2) parts.push(digits.slice(0, 2));
-  else parts.push(digits);
-
-  if (digits.length >= 4) parts.push(digits.slice(2, 4));
-  else if (digits.length > 2) parts.push(digits.slice(2));
-
-  if (digits.length > 4) parts.push(digits.slice(4));
-
-  const formatted = parts.filter(Boolean).join("-").slice(0, 10);
-  el.value = formatted;
-
-  state[which] = formatted;
-  saveState();
-  recalc();
+function renderAll() {
+  renderInputsPretty();
+  renderTrips();
+  recalcTotal();
+  renderNotes();
 }
 
-function recalc() {
+/* ------- Trips ------- */
+
+function addTripFromInputs() {
   clearErrors();
 
-  const outStr = (state.dateOut || "").trim();
-  const inStr = (state.dateIn || "").trim();
+  const out = (state.inputOut || "").trim();
+  const inn = (state.inputIn || "").trim();
 
-  // Need both to compute
-  if (!outStr || !inStr) {
-    els.daysValue.textContent = "—";
-    setStatus("unknown", "Durum: —");
-    if (outStr || inStr) {
-      addInfo("İki tarihi de girince gün hesabı otomatik yapılır.");
-    }
+  if (!out || !inn) {
+    addInfo("Seyahat eklemek için hem çıkış hem dönüş tarihini seç.");
     return;
   }
 
-  const outDate = parseDDMMYYYY(outStr);
-  const inDate = parseDDMMYYYY(inStr);
+  const outD = parseISO(out);
+  const inD = parseISO(inn);
 
-  if (!outDate.ok) addWarn(`Çıkış tarihi hatalı: ${outDate.msg}`);
-  if (!inDate.ok) addWarn(`Dönüş tarihi hatalı: ${inDate.msg}`);
+  if (!outD.ok) addWarn("Çıkış tarihi geçersiz.");
+  if (!inD.ok) addWarn("Dönüş tarihi geçersiz.");
+  if (!outD.ok || !inD.ok) return;
 
-  if (!outDate.ok || !inDate.ok) {
-    els.daysValue.textContent = "—";
-    setStatus("unknown", "Durum: —");
-    return;
-  }
+  const diff = daysBetweenUTC(out, inn);
 
-  // Normalize to UTC midnight to avoid DST surprises
-  const a = Date.UTC(outDate.y, outDate.m - 1, outDate.d);
-  const b = Date.UTC(inDate.y, inDate.m - 1, inDate.d);
-
-  const diffMs = b - a;
-  const days = Math.floor(diffMs / (24 * 60 * 60 * 1000));
-
-  if (!Number.isFinite(days)) {
-    els.daysValue.textContent = "—";
-    setStatus("unknown", "Durum: —");
-    addWarn("Gün hesabında beklenmeyen bir problem oluştu.");
-    return;
-  }
-
-  els.daysValue.textContent = String(days);
-
-  if (days < 0) {
-    setStatus("risk", "Durum: Tarihler ters görünüyor");
+  if (diff < 0) {
     addWarn("Dönüş tarihi, çıkış tarihinden önce olamaz.");
     return;
   }
 
-  if (days <= 180) {
-    setStatus("safe", `Durum: Güvende (≤ 180)`);
+  const trip = { id: cryptoId(), out, in: inn };
+  state.trips.push(trip);
+
+  // Inputs keep (istersen sonradan temizlenebilir); burada otomatik temizleyelim:
+  state.inputOut = "";
+  state.inputIn = "";
+  els.dateOut.value = "";
+  els.dateIn.value = "";
+
+  saveState();
+  renderInputsPretty();
+  renderTrips();
+  recalcTotal();
+  addOk("Seyahat eklendi.");
+}
+
+function renderTrips() {
+  els.tripsTbody.innerHTML = "";
+
+  const count = state.trips.length;
+  els.tripCount.textContent = `${count} kayıt`;
+  els.emptyTrips.style.display = count === 0 ? "block" : "none";
+
+  for (const t of state.trips) {
+    const days = daysBetweenUTC(t.out, t.in);
+
+    const tr = document.createElement("tr");
+
+    const tdOut = document.createElement("td");
+    tdOut.innerHTML = `
+      ${prettyDateTR(t.out)}
+      <span class="mutedSmall">${weekdayTR(t.out)}</span>
+    `;
+
+    const tdIn = document.createElement("td");
+    tdIn.innerHTML = `
+      ${prettyDateTR(t.in)}
+      <span class="mutedSmall">${weekdayTR(t.in)}</span>
+    `;
+
+    const tdDays = document.createElement("td");
+    tdDays.textContent = String(days);
+
+    const tdAct = document.createElement("td");
+    tdAct.style.textAlign = "right";
+    tdAct.innerHTML = `<button class="iconBtn" type="button" data-del="${t.id}" title="Sil">Sil</button>`;
+
+    tr.appendChild(tdOut);
+    tr.appendChild(tdIn);
+    tr.appendChild(tdDays);
+    tr.appendChild(tdAct);
+
+    els.tripsTbody.appendChild(tr);
+  }
+}
+
+function recalcTotal() {
+  clearErrors();
+
+  const total = state.trips.reduce((sum, t) => sum + Math.max(0, daysBetweenUTC(t.out, t.in)), 0);
+
+  els.daysValue.textContent = state.trips.length ? String(total) : "—";
+
+  if (state.trips.length === 0) {
+    setStatus("unknown", "Durum: —");
+    return;
+  }
+
+  if (total <= 180) {
+    setStatus("safe", "Durum: Güvende (≤ 180)");
     addOk("180 gün sınırı aşılmadı.");
   } else {
-    setStatus("risk", `Durum: Riskli (> 180)`);
+    setStatus("risk", "Durum: Riskli (> 180)");
     addWarn("180 gün sınırı aşıldı.");
   }
 }
 
-function setStatus(kind, text) {
-  els.statusBadge.classList.remove("status-unknown", "status-safe", "status-risk");
-  if (kind === "safe") els.statusBadge.classList.add("status-safe");
-  else if (kind === "risk") els.statusBadge.classList.add("status-risk");
-  else els.statusBadge.classList.add("status-unknown");
-  els.statusBadge.textContent = text;
+/* ------- Inputs Pretty ------- */
+
+function renderInputsPretty() {
+  els.outPretty.textContent = state.inputOut ? `Seçim: ${prettyDateTR(state.inputOut)} • ${weekdayTR(state.inputOut)}` : "Seçim: —";
+  els.inPretty.textContent = state.inputIn ? `Seçim: ${prettyDateTR(state.inputIn)} • ${weekdayTR(state.inputIn)}` : "Seçim: —";
 }
 
-function parseDDMMYYYY(s) {
-  // Strict: DD-MM-YYYY
-  const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(s);
-  if (!m) return { ok: false, msg: "Format DD-MM-YYYY olmalı (örn: 01-05-2025)." };
+/* ------- Notes (separate) ------- */
 
-  const d = Number(m[1]);
-  const mo = Number(m[2]);
-  const y = Number(m[3]);
-
-  if (y < 1900 || y > 2100) return { ok: false, msg: "Yıl aralığı mantıksız." };
-  if (mo < 1 || mo > 12) return { ok: false, msg: "Ay 01–12 olmalı." };
-
-  const maxD = daysInMonth(y, mo);
-  if (d < 1 || d > maxD) return { ok: false, msg: `Gün 01–${String(maxD).padStart(2, "0")} olmalı.` };
-
-  return { ok: true, d, m: mo, y };
-}
-
-function daysInMonth(y, m) {
-  // m: 1..12
-  return new Date(y, m, 0).getDate();
-}
-
-/* Notes */
-
-function addNote(type) {
-  const input = type === "plus" ? els.plusInput : els.minusInput;
+function addNote(kind) {
+  const input = kind === "plus" ? els.plusInput : els.minusInput;
   const text = (input.value || "").trim();
   if (!text) return;
 
-  state.notes.push({ type, text, ts: Date.now() });
+  const entry = { text, ts: Date.now() };
+
+  if (kind === "plus") state.plus.push(entry);
+  else state.minus.push(entry);
+
   input.value = "";
   saveState();
   renderNotes();
 }
 
-function clearNotes() {
-  state.notes = [];
-  saveState();
-  renderNotes();
+function renderNotes() {
+  renderNoteList("plus", state.plus, els.plusList, els.plusCount);
+  renderNoteList("minus", state.minus, els.minusList, els.minusCount);
 }
 
-function renderNotes() {
-  els.notesList.innerHTML = "";
+function renderNoteList(kind, arr, ul, countEl) {
+  ul.innerHTML = "";
+  countEl.textContent = `${arr.length} kayıt`;
 
-  const count = state.notes.length;
-  els.notesCount.textContent = `${count} kayıt`;
-
-  if (count === 0) {
+  if (arr.length === 0) {
     const li = document.createElement("li");
     li.className = "noteItem";
     li.innerHTML = `
-      <span class="noteTag plus">+</span>
-      <div class="noteText" style="color:rgba(255,255,255,.72)">
-        Henüz not yok. Bir “Artı” veya “Eksi” ekleyebilirsin.
-      </div>
+      <span class="noteTag ${kind}">${kind === "plus" ? "+ Artı" : "− Eksi"}</span>
+      <div class="noteText" style="color:rgba(255,255,255,.72)">Henüz not yok.</div>
       <div class="noteMeta">—</div>
     `;
-    els.notesList.appendChild(li);
+    ul.appendChild(li);
     return;
   }
 
-  for (const n of state.notes) {
+  for (const n of arr) {
     const li = document.createElement("li");
     li.className = "noteItem";
 
     const tag = document.createElement("span");
-    tag.className = `noteTag ${n.type}`;
-    tag.textContent = n.type === "plus" ? "+ Artı" : "− Eksi";
+    tag.className = `noteTag ${kind}`;
+    tag.textContent = kind === "plus" ? "+ Artı" : "− Eksi";
 
     const text = document.createElement("div");
     text.className = "noteText";
@@ -250,8 +301,70 @@ function renderNotes() {
     li.appendChild(tag);
     li.appendChild(text);
     li.appendChild(meta);
-    els.notesList.appendChild(li);
+    ul.appendChild(li);
   }
+}
+
+/* ------- Status ------- */
+
+function setStatus(kind, text) {
+  els.statusBadge.classList.remove("status-unknown", "status-safe", "status-risk");
+  if (kind === "safe") els.statusBadge.classList.add("status-safe");
+  else if (kind === "risk") els.statusBadge.classList.add("status-risk");
+  else els.statusBadge.classList.add("status-unknown");
+  els.statusBadge.textContent = text;
+}
+
+/* ------- Date helpers ------- */
+
+function parseISO(iso) {
+  // iso: YYYY-MM-DD
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return { ok:false };
+  const [y, m, d] = iso.split("-").map(Number);
+  if (y < 1900 || y > 2100) return { ok:false };
+  if (m < 1 || m > 12) return { ok:false };
+  const maxD = new Date(y, m, 0).getDate();
+  if (d < 1 || d > maxD) return { ok:false };
+  return { ok:true, y, m, d };
+}
+
+function daysBetweenUTC(outISO, inISO) {
+  const a = parseISO(outISO);
+  const b = parseISO(inISO);
+  if (!a.ok || !b.ok) return NaN;
+  const t1 = Date.UTC(a.y, a.m - 1, a.d);
+  const t2 = Date.UTC(b.y, b.m - 1, b.d);
+  return Math.floor((t2 - t1) / (24 * 60 * 60 * 1000));
+}
+
+function prettyDateTR(iso) {
+  const p = parseISO(iso);
+  if (!p.ok) return "—";
+  const dd = String(p.d).padStart(2, "0");
+  const mm = String(p.m).padStart(2, "0");
+  return `${dd}-${mm}-${p.y}`;
+}
+
+function weekdayTR(iso) {
+  const p = parseISO(iso);
+  if (!p.ok) return "—";
+  const d = new Date(Date.UTC(p.y, p.m - 1, p.d));
+  const day = d.getUTCDay(); // 0 Sun .. 6 Sat
+  const names = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+  return names[day] || "—";
+}
+
+function toISO(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const d = String(dateObj.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function cryptoId() {
+  // crypto.randomUUID yoksa fallback
+  if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+  return `id_${Math.random().toString(16).slice(2)}_${Date.now()}`;
 }
 
 function formatTS(ts) {
@@ -268,17 +381,20 @@ function formatTS(ts) {
   }
 }
 
-/* Storage */
+/* ------- Storage ------- */
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
-    const parsed = JSON.parse(raw);
+    const p = JSON.parse(raw);
 
-    state.dateOut = typeof parsed.dateOut === "string" ? parsed.dateOut : "";
-    state.dateIn = typeof parsed.dateIn === "string" ? parsed.dateIn : "";
-    state.notes = Array.isArray(parsed.notes) ? parsed.notes.filter(isValidNote) : [];
+    state.inputOut = typeof p.inputOut === "string" ? p.inputOut : "";
+    state.inputIn = typeof p.inputIn === "string" ? p.inputIn : "";
+
+    state.trips = Array.isArray(p.trips) ? p.trips.filter(isValidTrip) : [];
+    state.plus = Array.isArray(p.plus) ? p.plus.filter(isValidNote) : [];
+    state.minus = Array.isArray(p.minus) ? p.minus.filter(isValidNote) : [];
   } catch {
     // ignore
   }
@@ -292,16 +408,15 @@ function saveState() {
   }
 }
 
-function isValidNote(n) {
-  return (
-    n &&
-    (n.type === "plus" || n.type === "minus") &&
-    typeof n.text === "string" &&
-    typeof n.ts === "number"
-  );
+function isValidTrip(t) {
+  return t && typeof t.id === "string" && typeof t.out === "string" && typeof t.in === "string";
 }
 
-/* Errors UI */
+function isValidNote(n) {
+  return n && typeof n.text === "string" && typeof n.ts === "number";
+}
+
+/* ------- Errors UI ------- */
 
 function clearErrors() {
   els.errors.innerHTML = "";
@@ -323,7 +438,7 @@ function addWarn(msg) {
 
 function addInfo(msg) {
   const div = document.createElement("div");
-  div.className = "err";
+  div.className = "err info";
   div.textContent = msg;
   els.errors.appendChild(div);
 }
