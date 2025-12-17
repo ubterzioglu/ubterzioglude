@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+    BASIC META
+  ========================================================== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZGEN – Generation Finder</title>
+
+  <link rel="canonical" href="https://ubterzioglu.de/zgen/zgen.html" />
+  <meta name="description" content="Enter your birth year and instantly see your generation, core traits, and how to get along with other generations. Runs entirely in your browser." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Standalone CSS -->
+  <link rel="stylesheet" href="/zgen/style.css?v=2" />
+
+  <!-- =========================================================
+    OPEN GRAPH / TWITTER
+  ========================================================== -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ZGEN – Generation Finder" />
+  <meta property="og:description" content="Type your birth year. Get your generation + traits + compatibility tips. No signup. Runs locally in your browser." />
+  <meta property="og:url" content="https://ubterzioglu.de/zgen/zgen.html" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- =========================================================
+    STRUCTURED DATA (JSON-LD)
+  ========================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://ubterzioglu.de/zgen/zgen.html#webpage",
+    "url": "https://ubterzioglu.de/zgen/zgen.html",
+    "name": "ZGEN – Generation Finder",
+    "description": "Enter your birth year and instantly see your generation, core traits, and compatibility tips. Runs entirely in your browser.",
+    "isPartOf": { "@type": "WebSite", "@id": "https://ubterzioglu.de/#website" },
+    "about": { "@type": "Person", "@id": "https://ubterzioglu.de/#person" }
+  }
+  </script>
+
+  <!-- =========================================================
+    GOATCOUNTER
+  ========================================================== -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="shell">
+
+      <!-- HEADER -->
+      <header class="hero">
+        <div class="hero-left">
+          <h1 class="title">ZGEN</h1>
+          <p class="subtitle">
+            Enter your birth year and instantly see your generation, traits, and how to get along with other generations.
+            No signup. No data stored. Runs locally in your browser.
+          </p>
+        </div>
+
+        <div class="hero-right">
+          <div class="palette-dots" aria-label="Color palette">
+            <span class="dot dot-blue" title="#01A1F1"></span>
+            <span class="dot dot-green" title="#7CBB00"></span>
+            <span class="dot dot-orange" title="#F65314"></span>
+            <span class="dot dot-purple" title="#8F03B7"></span>
+            <span class="dot dot-yellow" title="#FFBB00"></span>
+          </div>
+          <div class="pill" id="statusPill">Waiting for birth year…</div>
+        </div>
+      </header>
+
+      <main class="grid">
+
+        <!-- CARD 1: INPUT -->
+        <section class="card card-blue" aria-labelledby="c1">
+          <div class="card-head">
+            <h2 id="c1" class="card-title">1) Birth year</h2>
+            <p class="card-sub">Just one field. No extra questions.</p>
+          </div>
+
+          <div class="input-row">
+            <label class="sr-only" for="birthYear">Birth year</label>
+            <input
+              id="birthYear"
+              class="input"
+              inputmode="numeric"
+              placeholder="e.g., 1999"
+              maxlength="4"
+              autocomplete="off"
+            />
+            <button class="btn" id="showBtn" type="button">Show my generation</button>
+          </div>
+
+          <p class="micro">Tip: You can also press <kbd>Enter</kbd>.</p>
+        </section>
+
+        <!-- CARD 2: YOU ARE GEN ... -->
+        <section class="card card-green" id="youCard" aria-labelledby="c2" hidden>
+          <div class="card-head">
+            <h2 id="c2" class="card-title">2) Your generation</h2>
+            <p class="card-sub" id="youGenLine">You are <strong>Gen ?</strong>.</p>
+          </div>
+
+          <div class="two-col">
+            <!-- LEFT: 10 bullets -->
+            <div>
+              <h3 class="mini-title">Typical traits (placeholder)</h3>
+              <ul class="bullets" id="traits10">
+                <li>Trait #1 (placeholder)</li>
+                <li>Trait #2 (placeholder)</li>
+                <li>Trait #3 (placeholder)</li>
+                <li>Trait #4 (placeholder)</li>
+                <li>Trait #5 (placeholder)</li>
+                <li>Trait #6 (placeholder)</li>
+                <li>Trait #7 (placeholder)</li>
+                <li>Trait #8 (placeholder)</li>
+                <li>Trait #9 (placeholder)</li>
+                <li>Trait #10 (placeholder)</li>
+              </ul>
+            </div>
+
+            <!-- RIGHT: funny avatar + 5 bullets -->
+            <aside class="sidebox">
+              <div class="avatar-row">
+                <div class="avatar" id="avatarYou" aria-hidden="true">🙂</div>
+                <div>
+                  <div class="avatar-title" id="avatarTitle">Your vibe (placeholder)</div>
+                  <div class="avatar-sub" id="avatarSub">Short, punchy bullets.</div>
+                </div>
+              </div>
+
+              <ul class="chips" id="vibe5">
+                <li>Vibe #1 (placeholder)</li>
+                <li>Vibe #2 (placeholder)</li>
+                <li>Vibe #3 (placeholder)</li>
+                <li>Vibe #4 (placeholder)</li>
+                <li>Vibe #5 (placeholder)</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <!-- COMPATIBILITY HEADER -->
+        <section class="card card-orange" id="compatHeader" aria-labelledby="c3" hidden>
+          <div class="card-head">
+            <h2 id="c3" class="card-title">3) Compatibility (optional)</h2>
+            <p class="card-sub">
+              Tap a card to expand. We’ll fill Do’s & Don’ts with real data later.
+            </p>
+          </div>
+        </section>
+
+        <!-- ACCORDIONS -->
+        <section class="accordion" id="accordions" hidden>
+
+          <!-- GEN Z (CLEAN, Do's/Don'ts example card) -->
+          <article class="acc card card-purple" data-gen="Gen Z">
+            <button class="acc-head" type="button" aria-expanded="false">
+              <div class="acc-title">
+                <span class="acc-kicker">How to get along with</span>
+                <span class="acc-name">Gen Z</span>
+              </div>
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="acc-body" hidden>
+              <!-- Avatars -->
+              <div class="acc-avatars">
+                <div class="avatar sm" aria-hidden="true">🙂</div>
+                <div class="avatar sm" aria-hidden="true">⚡</div>
+
+                <div class="avatar-tags">
+                  <span class="tag">You</span>
+                  <span class="tag">Gen Z</span>
+                </div>
+              </div>
+
+              <!-- Do's / Don'ts -->
+              <div class="acc-cols">
+                <div class="dos">
+                  <h3 class="mini-title dos-title">✅ Do’s</h3>
+                  <ul class="bullets">
+                    <li>Do keep it short and clear</li>
+                    <li>Do explain the <em>why</em></li>
+                    <li>Do give autonomy</li>
+                    <li>Do respect boundaries</li>
+                    <li>Do adapt to new tools</li>
+                  </ul>
+                </div>
+
+                <div class="donts">
+                  <h3 class="mini-title donts-title">❌ Don’ts</h3>
+                  <ul class="bullets">
+                    <li>Don’t write long emails</li>
+                    <li>Don’t micromanage</li>
+                    <li>Don’t dismiss ideas quickly</li>
+                    <li>Don’t force old habits</li>
+                    <li>Don’t expect blind loyalty</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="micro joke-line">
+                “If your message needs scrolling, Gen Z already moved on.”
+              </p>
+            </div>
+          </article>
+
+          <!-- MILLENNIALS (placeholder Do's/Don'ts) -->
+          <article class="acc card card-yellow" data-gen="Millennials">
+            <button class="acc-head" type="button" aria-expanded="false">
+              <div class="acc-title">
+                <span class="acc-kicker">How to get along with</span>
+                <span class="acc-name">Millennials (Gen Y)</span>
+              </div>
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="acc-body" hidden>
+              <div class="acc-avatars">
+                <div class="avatar sm" aria-hidden="true">🙂</div>
+                <div class="avatar sm" aria-hidden="true">☕</div>
+                <div class="avatar-tags">
+                  <span class="tag">You</span>
+                  <span class="tag">Gen Y</span>
+                </div>
+              </div>
+
+              <div class="acc-cols">
+                <div class="dos">
+                  <h3 class="mini-title dos-title">✅ Do’s (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Do #1 (placeholder)</li><li>Do #2 (placeholder)</li><li>Do #3 (placeholder)</li><li>Do #4 (placeholder)</li><li>Do #5 (placeholder)</li>
+                  </ul>
+                </div>
+
+                <div class="donts">
+                  <h3 class="mini-title donts-title">❌ Don’ts (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Don’t #1 (placeholder)</li><li>Don’t #2 (placeholder)</li><li>Don’t #3 (placeholder)</li><li>Don’t #4 (placeholder)</li><li>Don’t #5 (placeholder)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="micro joke-line">Placeholder joke (optional).</p>
+            </div>
+          </article>
+
+          <!-- GEN X (placeholder Do's/Don'ts) -->
+          <article class="acc card card-blue" data-gen="Gen X">
+            <button class="acc-head" type="button" aria-expanded="false">
+              <div class="acc-title">
+                <span class="acc-kicker">How to get along with</span>
+                <span class="acc-name">Gen X</span>
+              </div>
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="acc-body" hidden>
+              <div class="acc-avatars">
+                <div class="avatar sm" aria-hidden="true">🙂</div>
+                <div class="avatar sm" aria-hidden="true">🧩</div>
+                <div class="avatar-tags">
+                  <span class="tag">You</span>
+                  <span class="tag">Gen X</span>
+                </div>
+              </div>
+
+              <div class="acc-cols">
+                <div class="dos">
+                  <h3 class="mini-title dos-title">✅ Do’s (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Do #1 (placeholder)</li><li>Do #2 (placeholder)</li><li>Do #3 (placeholder)</li><li>Do #4 (placeholder)</li><li>Do #5 (placeholder)</li>
+                  </ul>
+                </div>
+
+                <div class="donts">
+                  <h3 class="mini-title donts-title">❌ Don’ts (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Don’t #1 (placeholder)</li><li>Don’t #2 (placeholder)</li><li>Don’t #3 (placeholder)</li><li>Don’t #4 (placeholder)</li><li>Don’t #5 (placeholder)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="micro joke-line">Placeholder joke (optional).</p>
+            </div>
+          </article>
+
+          <!-- BOOMERS (placeholder Do's/Don'ts) -->
+          <article class="acc card card-green" data-gen="Boomers">
+            <button class="acc-head" type="button" aria-expanded="false">
+              <div class="acc-title">
+                <span class="acc-kicker">How to get along with</span>
+                <span class="acc-name">Baby Boomers</span>
+              </div>
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="acc-body" hidden>
+              <div class="acc-avatars">
+                <div class="avatar sm" aria-hidden="true">🙂</div>
+                <div class="avatar sm" aria-hidden="true">📞</div>
+                <div class="avatar-tags">
+                  <span class="tag">You</span>
+                  <span class="tag">Boomers</span>
+                </div>
+              </div>
+
+              <div class="acc-cols">
+                <div class="dos">
+                  <h3 class="mini-title dos-title">✅ Do’s (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Do #1 (placeholder)</li><li>Do #2 (placeholder)</li><li>Do #3 (placeholder)</li><li>Do #4 (placeholder)</li><li>Do #5 (placeholder)</li>
+                  </ul>
+                </div>
+
+                <div class="donts">
+                  <h3 class="mini-title donts-title">❌ Don’ts (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Don’t #1 (placeholder)</li><li>Don’t #2 (placeholder)</li><li>Don’t #3 (placeholder)</li><li>Don’t #4 (placeholder)</li><li>Don’t #5 (placeholder)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="micro joke-line">Placeholder joke (optional).</p>
+            </div>
+          </article>
+
+          <!-- GEN ALPHA (placeholder Do's/Don'ts) -->
+          <article class="acc card card-orange" data-gen="Gen Alpha">
+            <button class="acc-head" type="button" aria-expanded="false">
+              <div class="acc-title">
+                <span class="acc-kicker">How to get along with</span>
+                <span class="acc-name">Gen Alpha</span>
+              </div>
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="acc-body" hidden>
+              <div class="acc-avatars">
+                <div class="avatar sm" aria-hidden="true">🙂</div>
+                <div class="avatar sm" aria-hidden="true">🤖</div>
+                <div class="avatar-tags">
+                  <span class="tag">You</span>
+                  <span class="tag">Gen Alpha</span>
+                </div>
+              </div>
+
+              <div class="acc-cols">
+                <div class="dos">
+                  <h3 class="mini-title dos-title">✅ Do’s (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Do #1 (placeholder)</li><li>Do #2 (placeholder)</li><li>Do #3 (placeholder)</li><li>Do #4 (placeholder)</li><li>Do #5 (placeholder)</li>
+                  </ul>
+                </div>
+
+                <div class="donts">
+                  <h3 class="mini-title donts-title">❌ Don’ts (placeholder)</h3>
+                  <ul class="bullets">
+                    <li>Don’t #1 (placeholder)</li><li>Don’t #2 (placeholder)</li><li>Don’t #3 (placeholder)</li><li>Don’t #4 (placeholder)</li><li>Don’t #5 (placeholder)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="micro joke-line">Placeholder joke (optional).</p>
+            </div>
+          </article>
+
+        </section>
+      </main>
+
+      <!-- CORNER WIDGET -->
+      <div class="corner-widget">
+        <a href="https://ubterzioglu.de/">
+          <img src="/img/logoubt.png" alt="UBT logo" class="widget-avatar" />
+        </a>
+        <a href="https://ubterzioglu.de/">
+          <img src="/img/picprofile.png" alt="UBT profile" class="widget-avatar logo" />
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================
+    Minimal UI JS (placeholder data)
+  ========================================================== -->
+  <script>
+    const birthYearEl = document.getElementById("birthYear");
+    const showBtn = document.getElementById("showBtn");
+
+    const statusPill = document.getElementById("statusPill");
+    const youCard = document.getElementById("youCard");
+    const youGenLine = document.getElementById("youGenLine");
+    const avatarTitle = document.getElementById("avatarTitle");
+    const avatarSub = document.getElementById("avatarSub");
+    const avatarYou = document.getElementById("avatarYou");
+
+    const compatHeader = document.getElementById("compatHeader");
+    const accordions = document.getElementById("accordions");
+
+    function getGeneration(year){
+      if (!Number.isFinite(year)) return null;
+      if (year <= 1945) return "Silent Generation";
+      if (year <= 1964) return "Baby Boomers";
+      if (year <= 1980) return "Gen X";
+      if (year <= 1996) return "Millennials (Gen Y)";
+      if (year <= 2012) return "Gen Z";
+      if (year <= 2025) return "Gen Alpha";
+      return "Gen Beta";
+    }
+
+    function setYouAvatar(genName){
+      const map = {
+        "Silent Generation": "🕰️",
+        "Baby Boomers": "📞",
+        "Gen X": "🧩",
+        "Millennials (Gen Y)": "☕",
+        "Gen Z": "⚡",
+        "Gen Alpha": "🤖",
+        "Gen Beta": "🧠"
+      };
+      avatarYou.textContent = map[genName] || "🙂";
+    }
+
+    function updateUI(){
+      const raw = (birthYearEl.value || "").trim();
+      const year = Number(raw);
+
+      const valid = raw.length === 4 && Number.isInteger(year) && year >= 1900 && year <= 2100;
+      if (!valid){
+        statusPill.textContent = "Enter a 4-digit birth year (e.g., 1999)";
+        youCard.hidden = true;
+        compatHeader.hidden = true;
+        accordions.hidden = true;
+        return;
+      }
+
+      const gen = getGeneration(year);
+      statusPill.textContent = `Detected: ${gen}`;
+      youGenLine.innerHTML = `You are <strong>${gen}</strong>.`;
+
+      avatarTitle.textContent = `${gen} vibe (placeholder)`;
+      avatarSub.textContent = "We’ll fill these with real content later.";
+      setYouAvatar(gen);
+
+      youCard.hidden = false;
+      compatHeader.hidden = false;
+      accordions.hidden = false;
+    }
+
+    showBtn.addEventListener("click", updateUI);
+    birthYearEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") updateUI();
+    });
+    birthYearEl.addEventListener("input", () => {
+      updateUI();
+    });
+
+    // Accordion toggles
+    document.querySelectorAll(".acc").forEach((card) => {
+      const head = card.querySelector(".acc-head");
+      const body = card.querySelector(".acc-body");
+      const icon = card.querySelector(".acc-icon");
+
+      head.addEventListener("click", () => {
+        const isOpen = head.getAttribute("aria-expanded") === "true";
+        head.setAttribute("aria-expanded", String(!isOpen));
+        body.hidden = isOpen;
+        icon.textContent = isOpen ? "+" : "–";
+      });
+    });
+  </script>
+</body>
+</html>
