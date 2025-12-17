@@ -1,7 +1,29 @@
-/* ZELIFS v1 — colorful UI + multi-trip + always-visible summary card */
+/* ZELIFS v1 — multi-trip + always-visible summary + TR 2026 holidays in info card */
 
 const STORAGE_KEY = "zelifs_v1_state";
 
+/* --------- HOLIDAYS (TR 2026) --------- */
+const TR_2026_HOLIDAYS = [
+  { date: "2026-01-01", name_tr: "Yılbaşı", weight: 1 },
+  { date: "2026-03-19", name_tr: "Ramazan Bayramı Arifesi", weight: 0.5 },
+  { date: "2026-03-20", name_tr: "Ramazan Bayramı (1. Gün)", weight: 1 },
+  { date: "2026-03-21", name_tr: "Ramazan Bayramı (2. Gün)", weight: 1 },
+  { date: "2026-03-22", name_tr: "Ramazan Bayramı (3. Gün)", weight: 1 },
+  { date: "2026-04-23", name_tr: "Ulusal Egemenlik ve Çocuk Bayramı", weight: 1 },
+  { date: "2026-05-01", name_tr: "Emek ve Dayanışma Günü", weight: 1 },
+  { date: "2026-05-19", name_tr: "Atatürk'ü Anma, Gençlik ve Spor Bayramı", weight: 1 },
+  { date: "2026-05-26", name_tr: "Kurban Bayramı Arifesi", weight: 0.5 },
+  { date: "2026-05-27", name_tr: "Kurban Bayramı (1. Gün)", weight: 1 },
+  { date: "2026-05-28", name_tr: "Kurban Bayramı (2. Gün)", weight: 1 },
+  { date: "2026-05-29", name_tr: "Kurban Bayramı (3. Gün)", weight: 1 },
+  { date: "2026-05-30", name_tr: "Kurban Bayramı (4. Gün)", weight: 1 },
+  { date: "2026-07-15", name_tr: "Demokrasi ve Millî Birlik Günü", weight: 1 },
+  { date: "2026-08-30", name_tr: "Zafer Bayramı", weight: 1 },
+  { date: "2026-10-28", name_tr: "Cumhuriyet Bayramı Arifesi", weight: 0.5 },
+  { date: "2026-10-29", name_tr: "Cumhuriyet Bayramı", weight: 1 }
+];
+
+/* --------- ELEMENTS --------- */
 const els = {
   // inputs
   dateOut: document.getElementById("dateOut"),
@@ -25,7 +47,7 @@ const els = {
   tripsTbody: document.getElementById("tripsTbody"),
   emptyTrips: document.getElementById("emptyTrips"),
 
-  // notes (separate)
+  // notes
   plusInput: document.getElementById("plusInput"),
   minusInput: document.getElementById("minusInput"),
   btnAddPlus: document.getElementById("btnAddPlus"),
@@ -35,7 +57,7 @@ const els = {
   plusCount: document.getElementById("plusCount"),
   minusCount: document.getElementById("minusCount"),
 
-  // summary card
+  // summary
   summaryBadge: document.getElementById("summaryBadge"),
   sumTotalDays: document.getElementById("sumTotalDays"),
   sumLimit: document.getElementById("sumLimit"),
@@ -43,26 +65,30 @@ const els = {
   sumTripCount: document.getElementById("sumTripCount"),
   sumRange: document.getElementById("sumRange"),
   sumRangeNote: document.getElementById("sumRangeNote"),
-
   sumTripsMeta: document.getElementById("sumTripsMeta"),
   sumTripsTbody: document.getElementById("sumTripsTbody"),
   sumTripsEmpty: document.getElementById("sumTripsEmpty"),
-
   sumPlusMeta: document.getElementById("sumPlusMeta"),
   sumMinusMeta: document.getElementById("sumMinusMeta"),
   sumPlusList: document.getElementById("sumPlusList"),
   sumMinusList: document.getElementById("sumMinusList"),
+
+  // holidays
+  holidayCount: document.getElementById("holidayCount"),
+  holidaysTbody: document.getElementById("holidaysTbody"),
 };
 
 const state = {
-  inputOut: "", // YYYY-MM-DD
-  inputIn: "",  // YYYY-MM-DD
-  trips: [],    // { id, out, in }
-  plus: [],     // { text, ts }
-  minus: [],    // { text, ts }
+  inputOut: "",
+  inputIn: "",
+  trips: [],   // { id, out, in }
+  plus: [],    // { text, ts }
+  minus: [],   // { text, ts }
 };
 
 init();
+
+/* ---------------- INIT ---------------- */
 
 function init() {
   loadState();
@@ -70,6 +96,7 @@ function init() {
   els.dateOut.value = state.inputOut || "";
   els.dateIn.value = state.inputIn || "";
 
+  renderHolidays();  // info card
   wire();
   renderAll();
 }
@@ -94,8 +121,7 @@ function wire() {
   });
 
   els.btnTodayIn.addEventListener("click", () => {
-    const today = new Date();
-    const iso = toISO(today);
+    const iso = toISO(new Date());
     state.inputIn = iso;
     els.dateIn.value = iso;
     saveState();
@@ -160,7 +186,7 @@ function wire() {
     }
   });
 
-  // Trip delete (delegation)
+  // delete trip (delegation)
   els.tripsTbody.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-del]");
     if (!btn) return;
@@ -185,6 +211,45 @@ function renderAll() {
   renderSummary();
 }
 
+/* ---------------- HOLIDAYS ---------------- */
+
+function renderHolidays() {
+  if (!els.holidaysTbody) return;
+
+  const list = TR_2026_HOLIDAYS.slice().sort((a, b) => a.date.localeCompare(b.date));
+  els.holidaysTbody.innerHTML = "";
+
+  let totalWeight = 0;
+  for (const h of list) {
+    totalWeight += Number(h.weight || 0);
+
+    const tr = document.createElement("tr");
+
+    const tdDate = document.createElement("td");
+    tdDate.textContent = prettyDateTR(h.date);
+
+    const tdDay = document.createElement("td");
+    tdDay.textContent = weekdayTR(h.date);
+
+    const tdName = document.createElement("td");
+    tdName.textContent = h.name_tr;
+
+    const tdW = document.createElement("td");
+    tdW.textContent = String(h.weight);
+
+    tr.appendChild(tdDate);
+    tr.appendChild(tdDay);
+    tr.appendChild(tdName);
+    tr.appendChild(tdW);
+
+    els.holidaysTbody.appendChild(tr);
+  }
+
+  if (els.holidayCount) {
+    els.holidayCount.textContent = `${list.length} gün • toplam weight: ${totalWeight}`;
+  }
+}
+
 /* ---------------- TRIPS ---------------- */
 
 function addTripFromInputs() {
@@ -206,14 +271,12 @@ function addTripFromInputs() {
   if (!outD.ok || !inD.ok) return;
 
   const diff = daysBetweenUTC(out, inn);
-
   if (diff < 0) {
     addWarn("Dönüş tarihi, çıkış tarihinden önce olamaz.");
     return;
   }
 
-  const trip = { id: cryptoId(), out, in: inn };
-  state.trips.push(trip);
+  state.trips.push({ id: cryptoId(), out, in: inn });
 
   // clear inputs after add
   state.inputOut = "";
@@ -225,7 +288,6 @@ function addTripFromInputs() {
   renderInputsPretty();
   renderTrips();
   recalcTotal();
-
   addOk("Seyahat eklendi.");
 }
 
@@ -242,16 +304,10 @@ function renderTrips() {
     const tr = document.createElement("tr");
 
     const tdOut = document.createElement("td");
-    tdOut.innerHTML = `
-      ${prettyDateTR(t.out)}
-      <span class="mutedSmall">${weekdayTR(t.out)}</span>
-    `;
+    tdOut.innerHTML = `${prettyDateTR(t.out)} <span class="mutedSmall">${weekdayTR(t.out)}</span>`;
 
     const tdIn = document.createElement("td");
-    tdIn.innerHTML = `
-      ${prettyDateTR(t.in)}
-      <span class="mutedSmall">${weekdayTR(t.in)}</span>
-    `;
+    tdIn.innerHTML = `${prettyDateTR(t.in)} <span class="mutedSmall">${weekdayTR(t.in)}</span>`;
 
     const tdDays = document.createElement("td");
     tdDays.textContent = String(days);
@@ -273,7 +329,6 @@ function recalcTotal() {
   clearErrors();
 
   const total = computeTotalDays(state.trips);
-
   els.daysValue.textContent = state.trips.length ? String(total) : "—";
 
   if (state.trips.length === 0) {
@@ -328,50 +383,58 @@ function renderNoteList(kind, arr, ul, countEl) {
   countEl.textContent = `${arr.length} kayıt`;
 
   if (arr.length === 0) {
-    const li = document.createElement("li");
-    li.className = "noteItem";
-    li.innerHTML = `
-      <span class="noteTag ${kind}">${kind === "plus" ? "+ Artı" : "− Eksi"}</span>
-      <div class="noteText" style="color:rgba(11,18,32,.62)">Henüz not yok.</div>
-      <div class="noteMeta">—</div>
-    `;
-    ul.appendChild(li);
+    ul.appendChild(makeEmptyNote(kind));
     return;
   }
 
   for (const n of arr) {
-    const li = document.createElement("li");
-    li.className = "noteItem";
-
-    const tag = document.createElement("span");
-    tag.className = `noteTag ${kind}`;
-    tag.textContent = kind === "plus" ? "+ Artı" : "− Eksi";
-
-    const text = document.createElement("div");
-    text.className = "noteText";
-    text.textContent = n.text;
-
-    const meta = document.createElement("div");
-    meta.className = "noteMeta";
-    meta.textContent = formatTS(n.ts);
-
-    li.appendChild(tag);
-    li.appendChild(text);
-    li.appendChild(meta);
-    ul.appendChild(li);
+    ul.appendChild(makeNoteItem(kind, n.text, formatTS(n.ts)));
   }
+}
+
+function makeEmptyNote(kind) {
+  const li = document.createElement("li");
+  li.className = "noteItem";
+  li.innerHTML = `
+    <span class="noteTag ${kind}">${kind === "plus" ? "+ Artı" : "− Eksi"}</span>
+    <div class="noteText" style="color:rgba(11,18,32,.62)">Henüz not yok.</div>
+    <div class="noteMeta">—</div>
+  `;
+  return li;
+}
+
+function makeNoteItem(kind, text, meta) {
+  const li = document.createElement("li");
+  li.className = "noteItem";
+
+  const tag = document.createElement("span");
+  tag.className = `noteTag ${kind}`;
+  tag.textContent = kind === "plus" ? "+ Artı" : "− Eksi";
+
+  const t = document.createElement("div");
+  t.className = "noteText";
+  t.textContent = text;
+
+  const m = document.createElement("div");
+  m.className = "noteMeta";
+  m.textContent = meta;
+
+  li.appendChild(tag);
+  li.appendChild(t);
+  li.appendChild(m);
+  return li;
 }
 
 /* ---------------- SUMMARY (ALWAYS VISIBLE) ---------------- */
 
 function renderSummary() {
-  const trips = state.trips.slice(); // copy
+  const trips = state.trips.slice();
   const total = computeTotalDays(trips);
 
   // total days
   els.sumTotalDays.textContent = trips.length ? String(total) : "—";
 
-  // limit info
+  // limit
   if (!trips.length) {
     els.sumLimit.textContent = "—";
     els.sumLimitNote.textContent = "Henüz seyahat yok.";
@@ -394,10 +457,10 @@ function renderSummary() {
   // badge
   els.summaryBadge.textContent = trips.length ? "Güncel" : "Boş";
 
-  // trips table in summary
+  // trips table
   renderSummaryTrips(trips);
 
-  // plus/minus inside summary
+  // plus/minus in summary
   renderSummaryNotes();
 }
 
@@ -412,7 +475,6 @@ function renderSummaryTrips(trips) {
 
   els.sumTripsEmpty.style.display = "none";
 
-  // sort by out date (ascending)
   const sorted = trips.slice().sort((a, b) => a.out.localeCompare(b.out));
   els.sumTripsMeta.textContent = `${sorted.length} seyahat • Toplam ${computeTotalDays(sorted)} gün`;
 
@@ -436,16 +498,15 @@ function renderSummaryTrips(trips) {
     tr.appendChild(tdOut);
     tr.appendChild(tdIn);
     tr.appendChild(tdDays);
+
     els.sumTripsTbody.appendChild(tr);
   }
 }
 
 function renderSummaryNotes() {
-  // meta
   els.sumPlusMeta.textContent = `${state.plus.length} kayıt`;
   els.sumMinusMeta.textContent = `${state.minus.length} kayıt`;
 
-  // lists
   renderSummaryNoteList(state.plus, els.sumPlusList, "plus");
   renderSummaryNoteList(state.minus, els.sumMinusList, "minus");
 }
@@ -454,44 +515,17 @@ function renderSummaryNoteList(arr, ul, kind) {
   ul.innerHTML = "";
 
   if (!arr.length) {
-    const li = document.createElement("li");
-    li.className = "noteItem";
-    li.innerHTML = `
-      <span class="noteTag ${kind}">${kind === "plus" ? "+ Artı" : "− Eksi"}</span>
-      <div class="noteText" style="color:rgba(11,18,32,.62)">Henüz not yok.</div>
-      <div class="noteMeta">—</div>
-    `;
-    ul.appendChild(li);
+    ul.appendChild(makeEmptyNote(kind));
     return;
   }
 
-  // show newest first for summary (more useful for screenshot)
-  const sorted = arr.slice().sort((a, b) => b.ts - a.ts);
-
-  // keep it compact: show max 6 items in summary
+  // newest first for screenshot, max 6
   const max = 6;
+  const sorted = arr.slice().sort((a, b) => b.ts - a.ts);
   const slice = sorted.slice(0, max);
 
   for (const n of slice) {
-    const li = document.createElement("li");
-    li.className = "noteItem";
-
-    const tag = document.createElement("span");
-    tag.className = `noteTag ${kind}`;
-    tag.textContent = kind === "plus" ? "+ Artı" : "− Eksi";
-
-    const text = document.createElement("div");
-    text.className = "noteText";
-    text.textContent = n.text;
-
-    const meta = document.createElement("div");
-    meta.className = "noteMeta";
-    meta.textContent = formatTS(n.ts);
-
-    li.appendChild(tag);
-    li.appendChild(text);
-    li.appendChild(meta);
-    ul.appendChild(li);
+    ul.appendChild(makeNoteItem(kind, n.text, formatTS(n.ts)));
   }
 
   if (arr.length > max) {
@@ -525,25 +559,27 @@ function computeTotalDays(trips) {
 }
 
 function computeRange(trips) {
-  if (!trips.length) {
-    return { label: "—", note: "Seyahat aralığı yok." };
-    }
+  if (!trips.length) return { label: "—", note: "Seyahat aralığı yok." };
 
-  const sorted = trips.slice().sort((a, b) => a.out.localeCompare(b.out));
-  const firstOut = sorted[0].out;
-  const lastIn = sorted.slice().sort((a, b) => a.in.localeCompare(b.in))[sorted.length - 1].in;
+  const byOut = trips.slice().sort((a, b) => a.out.localeCompare(b.out));
+  const byIn = trips.slice().sort((a, b) => a.in.localeCompare(b.in));
 
-  const label = `${prettyDateTR(firstOut)} → ${prettyDateTR(lastIn)}`;
-  const note = `${weekdayTR(firstOut)} → ${weekdayTR(lastIn)}`;
+  const firstOut = byOut[0].out;
+  const lastIn = byIn[byIn.length - 1].in;
 
-  return { label, note };
+  return {
+    label: `${prettyDateTR(firstOut)} → ${prettyDateTR(lastIn)}`,
+    note: `${weekdayTR(firstOut)} → ${weekdayTR(lastIn)}`
+  };
 }
 
 function safeDays(outISO, inISO) {
   const a = parseISO(outISO);
   const b = parseISO(inISO);
   if (!a.ok || !b.ok) return 0;
-  return Math.floor((Date.UTC(b.y, b.m - 1, b.d) - Date.UTC(a.y, a.m - 1, a.d)) / 86400000);
+  const t1 = Date.UTC(a.y, a.m - 1, a.d);
+  const t2 = Date.UTC(b.y, b.m - 1, b.d);
+  return Math.floor((t2 - t1) / 86400000);
 }
 
 /* ---------------- DATE HELPERS ---------------- */
@@ -558,6 +594,13 @@ function parseISO(iso) {
   return { ok:true, y, m, d };
 }
 
+function daysBetweenUTC(outISO, inISO) {
+  const a = parseISO(outISO);
+  const b = parseISO(inISO);
+  if (!a.ok || !b.ok) return NaN;
+  return Math.floor((Date.UTC(b.y, b.m - 1, b.d) - Date.UTC(a.y, a.m - 1, a.d)) / 86400000);
+}
+
 function prettyDateTR(iso) {
   const p = parseISO(iso);
   if (!p.ok) return "—";
@@ -570,7 +613,7 @@ function weekdayTR(iso) {
   const p = parseISO(iso);
   if (!p.ok) return "—";
   const d = new Date(Date.UTC(p.y, p.m - 1, p.d));
-  const day = d.getUTCDay(); // 0 Sun .. 6 Sat
+  const day = d.getUTCDay();
   const names = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
   return names[day] || "—";
 }
@@ -609,7 +652,6 @@ function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
-
     const p = JSON.parse(raw);
 
     state.inputOut = typeof p.inputOut === "string" ? p.inputOut : "";

@@ -46,18 +46,28 @@ body{
   gap: 14px;
 }
 
+/* Top stack: info + date range stacked */
+.topStack{
+  display: grid;
+  gap: 14px;
+}
+
+/* Desktop: topStack sits right and is narrower; results full width below */
 @media (min-width: 940px){
   .grid{
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: 1fr 420px; /* right column fixed-ish */
     align-items: start;
   }
-  .panel:nth-child(3){
-    grid-column: 1 / -1;
+  .topStack{
+    grid-column: 2 / 3;
+  }
+  .panel--purple{
+    grid-column: 1 / -1; /* results full width */
   }
 }
 
 /* =========
-   Card (colorful but readable)
+   Card
 ========= */
 .card{
   border: 1px solid var(--border);
@@ -74,7 +84,7 @@ body{
   position: relative;
 }
 
-/* color accent bar */
+/* color accent bar (header) */
 .card__head::before{
   content:"";
   position:absolute;
@@ -82,12 +92,7 @@ body{
   width: 10px;
   background: var(--c-blue);
 }
-
 .card--blue .card__head::before{ background: var(--c-blue); }
-.card--green .card__head::before{ background: var(--c-green); }
-.card--orange .card__head::before{ background: var(--c-orange); }
-.card--purple .card__head::before{ background: var(--c-purple); }
-.card--yellow .card__head::before{ background: var(--c-yellow); }
 
 h1{
   margin: 0 0 6px;
@@ -104,7 +109,7 @@ h2{
 }
 
 /* =========
-   Panels
+   Panels (these are the "cards" you want colorful)
 ========= */
 .panel{
   padding: 14px;
@@ -114,6 +119,56 @@ h2{
   background: #fff;
 }
 
+/* RENGARENK PANELS: tinted backgrounds + colored left bar */
+.panel--blue,
+.panel--green,
+.panel--orange,
+.panel--purple,
+.panel--yellow{
+  position: relative;
+  overflow: hidden;
+}
+
+.panel--blue{
+  background: rgba(1,161,241,.10);
+  border-color: rgba(1,161,241,.25);
+}
+.panel--green{
+  background: rgba(124,187,0,.10);
+  border-color: rgba(124,187,0,.25);
+}
+.panel--orange{
+  background: rgba(246,83,20,.10);
+  border-color: rgba(246,83,20,.25);
+}
+.panel--purple{
+  background: rgba(143,3,183,.08);
+  border-color: rgba(143,3,183,.22);
+}
+.panel--yellow{
+  background: rgba(255,187,0,.10);
+  border-color: rgba(255,187,0,.28);
+}
+
+/* left color bar on panels */
+.panel--blue::before,
+.panel--green::before,
+.panel--orange::before,
+.panel--purple::before,
+.panel--yellow::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 10px;
+  background: var(--c-blue);
+}
+.panel--blue::before{ background: var(--c-blue); }
+.panel--green::before{ background: var(--c-green); }
+.panel--orange::before{ background: var(--c-orange); }
+.panel--purple::before{ background: var(--c-purple); }
+.panel--yellow::before{ background: var(--c-yellow); }
+
+/* soft variant: keep subtle but still readable */
 .panel--soft{
   background: rgba(0,0,0,.02);
 }
@@ -124,6 +179,9 @@ h2{
   letter-spacing: .2px;
 }
 
+/* =========
+   Bullets
+========= */
 .bullets{
   margin: 0 0 12px;
   padding-left: 18px;
@@ -161,7 +219,7 @@ input[type="date"]{
   border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 14px;
-  background: #fff;
+  background: rgba(255,255,255,.9);
   color: var(--ink);
 }
 
@@ -176,7 +234,7 @@ input[type="date"]:focus{
   padding: 10px 12px;
   border: 1px dashed rgba(17,24,39,.18);
   border-radius: 12px;
-  background: #fff;
+  background: rgba(255,255,255,.85);
   line-height: 1.35;
 }
 
@@ -191,13 +249,13 @@ input[type="date"]:focus{
 }
 
 .btn{
-  border: 1px solid var(--border);
+  border: 1px solid rgba(0,0,0,.10);
   border-radius: 12px;
   padding: 10px 12px;
   font-weight: 650;
   font-size: 14px;
   cursor: pointer;
-  background: #fff;
+  background: rgba(255,255,255,.85);
   color: var(--ink);
 }
 
@@ -219,7 +277,7 @@ input[type="date"]:focus{
 }
 
 .btn--ghost{
-  background: rgba(0,0,0,.02);
+  background: rgba(255,255,255,.75);
 }
 
 /* =========
@@ -227,8 +285,8 @@ input[type="date"]:focus{
 ========= */
 .tips{
   margin-top: 12px;
-  border: 1px solid rgba(255,187,0,.45);
-  background: rgba(255,187,0,.12);
+  border: 1px solid rgba(255,187,0,.55);
+  background: rgba(255,187,0,.18);
   border-radius: 14px;
   padding: 10px 12px;
   line-height: 1.35;
@@ -250,10 +308,10 @@ input[type="date"]:focus{
 }
 
 .kpi{
-  border: 1px solid var(--border);
+  border: 1px solid rgba(0,0,0,.08);
   border-radius: 16px;
   padding: 12px 12px 10px;
-  background: #fff;
+  background: rgba(255,255,255,.85);
   position: relative;
   overflow: hidden;
 }
@@ -291,10 +349,10 @@ input[type="date"]:focus{
 ========= */
 .details{
   margin-top: 12px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(0,0,0,.08);
   border-radius: 14px;
   padding: 10px 12px;
-  background: #fff;
+  background: rgba(255,255,255,.85);
 }
 
 .details summary{
@@ -307,11 +365,12 @@ input[type="date"]:focus{
   margin: 10px 0 0;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,.02);
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(0,0,0,.03);
   overflow: auto;
   font-size: 12px;
   line-height: 1.35;
+  max-height: 220px; /* patlamayı görsel olarak kes */
 }
 
 /* =========
@@ -319,8 +378,8 @@ input[type="date"]:focus{
 ========= */
 .holidaylist{
   margin-top: 10px;
-  border: 1px solid var(--border);
-  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.85);
   border-radius: 14px;
   padding: 10px 12px;
   max-height: 240px;
@@ -345,25 +404,99 @@ input[type="date"]:focus{
   color: var(--ink);
 }
 
-
 /* =========
    Info box (same feel as holiday list)
 ========= */
 .infobox{
   margin-top: 10px;
-  border: 1px solid var(--border);
-  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.85);
   border-radius: 14px;
   padding: 10px 12px;
-  font-size: 13px;      /* tatil listesiyle aynı */
-  line-height: 1.35;    /* tatil listesiyle aynı */
+  font-size: 13px;
+  line-height: 1.35;
 }
-
 .infobox .bullets{
   margin: 0;
   padding-left: 18px;
 }
-
 .infobox .bullets li{
   margin: 6px 0;
+}
+/* --- Accordion (Top cards) --- */
+.accordion .accHeader{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:0;
+  background: transparent;
+  padding: 0;
+  cursor:pointer;
+  text-align:left;
+}
+
+.accordion .accTitle h2{
+  margin:0;
+}
+
+.accordion .accBody{
+  margin-top:10px;
+}
+
+.accordion.is-collapsed .accBody{
+  display:none;
+}
+
+/* make header feel clickable */
+.accordion .accHeader:hover .pill{
+  filter: saturate(1.15);
+}
+
+/* Slightly tighter inner card */
+.innerCompact{
+  padding:10px;
+}
+.innerCompact .innerHead{
+  margin-bottom:8px;
+}
+.innerCompact .innerHead h3{
+  font-size: 12.5px;
+}
+
+/* --- Table tightening to avoid horizontal scroll --- */
+.tableTight{
+  min-width: unset;              /* removes forced min-width */
+  width:100%;
+  table-layout: fixed;           /* lets columns wrap */
+}
+.tableTight th, .tableTight td{
+  padding: 8px 8px;              /* tighter padding */
+  font-size: 12px;               /* smaller font */
+}
+.tableTight th{
+  font-size: 11px;
+}
+
+/* Column sizing (holiday table) */
+.tableTight .col-date{ width: 92px; }
+.tableTight .col-day{  width: 88px; }
+.tableTight .col-w{    width: 34px; text-align:right; }
+.tableTight td:last-child, .tableTight th:last-child{ text-align:right; }
+
+.tableTight .col-name{
+  width: auto;
+}
+
+/* Allow wrapping in Name column */
+.tableTight td{
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+.tableTight td:nth-child(3){
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-word;
 }

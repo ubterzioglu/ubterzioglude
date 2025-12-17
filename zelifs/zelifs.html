@@ -18,49 +18,99 @@
         </div>
       </div>
 
-      <div class="chips">
-        <span class="chip chip-blue">Office Blue</span>
-        <span class="chip chip-green">Excel Green</span>
-        <span class="chip chip-orange">PowerPoint Orange</span>
-        <span class="chip chip-purple">Outlook Red</span>
+      <div class="brandMedia">
+        <img class="brandImg brandLogo" src="img/logoubt.png" alt="UBT logo" />
+        <img class="brandImg brandProfile" src="img/picprofile.png" alt="UBT profile" />
       </div>
     </header>
 
-    <!-- ÜST BİLGİ KARTLARI -->
-    <section class="grid">
-      <article class="card card-blue">
-        <div class="cardHead">
-          <h2>Bilgi Kartı 1 — Takvim / Günler</h2>
-          <span class="pill pill-blue">Placeholder</span>
+   <!-- ÜST BİLGİ KARTLARI (Aç/Kapa) -->
+<section class="grid">
+
+  <!-- Bilgi Kartı 1: 2026 TR Tatilleri -->
+  <article class="card card-blue accordion is-collapsed" id="accHolidays">
+    <button class="accHeader" type="button" data-acc-toggle>
+      <div class="accTitle">
+        <h2>Takvim — TR Tatiller (2026)</h2>
+        <div class="muted small">Aç/Kapa</div>
+      </div>
+      <span class="pill pill-blue">Liste</span>
+    </button>
+
+    <div class="accBody">
+      <p class="muted small">
+        Not: “Arefe” günleri <b>0.5</b> olarak sayılır.
+      </p>
+
+      <div class="innerCard innerCompact">
+        <div class="innerHead">
+          <h3>2026 Tatil Listesi</h3>
+          <div id="holidayCount" class="muted small">—</div>
         </div>
 
-        <p class="muted">
-          Buraya ileride: önemli günler, haftalar, resmi tatiller, zaman farkındalığı gibi kısa bir içerik gelecek.
-        </p>
-
-        <div class="placeholderBox">
-          <div class="phLine"></div>
-          <div class="phLine"></div>
-          <div class="phLine short"></div>
+        <div class="tableWrap">
+          <table class="table tableCompact tableTight" aria-label="TR 2026 holidays table">
+            <thead>
+              <tr>
+                <th class="col-date">Tarih</th>
+                <th class="col-day">Gün</th>
+                <th class="col-name">Ad</th>
+                <th class="col-w">W</th>
+              </tr>
+            </thead>
+            <tbody id="holidaysTbody"></tbody>
+          </table>
         </div>
-      </article>
+      </div>
+    </div>
+  </article>
 
-      <article class="card card-purple">
-        <div class="cardHead">
-          <h2>Bilgi Kartı 2 — Tool mesajı</h2>
-          <span class="pill pill-orange">Placeholder</span>
+  <!-- Bilgi Kartı 2: Tool mesajı -->
+  <article class="card card-purple accordion is-collapsed" id="accToolMsg">
+    <button class="accHeader" type="button" data-acc-toggle>
+      <div class="accTitle">
+        <h2>Tool mesajı</h2>
+        <div class="muted small">Aç/Kapa</div>
+      </div>
+      <span class="pill pill-yellow">Not</span>
+    </button>
+
+    <div class="accBody">
+      <div class="toolMsg">
+        <div class="toolMsgText">
+          Umarım işine yarar; istediğin güncellemeleri söyle, yapalım!
         </div>
 
-        <p class="muted">
-          Buraya ileride: tool’un amacını anlatan hafif, komikli, rahatlatıcı bir metin gelecek.
-        </p>
-
-        <div class="placeholderBox">
-          <div class="phLine"></div>
-          <div class="phLine short"></div>
+        <div class="toolMsgMedia">
+          <div class="mediaChip">
+            <img src="img/logoubt.png" alt="UBT logo" />
+            <span>UBT</span>
+          </div>
+          <div class="mediaChip">
+            <img src="img/picprofile.png" alt="UBT profile" />
+            <span>Profile</span>
+          </div>
         </div>
-      </article>
-    </section>
+      </div>
+
+      <div class="miniNote muted small">
+        Bu karttaki görseller ve metin, her zaman sayfada “bağlam” olarak kalır.
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<script>
+  // Tiny accordion (no app.js touch)
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-acc-toggle]");
+    if (!btn) return;
+    const card = btn.closest(".accordion");
+    if (!card) return;
+    card.classList.toggle("is-collapsed");
+  });
+</script>
 
     <!-- ANA KART: SEYAHAT EKLE + TOPLAM -->
     <section class="card card-orange">

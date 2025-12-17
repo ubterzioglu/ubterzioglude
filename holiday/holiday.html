@@ -12,63 +12,65 @@
     <section class="card card--blue">
       <header class="card__head">
         <h1>Türkiye 2026 Tatil Hesaplayıcı</h1>
-        <p class="muted">
-          Tarih aralığını seç, sistem toplam tatili ve izinden giden günleri hesaplasın.
-        </p>
+        <p class="muted">Tarih aralığını seç, sistem toplam tatili ve izinden giden günleri hesaplasın.</p>
       </header>
 
       <div class="grid">
-        <!-- INFO (tek kart içinde, basit) -->
-        <div class="panel panel--soft">
-          <h2 class="panel__title">Hesaplama / Bilgi</h2>
 
-          <button id="toggleInfo" class="btn btn--ghost" type="button">
-            Hesaplama / Bilgi göster
-          </button>
+        <!-- RIGHT STACK (dar, üst üste) -->
+        <div class="topStack">
+          <!-- INFO -->
+          <div class="panel panel--yellow">
+            <h2 class="panel__title">Hesaplama / Bilgi</h2>
 
-          <div id="infoBody" class="infobox hidden" aria-hidden="true">
-            <ul class="bullets">
-              <li>Hesap: Seçilen aralık → hafta sonları + resmî tatiller düşülür → “izinden giden” bulunur.</li>
-              <li><strong>Arefe</strong> günleri <strong>13:00 sonrası</strong> tatildir (0.5 gün olarak sayılır).</li>
-              <li>Şimdilik sadece <strong>Türkiye 2026</strong>. Sonra ülke/bölge ekleyeceğiz.</li>
-            </ul>
+            <button id="toggleInfo" class="btn btn--ghost" type="button">
+              Hesaplama / Bilgi göster
+            </button>
+
+            <div id="infoBody" class="infobox hidden" aria-hidden="true">
+              <ul class="bullets">
+                <li>Hesap: Seçilen aralık → hafta sonları + resmî tatiller düşülür → “izinden giden” bulunur.</li>
+                <li><strong>Arefe</strong> günleri <strong>13:00 sonrası</strong> tatildir (0.5 gün sayılır).</li>
+                <li>Şimdilik sadece <strong>Türkiye 2026</strong>. Sonra ülke/bölge ekleyeceğiz.</li>
+              </ul>
+            </div>
+
+            <button id="toggleHolidayList" class="btn btn--ghost" type="button">
+              Tatil listesini göster
+            </button>
+
+            <div id="holidayList" class="holidaylist hidden" aria-hidden="true"></div>
           </div>
 
-          <button id="toggleHolidayList" class="btn btn--ghost" type="button">
-            Tatil listesini göster
-          </button>
+          <!-- INPUTS -->
+          <div class="panel panel--blue">
+            <h2 class="panel__title">Tatil Aralığı</h2>
 
-          <div id="holidayList" class="holidaylist hidden" aria-hidden="true"></div>
+            <div class="row2">
+              <label class="field">
+                <span class="field__label">Başlangıç</span>
+                <input id="startDate" type="date" />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Bitiş</span>
+                <input id="endDate" type="date" />
+              </label>
+            </div>
+
+            <div id="pickedSummary" class="picked muted hidden" aria-live="polite"></div>
+
+            <div class="actions">
+              <button id="calcBtn" class="btn btn--primary" type="button">Hesapla</button>
+              <button id="resetBtn" class="btn btn--danger" type="button">Sıfırla</button>
+            </div>
+
+            <div id="tipsBox" class="tips hidden" aria-live="polite"></div>
+          </div>
         </div>
 
-        <!-- INPUTS -->
-        <div class="panel">
-          <h2 class="panel__title">Tatil Aralığı</h2>
-
-          <div class="row2">
-            <label class="field">
-              <span class="field__label">Başlangıç</span>
-              <input id="startDate" type="date" />
-            </label>
-
-            <label class="field">
-              <span class="field__label">Bitiş</span>
-              <input id="endDate" type="date" />
-            </label>
-          </div>
-
-          <div id="pickedSummary" class="picked muted hidden" aria-live="polite"></div>
-
-          <div class="actions">
-            <button id="calcBtn" class="btn btn--primary" type="button">Hesapla</button>
-            <button id="resetBtn" class="btn btn--danger" type="button">Sıfırla</button>
-          </div>
-
-          <div id="tipsBox" class="tips hidden" aria-live="polite"></div>
-        </div>
-
-        <!-- RESULTS -->
-        <div class="panel panel--soft">
+        <!-- RESULTS (full width) -->
+        <div class="panel panel--soft panel--purple">
           <h2 class="panel__title">Sonuçlar</h2>
 
           <div class="kpis">
@@ -102,6 +104,7 @@
             <pre id="detailsJson" class="pre">—</pre>
           </details>
         </div>
+
       </div>
     </section>
   </main>
