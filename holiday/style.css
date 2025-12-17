@@ -56,7 +56,7 @@ body{
 }
 
 .card__head{
-  padding: 18px 18px 12px;
+  padding: 16px 18px 12px;
   border-bottom: 1px solid var(--border);
   background: #fff;
   position: relative;
@@ -70,6 +70,17 @@ body{
   background: var(--c-blue);
 }
 
+.headRow{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.headLeft{
+  min-width: 0;
+}
+
 h1{
   margin: 0 0 6px;
   font-size: 20px;
@@ -78,6 +89,35 @@ h1{
 @media (min-width: 520px){ h1{ font-size: 22px; } }
 
 h2{ margin: 0 0 10px; font-size: 15px; }
+
+/* =========
+   UBT Signature
+========= */
+.ubtSig{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px;
+  background: rgba(0,0,0,.02);
+  box-shadow: var(--shadow2);
+  flex-shrink: 0;
+}
+
+.ubtLogo{
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.ubtPic{
+  height: 34px;
+  width: 34px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(0,0,0,.08);
+}
 
 /* =========
    Panels (rengarenk)
@@ -92,7 +132,6 @@ h2{ margin: 0 0 10px; font-size: 15px; }
   overflow: hidden;
 }
 
-/* tinted bg + colored left bar */
 .panel--blue{   background: rgba(1,161,241,.10);  border-color: rgba(1,161,241,.25); }
 .panel--green{  background: rgba(124,187,0,.10);  border-color: rgba(124,187,0,.25); }
 .panel--orange{ background: rgba(246,83,20,.10);  border-color: rgba(246,83,20,.25); }
@@ -121,6 +160,13 @@ h2{ margin: 0 0 10px; font-size: 15px; }
   letter-spacing: .2px;
 }
 
+.panelTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 /* =========
    Info buttons row
 ========= */
@@ -128,7 +174,6 @@ h2{ margin: 0 0 10px; font-size: 15px; }
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
 }
 
 /* =========
@@ -198,7 +243,11 @@ input[type="date"]:focus{
   cursor: pointer;
   background: rgba(255,255,255,.90);
   color: var(--ink);
+  transition: transform .12s ease, filter .12s ease;
 }
+
+.btn:hover{ filter: brightness(1.02); }
+.btn:active{ transform: translateY(1px); }
 
 .btn:focus{
   outline: none;
@@ -222,14 +271,74 @@ input[type="date"]:focus{
 }
 
 /* =========
+   Results head (badge + efficiency)
+========= */
+.resultsHead{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tripBadge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.88);
+}
+
+.effBox{
+  min-width: 220px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.88);
+}
+
+.effLabel{
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.effBar{
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.08);
+  overflow: hidden;
+}
+
+.effFill{
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--c-green), var(--c-yellow), var(--c-orange));
+  transition: width .25s ease;
+}
+
+.effText{
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+/* =========
    KPI cards (alt alta)
 ========= */
 .kpis{
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
+  margin-top: 10px;
 }
-
 .kpis--stack{ grid-template-columns: 1fr !important; }
 
 .kpi{
@@ -250,7 +359,7 @@ input[type="date"]:focus{
 }
 
 .kpi__label{ font-size: 12px; color: var(--muted); margin-left: 4px; }
-.kpi__value{ font-size: 26px; font-weight: 800; margin: 4px 0 0 4px; }
+.kpi__value{ font-size: 26px; font-weight: 900; margin: 4px 0 0 4px; letter-spacing: .2px; }
 .kpi__sub{ margin-left: 4px; font-size: 12px; }
 
 .kpi--green::before{ background: var(--c-green); }
@@ -259,33 +368,90 @@ input[type="date"]:focus{
 .kpi--yellow::before{ background: var(--c-yellow); }
 
 /* =========
-   Details / JSON
+   Mini sections (rhythm + weekly plan)
 ========= */
-.details{
+.miniSection{
   margin-top: 12px;
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: 14px;
   padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.10);
   background: rgba(255,255,255,.90);
 }
 
-.details summary{
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 14px;
+.miniTitle{
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 800;
+  margin-bottom: 8px;
 }
 
-.pre{
-  margin: 10px 0 0;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,.08);
-  background: rgba(0,0,0,.03);
-  overflow: auto;
-  font-size: 12px;
-  line-height: 1.35;
-  max-height: 220px;
+.rhythmRow{
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
+
+.rhythmPill{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.02);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.25);
+}
+.dot--work{ background: var(--c-blue); }
+.dot--off{ background: var(--c-green); }
+.dot--half{ background: var(--c-yellow); }
+.dot--holiday{ background: var(--c-purple); }
+
+.weeklyPlan{
+  display: grid;
+  gap: 10px;
+}
+
+.weekCard{
+  border: 1px solid rgba(0,0,0,.10);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(0,0,0,.02);
+}
+
+.weekHead{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.weekTitle{
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.weekMeta{
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.weekList{
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.weekList li{ margin: 4px 0; }
 
 /* =========
    Holiday list + Info box
@@ -312,8 +478,18 @@ input[type="date"]:focus{
   border-bottom: 1px dashed rgba(17,24,39,.12);
 }
 .holidaylist .hl-row:last-child{ border-bottom: none; }
-.holidaylist .hl-date{ min-width: 92px; font-weight: 800; }
+.holidaylist .hl-date{ min-width: 92px; font-weight: 900; }
 .holidaylist .hl-name{ color: var(--ink); }
 
 .infobox .bullets{ margin: 0; padding-left: 18px; }
 .infobox .bullets li{ margin: 6px 0; }
+
+/* =========
+   Footer
+========= */
+.footer{
+  padding: 6px 2px 2px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
