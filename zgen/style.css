@@ -1,12 +1,13 @@
 /* =========================================================
    ZGEN – style.css
    Rules: pure black background, solid colorful cards (no glass),
-   palette from UBT: #01A1F1 #7CBB00 #F65314 #8F03B7 #FFBB00
+   palette: #01A1F1 #7CBB00 #F65314 #8F03B7 #FFBB00
    ========================================================= */
 
 /* RESET */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
+
 body{
   margin:0;
   background:#000;
@@ -76,7 +77,7 @@ kbd{
   font-size: 13px;
 }
 
-/* Palette dots (top-right) */
+/* Palette dots */
 .palette-dots{
   display:flex;
   gap:10px;
@@ -107,12 +108,10 @@ kbd{
 .card{
   border-radius: 18px;
   padding: 16px 16px 14px;
-  border: 2px solid rgba(0,0,0,.35); /* keeps edge crisp on black bg */
+  border: 2px solid rgba(0,0,0,.35);
   box-shadow: 0 14px 30px rgba(0,0,0,.40);
 }
-.card-head{
-  margin-bottom: 12px;
-}
+.card-head{ margin-bottom: 12px; }
 .card-title{
   margin:0;
   font-size: 18px;
@@ -120,48 +119,25 @@ kbd{
 }
 .card-sub{
   margin:6px 0 0;
-  color: rgba(0,0,0,.80); /* overridden per card using .on-dark where needed */
-  font-weight: 600;
+  color: rgba(0,0,0,.80);
+  font-weight: 800;
 }
 
 /* Solid palette cards */
-.card-blue{
-  background:#01A1F1;
-  color:#061018;
-}
-.card-green{
-  background:#7CBB00;
-  color:#0b1300;
-}
-.card-orange{
-  background:#F65314;
-  color:#170800;
-}
-.card-purple{
-  background:#8F03B7;
-  color:#0e0013;
-}
-.card-yellow{
-  background:#FFBB00;
-  color:#1a1200;
-}
+.card-blue{ background:#01A1F1; color:#061018; }
+.card-green{ background:#7CBB00; color:#0b1300; }
+.card-orange{ background:#F65314; color:#170800; }
+.card-purple{ background:#8F03B7; color:#0e0013; }
+.card-yellow{ background:#FFBB00; color:#1a1200; }
 
-/* Make text readable on darker colors */
+/* Improve readability on purple */
 .card-purple .card-sub,
 .card-purple .micro,
-.card-purple .mini-title{
-  color: rgba(255,255,255,.88);
-}
+.card-purple .mini-title,
 .card-purple .bullets,
-.card-purple .chips{
-  color: rgba(255,255,255,.92);
-}
-.card-purple .acc-head{
-  color:#fff;
-}
-.card-purple .acc-kicker{
-  color: rgba(255,255,255,.75);
-}
+.card-purple .chips,
+.card-purple .acc-head{ color: rgba(255,255,255,.92); }
+.card-purple .acc-kicker{ color: rgba(255,255,255,.75); }
 
 /* INPUTS */
 .input-row{
@@ -192,7 +168,7 @@ kbd{
   background: #000;
   color:#fff;
   padding: 0 14px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing:.02em;
   cursor:pointer;
 }
@@ -203,17 +179,8 @@ kbd{
 .micro{
   margin:10px 0 0;
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 750;
   color: rgba(0,0,0,.78);
-}
-.card-purple .micro{ color: rgba(255,255,255,.85); }
-.joke{
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px dashed rgba(0,0,0,.35);
-}
-.card-purple .joke{
-  border-top: 1px dashed rgba(255,255,255,.25);
 }
 
 /* Card 2 layout */
@@ -228,9 +195,8 @@ kbd{
   font-size: 14px;
   letter-spacing:.02em;
   color: rgba(0,0,0,.82);
-  font-weight: 900;
+  font-weight: 950;
 }
-.card-purple .mini-title{ color: rgba(255,255,255,.92); }
 
 /* Lists */
 .bullets{
@@ -239,7 +205,7 @@ kbd{
 }
 .bullets li{
   margin: 6px 0;
-  font-weight: 650;
+  font-weight: 750;
 }
 
 /* Right sidebox */
@@ -247,13 +213,14 @@ kbd{
   border-radius: 16px;
   padding: 12px;
   border: 2px solid rgba(0,0,0,.35);
-  background: rgba(255,255,255,.18); /* still solid-ish; not glassy, but gives separation */
+  background: rgba(255,255,255,.18);
 }
 .card-purple .sidebox{
   background: rgba(0,0,0,.25);
   border-color: rgba(255,255,255,.18);
 }
 
+/* Avatars */
 .avatar-row{
   display:flex;
   gap:10px;
@@ -270,12 +237,12 @@ kbd{
   background: rgba(255,255,255,.92);
   color:#000;
 }
-.card-purple .avatar{
-  border-color: rgba(255,255,255,.22);
-}
 .avatar.sm{
   width:46px;height:46px;
   font-size: 22px;
+}
+.card-purple .avatar{
+  border-color: rgba(255,255,255,.22);
 }
 .avatar-title{
   font-weight: 950;
@@ -283,7 +250,7 @@ kbd{
 }
 .avatar-sub{
   font-size: 13px;
-  font-weight: 750;
+  font-weight: 800;
   color: rgba(0,0,0,.75);
 }
 .card-purple .avatar-sub{ color: rgba(255,255,255,.78); }
@@ -303,7 +270,7 @@ kbd{
   border: 2px solid rgba(0,0,0,.30);
   background: rgba(255,255,255,.88);
   color:#000;
-  font-weight: 800;
+  font-weight: 900;
 }
 .card-purple .chips li{
   background: rgba(255,255,255,.12);
@@ -317,7 +284,7 @@ kbd{
   gap:16px;
 }
 .acc{
-  padding: 0; /* we handle padding inside */
+  padding: 0;
   overflow:hidden;
 }
 .acc-head{
@@ -339,7 +306,7 @@ kbd{
 }
 .acc-kicker{
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 950;
   color: rgba(0,0,0,.70);
   letter-spacing:.04em;
   text-transform: uppercase;
@@ -365,19 +332,77 @@ kbd{
   color:#fff;
 }
 
-.acc-body{
-  padding: 0 16px 14px;
-}
+.acc-body{ padding: 0 16px 14px; }
+
 .acc-avatars{
   display:flex;
   gap:10px;
   align-items:center;
   margin: 10px 0 12px;
+  flex-wrap: wrap;
 }
+
 .acc-cols{
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap:14px;
+}
+
+/* Do's & Don'ts */
+.avatar-tags{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-left: 6px;
+  flex: 1 1 180px;
+}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 950;
+  letter-spacing:.02em;
+  border: 2px solid rgba(0,0,0,.30);
+  background: rgba(255,255,255,.85);
+  color:#000;
+}
+.card-purple .tag{
+  border-color: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.12);
+  color:#fff;
+}
+
+.dos, .donts{
+  border-radius: 16px;
+  padding: 12px;
+  border: 2px solid rgba(0,0,0,.25);
+  background: rgba(255,255,255,.16);
+}
+.card-purple .dos,
+.card-purple .donts{
+  border-color: rgba(255,255,255,.18);
+  background: rgba(0,0,0,.22);
+}
+
+.dos-title, .donts-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.joke-line{
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-style: italic;
+  font-weight: 900;
+  border: 2px dashed rgba(0,0,0,.30);
+  background: rgba(255,255,255,.12);
+}
+.card-purple .joke-line{
+  border-color: rgba(255,255,255,.22);
+  background: rgba(255,255,255,.08);
 }
 
 /* Corner widget */
@@ -412,86 +437,6 @@ kbd{
     align-items:flex-start;
     min-width: 0;
   }
-  .two-col{
-    grid-template-columns: 1fr;
-  }
-  .acc-cols{
-    grid-template-columns: 1fr;
-  }
-}
-
-
-/* =========================
-   Do's & Don'ts (visual lock)
-   ========================= */
-.acc-avatars{
-  position: relative;
-  flex-wrap: wrap;
-}
-
-.avatar-tags{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  margin-left: 6px;
-  flex: 1 1 160px;
-}
-
-.tag{
-  display:inline-flex;
-  align-items:center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight: 900;
-  letter-spacing:.02em;
-  border: 2px solid rgba(0,0,0,.30);
-  background: rgba(255,255,255,.85);
-  color:#000;
-}
-
-.card-purple .tag{
-  border-color: rgba(255,255,255,.18);
-  background: rgba(255,255,255,.12);
-  color:#fff;
-}
-
-.dos-title, .donts-title{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.dos{
-  border-radius: 16px;
-  padding: 12px;
-  border: 2px solid rgba(0,0,0,.25);
-  background: rgba(255,255,255,.16);
-}
-
-.donts{
-  border-radius: 16px;
-  padding: 12px;
-  border: 2px solid rgba(0,0,0,.25);
-  background: rgba(255,255,255,.16);
-}
-
-.card-purple .dos,
-.card-purple .donts{
-  border-color: rgba(255,255,255,.18);
-  background: rgba(0,0,0,.22);
-}
-
-.joke-line{
-  margin: 12px 0 0;
-  padding: 10px 12px;
-  border-radius: 14px;
-  font-style: italic;
-  font-weight: 850;
-  border: 2px dashed rgba(0,0,0,.30);
-  background: rgba(255,255,255,.12);
-}
-
-.card-purple .joke-line{
-  border-color: rgba(255,255,255,.22);
-  background: rgba(255,255,255,.08);
+  .two-col{ grid-template-columns: 1fr; }
+  .acc-cols{ grid-template-columns: 1fr; }
 }
