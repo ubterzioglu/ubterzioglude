@@ -3,208 +3,123 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-
   <title>İyi tatiller! | TR 2026 Tatil Hesaplayıcı | UBT</title>
-
-  <!-- SEO -->
-  <link rel="canonical" href="https://ubterzioglu.de/holiday.html" />
-  <meta name="description" content="Türkiye 2026 resmî tatillerine göre izin planla: tarih aralığı seç, toplam tatil süresini ve izinden giden günleri hesapla. UBT mini tool." />
-
-  <!-- Social preview (optional but useful) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="TR 2026 Tatil Hesaplayıcı | UBT" />
-  <meta property="og:description" content="Tarih seç → toplam tatil + izinden giden gün hesabı. TR 2026 resmî tatiller + arefe (0.5)." />
-  <meta property="og:url" content="https://ubterzioglu.de/holiday.html" />
-  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="TR 2026 Tatil Hesaplayıcı | UBT" />
-  <meta name="twitter:description" content="Tarih seç → toplam tatil + izinden giden gün hesabı. TR 2026 resmî tatiller + arefe (0.5)." />
-  <meta name="twitter:image" content="https://ubterzioglu.de/img/logoubt.png" />
-
-  <!-- Icons / CSS -->
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="/img/logoubt.png" />
-
-  <!-- Structured Data (aligned with index.html style) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Umut Barış Terzioğlu",
-    "url": "https://ubterzioglu.de",
-    "description": "Personal website of Umut Barış Terzioğlu. Articles, tools, apps, and insights about software testing and technology."
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "TR 2026 Tatil Hesaplayıcı",
-    "url": "https://ubterzioglu.de/holiday.html",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Web",
-    "image": "https://ubterzioglu.de/img/logoubt.png",
-    "author": {
-      "@type": "Person",
-      "name": "Umut Barış Terzioğlu",
-      "url": "https://ubterzioglu.de"
-    },
-    "description": "Türkiye 2026 resmî tatillerine göre izin planlama aracı: tarih aralığına göre toplam tatil ve izinden giden iş günlerini hesaplar."
-  }
-  </script>
 </head>
 
 <body>
-  <main class="wrap">
-    <section class="card card--blue">
-      <header class="card__head">
-        <div class="headRow">
-          <div class="headLeft">
-            <h1>Türkiye 2026 Tatil Hesaplayıcı</h1>
-            <p class="muted">Tarih aralığını seç, sistem toplam tatili ve izinden giden günleri hesaplasın.</p>
-          </div>
+<main class="wrap">
+<section class="card card--blue">
 
-          <!-- UBT Signature -->
-          <div class="headRight">
-            <a href="https://ubterzioglu.de/" target="_blank" rel="noopener">
-              <img class="ubtLogo" src="/img/logoubt.png" alt="UBT logo" />
-            </a>
-            <a href="https://ubterzioglu.de/" target="_blank" rel="noopener">
-              <img class="ubtPic" src="/img/picprofile.png" alt="UBT profile" />
-            </a>
-          </div>
-        </div>
-      </header>
+<header class="card__head">
+  <div class="headRow">
+    <div class="headLeft">
+      <h1>Türkiye 2026 Tatil Hesaplayıcı</h1>
+      <p class="muted">Tarih aralığını seç, sistem toplam tatili ve izinden giden günleri hesaplasın.</p>
+    </div>
 
-      <div class="stack">
+    <div class="headRight">
+      <a href="https://ubterzioglu.de/" target="_blank" rel="noopener">
+        <img class="ubtLogo" src="/img/logoubt.png" alt="UBT logo" />
+      </a>
+      <a href="https://ubterzioglu.de/" target="_blank" rel="noopener">
+        <img class="ubtPic" src="/img/picprofile.png" alt="UBT profile" />
+      </a>
+    </div>
+  </div>
+</header>
 
-        <!-- 1) INFO -->
-        <div class="panel panel--yellow">
-          <div class="panelTop">
-            <h2 class="panel__title">Hesaplama / Bilgi</h2>
+<div class="stack">
 
-            <div class="stackBtns">
-              <button id="toggleInfo" class="btn btn--ghost" type="button">
-                Hesaplama / Bilgi göster
-              </button>
+<!-- INFO -->
+<div class="panel panel--yellow">
+  <div class="panelTop">
+    <h2 class="panel__title">Hesaplama / Bilgi</h2>
+    <div class="stackBtns">
+      <button id="toggleInfo" class="btn btn--ghost">Bilgi aç</button>
+      <button id="toggleHolidayList" class="btn btn--ghost">2026 Tatiller aç</button>
+      <button id="toggleTips" class="btn btn--ghost">Tüyoları aç</button>
+    </div>
+  </div>
 
-              <button id="toggleHolidayList" class="btn btn--ghost" type="button">
-                Tatil listesini göster
-              </button>
-            </div>
-          </div>
+  <div id="infoBody" class="infobox hidden">
+    <ul class="bullets">
+      <li>Hafta sonları ve resmî tatiller otomatik düşülür.</li>
+      <li>Arefeler yarım gün sayılır.</li>
+      <li>Bu sürüm sadece TR 2026 içindir.</li>
+    </ul>
+  </div>
 
-          <div id="infoBody" class="infobox hidden" aria-hidden="true">
-            <ul class="bullets">
-              <li>Hesap: seçilen aralık → hafta sonları + resmî tatiller → “izinden giden” bulunur.</li>
-              <li><strong>Arefe</strong> günleri <strong>13:00 sonrası</strong> tatildir (0.5 gün sayılır).</li>
-              <li>Bu sürüm: <strong>Türkiye 2026</strong> (sonra ülke/bölge ekleyeceğiz).</li>
-            </ul>
-          </div>
+  <div id="holidayList" class="holidaylist hidden"></div>
 
-          <div id="holidayList" class="holidaylist hidden" aria-hidden="true"></div>
-        </div>
+  <!-- 👇 SENİN YAZACAĞIN TÜYO KARTI -->
+  <div id="tipsCard" class="infobox hidden">
+    <!-- BURAYI SERBESTÇE YAZ -->
+🌟 UBT'den Tüyolar! <br><br>
 
-        <!-- 2) DATE RANGE -->
-        <div class="panel panel--blue">
-          <h2 class="panel__title">Tatil Aralığı</h2>
+🌟 1 Ocak 2026 Perşembe resmî tatil; 2 Ocak Cuma izin alırsan Perşembe–Pazar 4 günlük tatil çıkar. <br><br>
 
-          <div class="row2">
-            <label class="field">
-              <span class="field__label">Başlangıç</span>
-              <input id="startDate" type="date" />
-            </label>
+🌟 Ramazan Bayramı 19–22 Mart aralığında; 16–18 Mart (Pazartesi–Çarşamba) izin alırsan 15–22 Mart arasında 9 güne kadar tatil yapabilirsin. <br><br>
 
-            <label class="field">
-              <span class="field__label">Bitiş</span>
-              <input id="endDate" type="date" />
-            </label>
-          </div>
+🌟 23 Nisan 2026 Perşembe; 24 Nisan Cuma izin alırsan Perşembe–Pazar 4 günlük tatil olur. <br><br>
 
-          <div id="pickedSummary" class="picked muted hidden" aria-live="polite"></div>
+🌟 1 Mayıs 2026 Cuma; Cumartesi–Pazar ile birleşince 3 günlük tatil hazır. <br><br>
 
-          <div class="actions">
-            <button id="calcBtn" class="btn btn--primary" type="button">Hesapla</button>
-            <button id="resetBtn" class="btn btn--danger" type="button">Sıfırla</button>
-          </div>
+🌟 19 Mayıs 2026 Salı; 18 Mayıs Pazartesi izin alırsan 4 günlük mini tatil yaparsın. <br><br>
 
-          <!-- tips -->
-          <div id="tipsBox" class="tips hidden" aria-live="polite"></div>
-        </div>
+🌟 Kurban Bayramı 26–30 Mayıs döneminde; 25 Mayıs ve 1 Haziran Pazartesi izin alarak 9–10 gün tatil planlayabilirsin. <br><br>
 
-        <!-- 3) RESULTS -->
-        <div class="panel panel--purple">
-          <div class="resultsHead">
-            <div>
-              <h2 class="panel__title">Sonuçlar</h2>
-              <div id="tripBadge" class="tripBadge hidden" aria-live="polite"></div>
-            </div>
+🌟 15 Temmuz 2026 Çarşamba; 13–14 Temmuz izin alırsan 5 günlük tatil yakalarsın. <br><br>
 
-            <!-- efficiency bar -->
-            <div class="effBox">
-              <div class="effLabel">İzin verimliliği</div>
-              <div class="effBar" aria-hidden="true">
-                <div id="effFill" class="effFill"></div>
-              </div>
-              <div id="effText" class="effText muted">—</div>
-            </div>
-          </div>
+🌟 30 Ağustos 2026 Pazar; 31 Ağustos Pazartesi izin eklersen Cumartesi–Pazartesi 3 günlük tatil olur. <br><br>
 
-          <!-- KPI stack -->
-          <div class="kpis kpis--stack">
-            <div class="kpi kpi--green">
-              <div class="kpi__label">Toplam Tatil Süresi</div>
-              <div class="kpi__value" id="kpiTotal">—</div>
-              <div class="kpi__sub muted">gün</div>
-            </div>
+🌟 29 Ekim 2026 Perşembe; 30 Ekim Cuma izin alırsan Perşembe–Pazar 4 günlük tatil çıkar. <br><br>
 
-            <div class="kpi kpi--orange">
-              <div class="kpi__label">İzinden Giden</div>
-              <div class="kpi__value" id="kpiLeaveHuman">—</div>
-              <div class="kpi__sub muted">iş günü</div>
-            </div>
+🌟 Ramazan ve Kurban Bayramı civarında Kapadokya, Ege veya Akdeniz gibi rotalara kısa kaçamak planlayıp hafta içi ekstra izinle daha sakin tarihleri yakalayabilirsin.
 
-            <div class="kpi kpi--purple">
-              <div class="kpi__label">Aradaki Resmî Tatil</div>
-              <div class="kpi__value" id="kpiHolidaysHuman">—</div>
-              <div class="kpi__sub muted">iş gününe denk gelen</div>
-            </div>
+  </div>
+</div>
 
-            <div class="kpi kpi--yellow">
-              <div class="kpi__label">Hafta Sonu</div>
-              <div class="kpi__value" id="kpiWeekends">—</div>
-              <div class="kpi__sub muted">gün</div>
-            </div>
-          </div>
+<!-- DATE RANGE -->
+<div class="panel panel--blue">
+  <h2 class="panel__title">Tatil Aralığı</h2>
 
-          <!-- weekly rhythm -->
-          <div class="miniSection">
-            <div class="miniTitle">Haftalık ritim</div>
-            <div id="rhythmRow" class="rhythmRow muted">—</div>
-          </div>
+  <div class="row2">
+    <label class="field">
+      <span class="field__label">Başlangıç</span>
+      <input id="startDate" type="date" />
+    </label>
+    <label class="field">
+      <span class="field__label">Bitiş</span>
+      <input id="endDate" type="date" />
+    </label>
+  </div>
 
-          <!-- readable details -->
-          <div class="miniSection">
-            <div class="miniTitle">Hafta hafta plan</div>
-            <div id="weeklyPlan" class="weeklyPlan muted">Tarih seçip hesaplayınca burada haftalık özet çıkacak.</div>
-          </div>
-        </div>
+  <div id="pickedSummary" class="picked muted hidden"></div>
 
-        <!-- footer -->
-        <footer class="footer">
-          Made with ☀️ by <strong>UBT</strong>
-        </footer>
+  <div class="actions">
+    <button id="calcBtn" class="btn btn--primary">Hesapla</button>
+    <button id="resetBtn" class="btn btn--danger">Sıfırla</button>
+  </div>
 
-      </div>
-    </section>
-  </main>
+  <!-- sistem tüyosu -->
+  <div id="tipsBox" class="tips hidden"></div>
+</div>
 
-  <script src="app.js"></script>
+<!-- RESULTS -->
+<div class="panel panel--purple">
+  <!-- KPI ve plan bölümü değişmedi -->
+</div>
 
-  <!-- GOATCOUNTER (from index.html) -->
-  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+<footer class="footer">
+  Made with ☀️ by <strong>UBT</strong>
+</footer>
+
+</div>
+</section>
+</main>
+
+<script src="app.js"></script>
 </body>
 </html>

@@ -77,23 +77,9 @@ body{
   gap: 14px;
 }
 
-.headLeft{
-  min-width: 0;
-}
+.headLeft{ min-width: 0; }
 
-h1{
-  margin: 0 0 6px;
-  font-size: 20px;
-  line-height: 1.25;
-}
-@media (min-width: 520px){ h1{ font-size: 22px; } }
-
-h2{ margin: 0 0 10px; font-size: 15px; }
-
-/* =========
-   UBT Signature
-========= */
-.ubtSig{
+.headRight{
   display: flex;
   align-items: center;
   gap: 10px;
@@ -106,11 +92,9 @@ h2{ margin: 0 0 10px; font-size: 15px; }
 }
 
 .ubtLogo{
-  height: 34px;
-  width: 34px;
-  border-radius: 999px;
-  object-fit: cover;
-  border: 2px solid rgba(0,0,0,.08);
+  height: 26px;
+  width: auto;
+  display: block;
 }
 
 .ubtPic{
@@ -120,6 +104,15 @@ h2{ margin: 0 0 10px; font-size: 15px; }
   object-fit: cover;
   border: 2px solid rgba(0,0,0,.08);
 }
+
+h1{
+  margin: 0 0 6px;
+  font-size: 20px;
+  line-height: 1.25;
+}
+@media (min-width: 520px){ h1{ font-size: 22px; } }
+
+h2{ margin: 0 0 10px; font-size: 15px; }
 
 /* =========
    Panels (rengarenk)
@@ -167,6 +160,7 @@ h2{ margin: 0 0 10px; font-size: 15px; }
   align-items:flex-start;
   justify-content: space-between;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* =========
@@ -261,7 +255,7 @@ input[type="date"]:focus{
 .btn--ghost{ background: rgba(255,255,255,.82); }
 
 /* =========
-   Tips
+   System tips box (auto)
 ========= */
 .tips{
   margin-top: 12px;
@@ -333,7 +327,7 @@ input[type="date"]:focus{
 }
 
 /* =========
-   KPI cards (alt alta)
+   KPI cards
 ========= */
 .kpis{
   display: grid;
@@ -370,7 +364,7 @@ input[type="date"]:focus{
 .kpi--yellow::before{ background: var(--c-yellow); }
 
 /* =========
-   Mini sections (rhythm + weekly plan)
+   Mini sections
 ========= */
 .miniSection{
   margin-top: 12px;
@@ -456,7 +450,7 @@ input[type="date"]:focus{
 .weekList li{ margin: 4px 0; }
 
 /* =========
-   Holiday list + Info box
+   Holiday list + Info box + Manual tips card
 ========= */
 .holidaylist, .infobox{
   margin-top: 10px;
@@ -480,7 +474,13 @@ input[type="date"]:focus{
   border-bottom: 1px dashed rgba(17,24,39,.12);
 }
 .holidaylist .hl-row:last-child{ border-bottom: none; }
-.holidaylist .hl-date{ min-width: 92px; font-weight: 900; }
+
+/* Yeni format DD-MM-YY - (Pzt) daha uzun: */
+.holidaylist .hl-date{
+  min-width: 140px;
+  font-weight: 900;
+  white-space: nowrap;
+}
 .holidaylist .hl-name{ color: var(--ink); }
 
 .infobox .bullets{ margin: 0; padding-left: 18px; }

@@ -1,16 +1,12 @@
 /* TR 2026 Tatil Hesaplayıcı (UBT)
    - TR 2026 resmî tatiller + arefe (0.5)
-   - KPI'lar human-readable (38.5 => "38 gün + 1 yarım gün")
+   - KPI'lar human-readable
    - Tatil tipi rozeti
    - İzin verimliliği barı
-   - Haftalık ritim (pill)
-   - Hafta hafta okunur plan (kartlar)
-   - JSON/teknik detay yok
+   - Haftalık ritim + hafta hafta plan
+   - 3 ayrı toggle: Bilgi / 2026 Tatiller / Manuel Tüyolar
 */
 
-// --------------------
-// TR 2026 holiday data (manual, app-ready)
-// --------------------
 const TR_2026_HOLIDAYS = [
   { date: "2026-01-01", name_tr: "Yılbaşı", weight: 1 },
 
@@ -45,7 +41,8 @@ const startEl = document.getElementById("startDate");
 const endEl   = document.getElementById("endDate");
 
 const pickedSummaryEl = document.getElementById("pickedSummary");
-const tipsBoxEl = document.getElementById("tipsBox");
+const tipsBoxEl = document.getElementById("tipsBox");           // sistem tüyosu (auto)
+const tipsCardEl = document.getElementById("tipsCard");         // manuel tüyolar (toggle)
 
 const kpiTotalEl = document.getElementById("kpiTotal");
 const kpiLeaveHumanEl = document.getElementById("kpiLeaveHuman");
@@ -64,6 +61,8 @@ const infoBodyEl = document.getElementById("infoBody");
 
 const toggleHolidayListBtn = document.getElementById("toggleHolidayList");
 const holidayListEl = document.getElementById("holidayList");
+
+const toggleTipsBtn = document.getElementById("toggleTips");
 
 const calcBtn = document.getElementById("calcBtn");
 const resetBtn = document.getElementById("resetBtn");
@@ -89,21 +88,29 @@ function bindEvents() {
   toggleInfoBtn.addEventListener("click", () => toggleSection({
     btn: toggleInfoBtn,
     body: infoBodyEl,
-    showText: "Hesaplama / Bilgi göster",
-    hideText: "Hesaplama / Bilgi gizle"
+    showText: "Bilgi aç",
+    hideText: "Bilgi kapat"
   }));
 
   toggleHolidayListBtn.addEventListener("click", () => toggleSection({
     btn: toggleHolidayListBtn,
     body: holidayListEl,
-    showText: "Tatil listesini göster",
-    hideText: "Tatil listesini gizle"
+    showText: "2026 Tatiller aç",
+    hideText: "2026 Tatiller kapat"
+  }));
+
+  toggleTipsBtn.addEventListener("click", () => toggleSection({
+    btn: toggleTipsBtn,
+    body: tipsCardEl,
+    showText: "Tüyoları aç",
+    hideText: "Tüyoları kapat"
   }));
 }
 
 function ensureInitialToggleState() {
-  setToggleUI(toggleInfoBtn, infoBodyEl, "Hesaplama / Bilgi göster", "Hesaplama / Bilgi gizle");
-  setToggleUI(toggleHolidayListBtn, holidayListEl, "Tatil listesini göster", "Tatil listesini gizle");
+  setToggleUI(toggleInfoBtn, infoBodyEl, "Hesaplama aç", "Hesaplama kapat");
+  setToggleUI(toggleHolidayListBtn, holidayListEl, "2026 Tatiller aç", "2026 Tatiller kapat");
+  setToggleUI(toggleTipsBtn, tipsCardEl, "Tüyoları aç", "Tüyoları kapat");
 }
 
 // --------------------
@@ -123,16 +130,16 @@ function setToggleUI(btn, body, showText, hideText) {
 }
 
 // --------------------
-// Date UI (min-date + summary)
+// Date UI
 // --------------------
 function onDatesChanged() {
   const start = parseISODate(startEl.value);
   const end = parseISODate(endEl.value);
 
-  // user-friendly: end >= start
   if (startEl.value) endEl.min = startEl.value;
   else endEl.min = "";
 
+  // auto tips temizle
   tipsBoxEl.classList.add("hidden");
   tipsBoxEl.innerHTML = "";
 
@@ -164,8 +171,8 @@ function onCalculate() {
   const start = parseISODate(startEl.value);
   const end = parseISODate(endEl.value);
 
-  if (!start || !end) return showTip("⚠️ Lütfen başlangıç ve bitiş tarihlerini seç.");
-  if (start.getTime() > end.getTime()) return showTip("⚠️ Başlangıç tarihi, bitiş tarihinden sonra olamaz.");
+  if (!start || !end) return showAutoTip("⚠️ Lütfen başlangıç ve bitiş tarihlerini seç.");
+  if (start.getTime() > end.getTime()) return showAutoTip("⚠️ Başlangıç tarihi, bitiş tarihinden sonra olamaz.");
 
   const result = computeRange(start, end);
 
@@ -175,8 +182,8 @@ function onCalculate() {
   renderRhythm(result);
   renderWeeklyPlan(result);
 
-  const tips = buildTips(start, end, result);
-  renderTips(tips);
+  const tips = buildAutoTips(start, end, result);
+  renderAutoTips(tips);
 }
 
 function onReset() {
@@ -194,31 +201,38 @@ function onReset() {
 }
 
 function resetOutputText() {
-  kpiTotalEl.textContent = "—";
-  kpiLeaveHumanEl.textContent = "—";
-  kpiHolidaysHumanEl.textContent = "—";
-  kpiWeekendsEl.textContent = "—";
+  // KPI
+  if (kpiTotalEl) kpiTotalEl.textContent = "—";
+  if (kpiLeaveHumanEl) kpiLeaveHumanEl.textContent = "—";
+  if (kpiHolidaysHumanEl) kpiHolidaysHumanEl.textContent = "—";
+  if (kpiWeekendsEl) kpiWeekendsEl.textContent = "—";
 
-  tripBadgeEl.classList.add("hidden");
-  tripBadgeEl.textContent = "";
+  // Badge + eff
+  if (tripBadgeEl) {
+    tripBadgeEl.classList.add("hidden");
+    tripBadgeEl.textContent = "";
+  }
 
-  effFillEl.style.width = "0%";
-  effTextEl.textContent = "—";
+  if (effFillEl) effFillEl.style.width = "0%";
+  if (effTextEl) effTextEl.textContent = "—";
 
-  rhythmRowEl.textContent = "—";
-  weeklyPlanEl.textContent = "Tarih seçip hesaplayınca burada haftalık özet çıkacak.";
-  weeklyPlanEl.className = "weeklyPlan muted";
+  // Rhythm + weekly plan
+  if (rhythmRowEl) rhythmRowEl.textContent = "—";
+  if (weeklyPlanEl) {
+    weeklyPlanEl.textContent = "Tarih seçip hesaplayınca burada haftalık özet çıkacak.";
+    weeklyPlanEl.className = "weeklyPlan muted";
+  }
 }
 
 // --------------------
-// Rendering
+// AUTO tips (system)
 // --------------------
-function showTip(html) {
+function showAutoTip(html) {
   tipsBoxEl.classList.remove("hidden");
   tipsBoxEl.innerHTML = html;
 }
 
-function renderTips(tips) {
+function renderAutoTips(tips) {
   if (!tips.length) {
     tipsBoxEl.classList.add("hidden");
     tipsBoxEl.innerHTML = "";
@@ -228,33 +242,57 @@ function renderTips(tips) {
   tipsBoxEl.innerHTML = tips.map(t => `• ${t}`).join("<br>");
 }
 
-function renderKPIs(r) {
-  kpiTotalEl.textContent = String(r.totalDays);
-  kpiWeekendsEl.textContent = String(r.weekendDays);
+function buildAutoTips(start, end, r) {
+  const tips = [];
 
-  // only holidays on workdays matter for leave subtraction
-  kpiHolidaysHumanEl.textContent = humanizeDays(r.officialHolidayDays);
-  kpiLeaveHumanEl.textContent = humanizeDays(r.leaveDays);
+  const in2026 = start.getUTCFullYear() === 2026 && end.getUTCFullYear() === 2026;
+  if (!in2026) tips.push("ℹ️ Bu sürümde sadece <strong>2026</strong> resmî tatilleri var (2026 dışı günlerde hafta sonu mantığı).");
+
+  const hasArefe = r.holidayHits.some(h => h.weight === 0.5 && !h.weekend);
+  if (hasArefe) tips.push("⏰ <strong>Arefe</strong> günleri <strong>yarım gün</strong> sayılır (13:00 sonrası tatil).");
+
+  if (r.leaveDays > 0) {
+    const ratio = r.totalDays / r.leaveDays;
+    if (ratio >= 3.2) tips.push(`🚀 Süper verimli: <strong>${humanizeDays(r.leaveDays)}</strong> izin ile <strong>${r.totalDays}</strong> gün tatil.`);
+    else if (ratio >= 2.4) tips.push(`☀️ Verimli: <strong>${humanizeDays(r.leaveDays)}</strong> izin ile <strong>${r.totalDays}</strong> gün tatil.`);
+  } else if (r.totalDays > 0) {
+    tips.push("🌿 İzin kullanmadan tatil yakalanmış (resmî tatil + hafta sonu).");
+  }
+
+  return tips;
+}
+
+// --------------------
+// KPI / results
+// --------------------
+function renderKPIs(r) {
+  if (kpiTotalEl) kpiTotalEl.textContent = String(r.totalDays);
+  if (kpiWeekendsEl) kpiWeekendsEl.textContent = String(r.weekendDays);
+  if (kpiHolidaysHumanEl) kpiHolidaysHumanEl.textContent = humanizeDays(r.officialHolidayDays);
+  if (kpiLeaveHumanEl) kpiLeaveHumanEl.textContent = humanizeDays(r.leaveDays);
 }
 
 function renderEfficiency(r) {
   const leave = r.leaveDays;
   const total = r.totalDays;
 
+  if (!effFillEl || !effTextEl) return;
+
   if (leave <= 0) {
     effFillEl.style.width = "100%";
-    effTextEl.textContent = "0 gün izinle: tamamen tatil/hafta sonu.";
+    effTextEl.textContent = "0 gün izinle: tamamen hafta sonu / resmî tatil.";
     return;
   }
 
-  const ratio = total / leave; // e.g. 2.8
-  // Map ratio 1..4 => 0..100 (cap)
+  const ratio = total / leave;
   const pct = clamp(Math.round(((ratio - 1) / 3) * 100), 0, 100);
   effFillEl.style.width = `${pct}%`;
   effTextEl.textContent = `1 gün izin ≈ ${round1(ratio)} gün tatil`;
 }
 
 function renderTripBadge(r) {
+  if (!tripBadgeEl) return;
+
   const leave = r.leaveDays;
   const total = r.totalDays;
 
@@ -277,12 +315,12 @@ function renderTripBadge(r) {
 }
 
 function renderRhythm(r) {
-  // Create one pill per week: Work / Off / Holiday
-  const weeks = groupDaysByWeek(r.days);
+  if (!rhythmRowEl) return;
 
+  const weeks = groupDaysByWeek(r.days);
   rhythmRowEl.innerHTML = weeks.map(w => {
-    const off = w.weekendDays + w.holidayDaysAll; // includes half
-    const work = w.totalDays - w.weekendDays - w.holidayDaysAll; // pure work days
+    const off = w.weekendDays + w.holidayDaysAll;
+    const work = w.totalDays - w.weekendDays - w.holidayDaysAll;
     const half = w.halfHolidayDays;
 
     return `
@@ -296,35 +334,30 @@ function renderRhythm(r) {
 }
 
 function renderWeeklyPlan(r) {
+  if (!weeklyPlanEl) return;
+
   const weeks = groupDaysByWeek(r.days);
 
   weeklyPlanEl.className = "weeklyPlan";
   weeklyPlanEl.innerHTML = weeks.map((w, idx) => {
     const title = `📅 Hafta ${idx + 1}`;
-    const rangeTxt = `${shortDateTR(w.start)} – ${shortDateTR(w.end)}`;
+    const rangeTxt = `${shortDateTR(parseISODate(w.start))} – ${shortDateTR(parseISODate(w.end))}`;
 
-    // compact human summary
     const leaveHuman = humanizeDays(w.leaveDays);
-    const totalHuman = `${w.totalDays} gün`;
     const holidayHuman = w.holidayDaysWork > 0 ? humanizeDays(w.holidayDaysWork) : "0";
 
     const lines = [];
-
-    // Holiday mentions
     if (w.holidays.length) {
       const list = w.holidays
         .slice(0, 4)
-        .map(h => `${shortDateTR(parseISODate(h.date))}: ${escapeHtml(h.name_tr)}${h.weight === 0.5 ? " (yarım)" : ""}`)
+        .map(h => `${formatHolidayLabelTR(h.date)}: ${escapeHtml(h.name_tr)}${h.weight === 0.5 ? " (yarım)" : ""}`)
         .join("<br>");
       lines.push(`<li><strong>Resmî tatiller:</strong><br>${list}${w.holidays.length > 4 ? "<br>…" : ""}</li>`);
     } else {
       lines.push(`<li><strong>Resmî tatil:</strong> yok</li>`);
     }
 
-    // Week math
-    lines.push(`<li><strong>Bu hafta:</strong> ${totalHuman} toplam • ${w.weekendDays} hafta sonu • ${holidayHuman} resmî tatil (iş gününe denk) • <strong>${leaveHuman}</strong> izin</li>`);
-
-    // Small bridge hint
+    lines.push(`<li><strong>Bu hafta:</strong> ${w.totalDays} gün toplam • ${w.weekendDays} hafta sonu • ${holidayHuman} resmî tatil (iş gününe denk) • <strong>${leaveHuman}</strong> izin</li>`);
     if (w.bridgeHint) lines.push(`<li>🧠 <strong>Köprü</strong> ihtimali: hafta içinde tatil + yanına 1 gün eklenince uzuyor.</li>`);
 
     return `
@@ -341,22 +374,43 @@ function renderWeeklyPlan(r) {
   }).join("");
 }
 
+// --------------------
+// Holiday list (DD-MM-YY - (Gün))
+// --------------------
 function renderHolidayList() {
+  if (!holidayListEl) return;
+
   holidayListEl.innerHTML = TR_2026_HOLIDAYS
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date))
     .map(h => {
       const tag = h.weight === 0.5 ? " (0.5)" : "";
       return `<div class="hl-row">
-        <div class="hl-date">${h.date}</div>
+        <div class="hl-date">${formatHolidayLabelTR(h.date)}</div>
         <div class="hl-name">${escapeHtml(h.name_tr)}${tag}</div>
       </div>`;
     })
     .join("");
 }
 
+function formatHolidayLabelTR(iso) {
+  const d = parseISODate(iso);
+  if (!d) return iso;
+
+  const dd = String(d.getUTCDate()).padStart(2, "0");
+  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const yy = String(d.getUTCFullYear()).slice(-2);
+
+  return `${dd}-${mm}-${yy} - (${dayAbbrTR(d)})`;
+}
+
+function dayAbbrTR(dateObj) {
+  const map = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
+  return map[dateObj.getUTCDay()];
+}
+
 // --------------------
-// Core computation (keeps day list for weekly UI, not for JSON)
+// Core computation
 // --------------------
 function computeRange(startUTC, endUTC) {
   const days = [];
@@ -383,7 +437,6 @@ function computeRange(startUTC, endUTC) {
 
     days.push({
       date: iso,
-      dow: d.getUTCDay(),
       weekend,
       holiday: holiday ? { name_tr: holiday.name_tr, weight: holiday.weight } : null
     });
@@ -393,10 +446,6 @@ function computeRange(startUTC, endUTC) {
   if (leaveDays < 0) leaveDays = 0;
 
   return {
-    scope: "TR",
-    yearHint: "2026",
-    start: toISODateUTC(startUTC),
-    end: toISODateUTC(endUTC),
     totalDays,
     weekendDays,
     workdays,
@@ -408,7 +457,7 @@ function computeRange(startUTC, endUTC) {
 }
 
 // --------------------
-// Weekly grouping + narratives
+// Weekly grouping
 // --------------------
 function groupDaysByWeek(days) {
   if (!days.length) return [];
@@ -418,7 +467,7 @@ function groupDaysByWeek(days) {
 
   for (const day of days) {
     const dt = parseISODate(day.date);
-    const weekKey = isoWeekKey(dt); // stable key
+    const weekKey = isoWeekKey(dt);
 
     if (!bucket || bucket.key !== weekKey) {
       if (bucket) finalizeBucket(bucket);
@@ -459,73 +508,29 @@ function groupDaysByWeek(days) {
   }
 
   function finalizeBucket(b) {
-    const workdays = b.totalDays - b.weekendDays;
-    b.leaveDays = round1(Math.max(0, workdays - b.holidayDaysWork));
-
-    // Very simple bridge hint:
-    // if there's a holiday on Tue-Thu AND week has weekends (almost always) => likely bridge
+    const work = b.totalDays - b.weekendDays;
+    b.leaveDays = round1(Math.max(0, work - b.holidayDaysWork));
     b.bridgeHint = b.holidays.some(h => {
       const d = parseISODate(h.date);
-      const dow = d.getUTCDay(); // 0 Sun..6 Sat
-      return (dow >= 2 && dow <= 4) && !h.weekend; // Tue/Wed/Thu
+      const dow = d.getUTCDay();
+      return (dow >= 2 && dow <= 4) && !h.weekend;
     });
   }
 }
 
-// ISO week key: YYYY-W## (UTC)
 function isoWeekKey(dateUTC) {
   const d = new Date(Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate()));
-  // Thursday in current week decides the year
   d.setUTCDate(d.getUTCDate() + 3 - ((d.getUTCDay() + 6) % 7));
   const weekYear = d.getUTCFullYear();
-  // January 4 is always in week 1
   const week1 = new Date(Date.UTC(weekYear, 0, 4));
   const weekNo = 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getUTCDay() + 6) % 7)) / 7);
   return `${weekYear}-W${String(weekNo).padStart(2, "0")}`;
 }
 
 // --------------------
-// Tips (simple + useful)
-// --------------------
-function buildTips(start, end, r) {
-  const tips = [];
-
-  const in2026 = start.getUTCFullYear() === 2026 && end.getUTCFullYear() === 2026;
-  if (!in2026) {
-    tips.push("ℹ️ Bu sürümde sadece <strong>2026</strong> resmî tatilleri var. 2026 dışı günlerde hafta sonu mantığı çalışır.");
-  }
-
-  const hasArefe = r.holidayHits.some(h => h.weight === 0.5 && !h.weekend);
-  if (hasArefe) {
-    tips.push("⏰ <strong>Arefe</strong> günleri <strong>yarım gün</strong> sayılır (13:00 sonrası tatil).");
-  }
-
-  if (r.leaveDays > 0) {
-    const ratio = r.totalDays / r.leaveDays;
-    if (ratio >= 3.2) tips.push(`🚀 Süper verimli: <strong>${humanizeDays(r.leaveDays)}</strong> izin ile <strong>${r.totalDays}</strong> gün tatil.`);
-    else if (ratio >= 2.4) tips.push(`☀️ Verimli: <strong>${humanizeDays(r.leaveDays)}</strong> izin ile <strong>${r.totalDays}</strong> gün tatil.`);
-  } else if (r.totalDays > 0) {
-    tips.push("🌿 İzin kullanmadan tatil yakalanmış (resmî tatil + hafta sonu).");
-  }
-
-  // Edge adjacency hint
-  const before = addDaysUTC(parseISODate(r.start), -1);
-  const after = addDaysUTC(parseISODate(r.end), 1);
-  const beforeIso = toISODateUTC(before);
-  const afterIso = toISODateUTC(after);
-
-  const beforeNice = isWeekendUTC(before) || HOLIDAY_MAP.has(beforeIso);
-  const afterNice = isWeekendUTC(after) || HOLIDAY_MAP.has(afterIso);
-  if (beforeNice || afterNice) tips.push("🧠 Köprü ihtimali: Seçiminizin hemen yanında hafta sonu / resmî tatil var.");
-
-  return tips;
-}
-
-// --------------------
-// Humanize helpers (no 38.5 on screen)
+// Humanize
 // --------------------
 function humanizeDays(x) {
-  // x may be 38.5 or 1.5 etc.
   const full = Math.floor(x);
   const half = Math.abs(x - full) >= 0.5 ? 1 : 0;
 
@@ -536,7 +541,7 @@ function humanizeDays(x) {
 }
 
 // --------------------
-// Date helpers (UTC safe)
+// Date helpers
 // --------------------
 function parseISODate(iso) {
   if (!iso) return null;
