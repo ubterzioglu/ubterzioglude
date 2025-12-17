@@ -1,99 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZELIFS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZELIFS v1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="wrap">
+  <div class="bg"></div>
 
-    <header class="header">
+  <main class="wrap">
+    <header class="topbar">
       <div class="brand">
         <div class="logo">Z</div>
-        <div>
+        <div class="brandText">
           <h1>ZELIFS</h1>
-          <p class="sub">Elif için seyahat & karar destek aracı</p>
+          <p>DE dışı gün sayacı (v1) — sade, hızlı, net.</p>
         </div>
       </div>
 
-      <div class="actions">
-        <button id="btnExport">JSON Dışa Aktar</button>
-        <label class="import">
-          JSON İçe Aktar
-          <input id="fileImport" type="file" accept="application/json" />
-        </label>
-        <button id="btnReset" class="danger">Sıfırla</button>
+      <div class="chips">
+        <span class="chip chip-blue">Office Blue</span>
+        <span class="chip chip-green">Excel Green</span>
+        <span class="chip chip-orange">PowerPoint Orange</span>
+        <span class="chip chip-red">Outlook Red</span>
       </div>
     </header>
 
-    <main>
-      <section class="card">
-        <div class="planHead">
-          <input id="title" class="planTitle" placeholder="Öneri adı (örn: Kaş ağırlıklı plan)" />
-          <div class="totalBox">
-            <span class="label">TOPLAM GÜN</span>
-            <span id="totalDays" class="total">0</span>
+    <!-- ÜST BİLGİ KARTLARI -->
+    <section class="grid">
+      <article class="card">
+        <div class="cardHead">
+          <h2>Bilgi Kartı 1 — Takvim / Günler</h2>
+          <span class="pill pill-blue">Placeholder</span>
+        </div>
+        <p class="muted">
+          Buraya ileride: önemli günler, haftalar, resmi tatiller, zaman farkındalığı gibi
+          kısa bir içerik gelecek.
+        </p>
+        <div class="placeholderBox">
+          <div class="phLine"></div>
+          <div class="phLine"></div>
+          <div class="phLine short"></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="cardHead">
+          <h2>Bilgi Kartı 2 — Tool mesajı</h2>
+          <span class="pill pill-orange">Placeholder</span>
+        </div>
+        <p class="muted">
+          Buraya ileride: tool’un amacını anlatan hafif, komikli, rahatlatıcı bir metin gelecek.
+        </p>
+        <div class="placeholderBox">
+          <div class="phLine"></div>
+          <div class="phLine short"></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ANA KART -->
+    <section class="card cardMain">
+      <div class="cardHead">
+        <h2>DE dışı gün hesabı</h2>
+        <div id="statusBadge" class="statusBadge status-unknown">Durum: —</div>
+      </div>
+
+      <div class="formGrid">
+        <div class="field">
+          <label for="dateOut">DE ➡️ TR (Çıkış)</label>
+          <input
+            id="dateOut"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="DD-MM-YYYY (örn: 01-05-2025)"
+            maxlength="10"
+          />
+          <div class="hint">Yazarken otomatik formatlanır.</div>
+        </div>
+
+        <div class="field">
+          <label for="dateIn">TR ➡️ DE (Dönüş)</label>
+          <input
+            id="dateIn"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="DD-MM-YYYY (örn: 20-09-2025)"
+            maxlength="10"
+          />
+          <div class="hint">Yazarken otomatik formatlanır.</div>
+        </div>
+      </div>
+
+      <div class="resultRow">
+        <div class="resultCard">
+          <div class="resultTitle">Toplam Gün</div>
+          <div id="daysValue" class="resultValue">—</div>
+          <div id="calcNote" class="muted small">
+            Toplam Gün = (TR ➡️ DE) − (DE ➡️ TR)
           </div>
         </div>
 
-        <div class="tableWrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Türkiye Gidiş</th>
-                <th>Kaş Geliş</th>
-                <th>Türkiye Dönüş</th>
-                <th>Toplam</th>
-                <th>Kaş’a kadar</th>
-                <th>Kaş’ta</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="tripBody"></tbody>
-          </table>
+        <div class="actions">
+          <button id="btnTodayIn" class="btn btn-green" type="button" title="Dönüş tarihini bugüne set et">
+            Bugün: Dönüş
+          </button>
+          <button id="btnClearDates" class="btn btn-ghost" type="button" title="Tarihleri temizle">
+            Tarihleri Temizle
+          </button>
+        </div>
+      </div>
+
+      <div id="errors" class="errors" aria-live="polite"></div>
+    </section>
+
+    <!-- ARTI / EKSİ -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>Artı / Eksi Notları</h2>
+        <span class="pill pill-green">Karar destek</span>
+      </div>
+
+      <div class="noteGrid">
+        <div class="field">
+          <label for="plusInput">Artı</label>
+          <input id="plusInput" type="text" autocomplete="off" placeholder="Tek satır artı notu..." />
         </div>
 
-        <div class="rowActions">
-          <button id="btnAddTrip">+ Seyahat Ekle</button>
+        <div class="field">
+          <label for="minusInput">Eksi</label>
+          <input id="minusInput" type="text" autocomplete="off" placeholder="Tek satır eksi notu..." />
         </div>
 
-        <div class="prosConsInput">
-          <input id="prosInput" placeholder="➕ Artı ekle (tek madde)" />
-          <input id="consInput" placeholder="➖ Eksi ekle (tek madde)" />
+        <div class="noteActions">
+          <button id="btnAddPlus" class="btn btn-blue" type="button">Artı ekle</button>
+          <button id="btnAddMinus" class="btn btn-red" type="button">Eksi ekle</button>
+          <button id="btnClearNotes" class="btn btn-ghost" type="button">Notları temizle</button>
         </div>
+      </div>
 
-        <div class="rowActions">
-          <button id="btnAddProsCons">Artı / Eksi ekle</button>
+      <div class="notesListWrap">
+        <div class="notesHeader">
+          <div class="muted">Liste birikir, üzerine yazılmaz.</div>
+          <div id="notesCount" class="muted small">0 kayıt</div>
         </div>
+        <ul id="notesList" class="notesList"></ul>
+      </div>
+    </section>
 
-        <div class="lists">
-          <div>
-            <h3>Artılar</h3>
-            <ul id="prosList"></ul>
-          </div>
-          <div>
-            <h3>Eksiler</h3>
-            <ul id="consList"></ul>
-          </div>
-        </div>
-      </section>
-    </main>
-
-  </div>
-
-  <template id="tripRowTemplate">
-    <tr>
-      <td><input type="date" class="dTurkey" /></td>
-      <td><input type="date" class="dKas" /></td>
-      <td><input type="date" class="dReturn" /></td>
-      <td class="calc trTotal">—</td>
-      <td class="calc toKas">—</td>
-      <td class="calc inKas">—</td>
-      <td><button class="danger btnDeleteTrip">Sil</button></td>
-    </tr>
-  </template>
+    <footer class="footer">
+      <span class="muted small">
+        Local kullanım. State tarayıcıda tutulur. Screenshot ile paylaşılabilir.
+      </span>
+    </footer>
+  </main>
 
   <script src="app.js"></script>
 </body>
