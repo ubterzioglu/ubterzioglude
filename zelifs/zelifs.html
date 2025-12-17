@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZELIFS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="header">
+      <div class="brand">
+        <div class="logo">Z</div>
+        <div>
+          <h1>ZELIFS</h1>
+          <p class="sub">Elif için seyahat & karar destek aracı</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="btnExport">JSON Dışa Aktar</button>
+        <label class="import">
+          JSON İçe Aktar
+          <input id="fileImport" type="file" accept="application/json" />
+        </label>
+        <button id="btnReset" class="danger">Sıfırla</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="planHead">
+          <input id="title" class="planTitle" placeholder="Öneri adı (örn: Kaş ağırlıklı plan)" />
+          <div class="totalBox">
+            <span class="label">TOPLAM GÜN</span>
+            <span id="totalDays" class="total">0</span>
+          </div>
+        </div>
+
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Türkiye Gidiş</th>
+                <th>Kaş Geliş</th>
+                <th>Türkiye Dönüş</th>
+                <th>Toplam</th>
+                <th>Kaş’a kadar</th>
+                <th>Kaş’ta</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tripBody"></tbody>
+          </table>
+        </div>
+
+        <div class="rowActions">
+          <button id="btnAddTrip">+ Seyahat Ekle</button>
+        </div>
+
+        <div class="prosConsInput">
+          <input id="prosInput" placeholder="➕ Artı ekle (tek madde)" />
+          <input id="consInput" placeholder="➖ Eksi ekle (tek madde)" />
+        </div>
+
+        <div class="rowActions">
+          <button id="btnAddProsCons">Artı / Eksi ekle</button>
+        </div>
+
+        <div class="lists">
+          <div>
+            <h3>Artılar</h3>
+            <ul id="prosList"></ul>
+          </div>
+          <div>
+            <h3>Eksiler</h3>
+            <ul id="consList"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <template id="tripRowTemplate">
+    <tr>
+      <td><input type="date" class="dTurkey" /></td>
+      <td><input type="date" class="dKas" /></td>
+      <td><input type="date" class="dReturn" /></td>
+      <td class="calc trTotal">—</td>
+      <td class="calc toKas">—</td>
+      <td class="calc inKas">—</td>
+      <td><button class="danger btnDeleteTrip">Sil</button></td>
+    </tr>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
