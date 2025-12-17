@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TR 2026 Tatil Hesaplayıcı</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card card--blue">
+      <header class="card__head">
+        <h1>Türkiye 2026 Tatil Hesaplayıcı</h1>
+        <p class="muted">
+          Tarih aralığını seç, sistem toplam tatili ve izinden giden günleri hesaplasın.
+        </p>
+      </header>
+
+      <div class="grid">
+        <!-- INFO (tek kart içinde, basit) -->
+        <div class="panel panel--soft">
+          <h2 class="panel__title">Bilgi</h2>
+          <ul class="bullets">
+            <li>Hesap: Seçilen aralık → hafta sonları + resmî tatiller düşülür → “izinden giden” bulunur.</li>
+            <li><strong>Arefe</strong> günleri <strong>13:00 sonrası</strong> tatildir (0.5 gün olarak sayılır).</li>
+            <li>Şimdilik sadece <strong>Türkiye 2026</strong>. Sonra ülke/bölge ekleyeceğiz.</li>
+          </ul>
+
+          <button id="toggleHolidayList" class="btn btn--ghost" type="button">
+            Tatil listesini göster
+          </button>
+
+          <div id="holidayList" class="holidaylist hidden" aria-hidden="true"></div>
+        </div>
+
+        <!-- INPUTS -->
+        <div class="panel">
+          <h2 class="panel__title">Tatil Aralığı</h2>
+
+          <div class="row2">
+            <label class="field">
+              <span class="field__label">Başlangıç</span>
+              <input id="startDate" type="date" />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Bitiş</span>
+              <input id="endDate" type="date" />
+            </label>
+          </div>
+
+          <div id="pickedSummary" class="picked muted hidden" aria-live="polite"></div>
+
+          <div class="actions">
+            <button id="calcBtn" class="btn btn--primary" type="button">Hesapla</button>
+            <button id="resetBtn" class="btn btn--danger" type="button">Sıfırla</button>
+          </div>
+
+          <div id="tipsBox" class="tips hidden" aria-live="polite"></div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="panel panel--soft">
+          <h2 class="panel__title">Sonuçlar</h2>
+
+          <div class="kpis">
+            <div class="kpi kpi--green">
+              <div class="kpi__label">Toplam Tatil Süresi</div>
+              <div class="kpi__value" id="kpiTotal">—</div>
+              <div class="kpi__sub muted">gün</div>
+            </div>
+
+            <div class="kpi kpi--orange">
+              <div class="kpi__label">İzinden Giden</div>
+              <div class="kpi__value" id="kpiLeave">—</div>
+              <div class="kpi__sub muted">iş günü</div>
+            </div>
+
+            <div class="kpi kpi--purple">
+              <div class="kpi__label">Aradaki Resmî Tatil</div>
+              <div class="kpi__value" id="kpiHolidays">—</div>
+              <div class="kpi__sub muted">gün (0.5 dahil)</div>
+            </div>
+
+            <div class="kpi kpi--yellow">
+              <div class="kpi__label">Hafta Sonu</div>
+              <div class="kpi__value" id="kpiWeekends">—</div>
+              <div class="kpi__sub muted">gün</div>
+            </div>
+          </div>
+
+          <details class="details">
+            <summary>Detayları göster</summary>
+            <pre id="detailsJson" class="pre">—</pre>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

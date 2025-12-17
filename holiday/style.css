@@ -1,0 +1,346 @@
+/* =========
+   Base
+========= */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #ffffff;
+  color: #111827;
+}
+
+:root{
+  --bg: #ffffff;
+
+  --c-blue:   #01A1F1;
+  --c-green:  #7CBB00;
+  --c-orange: #F65314;
+  --c-purple: #8F03B7;
+  --c-yellow: #FFBB00;
+
+  --ink: #111827;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+
+  --radius: 18px;
+  --shadow: 0 18px 45px rgba(0,0,0,.10);
+  --shadow2: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.muted{ color: var(--muted); }
+.hidden{ display: none !important; }
+
+/* =========
+   Layout
+========= */
+.wrap{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 14px 40px;
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 940px){
+  .grid{
+    grid-template-columns: 1.1fr 1fr;
+    align-items: start;
+  }
+  .panel:nth-child(3){
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========
+   Card (colorful but readable)
+========= */
+.card{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  background: #fff;
+}
+
+.card__head{
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+  position: relative;
+}
+
+/* color accent bar */
+.card__head::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 10px;
+  background: var(--c-blue);
+}
+
+.card--blue .card__head::before{ background: var(--c-blue); }
+.card--green .card__head::before{ background: var(--c-green); }
+.card--orange .card__head::before{ background: var(--c-orange); }
+.card--purple .card__head::before{ background: var(--c-purple); }
+.card--yellow .card__head::before{ background: var(--c-yellow); }
+
+h1{
+  margin: 0 0 6px;
+  font-size: 20px;
+  line-height: 1.25;
+}
+@media (min-width: 520px){
+  h1{ font-size: 22px; }
+}
+
+h2{
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+/* =========
+   Panels
+========= */
+.panel{
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow2);
+  background: #fff;
+}
+
+.panel--soft{
+  background: rgba(0,0,0,.02);
+}
+
+.panel__title{
+  margin: 0 0 10px;
+  font-size: 14px;
+  letter-spacing: .2px;
+}
+
+.bullets{
+  margin: 0 0 12px;
+  padding-left: 18px;
+  color: var(--ink);
+}
+.bullets li{
+  margin: 6px 0;
+  line-height: 1.35;
+}
+
+/* =========
+   Fields
+========= */
+.row2{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 520px){
+  .row2{ grid-template-columns: 1fr 1fr; }
+}
+
+.field{
+  display: grid;
+  gap: 6px;
+}
+.field__label{
+  font-size: 12px;
+  color: var(--muted);
+}
+
+input[type="date"]{
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  background: #fff;
+  color: var(--ink);
+}
+
+input[type="date"]:focus{
+  outline: none;
+  border-color: rgba(1,161,241,.65);
+  box-shadow: 0 0 0 4px rgba(1,161,241,.18);
+}
+
+.picked{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(17,24,39,.18);
+  border-radius: 12px;
+  background: #fff;
+  line-height: 1.35;
+}
+
+/* =========
+   Buttons
+========= */
+.actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.btn{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 650;
+  font-size: 14px;
+  cursor: pointer;
+  background: #fff;
+  color: var(--ink);
+}
+
+.btn:focus{
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(1,161,241,.18);
+}
+
+.btn--primary{
+  background: var(--c-blue);
+  border-color: rgba(0,0,0,.08);
+  color: #fff;
+}
+
+.btn--danger{
+  background: var(--c-orange);
+  border-color: rgba(0,0,0,.08);
+  color: #fff;
+}
+
+.btn--ghost{
+  background: rgba(0,0,0,.02);
+}
+
+/* =========
+   Tips box
+========= */
+.tips{
+  margin-top: 12px;
+  border: 1px solid rgba(255,187,0,.45);
+  background: rgba(255,187,0,.12);
+  border-radius: 14px;
+  padding: 10px 12px;
+  line-height: 1.35;
+}
+
+/* =========
+   KPI cards
+========= */
+.kpis{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 520px){
+  .kpis{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.kpi{
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 12px 10px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 8px;
+  background: var(--c-blue);
+}
+
+.kpi__label{
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 4px;
+}
+.kpi__value{
+  font-size: 26px;
+  font-weight: 800;
+  margin: 4px 0 0 4px;
+}
+.kpi__sub{
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.kpi--green::before{ background: var(--c-green); }
+.kpi--orange::before{ background: var(--c-orange); }
+.kpi--purple::before{ background: var(--c-purple); }
+.kpi--yellow::before{ background: var(--c-yellow); }
+
+/* =========
+   Details / JSON
+========= */
+.details{
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.details summary{
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.pre{
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.02);
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+/* =========
+   Holiday list
+========= */
+.holidaylist{
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 12px;
+  max-height: 240px;
+  overflow: auto;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.holidaylist .hl-row{
+  display:flex;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(17,24,39,.12);
+}
+.holidaylist .hl-row:last-child{
+  border-bottom: none;
+}
+.holidaylist .hl-date{
+  min-width: 92px;
+  font-weight: 800;
+}
+.holidaylist .hl-name{
+  color: var(--ink);
+}
