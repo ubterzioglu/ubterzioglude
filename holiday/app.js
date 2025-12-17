@@ -62,7 +62,18 @@ toggleHolidayListBtn.addEventListener("click", () => {
   holidayListEl.classList.toggle("hidden", !isHidden);
   holidayListEl.setAttribute("aria-hidden", String(!isHidden));
   toggleHolidayListBtn.textContent = isHidden ? "Tatil listesini gizle" : "Tatil listesini göster";
+  const toggleInfoBtn = document.getElementById("toggleInfo");
+  const infoBodyEl = document.getElementById("infoBody");
+
 });
+
+toggleInfoBtn.addEventListener("click", () => {
+  const isHidden = infoBodyEl.classList.contains("hidden");
+  infoBodyEl.classList.toggle("hidden", !isHidden);
+  infoBodyEl.setAttribute("aria-hidden", String(!isHidden));
+  toggleInfoBtn.textContent = isHidden ? "Hesaplama / Bilgi gizle" : "Hesaplama / Bilgi göster";
+});
+
 
 // initial render
 renderHolidayList();

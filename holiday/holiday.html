@@ -20,12 +20,19 @@
       <div class="grid">
         <!-- INFO (tek kart içinde, basit) -->
         <div class="panel panel--soft">
-          <h2 class="panel__title">Bilgi</h2>
-          <ul class="bullets">
-            <li>Hesap: Seçilen aralık → hafta sonları + resmî tatiller düşülür → “izinden giden” bulunur.</li>
-            <li><strong>Arefe</strong> günleri <strong>13:00 sonrası</strong> tatildir (0.5 gün olarak sayılır).</li>
-            <li>Şimdilik sadece <strong>Türkiye 2026</strong>. Sonra ülke/bölge ekleyeceğiz.</li>
-          </ul>
+          <h2 class="panel__title">Hesaplama / Bilgi</h2>
+
+          <button id="toggleInfo" class="btn btn--ghost" type="button">
+            Hesaplama / Bilgi göster
+          </button>
+
+          <div id="infoBody" class="infobox hidden" aria-hidden="true">
+            <ul class="bullets">
+              <li>Hesap: Seçilen aralık → hafta sonları + resmî tatiller düşülür → “izinden giden” bulunur.</li>
+              <li><strong>Arefe</strong> günleri <strong>13:00 sonrası</strong> tatildir (0.5 gün olarak sayılır).</li>
+              <li>Şimdilik sadece <strong>Türkiye 2026</strong>. Sonra ülke/bölge ekleyeceğiz.</li>
+            </ul>
+          </div>
 
           <button id="toggleHolidayList" class="btn btn--ghost" type="button">
             Tatil listesini göster

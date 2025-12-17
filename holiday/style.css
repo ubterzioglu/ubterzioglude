@@ -344,3 +344,26 @@ input[type="date"]:focus{
 .holidaylist .hl-name{
   color: var(--ink);
 }
+
+
+/* =========
+   Info box (same feel as holiday list)
+========= */
+.infobox{
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-size: 13px;      /* tatil listesiyle aynı */
+  line-height: 1.35;    /* tatil listesiyle aynı */
+}
+
+.infobox .bullets{
+  margin: 0;
+  padding-left: 18px;
+}
+
+.infobox .bullets li{
+  margin: 6px 0;
+}
