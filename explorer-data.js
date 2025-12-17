@@ -129,6 +129,15 @@ window.EXPLORER_DATA = {
   ],
 
   tools: [
+
+     {
+      id: "holiday",
+      title: "2026 Turkey Vacation Planner",
+      img: "/img/z0tool0060.jpg",
+      href: "https://ubterzioglu.de/holiday/holiday.html",
+      note: "2026 Turkey Vacation Planner is a simple planning tool that helps you calculate the most efficient vacation periods using Turkey’s 2026 public holidays. Built to turn scattered dates into clear, stress-free holiday plans."
+    },
+
     {
       id: "zbom",
       title: "Bookmark Collection",
