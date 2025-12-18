@@ -2,8 +2,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const TO_EMAIL = process.env.TO_EMAIL || "info@ubterzioglu.de";
-// Once domain verified, set FROM_EMAIL in Vercel env to e.g. "ZTOOLFORTOOL <info@ubterzioglu.de>"
+const TO_EMAIL = process.env.TO_EMAIL || "ubt@ubterzioglu.de";
+// Once domain verified, set FROM_EMAIL in Vercel env to e.g. "ZTOOLFORTOOL <ubt@ubterzioglu.de>"
 const FROM_EMAIL = process.env.FROM_EMAIL || "ZTOOLFORTOOL <onboarding@resend.dev>";
 
 function isValidEmail(email) {
