@@ -11,3 +11,4 @@
 18.12.25 ZGEN is live!
 18.12.25 Holiday planners are live!
 18.12.25 Commit message change :)
+18.12.25 Resend deployment.
