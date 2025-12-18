@@ -8,3 +8,5 @@
 14.12.25 ATS Scoring tool launched posted!
 14.12.25 Editor added!
 17.12.25 Good Morning!
+18.12.25 ZGEN is live!
+18.12.25 Holiday planners are live!
