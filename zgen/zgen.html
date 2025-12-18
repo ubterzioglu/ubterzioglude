@@ -209,10 +209,11 @@
       ulEl.innerHTML = (items || []).map(x => `<li>${esc(x)}</li>`).join("");
     }
 
-    function getGenByYear(year) {
-      const gens = ZGEN_DATA?.generations || [];
-      return gens.find(g => year >= g.range[0] && year <= g.range[1]) || gens[gens.length - 1] || null;
-    }
+   function getGenByYear(year) {
+  const gens = ZGEN_DATA?.generations || [];
+  return gens.find(g => year >= g.range[0] && year <= g.range[1]) || null;
+}
+
 
     function getProfile(genId) {
       // Expecting: ZGEN_DATA.profiles[genId] = { traits:[...10], vibes:[...5] }
@@ -380,40 +381,48 @@
     }
 
     function updateUI() {
-      const raw = (birthYearEl.value || "").trim();
-      const year = Number(raw);
+  const raw = (birthYearEl.value || "").trim();
+  const year = Number(raw);
 
-      const valid = raw.length === 4 && Number.isInteger(year) && year >= 1900 && year <= 2100;
+  // Only accept years that map to the generations you defined
+  const valid =
+    raw.length === 4 &&
+    Number.isInteger(year) &&
+    year >= 1928 &&
+    year <= 2100;
 
-      if (!valid) {
-        statusPill.textContent = "Enter a 4-digit birth year (e.g., 1999)";
-        youCard.hidden = true;
-        compatHeader.hidden = true;
-        accordions.hidden = true;
-        return;
-      }
+  if (!valid) {
+    statusPill.textContent = "Supported birth years: 1928–2100";
+    youCard.hidden = true;
+    compatHeader.hidden = true;
+    accordions.hidden = true;
+    return;
+  }
 
-      const youGen = getGenByYear(year);
-      if (!youGen) {
-        statusPill.textContent = "Data error: generations not loaded.";
-        youCard.hidden = true;
-        compatHeader.hidden = true;
-        accordions.hidden = true;
-        return;
-      }
+  const youGen = getGenByYear(year);
 
-      statusPill.textContent = `Detected: ${youGen.name}`;
-      youGenLine.innerHTML = `You are <strong>${esc(youGen.name)}</strong>.`;
+  // If data isn't loaded OR ranges are wrong, don't silently fall back
+  if (!youGen) {
+    statusPill.textContent = "Supported birth years: 1928–2100";
+    youCard.hidden = true;
+    compatHeader.hidden = true;
+    accordions.hidden = true;
+    return;
+  }
 
-      setYouAvatars(youGen);
-      renderProfile(youGen);
+  statusPill.textContent = `Detected: ${youGen.name}`;
+  youGenLine.innerHTML = `You are <strong>${esc(youGen.name)}</strong>.`;
 
-      renderCompatibility(youGen);
+  setYouAvatars(youGen);
+  renderProfile(youGen);
 
-      youCard.hidden = false;
-      compatHeader.hidden = false;
-      accordions.hidden = false;
-    }
+  renderCompatibility(youGen);
+
+  youCard.hidden = false;
+  compatHeader.hidden = false;
+  accordions.hidden = false;
+}
+
 
     showBtn.addEventListener("click", updateUI);
     birthYearEl.addEventListener("keydown", (e) => {
