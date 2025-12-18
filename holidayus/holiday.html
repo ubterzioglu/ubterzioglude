@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>US 2026 Vacation Planner | UBT</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="/img/logoubt.png" />
+
+  <meta name="description" content="United States 2026: Pick a state and date range. Calculate total days off, required PTO days, weekends, and public holidays (weekdays)." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://ubterzioglu.de/holidayus/holiday.html" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://ubterzioglu.de/#person",
+    "name": "Umut Barış Terzioğlu",
+    "url": "https://ubterzioglu.de",
+    "image": "https://ubterzioglu.de/img/logoubt.png",
+    "jobTitle": "Senior Software Quality Assurance Engineer",
+    "sameAs": [
+      "https://www.linkedin.com/in/umutbaristerzioglu"
+    ]
+  }
+  </script>
+
+<script>
+  window.goatcounter = window.goatcounter || {};
+  window.goatcounter.path = "/holidayus/holiday.html";
+</script>
+<script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</head>
+
+<body>
+<main class="wrap">
+<section class="card card--blue">
+
+<header class="card__head">
+  <div class="headRow">
+    <div class="headLeft">
+      <h1>US 2026 Vacation Planner</h1>
+      <p class="muted">Pick a state + date range — get PTO days, holidays, weekends, and total days off.</p>
+    </div>
+
+    <div class="headRight">
+      <a href="https://ubterzioglu.de/" target="_blank" rel="noopener">
+        <img class="ubtLogo" src="/img/logoubt.png" alt="UBT logo" />
+      </a>
+      <a href="https://ubterzioglu.de/" target="_blank" rel="noopener">
+        <img class="ubtPic" src="/img/picprofile.png" alt="UBT profile" />
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="stack">
+
+<!-- INFO -->
+<div class="panel panel--yellow">
+  <div class="panelTop">
+    <h2 class="panel__title">Info / Calculation</h2>
+    <div class="stackBtns">
+      <button id="toggleInfo" class="btn btn--ghost">Open info</button>
+      <button id="toggleHolidayList" class="btn btn--ghost">Open holidays 2026</button>
+      <button id="toggleTips" class="btn btn--ghost">Open tips</button>
+    </div>
+  </div>
+
+  <div id="infoBody" class="infobox hidden">
+    <ul class="bullets">
+      <li>Weekends (Sat/Sun) are included automatically.</li>
+      <li>Public holidays depend on the selected state.</li>
+      <li><strong>Observed holidays</strong>: if a holiday falls on Sat/Sun, it may be observed on Fri/Mon (optional switch).</li>
+    </ul>
+  </div>
+
+  <div id="holidayList" class="holidaylist hidden"></div>
+
+  <!-- manual tips -->
+  <div id="tipsCard" class="infobox hidden">
+    <strong>Quick Tips</strong><br><br>
+    • Thursday holiday + take Friday off = 4-day break.<br><br>
+    • In 2026, Independence Day is on Saturday → many workplaces observe it on Friday (Jul 3).<br><br>
+    • Thanksgiving week is a classic for a long break with just a few PTO days.
+  </div>
+</div>
+
+<!-- DATE RANGE -->
+<div class="panel panel--blue">
+  <h2 class="panel__title">Date range</h2>
+
+  <div class="row2">
+    <label class="field">
+      <span class="field__label">State</span>
+      <select id="stateSelect" class="select"></select>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Observed holidays</span>
+      <select id="observedSelect" class="select">
+        <option value="on" selected>On (Fri/Mon)</option>
+        <option value="off">Off (date only)</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Start</span>
+      <input id="startDate" type="date" />
+    </label>
+
+    <label class="field">
+      <span class="field__label">End</span>
+      <input id="endDate" type="date" />
+    </label>
+  </div>
+
+  <div id="pickedSummary" class="picked muted hidden"></div>
+
+  <div class="actions">
+    <button id="calcBtn" class="btn btn--primary">Calculate</button>
+    <button id="resetBtn" class="btn btn--danger">Reset</button>
+  </div>
+
+  <div id="tipsBox" class="tips hidden"></div>
+</div>
+
+<!-- RESULTS -->
+<div class="panel panel--purple">
+  <div class="resultsHead">
+    <div>
+      <h2 class="panel__title">Results</h2>
+      <div id="tripBadge" class="tripBadge hidden"></div>
+    </div>
+
+    <div class="effBox">
+      <div class="effLabel">PTO Efficiency</div>
+      <div class="effBar">
+        <div id="effFill" class="effFill"></div>
+      </div>
+      <div id="effText" class="effText">—</div>
+    </div>
+  </div>
+
+  <div class="kpis kpis--stack">
+    <div class="kpi kpi--green">
+      <div class="kpi__label">Total days off</div>
+      <div id="kpiTotal" class="kpi__value">—</div>
+      <div class="kpi__sub muted">All days in the selected range</div>
+    </div>
+
+    <div class="kpi kpi--orange">
+      <div class="kpi__label">Required PTO days</div>
+      <div id="kpiLeaveHuman" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Weekdays excluding holidays</div>
+    </div>
+
+    <div class="kpi kpi--purple">
+      <div class="kpi__label">Holidays (weekdays)</div>
+      <div id="kpiHolidaysHuman" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Only if Mon–Fri</div>
+    </div>
+
+    <div class="kpi kpi--yellow">
+      <div class="kpi__label">Weekend days</div>
+      <div id="kpiWeekends" class="kpi__value">—</div>
+      <div class="kpi__sub muted">Saturday + Sunday</div>
+    </div>
+  </div>
+
+  <div class="miniSection">
+    <div class="miniTitle">Weekly rhythm</div>
+    <div id="rhythmRow" class="rhythmRow">—</div>
+  </div>
+
+  <div class="miniSection">
+    <div class="miniTitle">Week-by-week</div>
+    <div id="weeklyPlan" class="weeklyPlan muted">
+      Pick a range and calculate — weekly breakdown will appear here.
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  Made with ☀️ by <strong>UBT</strong>
+</footer>
+
+</div>
+</section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
