@@ -1739,7 +1739,33 @@ register("tools", () => {
 
 
 
+ /* =====================================================
+     CARD: HERO (QAENGINEER)
+     ===================================================== */
+  register("heroQaengineer", () => `
+    <div id="hero" class="card hero-card">
+      <div class="hero-top">
+        <div class="hero-logo-box">
+          <img src="/img/logoubt.png" class="hero-logo" alt="UBT logo" />
+          <span class="hero-domain">ubterzioglu.de</span>
+        </div>
+        <a href="index.html">
+          <img src="/img/z0cliphome.png" class="home-icon" alt="Home" />
+        </a>
+      </div>
 
+      <h1>Hello QA Engineer!</h1>
+      <p class="title">
+  What do you need?<br>
+  Support? Information?<br>
+  Getting to know me better?<br>
+  Articles? Useful links?<br>
+  Choose a section below to explore!<br>
+</p>
+    </div>
+    <!-- END of block: Hero (Curious) -->
+  `);
+  /* END of block: Card Template — heroCurious */
 
 
 
