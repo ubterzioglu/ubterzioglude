@@ -76,49 +76,28 @@
 
       <main class="grid">
 
-      <<!-- CARD 1: Birth year + RIGHT inner ZGENCHECK -->
-<section class="card card-blue" aria-labelledby="c1">
-  <div class="blue-split">
-    <!-- LEFT: Birth year -->
-    <div class="blue-left">
-      <div class="card-head">
-        <h2 id="c1" class="card-title">1) Birth year</h2>
-        <p class="card-sub">Just one field. No extra questions.</p>
-      </div>
+        <!-- CARD 1: INPUT -->
+        <section class="card card-blue" aria-labelledby="c1">
+          <div class="card-head">
+            <h2 id="c1" class="card-title">1) Birth year</h2>
+            <p class="card-sub">Just one field. No extra questions.</p>
+          </div>
 
-      <div class="input-row">
-        <label class="sr-only" for="birthYear">Birth year</label>
-        <input
-          id="birthYear"
-          class="input"
-          inputmode="numeric"
-          placeholder="e.g., 1999"
-          maxlength="4"
-          autocomplete="off"
-        />
-        <button class="btn" id="showBtn" type="button">Show my generation</button>
-      </div>
+          <div class="input-row">
+            <label class="sr-only" for="birthYear">Birth year</label>
+            <input
+              id="birthYear"
+              class="input"
+              inputmode="numeric"
+              placeholder="e.g., 1999"
+              maxlength="4"
+              autocomplete="off"
+            />
+            <button class="btn" id="showBtn" type="button">Show my generation</button>
+          </div>
 
-      <p class="micro">Tip: You can also press <kbd>Enter</kbd>.</p>
-    </div>
-
-    <!-- RIGHT: Inner ZGENCHECK -->
-    <aside class="inner-card inner-card--right" id="zgencheck" aria-label="ZGENCHECK">
-      <div class="inner-head">
-        <h3 class="inner-title">Also Check : ZGENCHECK 
-          <a class="btn btn-mini" href="/zgencheck/zgencheck.html">Open</a> 
-        </h3> 
-        <p class="inner-sub">Do you reflect your generation? | Make the test!  <br> 
-        | 2 minutes | 15 quick questions. | Score + summary |</p>
-      </div>
-
-     
-      
-    </aside>
-  </div>
-</section>
-
-
+          <p class="micro">Tip: You can also press <kbd>Enter</kbd>.</p>
+        </section>
 
         <!-- CARD 2: YOU ARE GEN ... -->
         <section class="card card-green" id="youCard" aria-labelledby="c2" hidden>
@@ -128,24 +107,15 @@
           </div>
 
           <div class="two-col">
-            <!-- LEFT: 10 bullets -->
+            <!-- LEFT: 10 traits -->
             <div>
-              <h3 class="mini-title">Typical traits (placeholder)</h3>
+              <h3 class="mini-title" id="traitsTitle">Typical traits</h3>
               <ul class="bullets" id="traits10">
-                <li>Trait #1 (placeholder)</li>
-                <li>Trait #2 (placeholder)</li>
-                <li>Trait #3 (placeholder)</li>
-                <li>Trait #4 (placeholder)</li>
-                <li>Trait #5 (placeholder)</li>
-                <li>Trait #6 (placeholder)</li>
-                <li>Trait #7 (placeholder)</li>
-                <li>Trait #8 (placeholder)</li>
-                <li>Trait #9 (placeholder)</li>
-                <li>Trait #10 (placeholder)</li>
+                <!-- rendered by JS -->
               </ul>
             </div>
 
-            <!-- RIGHT: male+female avatar + 5 bullets -->
+            <!-- RIGHT: male+female avatar + 5 vibes -->
             <aside class="sidebox">
               <div class="avatar-row">
                 <div class="avatar-pair" aria-hidden="true">
@@ -158,17 +128,13 @@
                 </div>
 
                 <div>
-                  <div class="avatar-title" id="avatarTitle">Your vibe (placeholder)</div>
+                  <div class="avatar-title" id="avatarTitle">Your vibe</div>
                   <div class="avatar-sub" id="avatarSub">Short, punchy bullets.</div>
                 </div>
               </div>
 
               <ul class="chips" id="vibe5">
-                <li>Vibe #1 (placeholder)</li>
-                <li>Vibe #2 (placeholder)</li>
-                <li>Vibe #3 (placeholder)</li>
-                <li>Vibe #4 (placeholder)</li>
-                <li>Vibe #5 (placeholder)</li>
+                <!-- rendered by JS -->
               </ul>
             </aside>
           </div>
@@ -214,6 +180,10 @@
     const youCard = document.getElementById("youCard");
     const youGenLine = document.getElementById("youGenLine");
 
+    const traitsTitle = document.getElementById("traitsTitle");
+    const traits10El = document.getElementById("traits10");
+    const vibe5El = document.getElementById("vibe5");
+
     const avatarTitle = document.getElementById("avatarTitle");
     const avatarSub = document.getElementById("avatarSub");
 
@@ -235,13 +205,22 @@
         .replaceAll("'", "&#039;");
     }
 
+    function renderList(ulEl, items) {
+      ulEl.innerHTML = (items || []).map(x => `<li>${esc(x)}</li>`).join("");
+    }
+
     function getGenByYear(year) {
-      return ZGEN_DATA.generations.find(g => year >= g.range[0] && year <= g.range[1]) ||
-             ZGEN_DATA.generations[ZGEN_DATA.generations.length - 1];
+      const gens = ZGEN_DATA?.generations || [];
+      return gens.find(g => year >= g.range[0] && year <= g.range[1]) || gens[gens.length - 1] || null;
+    }
+
+    function getProfile(genId) {
+      // Expecting: ZGEN_DATA.profiles[genId] = { traits:[...10], vibes:[...5] }
+      return ZGEN_DATA?.profiles?.[genId] || null;
     }
 
     function getCompat(youId, otherId) {
-      const hit = ZGEN_DATA.compat?.[youId]?.[otherId];
+      const hit = ZGEN_DATA?.compat?.[youId]?.[otherId];
       return hit || {
         dos: ["Do #1 (placeholder)", "Do #2 (placeholder)", "Do #3 (placeholder)", "Do #4 (placeholder)", "Do #5 (placeholder)"],
         donts: ["Don’t #1 (placeholder)", "Don’t #2 (placeholder)", "Don’t #3 (placeholder)", "Don’t #4 (placeholder)", "Don’t #5 (placeholder)"],
@@ -303,19 +282,19 @@
             <div class="dos">
               <h3 class="mini-title dos-title">✅ Do’s</h3>
               <ul class="bullets">
-                ${content.dos.map(x => `<li>${esc(x)}</li>`).join("")}
+                ${(content.dos || []).map(x => `<li>${esc(x)}</li>`).join("")}
               </ul>
             </div>
 
             <div class="donts">
               <h3 class="mini-title donts-title">❌ Don’ts</h3>
               <ul class="bullets">
-                ${content.donts.map(x => `<li>${esc(x)}</li>`).join("")}
+                ${(content.donts || []).map(x => `<li>${esc(x)}</li>`).join("")}
               </ul>
             </div>
           </div>
 
-          <p class="micro joke-line">“${esc(content.joke)}”</p>
+          <p class="micro joke-line">“${esc(content.joke || "")}”</p>
         </div>
       `;
 
@@ -335,8 +314,9 @@
 
     function renderCompatibility(youGen) {
       accordions.innerHTML = "";
-      const others = ZGEN_DATA.generations.filter(g => g.id !== youGen.id);
+      const others = (ZGEN_DATA?.generations || []).filter(g => g.id !== youGen.id);
 
+      // If you later want: only show gens where compat exists, change the filter here.
       others.forEach((other, idx) => {
         const content = getCompat(youGen.id, other.id);
         const colorClass = pickCardColorClass(idx);
@@ -351,17 +331,57 @@
       avatarYouM.src = m;
       avatarYouF.src = f;
 
-      // Decorative inside card 2 (title already says which gen). Keep empty alt to avoid SR noise.
+      // Decorative inside card 2 (title already says which gen).
       avatarYouM.alt = "";
       avatarYouF.alt = "";
     }
 
-    function updateUI(){
+    function renderProfile(gen) {
+      const profile = getProfile(gen.id);
+
+      if (profile?.traits?.length) {
+        traitsTitle.textContent = "Typical traits";
+        renderList(traits10El, profile.traits);
+      } else {
+        traitsTitle.textContent = "Typical traits (placeholder)";
+        renderList(traits10El, [
+          "Trait #1 (placeholder)",
+          "Trait #2 (placeholder)",
+          "Trait #3 (placeholder)",
+          "Trait #4 (placeholder)",
+          "Trait #5 (placeholder)",
+          "Trait #6 (placeholder)",
+          "Trait #7 (placeholder)",
+          "Trait #8 (placeholder)",
+          "Trait #9 (placeholder)",
+          "Trait #10 (placeholder)"
+        ]);
+      }
+
+      if (profile?.vibes?.length) {
+        avatarTitle.textContent = "Your vibe";
+        avatarSub.textContent = "Quick summary bullets.";
+        renderList(vibe5El, profile.vibes);
+      } else {
+        avatarTitle.textContent = `${gen.name} vibe (placeholder)`;
+        avatarSub.textContent = "We’ll fill these with real content later.";
+        renderList(vibe5El, [
+          "Vibe #1 (placeholder)",
+          "Vibe #2 (placeholder)",
+          "Vibe #3 (placeholder)",
+          "Vibe #4 (placeholder)",
+          "Vibe #5 (placeholder)"
+        ]);
+      }
+    }
+
+    function updateUI() {
       const raw = (birthYearEl.value || "").trim();
       const year = Number(raw);
 
       const valid = raw.length === 4 && Number.isInteger(year) && year >= 1900 && year <= 2100;
-      if (!valid){
+
+      if (!valid) {
         statusPill.textContent = "Enter a 4-digit birth year (e.g., 1999)";
         youCard.hidden = true;
         compatHeader.hidden = true;
@@ -370,14 +390,19 @@
       }
 
       const youGen = getGenByYear(year);
+      if (!youGen) {
+        statusPill.textContent = "Data error: generations not loaded.";
+        youCard.hidden = true;
+        compatHeader.hidden = true;
+        accordions.hidden = true;
+        return;
+      }
+
       statusPill.textContent = `Detected: ${youGen.name}`;
       youGenLine.innerHTML = `You are <strong>${esc(youGen.name)}</strong>.`;
 
       setYouAvatars(youGen);
-
-      // placeholders (traits/vibe will be data-driven later)
-      avatarTitle.textContent = `${youGen.name} vibe (placeholder)`;
-      avatarSub.textContent = "We’ll fill these with real content later.";
+      renderProfile(youGen);
 
       renderCompatibility(youGen);
 
