@@ -100,7 +100,65 @@
         </section>
 
 
-        <!-- CARD 1.5: GENERATION CHART (always shows after typing) -->
+      
+
+
+        <!-- CARD 2: YOU ARE GEN ... -->
+        <section class="card card-green" id="youCard" aria-labelledby="c2" hidden>
+          <div class="card-head">
+            <h2 id="c2" class="card-title">2) Your generation</h2>
+            <p class="card-sub" id="youGenLine">You are <strong>Gen ?</strong>.</p>
+          </div>
+
+          <div class="two-col">
+            <!-- LEFT: 10 traits -->
+            <div>
+              <h3 class="mini-title" id="traitsTitle">Typical traits</h3>
+              <ul class="bullets" id="traits10">
+                <!-- rendered by JS -->
+              </ul>
+            </div>
+
+            <!-- RIGHT: male+female avatar + 5 vibes -->
+            <aside class="sidebox">
+              <div class="avatar-row">
+                <div class="avatar-pair" aria-hidden="true">
+                  <div class="avatar lg">
+                    <img id="avatarYouM" class="avatar-img" src="/img/gen_placeholder_m.jpg" alt="" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="avatar lg">
+                    <img id="avatarYouF" class="avatar-img" src="/img/gen_placeholder_f.jpg" alt="" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+
+                <div>
+                  <div class="avatar-title" id="avatarTitle">Your vibe</div>
+                  <div class="avatar-sub" id="avatarSub">Short, punchy bullets.</div>
+                </div>
+              </div>
+
+              <ul class="chips" id="vibe5">
+                <!-- rendered by JS -->
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <!-- COMPATIBILITY HEADER -->
+        <section class="card card-orange" id="compatHeader" aria-labelledby="c3" hidden>
+          <div class="card-head">
+            <h2 id="c3" class="card-title">3) Compatibility (optional)</h2>
+            <p class="card-sub">
+              Tap a card to expand. Do’s & Don’ts are placeholders until you paste real data.
+            </p>
+          </div>
+        </section>
+
+        <!-- ACCORDIONS (DYNAMIC) -->
+        <section class="accordion" id="accordions" hidden></section>
+
+
+  <!-- CARD 1.5: GENERATION CHART (always shows after typing) -->
 <section class="card card-white genchart" id="genChart" aria-labelledby="cChart">
   <div class="card-head">
     <h2 id="cChart" class="card-title">Generation chart</h2>
@@ -224,59 +282,22 @@
 
 
 
-        <!-- CARD 2: YOU ARE GEN ... -->
-        <section class="card card-green" id="youCard" aria-labelledby="c2" hidden>
-          <div class="card-head">
-            <h2 id="c2" class="card-title">2) Your generation</h2>
-            <p class="card-sub" id="youGenLine">You are <strong>Gen ?</strong>.</p>
-          </div>
 
-          <div class="two-col">
-            <!-- LEFT: 10 traits -->
-            <div>
-              <h3 class="mini-title" id="traitsTitle">Typical traits</h3>
-              <ul class="bullets" id="traits10">
-                <!-- rendered by JS -->
-              </ul>
-            </div>
 
-            <!-- RIGHT: male+female avatar + 5 vibes -->
-            <aside class="sidebox">
-              <div class="avatar-row">
-                <div class="avatar-pair" aria-hidden="true">
-                  <div class="avatar lg">
-                    <img id="avatarYouM" class="avatar-img" src="/img/gen_placeholder_m.jpg" alt="" loading="lazy" decoding="async" />
-                  </div>
-                  <div class="avatar lg">
-                    <img id="avatarYouF" class="avatar-img" src="/img/gen_placeholder_f.jpg" alt="" loading="lazy" decoding="async" />
-                  </div>
-                </div>
 
-                <div>
-                  <div class="avatar-title" id="avatarTitle">Your vibe</div>
-                  <div class="avatar-sub" id="avatarSub">Short, punchy bullets.</div>
-                </div>
-              </div>
 
-              <ul class="chips" id="vibe5">
-                <!-- rendered by JS -->
-              </ul>
-            </aside>
-          </div>
-        </section>
 
-        <!-- COMPATIBILITY HEADER -->
-        <section class="card card-orange" id="compatHeader" aria-labelledby="c3" hidden>
-          <div class="card-head">
-            <h2 id="c3" class="card-title">3) Compatibility (optional)</h2>
-            <p class="card-sub">
-              Tap a card to expand. Do’s & Don’ts are placeholders until you paste real data.
-            </p>
-          </div>
-        </section>
 
-        <!-- ACCORDIONS (DYNAMIC) -->
-        <section class="accordion" id="accordions" hidden></section>
+
+
+
+
+
+
+
+
+
+
 
       </main>
 
