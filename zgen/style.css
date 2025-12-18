@@ -606,3 +606,81 @@ kbd{
     margin: 12px 0;
   }
 }
+
+
+
+/* =========================================================
+   GENERATION CHART (white card)
+   - Shows when user starts typing in #birthYear
+   - No JS needed (uses :has + :placeholder-shown)
+   ========================================================= */
+
+.card-white{
+  background:#fff;
+  color:#000;
+}
+
+/* Keep sub text readable on white */
+.card-white .card-sub,
+.card-white .micro,
+.card-white .mini-title,
+.card-white .bullets,
+.card-white .chips,
+.card-white .acc-head,
+.card-white .acc-kicker{
+  color: rgba(0,0,0,.78);
+}
+
+/* Hide by default */
+#genChart{ display:none; }
+
+/* Show once the input is not empty */
+.wrap:has(#birthYear:not(:placeholder-shown)) #genChart{
+  display:block;
+}
+
+/* Chart layout */
+.genchart-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+
+.genchart-item{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  border-radius:16px;
+  border:2px solid rgba(0,0,0,.18);
+  background: rgba(0,0,0,.03);
+}
+
+.genchart-meta{
+  min-width: 0;
+}
+
+.genchart-name{
+  font-weight: 1000;
+  letter-spacing: .01em;
+  line-height: 1.15;
+}
+
+.genchart-range{
+  margin-top: 4px;
+  font-weight: 850;
+  color: rgba(0,0,0,.68);
+}
+
+/* On white card, avatars should use darker border */
+.card-white .avatar{
+  border-color: rgba(0,0,0,.28);
+  background: rgba(0,0,0,.04);
+}
+
+/* Responsive */
+@media (max-width: 860px){
+  .genchart-grid{
+    grid-template-columns: 1fr;
+  }
+}
