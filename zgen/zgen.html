@@ -254,63 +254,67 @@
     }
 
     function makeCard({ youGen, otherGen, content, colorClass }) {
-      const card = document.createElement("article");
-      card.className = `acc card ${colorClass}`;
-      card.dataset.gen = otherGen.id;
+  const card = document.createElement("article");
+  card.className = `acc card ${colorClass}`;
+  card.dataset.gen = otherGen.id;
 
-      card.innerHTML = `
-        <button class="acc-head" type="button" aria-expanded="false">
-          <div class="acc-title">
-            <span class="acc-kicker">How to get along with</span>
-            <span class="acc-name">${esc(otherGen.name)}</span>
-          </div>
-          <span class="acc-icon" aria-hidden="true">+</span>
-        </button>
+  card.innerHTML = `
+    <button class="acc-head" type="button" aria-expanded="false">
+      <div class="acc-title">
+        <span class="acc-kicker">How to get along with</span>
+        <span class="acc-name">${esc(otherGen.name)}</span>
+      </div>
+      <span class="acc-icon" aria-hidden="true">+</span>
+    </button>
 
-        <div class="acc-body" hidden>
-          <div class="acc-avatars">
-            ${avatarPairHTML(youGen, "xl")}
-            ${avatarPairHTML(otherGen, "xl")}
+    <div class="acc-body" hidden>
+      <div class="acc-avatars">
+        ${avatarPairHTML(youGen, "xl")}
 
-            <div class="avatar-tags">
-              <span class="tag">You</span>
-              <span class="tag">${esc(otherGen.name)}</span>
-            </div>
-          </div>
+        <div class="gen-infinity" aria-hidden="true">∞</div>
 
-          <div class="acc-cols">
-            <div class="dos">
-              <h3 class="mini-title dos-title">✅ Do’s</h3>
-              <ul class="bullets">
-                ${(content.dos || []).map(x => `<li>${esc(x)}</li>`).join("")}
-              </ul>
-            </div>
+        ${avatarPairHTML(otherGen, "xl")}
 
-            <div class="donts">
-              <h3 class="mini-title donts-title">❌ Don’ts</h3>
-              <ul class="bullets">
-                ${(content.donts || []).map(x => `<li>${esc(x)}</li>`).join("")}
-              </ul>
-            </div>
-          </div>
-
-          <p class="micro joke-line">“${esc(content.joke || "")}”</p>
+        <div class="avatar-tags">
+          <span class="tag">You</span>
+          <span class="tag">${esc(otherGen.name)}</span>
         </div>
-      `;
+      </div>
 
-      const head = card.querySelector(".acc-head");
-      const body = card.querySelector(".acc-body");
-      const icon = card.querySelector(".acc-icon");
+      <div class="acc-cols">
+        <div class="dos">
+          <h3 class="mini-title dos-title">✅ Do’s</h3>
+          <ul class="bullets">
+            ${(content.dos || []).map(x => `<li>${esc(x)}</li>`).join("")}
+          </ul>
+        </div>
 
-      head.addEventListener("click", () => {
-        const isOpen = head.getAttribute("aria-expanded") === "true";
-        head.setAttribute("aria-expanded", String(!isOpen));
-        body.hidden = isOpen;
-        icon.textContent = isOpen ? "+" : "–";
-      });
+        <div class="donts">
+          <h3 class="mini-title donts-title">❌ Don’ts</h3>
+          <ul class="bullets">
+            ${(content.donts || []).map(x => `<li>${esc(x)}</li>`).join("")}
+          </ul>
+        </div>
+      </div>
 
-      return card;
-    }
+      <p class="micro joke-line">“${esc(content.joke || "")}”</p>
+    </div>
+  `;
+
+  const head = card.querySelector(".acc-head");
+  const body = card.querySelector(".acc-body");
+  const icon = card.querySelector(".acc-icon");
+
+  head.addEventListener("click", () => {
+    const isOpen = head.getAttribute("aria-expanded") === "true";
+    head.setAttribute("aria-expanded", String(!isOpen));
+    body.hidden = isOpen;
+    icon.textContent = isOpen ? "+" : "–";
+  });
+
+  return card;
+}
+
 
     function renderCompatibility(youGen) {
       accordions.innerHTML = "";

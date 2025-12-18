@@ -576,3 +576,33 @@ kbd{
   .avatar.lg{ width:72px; height:72px; }
   .avatar.xl{ width:78px; height:78px; }
 }
+.gen-infinity {
+  font-size: 72px;
+  line-height: 1;
+  margin: 0 18px;
+  font-weight: 500;
+
+  /* Fallback (no gradient) */
+  color: rgba(255, 255, 255, 0.7);
+
+  /* Gradient text (works in modern browsers) */
+  background: linear-gradient(135deg, #8F03B7, #01A1F1);
+  background-clip: text;            /* standard */
+  -webkit-background-clip: text;    /* safari/chrome older */
+  
+  /* Use transparent text fill without the webkit-only property */
+  -webkit-text-fill-color: initial; /* neutralize if VS complains */
+  color: transparent;
+
+  opacity: 0.7;
+  user-select: none;
+  pointer-events: none;
+}
+
+
+@media (max-width: 720px) {
+  .gen-infinity {
+    font-size: 56px;
+    margin: 12px 0;
+  }
+}
