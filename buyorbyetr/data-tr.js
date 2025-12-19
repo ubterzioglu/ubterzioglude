@@ -1,53 +1,58 @@
 window.BUYORBYE_DATA = {
   ui: {
-    heroTitle: "BuyOrBye",
-    heroSubtitle: "Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation.",
+    heroTitle: "oparayaben",
+    heroSubtitle: "15 hızlı soruyu yanıtla, net bir AL / BEKLE / VAZGEÇ önerisi al.",
 
-    pillReady: "Ready.",
-    pillStep: (n, total) => `Step ${n}/${total}`,
-    pillResult: "Result ready.",
+    pillReady: "Hazır.",
+    pillStep: (n, total) => `${n}/${total}`,
+    pillResult: "Sonuç hazır.",
 
     buttons: {
-      next: "Next",
-      back: "Back",
-      startOver: "Start over"
+      next: "İleri",
+      back: "Geri",
+      showResult: "Sonucu göster",
+      startOver: "Baştan başla"
     },
 
-    yes: "Yes",
-    no: "No",
-    optional: "Optional",
+    yes: "Evet",
+    no: "Hayır",
+    optional: "Opsiyonel",
 
     errors: {
-      required: "This field is required.",
-      numberInvalid: "Please enter a valid number.",
-      budgetMustBeGte0: "Budget must be 0 or greater.",
-      priceMustBeGte0: "Price must be 0 or greater."
+      required: "Bu alan zorunlu.",
+      numberInvalid: "Lütfen geçerli bir sayı gir.",
+      budgetMustBeGte0: "Bütçe 0 veya daha büyük olmalı.",
+      priceMustBeGte0: "Fiyat 0 veya daha büyük olmalı."
     },
 
     stepTitles: {
-      s1: "1) Basics",
-      s2: "2) Usage & priorities",
-      s3: "3) Reality check",
-      result: "4) Your result"
+      s1: "1) Temeller",
+      s2: "2) Kullanım & öncelikler",
+      s3: "3) Gerçeklik kontrolü",
+      result: "4) Sonucun"
     },
     stepSubs: {
-      s1: "Numbers first, then we decide calmly.",
-      s2: "This is where the decision becomes obvious.",
-      s3: "A few questions to protect you from impulse buys."
+      s1: "Önce sayılar, sonra sakin bir karar.",
+      s2: "Kararın netleştiği bölüm.",
+      s3: "Dürtüsel alışverişe karşı birkaç koruyucu soru."
     },
 
     result: {
-      why: "Why",
-      tradeoffs: "Trade-offs",
-      nextSteps: "Suggestion",
-      nudge: "This tool is on your side. We want you to enjoy your money, not regret spending it."
-    }
+      why: "Neden",
+      tradeoffs: "Tavizler",
+      nextSteps: "Öneri",
+      nudge: "Bu araç senin tarafında. Paranın keyfini çıkar; harcadığına pişman olma."
+    },
+
+    fallbackWhy: "Yanıtların dengesi bu sonuca işaret ediyor.",
+    fallbackTrade: "Emin değilsen 72 saat beklemek ucuz bir sigortadır.",
+    fallbackNext: "Acil değilse kısa bir bekleme genelde kazandırır."
   },
 
   steps: [
-    { id: "s1", color: "card-blue",  qids: ["item", "price", "budget", "incomePct", "urgency"] },
-    { id: "s2", color: "card-green", qids: ["frequency", "needwant", "priorities", "alt80", "returnPolicy"] },
-    { id: "s3", color: "card-purple", qids: ["regret2y", "priceDrop15", "reliability", "socialPressure", "impulse", "canWait72"] }
+    { id: "s1", qids: ["item", "price", "budget", "incomePct", "urgency"] },
+    { id: "s2", qids: ["frequency", "needwant", "priorities", "alt80", "returnPolicy"] },
+    { id: "s3", qids: ["regret2y", "priceDrop15", "reliability", "socialPressure", "impulse", "canWait72"] }
   ],
 
   questions: {
@@ -55,40 +60,42 @@ window.BUYORBYE_DATA = {
       id: "item",
       type: "text",
       required: false,
-      label: "What are you buying?",
-      sub: "A short name is enough.",
-      placeholder: "e.g., headphones, monitor, course"
+      label: "Ne satın alıyorsun?",
+      sub: "Kısa bir isim yeterli.",
+      placeholder: "örn. kulaklık, monitör, kurs"
     },
+
     price: {
       id: "price",
       type: "number",
       required: true,
-      label: "Price (EUR)",
-      sub: "The full price you would pay today.",
-      placeholder: "e.g., 199"
+      label: "Fiyat (EUR)",
+      sub: "Bugün ödeyeceğin toplam tutar.",
+      placeholder: "örn. 199"
     },
+
     budget: {
       id: "budget",
       type: "number",
       required: true,
-      label: "Your max budget (EUR)",
-      sub: "The maximum you feel comfortable spending.",
-      placeholder: "e.g., 250"
+      label: "Maksimum bütçen (EUR)",
+      sub: "Kendini rahat hissederek harcayabileceğin üst limit.",
+      placeholder: "örn. 250"
     },
 
     incomePct: {
       id: "incomePct",
       type: "single",
       required: true,
-      label: "Roughly: this purchase equals what % of your monthly income?",
-      sub: "No need to share your salary. Just pick a range.",
+      label: "Kabaca: Bu alışveriş aylık gelirinin yüzde kaçı?",
+      sub: "Maaşını söylemene gerek yok. Sadece aralığı seç.",
       options: [
-        { v: "p10",  t: "≈ 10%" },
-        { v: "p20",  t: "≈ 20%" },
-        { v: "p30",  t: "≈ 30%" },
-        { v: "p40",  t: "≈ 40%" },
-        { v: "p50",  t: "50% or more" },
-        { v: "unk",  t: "Not sure" }
+        { v: "p10", t: "≈ %10" },
+        { v: "p20", t: "≈ %20" },
+        { v: "p30", t: "≈ %30" },
+        { v: "p40", t: "≈ %40" },
+        { v: "p50", t: "%50 veya daha fazla" },
+        { v: "unk", t: "Emin değilim" }
       ]
     },
 
@@ -96,13 +103,13 @@ window.BUYORBYE_DATA = {
       id: "urgency",
       type: "single",
       required: true,
-      label: "How urgent is it?",
-      sub: "Urgency changes the best strategy.",
+      label: "Ne kadar acil?",
+      sub: "Acil durum en iyi stratejiyi değiştirir.",
       options: [
-        { v: "today",  t: "Today" },
-        { v: "week",   t: "Within 7 days" },
-        { v: "month",  t: "Within 30 days" },
-        { v: "none",   t: "Not urgent" }
+        { v: "today", t: "Bugün" },
+        { v: "week",  t: "7 gün içinde" },
+        { v: "month", t: "30 gün içinde" },
+        { v: "none",  t: "Acil değil" }
       ]
     },
 
@@ -110,105 +117,114 @@ window.BUYORBYE_DATA = {
       id: "frequency",
       type: "single",
       required: true,
-      label: "How often will you use it?",
-      sub: "Frequency is one of the strongest predictors of regret.",
+      label: "Ne sıklıkla kullanacaksın?",
+      sub: "Kullanım sıklığı pişmanlığın güçlü göstergelerinden biridir.",
       options: [
-        { v: "daily",  t: "Daily" },
-        { v: "weekly", t: "Weekly" },
-        { v: "monthly",t: "Monthly" },
-        { v: "rare",   t: "Rarely" }
+        { v: "daily",   t: "Her gün" },
+        { v: "weekly",  t: "Haftada birkaç kez" },
+        { v: "monthly", t: "Ayda birkaç kez" },
+        { v: "rare",    t: "Nadiren" }
       ]
     },
+
     needwant: {
       id: "needwant",
       type: "single",
       required: true,
-      label: "Is this mainly a need or a want?",
-      sub: "No judgment. Just clarity.",
+      label: "Bu daha çok ihtiyaç mı istek mi?",
+      sub: "Yargı yok. Sadece netlik.",
       options: [
-        { v: "need", t: "Need" },
-        { v: "want", t: "Want" }
+        { v: "need", t: "İhtiyaç" },
+        { v: "want", t: "İstek" }
       ]
     },
+
     priorities: {
       id: "priorities",
       type: "multi",
       required: true,
       max: 3,
-      label: "Pick up to 3 priorities",
-      sub: "This helps us understand what ‘good’ means to you.",
+      label: "En fazla 3 öncelik seç",
+      sub: "‘İyi’ senin için ne demek, onu anlarız.",
       options: [
-        { v: "price",       t: "Price" },
-        { v: "quality",     t: "Quality" },
-        { v: "durability",  t: "Durability" },
-        { v: "warranty",    t: "Warranty" },
-        { v: "performance", t: "Performance" },
-        { v: "ease",        t: "Ease of use" },
-        { v: "design",      t: "Design" },
-        { v: "brand",       t: "Brand" }
+        { v: "price",       t: "Fiyat" },
+        { v: "quality",     t: "Kalite" },
+        { v: "durability",  t: "Dayanıklılık" },
+        { v: "warranty",    t: "Garanti" },
+        { v: "performance", t: "Performans" },
+        { v: "ease",        t: "Kullanım kolaylığı" },
+        { v: "design",      t: "Tasarım" },
+        { v: "brand",       t: "Marka" }
       ]
     },
+
     alt80: {
       id: "alt80",
       type: "yesno",
       required: true,
-      label: "Do you already have an alternative that works “well enough” (≈80%)?",
-      sub: "If yes, waiting often becomes the smarter move."
+      label: "Zaten “yeterince iyi” (≈%80) çalışan bir alternatifin var mı?",
+      sub: "Evetse, beklemek çoğu zaman daha akıllıca olur."
     },
+
     returnPolicy: {
       id: "returnPolicy",
       type: "yesno",
       required: true,
-      label: "Return policy available?",
-      sub: "Returns reduce risk, especially for expensive items."
+      label: "İade politikası var mı?",
+      sub: "İade, özellikle pahalı ürünlerde riski azaltır."
     },
 
     regret2y: {
       id: "regret2y",
       type: "yesno",
       required: true,
-      label: "If it breaks in 2 years, would you still buy it today?",
-      sub: "This is the strongest regret test."
+      label: "2 yıl içinde bozulsa bile bugün yine alır mıydın?",
+      sub: "Bu en güçlü pişmanlık testidir."
     },
+
     priceDrop15: {
       id: "priceDrop15",
       type: "yesno",
       required: true,
-      label: "If the price drops by 15% next month, would you regret buying now?",
-      sub: "This detects ‘buy too early’ pain."
+      label: "Gelecek ay fiyat %15 düşerse, bugün aldığın için pişman olur musun?",
+      sub: "‘Erken aldım’ acısını yakalar."
     },
+
     reliability: {
       id: "reliability",
       type: "single",
       required: true,
-      label: "How important is reliability / warranty for you?",
-      sub: "Higher importance means we should avoid high-risk purchases.",
+      label: "Senin için güvenilirlik / garanti ne kadar önemli?",
+      sub: "Önem yükseldikçe riskli satın alımlardan kaçınmak gerekir.",
       options: [
-        { v: "low",  t: "Low" },
-        { v: "med",  t: "Medium" },
-        { v: "high", t: "High" }
+        { v: "low",  t: "Düşük" },
+        { v: "med",  t: "Orta" },
+        { v: "high", t: "Yüksek" }
       ]
     },
+
     socialPressure: {
       id: "socialPressure",
       type: "yesno",
       required: true,
-      label: "Are you buying this mainly because of trend / social influence?",
-      sub: "This often leads to fast regret."
+      label: "Bunu daha çok trend / sosyal etki yüzünden mi alıyorsun?",
+      sub: "Bu çoğu zaman hızlı pişmanlığa gider."
     },
+
     impulse: {
       id: "impulse",
       type: "yesno",
       required: true,
-      label: "Are you shopping right now to fix stress / boredom?",
-      sub: "Impulse buys are rarely worth it."
+      label: "Şu an stres / sıkılma duygusunu bastırmak için mi alışveriş yapıyorsun?",
+      sub: "Dürtüsel alışveriş nadiren değer."
     },
+
     canWait72: {
       id: "canWait72",
       type: "yesno",
       required: true,
-      label: "Can you wait 72 hours before buying without losing anything important?",
-      sub: "If yes, waiting is usually a win."
+      label: "Önemli bir şey kaybetmeden 72 saat bekleyebilir misin?",
+      sub: "Evetse, beklemek genelde kazandırır."
     }
   },
 
@@ -227,7 +243,7 @@ window.BUYORBYE_DATA = {
       { maxPct: 20, score:  0, key: "pctMedium" },
       { maxPct: 30, score: -1, key: "pctHigh" },
       { maxPct: 40, score: -2, key: "pctVeryHigh" },
-      { maxPct: 100,score: -3, key: "pctExtreme" }
+      { maxPct: 100, score: -3, key: "pctExtreme" }
     ],
 
     weights: {
@@ -248,49 +264,53 @@ window.BUYORBYE_DATA = {
   reasons: {
     overBudget: {
       why: [
-        "It exceeds your budget.",
-        "That’s the fastest path to buyer’s regret."
+        "Bu alışveriş bütçeni aşıyor.",
+        "Bu, pişmanlığa giden en hızlı yollardan biri."
       ],
       tradeoffs: [
-        "You keep financial breathing room.",
-        "You can revisit if the price drops or your situation changes."
+        "Finansal nefes alanın korunur.",
+        "Fiyat düşerse veya koşullar değişirse tekrar bakabilirsin."
       ],
       next: [
-        "If you still want it, set a target price and wait.",
-        "Consider a cheaper alternative that matches your top priority."
+        "Hâlâ istiyorsan bir hedef fiyat belirle ve bekle.",
+        "En önemli önceliğine uyan daha ucuz bir alternatif düşün."
       ]
     },
 
     pctLow: {
-      why: ["Money ratio looks healthy."],
-      tradeoffs: ["Still: compare quickly and avoid endless tab-hopping."],
-      next: ["If other answers look good, buying can be reasonable."]
+      why: ["Gelire oranla makul görünüyor."],
+      tradeoffs: ["Yine de: hızlı karşılaştır, sonsuz sekme gezmesine girme."],
+      next: ["Diğer yanıtlar da iyiyse, almak mantıklı olabilir."]
     },
+
     pctMedium: {
-      why: ["Money ratio looks manageable."],
-      tradeoffs: ["Waiting for a deal can be a smart upgrade."],
-      next: ["If you’re not urgent, consider a price alert."]
+      why: ["Gelire oranla yönetilebilir görünüyor."],
+      tradeoffs: ["Bir indirim yakalamak akıllı bir iyileştirme olabilir."],
+      next: ["Acil değilse fiyat alarmı kurmayı düşün."]
     },
+
     pctHigh: {
-      why: ["This is a noticeable chunk of your month."],
-      tradeoffs: ["Waiting reduces regret risk."],
-      next: ["If you can wait 72h, do it — then re-check your answers."]
+      why: ["Aylık bütçende hissedilir bir pay."],
+      tradeoffs: ["Beklemek pişmanlık riskini azaltır."],
+      next: ["72 saat bekleyebiliyorsan bekle — sonra yanıtlarını tekrar kontrol et."]
     },
+
     pctVeryHigh: {
-      why: ["This is a big hit to your monthly income."],
-      tradeoffs: ["A discount or cheaper option could protect you."],
-      next: ["Try WAIT with a clear target price. Don’t rush."]
+      why: ["Aylık gelirine göre ciddi bir yük."],
+      tradeoffs: ["İndirim veya daha ucuz seçenek seni koruyabilir."],
+      next: ["BEKLE + net hedef fiyat yaklaşımını dene. Acele etme."]
     },
+
     pctExtreme: {
-      why: ["This is extremely expensive relative to your month."],
-      tradeoffs: ["This is where impulse hurts the most."],
-      next: ["Strong suggestion: pause, compare alternatives, and wait for a much better deal."]
+      why: ["Aylık gelire göre aşırı pahalı."],
+      tradeoffs: ["Dürtüsel kararın en çok can yaktığı yer burası."],
+      next: ["Güçlü öneri: dur, alternatifleri kıyasla, çok daha iyi bir fırsatı bekle."]
     }
   },
 
   outcomes: {
-    buy:  { label: "BUY",  headline: "Buy looks reasonable.", tone: "No major red flags. Enjoy it — thoughtfully." },
-    wait: { label: "WAIT", headline: "Wait a bit.",           tone: "Your decision isn’t bad, but time can save money and regret." },
-    bye:  { label: "BYE",  headline: "Skip it for now.",      tone: "We’re on your side — this looks risky for your wallet or future self." }
+    buy:  { label: "AL",     headline: "Almak mantıklı görünüyor.", tone: "Büyük bir kırmızı bayrak yok. Keyfini çıkar — bilinçli şekilde." },
+    wait: { label: "BEKLE",  headline: "Biraz bekle.",             tone: "Kararın kötü değil ama zaman para ve pişmanlık kazandırabilir." },
+    bye:  { label: "VAZGEÇ", headline: "Şimdilik pas geç.",        tone: "Senin tarafındayız — bu karar cüzdanın ya da gelecekteki sen için riskli görünüyor." }
   }
 };

@@ -1,36 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BuyOrBye – Purchase Decision Helper</title>
 
-  <link rel="canonical" href="https://ubterzioglu.de/buyorbye/buyorbye.html" />
-  <meta name="description" content="Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation." />
+  <title>oparayaben – Satın Alma Karar Asistanı</title>
+  <meta name="description" content="15 hızlı soruyu yanıtla, net bir AL / BEKLE / VAZGEÇ önerisi al." />
   <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://ubterzioglu.de/buyorbyetr/buyorbyetr.html" />
 
-  <link rel="stylesheet" href="/buyorbye/style.css?v=11" />
-
-  <!-- Open Graph -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="BuyOrBye – Purchase Decision Helper" />
-  <meta property="og:description" content="15 questions → BUY / WAIT / BYE." />
-  <meta property="og:url" content="https://ubterzioglu.de/buyorbye/buyorbye.html" />
+  <meta property="og:title" content="oparayaben – Satın Alma Karar Asistanı" />
+  <meta property="og:description" content="15 hızlı soru → AL / BEKLE / VAZGEÇ." />
+  <meta property="og:url" content="https://ubterzioglu.de/buyorbyetr/buyorbyetr.html" />
   <meta property="og:image" content="https://ubterzioglu.de/img/logobuyorbye.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://ubterzioglu.de/buyorbye/buyorbye.html#webpage",
-    "url": "https://ubterzioglu.de/buyorbye/buyorbye.html",
-    "name": "BuyOrBye – Purchase Decision Helper",
-    "description": "Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation.",
-    "isPartOf": { "@type": "WebSite", "@id": "https://ubterzioglu.de/#website" }
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "@id":"https://ubterzioglu.de/buyorbyetr/buyorbyetr.html#webpage",
+    "url":"https://ubterzioglu.de/buyorbyetr/buyorbyetr.html",
+    "name":"oparayaben – Satın Alma Karar Asistanı",
+    "description":"15 hızlı soruyu yanıtla, net bir AL / BEKLE / VAZGEÇ önerisi al.",
+    "inLanguage":"tr",
+    "isPartOf":{"@type":"WebSite","@id":"https://ubterzioglu.de/#website"}
   }
   </script>
+
+  <link rel="stylesheet" href="/buyorbyetr/style.css?v=1" />
 
   <!-- GoatCounter -->
   <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
@@ -44,27 +45,27 @@
       <header class="hero">
         <div class="hero-left">
           <div class="brand-row">
-  <img src="/img/logobuyorbye.png" alt="BuyOrBye logo" class="brand-logo" />
-  <h1 class="title" id="pageTitle">BuyOrBye</h1>
-</div>
+            <img src="/img/logobuyorbye.png" alt="oparayaben logo" class="brand-logo" />
+            <h1 class="title" id="pageTitle">oparayaben</h1>
+          </div>
 
           <p class="subtitle" id="pageSubtitle">
-            Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation.
+            15 hızlı soruyu yanıtla, net bir AL / BEKLE / VAZGEÇ önerisi al.
           </p>
         </div>
 
         <div class="hero-right">
-          <div class="hero-toprow" aria-label="Header controls">
-            <div class="mini-avatars" aria-label="UBT links">
-              <a href="https://ubterzioglu.de/" aria-label="UBT home (logo)">
+          <div class="hero-toprow" aria-label="Üst alan kontrolleri">
+            <div class="mini-avatars" aria-label="UBT bağlantıları">
+              <a href="https://ubterzioglu.de/" aria-label="UBT ana sayfa (logo)">
                 <img src="/img/logoubt.png" alt="UBT logo" class="mini-avatar" />
               </a>
-              <a href="https://ubterzioglu.de/" aria-label="UBT home (profile)">
-                <img src="/img/picprofile.png" alt="UBT profile" class="mini-avatar" />
+              <a href="https://ubterzioglu.de/" aria-label="UBT ana sayfa (profil)">
+                <img src="/img/picprofile.png" alt="UBT profil" class="mini-avatar" />
               </a>
             </div>
 
-            <div class="palette-dots" aria-label="Color palette">
+            <div class="palette-dots" aria-label="Renk paleti">
               <span class="dot dot-blue" title="#01A1F1"></span>
               <span class="dot dot-green" title="#7CBB00"></span>
               <span class="dot dot-orange" title="#F65314"></span>
@@ -73,7 +74,7 @@
             </div>
           </div>
 
-          <div class="pill" id="statusPill">Loading…</div>
+          <div class="pill" id="statusPill">Yükleniyor…</div>
         </div>
       </header>
 
@@ -84,42 +85,26 @@
     </div>
   </div>
 
+  <!-- Only TR -->
+  <script src="/buyorbyetr/data-tr.js?v=1" defer></script>
+  <script src="/buyorbyetr/app.js?v=1" defer></script>
+
   <script>
-    const statusPill = document.getElementById("statusPill");
-    const appRoot = document.getElementById("appRoot");
+    window.addEventListener("DOMContentLoaded", () => {
+      const statusPill = document.getElementById("statusPill");
+      const appRoot = document.getElementById("appRoot");
 
-    function boot() {
-      statusPill.textContent = "Loading…";
+      const t = window.BUYORBYE_DATA?.ui?.heroTitle;
+      const s = window.BUYORBYE_DATA?.ui?.heroSubtitle;
+      if (t) document.getElementById("pageTitle").textContent = t;
+      if (s) document.getElementById("pageSubtitle").textContent = s;
 
-      const dataScript = document.createElement("script");
-      dataScript.src = "/buyorbye/data-en.js?v=10";
-      dataScript.defer = true;
-
-      dataScript.onload = () => {
-        const appScript = document.createElement("script");
-        appScript.src = "/buyorbye/app.js?v=10";
-        appScript.defer = true;
-
-        appScript.onload = () => {
-          const t = window.BUYORBYE_DATA?.ui?.heroTitle;
-          const s = window.BUYORBYE_DATA?.ui?.heroSubtitle;
-          if (t) document.getElementById("pageTitle").textContent = t;
-          if (s) document.getElementById("pageSubtitle").textContent = s;
-
-          window.BUYORBYE_APP?.init({
-            data: window.BUYORBYE_DATA,
-            rootEl: appRoot,
-            statusPill
-          });
-        };
-
-        document.body.appendChild(appScript);
-      };
-
-      document.body.appendChild(dataScript);
-    }
-
-    boot();
+      window.BUYORBYE_APP?.init({
+        data: window.BUYORBYE_DATA,
+        rootEl: appRoot,
+        statusPill
+      });
+    });
   </script>
 </body>
 </html>

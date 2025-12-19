@@ -12,11 +12,11 @@ window.BUYORBYE_APP = (function () {
 
   function makeEl(tag, attrs = {}, html = "") {
     const el = document.createElement(tag);
-    Object.entries(attrs).forEach(([k, v]) => {
+    for (const [k, v] of Object.entries(attrs)) {
       if (k === "class") el.className = v;
       else if (k === "hidden") el.hidden = !!v;
       else el.setAttribute(k, v);
-    });
+    }
     if (html) el.innerHTML = html;
     return el;
   }
@@ -24,8 +24,7 @@ window.BUYORBYE_APP = (function () {
   function readNumber(val) {
     if (val === "" || val == null) return null;
     const n = Number(val);
-    if (!Number.isFinite(n)) return null;
-    return n;
+    return Number.isFinite(n) ? n : null;
   }
 
   function answerToYesNo(v) {
@@ -44,81 +43,46 @@ window.BUYORBYE_APP = (function () {
     return null; // unk or missing
   }
 
-  function clipartSvg(outcome) {
-    // BUY: check / WAIT: hourglass / BYE: stop-ish hand
-    if (outcome === "buy") {
-      return `
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path d="M22 33l6 6 16-18" fill="none" stroke="rgba(0,0,0,.88)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="4"/>
-        </svg>`;
-    }
-    if (outcome === "wait") {
-      return `
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path d="M22 10h20M22 54h20" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="5" stroke-linecap="round"/>
-          <path d="M24 14c0 10 16 10 16 18s-16 8-16 18" fill="none" stroke="rgba(0,0,0,.88)" stroke-width="5" stroke-linecap="round"/>
-          <path d="M40 14c0 10-16 10-16 18s16 8 16 18" fill="none" stroke="rgba(0,0,0,.88)" stroke-width="5" stroke-linecap="round"/>
-        </svg>`;
-    }
-    return `
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M18 34c0-8 6-14 14-14h0c8 0 14 6 14 14v8c0 6-5 10-10 10H28c-6 0-10-4-10-10v-8z"
-              fill="none" stroke="rgba(0,0,0,.88)" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M24 20v-6M32 18v-8M40 20v-6" fill="none" stroke="rgba(0,0,0,.88)" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="32" cy="34" r="26" fill="none" stroke="rgba(0,0,0,.14)" stroke-width="4"/>
-      </svg>`;
-  }
-
   function init({ data, rootEl, statusPill }) {
     if (!data?.ui || !data?.questions || !data?.steps) {
-      statusPill.textContent = "Data missing.";
-      rootEl.textContent = "Data missing.";
+      statusPill.textContent = "Data eksik.";
+      rootEl.textContent = "Data eksik.";
       return;
     }
 
-   const ALL_QIDS = data.steps.flatMap((s) => s.qids);
+    const ALL_QIDS = data.steps.flatMap((s) => s.qids);
 
-const PRIORITY_TYPES = ["yesno", "single", "multi"];
-const INPUT_TYPES = ["text", "number"];
+    // order: yes/no + single + multi first, then text/number last
+    const PRIORITY_TYPES = ["yesno", "single", "multi"];
+    const INPUT_TYPES = ["text", "number"];
 
-const QUESTION_ORDER = [
-  // 1) Yes / No + Choice questions first
-  ...ALL_QIDS.filter((qid) =>
-    PRIORITY_TYPES.includes(data.questions[qid]?.type)
-  ),
-
-  // 2) Text / Number questions last
-  ...ALL_QIDS.filter((qid) =>
-    INPUT_TYPES.includes(data.questions[qid]?.type)
-  )
-];
-
-
+    const QUESTION_ORDER = [
+      ...ALL_QIDS.filter((qid) => PRIORITY_TYPES.includes(data.questions[qid]?.type)),
+      ...ALL_QIDS.filter((qid) => INPUT_TYPES.includes(data.questions[qid]?.type))
+    ];
 
     const TOTAL_QUESTIONS = QUESTION_ORDER.length;
 
     const STEP_BY_QID = {};
-    data.steps.forEach((s, idx) => {
-      s.qids.forEach((qid) => {
-        STEP_BY_QID[qid] = idx;
-      });
-    });
+    data.steps.forEach((s, idx) => s.qids.forEach((qid) => (STEP_BY_QID[qid] = idx)));
 
-    // rotate through your 5 palette colors
+    // rotate 5 palette colors for cards
     const CARD_PALETTE = ["card-blue", "card-green", "card-orange", "card-purple", "card-yellow"];
 
     const state = { qIndex: 0, answers: {} };
 
     function setPillReady() {
-      statusPill.textContent = data.ui.pillReady;
+      statusPill.textContent = data.ui.pillReady || "Hazır.";
     }
+
     function setPillQuestion() {
       const n = Math.min(state.qIndex + 1, TOTAL_QUESTIONS);
-      statusPill.textContent = `${n}/${TOTAL_QUESTIONS}`;
+      const fn = data.ui.pillStep;
+      statusPill.textContent = typeof fn === "function" ? fn(n, TOTAL_QUESTIONS) : `${n}/${TOTAL_QUESTIONS}`;
     }
+
     function setPillResult() {
-      statusPill.textContent = data.ui.pillResult;
+      statusPill.textContent = data.ui.pillResult || "Sonuç hazır.";
     }
 
     function validateQuestion(qid) {
@@ -147,7 +111,7 @@ const QUESTION_ORDER = [
       }
 
       if (q.type === "multi" && q.max && Array.isArray(a) && a.length > q.max) {
-        errors.push({ qid, msg: `Max ${q.max}` });
+        errors.push({ qid, msg: `En fazla ${q.max} seçim.` });
       }
 
       return errors;
@@ -176,16 +140,7 @@ const QUESTION_ORDER = [
         const a = state.answers[qid];
         if (a === undefined || a === null || a === "") return;
 
-        const ynQ = new Set([
-          "alt80",
-          "returnPolicy",
-          "regret2y",
-          "priceDrop15",
-          "socialPressure",
-          "impulse",
-          "canWait72"
-        ]);
-
+        const ynQ = new Set(["alt80", "returnPolicy", "regret2y", "priceDrop15", "socialPressure", "impulse", "canWait72"]);
         if (ynQ.has(qid)) {
           const yn = answerToYesNo(a);
           if (yn && typeof map[yn] === "number") score += map[yn];
@@ -230,9 +185,7 @@ const QUESTION_ORDER = [
           "aria-labelledby": `lbl_${q.id}`
         });
         input.value = state.answers[q.id] ?? "";
-        input.addEventListener("input", () => {
-          state.answers[q.id] = input.value;
-        });
+        input.addEventListener("input", () => (state.answers[q.id] = input.value));
         controls.appendChild(input);
       }
 
@@ -245,9 +198,7 @@ const QUESTION_ORDER = [
           "aria-labelledby": `lbl_${q.id}`
         });
         input.value = state.answers[q.id] ?? "";
-        input.addEventListener("input", () => {
-          state.answers[q.id] = input.value;
-        });
+        input.addEventListener("input", () => (state.answers[q.id] = input.value));
         controls.appendChild(input);
       }
 
@@ -261,15 +212,10 @@ const QUESTION_ORDER = [
         const yes = makeEl("label", { class: "choice", for: yesId });
         const no = makeEl("label", { class: "choice", for: noId });
 
-        yes.innerHTML = `<input id="${yesId}" type="radio" name="${q.id}" value="yes" ${
-          current === "yes" ? "checked" : ""
-        } />
+        yes.innerHTML = `<input id="${yesId}" type="radio" name="${q.id}" value="yes" ${current === "yes" ? "checked" : ""} />
                          <div><strong>${esc(data.ui.yes)}</strong></div>`;
-
-        no.innerHTML = `<input id="${noId}" type="radio" name="${q.id}" value="no" ${
-          current === "no" ? "checked" : ""
-        } />
-                         <div><strong>${esc(data.ui.no)}</strong></div>`;
+        no.innerHTML = `<input id="${noId}" type="radio" name="${q.id}" value="no" ${current === "no" ? "checked" : ""} />
+                        <div><strong>${esc(data.ui.no)}</strong></div>`;
 
         choices.appendChild(yes);
         choices.appendChild(no);
@@ -292,15 +238,11 @@ const QUESTION_ORDER = [
           lab.innerHTML = `<input id="${rid}" type="radio" name="${q.id}" value="${esc(opt.v)}" ${
             String(current) === String(opt.v) ? "checked" : ""
           } />
-                           <div><strong>${esc(opt.t)}</strong></div>`;
+          <div><strong>${esc(opt.t)}</strong></div>`;
           choices.appendChild(lab);
         });
 
-        choices.addEventListener("change", (e) => {
-          const v = e.target?.value;
-          state.answers[q.id] = v;
-        });
-
+        choices.addEventListener("change", (e) => (state.answers[q.id] = e.target?.value));
         controls.appendChild(choices);
       }
 
@@ -313,10 +255,8 @@ const QUESTION_ORDER = [
           const checked = arr.includes(opt.v);
 
           const lab = makeEl("label", { class: "choice", for: cid });
-          lab.innerHTML = `<input id="${cid}" type="checkbox" value="${esc(opt.v)}" ${
-            checked ? "checked" : ""
-          } />
-                           <div><strong>${esc(opt.t)}</strong></div>`;
+          lab.innerHTML = `<input id="${cid}" type="checkbox" value="${esc(opt.v)}" ${checked ? "checked" : ""} />
+          <div><strong>${esc(opt.t)}</strong></div>`;
           choices.appendChild(lab);
         });
 
@@ -331,9 +271,7 @@ const QUESTION_ORDER = [
             if (!next.includes(v)) next.push(v);
             if (q.max && next.length > q.max) {
               next = next.slice(next.length - q.max);
-              [...choices.querySelectorAll("input[type=checkbox]")].forEach((cb) => {
-                cb.checked = next.includes(cb.value);
-              });
+              [...choices.querySelectorAll("input[type=checkbox]")].forEach((cb) => (cb.checked = next.includes(cb.value)));
             }
           } else {
             next = next.filter((x) => x !== v);
@@ -379,13 +317,12 @@ const QUESTION_ORDER = [
       const errBox = makeEl("div", { class: "err", hidden: true });
       card.appendChild(errBox);
 
-      // buttons further down (spacing handled by CSS class)
       const nav = makeEl("div", { class: "input-row input-row-bottom" });
 
       const backBtn = makeEl("button", { class: "btn secondary", type: "button" }, esc(data.ui.buttons.back));
 
       const isLast = state.qIndex === TOTAL_QUESTIONS - 1;
-      const nextLabel = isLast ? "Show result" : data.ui.buttons.next;
+      const nextLabel = isLast ? (data.ui.buttons.showResult || data.ui.buttons.next) : data.ui.buttons.next;
       const nextBtn = makeEl("button", { class: "btn", type: "button" }, esc(nextLabel));
 
       backBtn.addEventListener("click", () => {
@@ -432,7 +369,6 @@ const QUESTION_ORDER = [
 
       const container = makeEl("div", { class: "result-grid" });
 
-      // main result card fixed orange
       const main = makeEl("section", { class: "card card-orange card-anim" });
 
       const head = makeEl("div", { class: "card-head" });
@@ -445,24 +381,13 @@ const QUESTION_ORDER = [
       const wordClass = outcome === "wait" ? "decision-word wait" : "decision-word";
       outcomeWrap.appendChild(makeEl("p", { class: wordClass }, esc(out.label)));
 
-     const imgMap = {
-  buy: "/img/buyorbyeclipbuy.jpg",
-  wait: "/img/buyorbyeclipwait.jpg",
-  bye: "/img/buyorbyeclipbye.jpg"
-};
+      const imgMap = {
+        buy: "/img/buyorbyeclipbuy.jpg",
+        wait: "/img/buyorbyeclipwait.jpg",
+        bye: "/img/buyorbyeclipbye.jpg"
+      };
 
-outcomeWrap.appendChild(
-  makeEl(
-    "img",
-    {
-      class: "clipart-img",
-      src: imgMap[outcome],
-      alt: out.label
-    }
-  )
-);
-
-
+      outcomeWrap.appendChild(makeEl("img", { class: "clipart-img", src: imgMap[outcome], alt: out.label }));
       outcomeWrap.appendChild(makeEl("div", { class: "outcome-tone" }, esc(out.tone)));
       outcomeWrap.appendChild(makeEl("p", { class: "step-help" }, esc(data.ui.result.nudge)));
 
@@ -508,39 +433,21 @@ outcomeWrap.appendChild(
         if (pack?.next) nexts.push(...pack.next);
       });
 
-      if (whys.length === 0) whys.push("Your answers balance out this way.");
-      if (trades.length === 0) trades.push("If unsure, waiting 72 hours is cheap insurance.");
-      if (nexts.length === 0) nexts.push("If there’s no pressure today, a short wait often wins.");
+      if (whys.length === 0) whys.push(data.ui.fallbackWhy || "Yanıtların dengesi bu sonuca işaret ediyor.");
+      if (trades.length === 0) trades.push(data.ui.fallbackTrade || "Emin değilsen 72 saat beklemek ucuz bir sigortadır.");
+      if (nexts.length === 0) nexts.push(data.ui.fallbackNext || "Acil değilse kısa bir bekleme genelde kazandırır.");
 
       const whyCard = makeEl("section", { class: "card card-yellow card-anim" });
       whyCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.why)));
-      whyCard.appendChild(
-        makeEl(
-          "ul",
-          { class: "bullets" },
-          whys.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("")
-        )
-      );
+      whyCard.appendChild(makeEl("ul", { class: "bullets" }, whys.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("")));
 
       const tradeCard = makeEl("section", { class: "card card-green card-anim" });
       tradeCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.tradeoffs)));
-      tradeCard.appendChild(
-        makeEl(
-          "ul",
-          { class: "bullets" },
-          trades.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")
-        )
-      );
+      tradeCard.appendChild(makeEl("ul", { class: "bullets" }, trades.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")));
 
       const nextCard = makeEl("section", { class: "card card-blue card-anim" });
       nextCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.nextSteps)));
-      nextCard.appendChild(
-        makeEl(
-          "ul",
-          { class: "bullets" },
-          nexts.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")
-        )
-      );
+      nextCard.appendChild(makeEl("ul", { class: "bullets" }, nexts.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")));
 
       container.appendChild(main);
       container.appendChild(whyCard);

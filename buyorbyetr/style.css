@@ -1,9 +1,3 @@
-/* =========================================================
-   BuyOrBye – style.css (EN-only, clean)
-   Files live in /buyorbye/
-   Images live in /img/ (root)
-   ========================================================= */
-
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
@@ -16,7 +10,6 @@ html, body { height: 100%; }
   --purple:#8F03B7;
   --yellow:#FFBB00;
 
-  /* Subtitle typography (used across the UI) */
   --subtext-size: 15.5px;
   --subtext-weight: 750;
   --subtext-color: rgba(255,255,255,.80);
@@ -37,7 +30,6 @@ body{
 .wrap{ min-height:100%; padding:28px 18px 84px; }
 .shell{ max-width:1040px; margin:0 auto; }
 
-/* HERO */
 .hero{
   display:flex;
   gap:18px;
@@ -76,7 +68,6 @@ body{
 .subtitle{
   margin:10px 0 0;
   max-width: 76ch;
-
   font-size: var(--subtext-size);
   font-weight: var(--subtext-weight);
   color: var(--subtext-color);
@@ -121,7 +112,6 @@ body{
   font-size: 13px;
 }
 
-/* Palette dots */
 .palette-dots{
   display:flex;
   gap:10px;
@@ -141,10 +131,8 @@ body{
 .dot-purple{ background:var(--purple); }
 .dot-yellow{ background:var(--yellow); }
 
-/* GRID */
 .grid{ display:grid; grid-template-columns: 1fr; gap:16px; }
 
-/* CARDS */
 .card{
   border-radius: 18px;
   padding: 16px 16px 14px;
@@ -160,7 +148,6 @@ body{
   font-weight: 950;
 }
 
-/* Use subtitle typography across the UI (dark version inside colored cards) */
 .card-sub,
 .q-sub,
 .micro,
@@ -172,14 +159,12 @@ body{
   color: var(--subtext-color-dark);
 }
 
-/* Solid palette cards */
 .card-blue{ background:var(--blue); color:#061018; }
 .card-green{ background:var(--green); color:#0b1300; }
 .card-orange{ background:var(--orange); color:#170800; }
 .card-purple{ background:var(--purple); color:#0e0013; }
 .card-yellow{ background:var(--yellow); color:#1a1200; }
 
-/* Purple readability (override to light) */
 .card-purple .card-sub,
 .card-purple .micro,
 .card-purple .mini-title,
@@ -190,15 +175,12 @@ body{
   color: rgba(255,255,255,.88);
 }
 
-/* INPUTS */
 .input-row{
   display:flex;
   gap:10px;
   align-items:center;
   flex-wrap:wrap;
 }
-
-/* Bottom nav: give breathing room from the question box */
 .input-row-bottom{
   margin-top: 18px;
   padding-top: 6px;
@@ -242,9 +224,6 @@ body{
   color: rgba(0,0,0,.90);
 }
 
-/* TEXT HELPERS */
-.micro{ margin:10px 0 0; }
-
 .mini-title{
   margin: 0 0 8px;
   font-size: 14px;
@@ -256,7 +235,6 @@ body{
 .step-help{ margin: 0; }
 .hint{ margin-top:10px; }
 
-/* Questions */
 .qgrid{ display:grid; gap:12px; }
 .q{
   border-radius: 14px;
@@ -268,7 +246,6 @@ body{
 .q-sub{ margin-top:4px; }
 .q-controls{ margin-top:10px; display:grid; gap:10px; }
 
-/* Choices */
 .choices{ display:grid; gap:10px; }
 .choice{
   display:flex;
@@ -283,7 +260,6 @@ body{
 .choice input{ margin-top: 2px; }
 .choice strong{ font-weight: 1000; }
 
-/* Error */
 .err{
   border-radius: 12px;
   padding: 10px 12px;
@@ -292,14 +268,12 @@ body{
   font-weight: 950;
 }
 
-/* Result layout: multiple cards */
 .result-grid{
   display:grid;
   grid-template-columns: 1fr;
   gap:16px;
 }
 
-/* Outcome section */
 .outcome-wrap{
   display:flex;
   flex-direction:column;
@@ -318,24 +292,9 @@ body{
 }
 .decision-word.wait{ font-size: 64px; }
 
-.clipart{
-  width: 120px;
-  height: 120px;
-  border-radius: 999px;
-  border: 2px solid rgba(0,0,0,.18);
-  background: rgba(255,255,255,.22);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-.clipart svg{ width: 74px; height: 74px; }
-
-/* Lists */
 .bullets{ margin:0; padding-left: 18px; }
 .bullets li{ margin: 6px 0; font-weight: 850; }
 
-/* Simple enter animation */
 .card-anim{
   animation: fadeUp .16s ease-out;
 }
@@ -349,15 +308,13 @@ body{
   .hero-right{ align-items:flex-start; min-width:0; }
   .title{ white-space: normal; }
 }
+
 .clipart-img{
   width: 180px;
   height: 180px;
-
-  border-radius: 999px;          /* daire */
+  border-radius: 999px;
   border: 3px solid rgba(0,0,0,.22);
-
   background: rgba(255,255,255,.25);
-  object-fit: cover;             /* JPG/PNG kırpma düzgün olsun */
-
+  object-fit: cover;
   box-shadow: 0 14px 30px rgba(0,0,0,.35);
 }
