@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BuyOrBye – Purchase Decision Helper</title>
+
+  <link rel="canonical" href="https://ubterzioglu.de/buyorbye/buyorbye.html" />
+  <meta name="description" content="Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation. Runs locally in your browser. No signup." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="stylesheet" href="/buyorbye/style.css?v=2" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="BuyOrBye – Purchase Decision Helper" />
+  <meta property="og:description" content="15 questions → BUY / WAIT / BYE. No signup. Runs locally in your browser." />
+  <meta property="og:url" content="https://ubterzioglu.de/buyorbye/buyorbye.html" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://ubterzioglu.de/buyorbye/buyorbye.html#webpage",
+    "url": "https://ubterzioglu.de/buyorbye/buyorbye.html",
+    "name": "BuyOrBye – Purchase Decision Helper",
+    "description": "Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation. Runs locally in your browser.",
+    "isPartOf": { "@type": "WebSite", "@id": "https://ubterzioglu.de/#website" }
+  }
+  </script>
+
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="shell">
+
+      <header class="hero">
+        <div class="hero-left">
+          <h1 class="title" id="pageTitle">BuyOrBye</h1>
+          <p class="subtitle" id="pageSubtitle">
+            Choose a language to start. 15 questions → BUY / WAIT / BYE.
+            No signup. Runs locally in your browser.
+          </p>
+        </div>
+
+        <div class="hero-right">
+          <div class="palette-dots" aria-label="Color palette">
+            <span class="dot dot-blue" title="#01A1F1"></span>
+            <span class="dot dot-green" title="#7CBB00"></span>
+            <span class="dot dot-orange" title="#F65314"></span>
+            <span class="dot dot-purple" title="#8F03B7"></span>
+            <span class="dot dot-yellow" title="#FFBB00"></span>
+          </div>
+          <div class="pill" id="statusPill">Select EN or TR…</div>
+        </div>
+      </header>
+
+      <main class="grid" id="main">
+
+        <section class="card card-blue" aria-labelledby="langTitle" id="langCard">
+          <div class="card-head">
+            <h2 class="card-title" id="langTitle">Language</h2>
+            <p class="card-sub" id="langSub">EN or TR — then the tool loads.</p>
+          </div>
+
+          <div class="input-row">
+            <button class="btn" type="button" id="btnEN">EN</button>
+            <button class="btn" type="button" id="btnTR">TR</button>
+          </div>
+
+          <p class="micro" id="langMicro">No signup. No data stored. Runs locally in your browser.</p>
+        </section>
+
+        <div id="appRoot" hidden></div>
+
+      </main>
+
+      <div class="corner-widget">
+        <a href="https://ubterzioglu.de/" aria-label="UBT home (logo)">
+          <img src="/img/logoubt.png" alt="UBT logo" class="widget-avatar" />
+        </a>
+        <a href="https://ubterzioglu.de/" aria-label="UBT home (profile)">
+          <img src="/img/profilepic.png" alt="UBT profile" class="widget-avatar logo" />
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const statusPill = document.getElementById("statusPill");
+    const langCard = document.getElementById("langCard");
+    const appRoot  = document.getElementById("appRoot");
+
+    function boot(lang){
+      localStorage.setItem("buyorbye_lang", lang);
+      statusPill.textContent = (lang === "tr") ? "Yükleniyor…" : "Loading…";
+
+      const dataScript = document.createElement("script");
+      dataScript.src = `/buyorbye/data-${lang}.js?v=2`;
+      dataScript.defer = true;
+
+      dataScript.onload = () => {
+        const appScript = document.createElement("script");
+        appScript.src = `/buyorbye/app.js?v=2`;
+        appScript.defer = true;
+
+        appScript.onload = () => {
+          langCard.hidden = true;
+          appRoot.hidden = false;
+
+          window.BUYORBYE_APP?.init({
+            lang,
+            data: window.BUYORBYE_DATA,
+            rootEl: appRoot,
+            statusPill
+          });
+        };
+
+        document.body.appendChild(appScript);
+      };
+
+      document.body.appendChild(dataScript);
+    }
+
+    document.getElementById("btnEN").addEventListener("click", () => boot("en"));
+    document.getElementById("btnTR").addEventListener("click", () => boot("tr"));
+
+    const saved = localStorage.getItem("buyorbye_lang");
+    if (saved === "en" || saved === "tr") boot(saved);
+  </script>
+</body>
+</html>
