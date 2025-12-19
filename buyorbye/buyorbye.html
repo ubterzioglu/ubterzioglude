@@ -9,8 +9,9 @@
   <meta name="description" content="Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation. Runs locally in your browser. No signup." />
   <meta name="robots" content="index,follow" />
 
-  <link rel="stylesheet" href="/buyorbye/style.css?v=2" />
+  <link rel="stylesheet" href="/buyorbye/style.css?v=10" />
 
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="BuyOrBye – Purchase Decision Helper" />
   <meta property="og:description" content="15 questions → BUY / WAIT / BYE. No signup. Runs locally in your browser." />
@@ -18,6 +19,7 @@
   <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -30,6 +32,7 @@
   }
   </script>
 
+  <!-- GoatCounter -->
   <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
 </head>
@@ -42,8 +45,7 @@
         <div class="hero-left">
           <h1 class="title" id="pageTitle">BuyOrBye</h1>
           <p class="subtitle" id="pageSubtitle">
-            Choose a language to start. 15 questions → BUY / WAIT / BYE.
-            No signup. Runs locally in your browser.
+            Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation.
           </p>
         </div>
 
@@ -55,28 +57,12 @@
             <span class="dot dot-purple" title="#8F03B7"></span>
             <span class="dot dot-yellow" title="#FFBB00"></span>
           </div>
-          <div class="pill" id="statusPill">Select EN or TR…</div>
+          <div class="pill" id="statusPill">Loading…</div>
         </div>
       </header>
 
-      <main class="grid" id="main">
-
-        <section class="card card-blue" aria-labelledby="langTitle" id="langCard">
-          <div class="card-head">
-            <h2 class="card-title" id="langTitle">Language</h2>
-            <p class="card-sub" id="langSub">EN or TR — then the tool loads.</p>
-          </div>
-
-          <div class="input-row">
-            <button class="btn" type="button" id="btnEN">EN</button>
-            <button class="btn" type="button" id="btnTR">TR</button>
-          </div>
-
-          <p class="micro" id="langMicro">No signup. No data stored. Runs locally in your browser.</p>
-        </section>
-
-        <div id="appRoot" hidden></div>
-
+      <main class="grid">
+        <div id="appRoot"></div>
       </main>
 
       <div class="corner-widget">
@@ -93,28 +79,28 @@
 
   <script>
     const statusPill = document.getElementById("statusPill");
-    const langCard = document.getElementById("langCard");
-    const appRoot  = document.getElementById("appRoot");
+    const appRoot = document.getElementById("appRoot");
 
-    function boot(lang){
-      localStorage.setItem("buyorbye_lang", lang);
-      statusPill.textContent = (lang === "tr") ? "Yükleniyor…" : "Loading…";
+    function boot() {
+      statusPill.textContent = "Loading…";
 
       const dataScript = document.createElement("script");
-      dataScript.src = `/buyorbye/data-${lang}.js?v=2`;
+      dataScript.src = "/buyorbye/data-en.js?v=10";
       dataScript.defer = true;
 
       dataScript.onload = () => {
         const appScript = document.createElement("script");
-        appScript.src = `/buyorbye/app.js?v=2`;
+        appScript.src = "/buyorbye/app.js?v=10";
         appScript.defer = true;
 
         appScript.onload = () => {
-          langCard.hidden = true;
-          appRoot.hidden = false;
+          // Set hero text from data (no hardcoded copy)
+          const t = window.BUYORBYE_DATA?.ui?.heroTitle;
+          const s = window.BUYORBYE_DATA?.ui?.heroSubtitle;
+          if (t) document.getElementById("pageTitle").textContent = t;
+          if (s) document.getElementById("pageSubtitle").textContent = s;
 
           window.BUYORBYE_APP?.init({
-            lang,
             data: window.BUYORBYE_DATA,
             rootEl: appRoot,
             statusPill
@@ -127,11 +113,7 @@
       document.body.appendChild(dataScript);
     }
 
-    document.getElementById("btnEN").addEventListener("click", () => boot("en"));
-    document.getElementById("btnTR").addEventListener("click", () => boot("tr"));
-
-    const saved = localStorage.getItem("buyorbye_lang");
-    if (saved === "en" || saved === "tr") boot(saved);
+    boot();
   </script>
 </body>
 </html>

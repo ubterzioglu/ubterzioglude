@@ -1,18 +1,29 @@
 window.BUYORBYE_DATA = {
   ui: {
-    appName: "BUYORBYE",
-    subtitle: "Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation. No signup. Runs locally in your browser.",
+    heroTitle: "BuyOrBye",
+    heroSubtitle: "Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation. No signup. Runs locally in your browser.",
+
     pillReady: "Ready.",
     pillStep: (n, total) => `Step ${n}/${total}`,
     pillResult: "Result ready.",
-    next: "Next",
-    back: "Back",
-    startOver: "Start over",
-    required: "This field is required.",
-    numberInvalid: "Please enter a valid number.",
-    budgetMustBeGte0: "Budget must be 0 or greater.",
-    priceMustBeGte0: "Price must be 0 or greater.",
+
+    buttons: {
+      next: "Next",
+      back: "Back",
+      startOver: "Start over"
+    },
+
+    yes: "Yes",
+    no: "No",
     optional: "Optional",
+
+    errors: {
+      required: "This field is required.",
+      numberInvalid: "Please enter a valid number.",
+      budgetMustBeGte0: "Budget must be 0 or greater.",
+      priceMustBeGte0: "Price must be 0 or greater."
+    },
+
     stepTitles: {
       s1: "1) Basics",
       s2: "2) Usage & priorities",
@@ -24,6 +35,7 @@ window.BUYORBYE_DATA = {
       s2: "This is where the decision becomes obvious.",
       s3: "A few questions to protect you from impulse buys."
     },
+
     result: {
       why: "Why",
       tradeoffs: "Trade-offs",
@@ -64,7 +76,6 @@ window.BUYORBYE_DATA = {
       placeholder: "e.g., 250"
     },
 
-    /* Replaces salary question: no income asked */
     incomePct: {
       id: "incomePct",
       type: "single",
@@ -211,7 +222,6 @@ window.BUYORBYE_DATA = {
       byeMax: -3
     },
 
-    /* Salary-free “money brake” bands based on selected percent */
     pctBands: [
       { maxPct: 10, score: +1, key: "pctLow" },
       { maxPct: 20, score:  0, key: "pctMedium" },
@@ -247,7 +257,7 @@ window.BUYORBYE_DATA = {
       ],
       next: [
         "If you still want it, set a target price and wait.",
-        "Consider a cheaper alternative that meets your top priority."
+        "Consider a cheaper alternative that matches your top priority."
       ]
     },
 
@@ -264,12 +274,12 @@ window.BUYORBYE_DATA = {
     pctHigh: {
       why: ["This is a noticeable chunk of your month."],
       tradeoffs: ["Waiting reduces regret risk."],
-      next: ["If you can wait 72h, do it — and re-check your answers."]
+      next: ["If you can wait 72h, do it — then re-check your answers."]
     },
     pctVeryHigh: {
       why: ["This is a big hit to your monthly income."],
       tradeoffs: ["A discount or cheaper option could protect you."],
-      next: ["Try ‘WAIT’ with a clear target price. Don’t rush."]
+      next: ["Try WAIT with a clear target price. Don’t rush."]
     },
     pctExtreme: {
       why: ["This is extremely expensive relative to your month."],
@@ -279,8 +289,8 @@ window.BUYORBYE_DATA = {
   },
 
   outcomes: {
-    buy: { label: "BUY", headline: "Buy looks reasonable.", tone: "No major red flags. Enjoy it — thoughtfully." },
-    wait:{ label: "WAIT",headline: "Wait a bit.",           tone: "Your decision isn’t bad, but time can save money and regret." },
-    bye: { label: "BYE", headline: "Skip it for now.",      tone: "We’re on your side — this looks risky for your wallet or future self." }
+    buy:  { label: "BUY",  headline: "Buy looks reasonable.", tone: "No major red flags. Enjoy it — thoughtfully." },
+    wait: { label: "WAIT", headline: "Wait a bit.",           tone: "Your decision isn’t bad, but time can save money and regret." },
+    bye:  { label: "BYE",  headline: "Skip it for now.",      tone: "We’re on your side — this looks risky for your wallet or future self." }
   }
 };

@@ -1,35 +1,33 @@
 /* =========================================================
-   BuyOrBye – style.css (v2)
-   Premium-ish typography + solid palette cards
-   Root images:
-     /img/logoubt.png
-     /img/profilepic.png
+   BuyOrBye – style.css (EN-only, clean)
+   Files live in /buyorbye/
+   Images live in /img/ (root)
    ========================================================= */
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 
 :root{
-  --bg: #000;
+  --bg:#000;
 
-  --blue:   #01A1F1;
-  --green:  #7CBB00;
-  --orange: #F65314;
-  --purple: #8F03B7;
-  --yellow: #FFBB00;
+  --blue:#01A1F1;
+  --green:#7CBB00;
+  --orange:#F65314;
+  --purple:#8F03B7;
+  --yellow:#FFBB00;
 
-  /* Soft outcome tones */
+  /* softer outcome tones (background + border) */
   --soft-buy:  rgba(124,187,0,.22);
-  --soft-wait: rgba(255,187,0,.24);
-  --soft-bye:  rgba(246,83,20,.22);
+  --soft-buy-b:rgba(124,187,0,.40);
 
-  --soft-buy-b:  rgba(124,187,0,.38);
-  --soft-wait-b: rgba(255,187,0,.40);
-  --soft-bye-b:  rgba(246,83,20,.38);
+  --soft-wait:  rgba(255,187,0,.24);
+  --soft-wait-b:rgba(255,187,0,.42);
+
+  --soft-bye:  rgba(246,83,20,.22);
+  --soft-bye-b:rgba(246,83,20,.40);
 
   --ink: rgba(0,0,0,.92);
   --ink2: rgba(0,0,0,.74);
-  --w: rgba(255,255,255,.88);
 }
 
 body{
@@ -37,16 +35,17 @@ body{
   background: var(--bg);
   color:#fff;
 
-  /* More premium font stack (no external loads) */
+  /* Premium-ish, no external loads */
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "SF Pro Display",
                "Segoe UI Variable", "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
   line-height:1.55;
-  letter-spacing: .005em;
+  letter-spacing:.005em;
 }
 
 .wrap{ min-height:100%; padding:28px 18px 84px; }
 .shell{ max-width:1040px; margin:0 auto; }
 
+/* HERO */
 .hero{
   display:flex;
   gap:18px;
@@ -66,7 +65,6 @@ body{
   max-width: 76ch;
   font-size: 15.5px;
 }
-
 .hero-right{
   display:flex;
   flex-direction:column;
@@ -74,7 +72,6 @@ body{
   gap:10px;
   min-width: 240px;
 }
-
 .pill{
   padding:10px 12px;
   border-radius: 999px;
@@ -105,11 +102,7 @@ body{
 .dot-yellow{ background:var(--yellow); }
 
 /* GRID */
-.grid{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:16px;
-}
+.grid{ display:grid; grid-template-columns: 1fr; gap:16px; }
 
 /* CARDS */
 .card{
@@ -132,12 +125,14 @@ body{
   color: var(--ink2);
 }
 
+/* Solid palette cards */
 .card-blue{ background:var(--blue); color:#061018; }
 .card-green{ background:var(--green); color:#0b1300; }
 .card-orange{ background:var(--orange); color:#170800; }
 .card-purple{ background:var(--purple); color:#0e0013; }
 .card-yellow{ background:var(--yellow); color:#1a1200; }
 
+/* purple readability */
 .card-purple .card-sub,
 .card-purple .micro,
 .card-purple .mini-title,
@@ -207,7 +202,7 @@ body{
   font-weight: 950;
 }
 .step-help{
-  margin: 10px 0 0;
+  margin: 0;
   font-size: 13px;
   font-weight: 850;
   color: var(--ink2);
@@ -227,16 +222,8 @@ body{
   border: 2px solid rgba(0,0,0,.22);
   background: rgba(255,255,255,.16);
 }
-.q-label{
-  font-weight: 1000;
-  letter-spacing:.01em;
-}
-.q-sub{
-  margin-top:4px;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--ink2);
-}
+.q-label{ font-weight: 1000; letter-spacing:.01em; }
+.q-sub{ margin-top:4px; font-size: 13px; font-weight: 800; color: var(--ink2); }
 .q-controls{ margin-top:10px; display:grid; gap:10px; }
 
 /* Choices */
@@ -253,13 +240,6 @@ body{
 }
 .choice input{ margin-top: 2px; }
 .choice strong{ font-weight: 1000; }
-.choice span{
-  display:block;
-  font-size: 13px;
-  font-weight: 800;
-  color: rgba(0,0,0,.68);
-  margin-top:2px;
-}
 
 /* Error */
 .err{
@@ -277,48 +257,63 @@ body{
   gap:16px;
 }
 
+/* Outcome section */
+.outcome-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:14px;
+  padding: 6px 0 2px;
+}
 
-
-
-/* Outcome block */
-
-
-.outcome-pill{
+/* Soft outcome tag (not duplicated with big word) */
+.outcome-tag{
   display:inline-flex;
   align-items:center;
-  gap:10px;
   padding: 10px 14px;
   border-radius: 999px;
   border: 2px solid rgba(0,0,0,.25);
-  background: rgba(255,255,255,.70);
-  color:#000;
   font-weight: 1000;
-  letter-spacing:.05em;
+  letter-spacing:.06em;
+  color: rgba(0,0,0,.86);
   width: fit-content;
 }
+.outcome-tag.buy{  background: var(--soft-buy);  border-color: var(--soft-buy-b); }
+.outcome-tag.wait{ background: var(--soft-wait); border-color: var(--soft-wait-b); }
+.outcome-tag.bye{  background: var(--soft-bye);  border-color: var(--soft-bye-b); }
 
-.outcome-pill.buy{  background: var(--soft-buy);  border-color: var(--soft-buy-b);  }
-.outcome-pill.wait{ background: var(--soft-wait); border-color: var(--soft-wait-b); }
-.outcome-pill.bye{  background: var(--soft-bye);  border-color: var(--soft-bye-b);  }
+.decision-word{
+  font-size: 52px;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: .10em;
+  font-weight: 1000;
+}
+.decision-word.wait{ font-size: 64px; }
 
+.clipart{
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,.18);
+  background: rgba(255,255,255,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.clipart svg{ width: 74px; height: 74px; }
 
-
-
-
-.clipart svg{
-  width: 72px;
-  height: 72px;
+.outcome-tone{
+  max-width: 72ch;
+  font-weight: 850;
+  color: rgba(0,0,0,.78);
 }
 
 /* Lists */
-.bullets{
-  margin:0;
-  padding-left: 18px;
-}
-.bullets li{
-  margin: 6px 0;
-  font-weight: 850;
-}
+.bullets{ margin:0; padding-left: 18px; }
+.bullets li{ margin: 6px 0; font-weight: 850; }
 
 /* Corner widget */
 .corner-widget{
@@ -344,58 +339,3 @@ body{
   .hero{ flex-direction:column; align-items:flex-start; }
   .hero-right{ align-items:flex-start; min-width:0; }
 }
-
-
-
-
-/* ===== Result: center + cleaner composition ===== */
-
-.outcome-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  text-align:center;
-  gap:14px;
-  padding: 6px 0 2px;
-}
-
-.decision-word{
-  font-size: 52px;
-  line-height: 1;
-  margin: 0;
-  letter-spacing: .10em;
-  font-weight: 1000;
-}
-
-.decision-word.wait{
-  font-size: 64px; /* WAIT daha büyük */
-}
-
-.clipart{
-  width: 120px;
-  height: 120px;
-  border-radius: 999px;
-  border: 2px solid rgba(0,0,0,.18);
-  background: rgba(255,255,255,.22);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  margin-top: 2px;
-}
-
-.outcome-tone{
-  max-width: 70ch;
-  font-weight: 850;
-  color: rgba(0,0,0,.78);
-}
-
-.step-help{
-  max-width: 74ch;
-  margin: 0;
-  font-size: 13px;
-  font-weight: 850;
-  color: rgba(0,0,0,.72);
-}
-
