@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BuyOrBye – Purchase Decision Helper</title>
+
+  <link rel="canonical" href="https://ubterzioglu.de/buyorbye/buyorbye.html" />
+  <meta name="description" content="Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="stylesheet" href="/buyorbye/style.css?v=11" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="BuyOrBye – Purchase Decision Helper" />
+  <meta property="og:description" content="15 questions → BUY / WAIT / BYE." />
+  <meta property="og:url" content="https://ubterzioglu.de/buyorbye/buyorbye.html" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logobuyorbye.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://ubterzioglu.de/buyorbye/buyorbye.html#webpage",
+    "url": "https://ubterzioglu.de/buyorbye/buyorbye.html",
+    "name": "BuyOrBye – Purchase Decision Helper",
+    "description": "Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation.",
+    "isPartOf": { "@type": "WebSite", "@id": "https://ubterzioglu.de/#website" }
+  }
+  </script>
+
+  <!-- GoatCounter -->
+  <script data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="shell">
+
+      <header class="hero">
+        <div class="hero-left">
+          <div class="brand-row">
+  <img src="/img/logobuyorbye.png" alt="BuyOrBye logo" class="brand-logo" />
+  <h1 class="title" id="pageTitle">BuyOrBye</h1>
+</div>
+
+          <p class="subtitle" id="pageSubtitle">
+            Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation.
+          </p>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-toprow" aria-label="Header controls">
+            <div class="mini-avatars" aria-label="UBT links">
+              <a href="https://ubterzioglu.de/" aria-label="UBT home (logo)">
+                <img src="/img/logoubt.png" alt="UBT logo" class="mini-avatar" />
+              </a>
+              <a href="https://ubterzioglu.de/" aria-label="UBT home (profile)">
+                <img src="/img/picprofile.png" alt="UBT profile" class="mini-avatar" />
+              </a>
+            </div>
+
+            <div class="palette-dots" aria-label="Color palette">
+              <span class="dot dot-blue" title="#01A1F1"></span>
+              <span class="dot dot-green" title="#7CBB00"></span>
+              <span class="dot dot-orange" title="#F65314"></span>
+              <span class="dot dot-purple" title="#8F03B7"></span>
+              <span class="dot dot-yellow" title="#FFBB00"></span>
+            </div>
+          </div>
+
+          <div class="pill" id="statusPill">Loading…</div>
+        </div>
+      </header>
+
+      <main class="grid">
+        <div id="appRoot"></div>
+      </main>
+
+    </div>
+  </div>
+
+  <script>
+    const statusPill = document.getElementById("statusPill");
+    const appRoot = document.getElementById("appRoot");
+
+    function boot() {
+      statusPill.textContent = "Loading…";
+
+      const dataScript = document.createElement("script");
+      dataScript.src = "/buyorbye/data-en.js?v=10";
+      dataScript.defer = true;
+
+      dataScript.onload = () => {
+        const appScript = document.createElement("script");
+        appScript.src = "/buyorbye/app.js?v=10";
+        appScript.defer = true;
+
+        appScript.onload = () => {
+          const t = window.BUYORBYE_DATA?.ui?.heroTitle;
+          const s = window.BUYORBYE_DATA?.ui?.heroSubtitle;
+          if (t) document.getElementById("pageTitle").textContent = t;
+          if (s) document.getElementById("pageSubtitle").textContent = s;
+
+          window.BUYORBYE_APP?.init({
+            data: window.BUYORBYE_DATA,
+            rootEl: appRoot,
+            statusPill
+          });
+        };
+
+        document.body.appendChild(appScript);
+      };
+
+      document.body.appendChild(dataScript);
+    }
+
+    boot();
+  </script>
+</body>
+</html>
