@@ -427,9 +427,23 @@ window.BUYORBYE_APP = (function () {
       const wordClass = outcome === "wait" ? "decision-word wait" : "decision-word";
       outcomeWrap.appendChild(makeEl("p", { class: wordClass }, esc(out.label)));
 
-      outcomeWrap.appendChild(
-        makeEl("div", { class: "clipart", "aria-hidden": "true" }, clipartSvg(outcome))
-      );
+     const imgMap = {
+  buy: "/img/buyorbyeclipbuy.jpg",
+  wait: "/img/buyorbyeclipwait.jpg",
+  bye: "/img/buyorbyeclipbye.jpg"
+};
+
+outcomeWrap.appendChild(
+  makeEl(
+    "img",
+    {
+      class: "clipart-img",
+      src: imgMap[outcome],
+      alt: out.label
+    }
+  )
+);
+
 
       outcomeWrap.appendChild(makeEl("div", { class: "outcome-tone" }, esc(out.tone)));
       outcomeWrap.appendChild(makeEl("p", { class: "step-help" }, esc(data.ui.result.nudge)));

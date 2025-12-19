@@ -9,14 +9,14 @@
   <meta name="description" content="Answer 15 quick questions and get a clear BUY / WAIT / BYE recommendation. Runs locally in your browser. No signup." />
   <meta name="robots" content="index,follow" />
 
-  <link rel="stylesheet" href="/buyorbye/style.css?v=10" />
+  <link rel="stylesheet" href="/buyorbye/style.css?v=11" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="BuyOrBye – Purchase Decision Helper" />
   <meta property="og:description" content="15 questions → BUY / WAIT / BYE. No signup. Runs locally in your browser." />
   <meta property="og:url" content="https://ubterzioglu.de/buyorbye/buyorbye.html" />
-  <meta property="og:image" content="https://ubterzioglu.de/img/logoubt.png" />
+  <meta property="og:image" content="https://ubterzioglu.de/img/logobuyorbye.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- JSON-LD -->
@@ -43,20 +43,36 @@
 
       <header class="hero">
         <div class="hero-left">
-          <h1 class="title" id="pageTitle">BuyOrBye</h1>
+          <div class="brand-row">
+  <img src="/img/logobuyorbye.png" alt="BuyOrBye logo" class="brand-logo" />
+  <h1 class="title" id="pageTitle">BuyOrBye</h1>
+</div>
+
           <p class="subtitle" id="pageSubtitle">
             Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation.
           </p>
         </div>
 
         <div class="hero-right">
-          <div class="palette-dots" aria-label="Color palette">
-            <span class="dot dot-blue" title="#01A1F1"></span>
-            <span class="dot dot-green" title="#7CBB00"></span>
-            <span class="dot dot-orange" title="#F65314"></span>
-            <span class="dot dot-purple" title="#8F03B7"></span>
-            <span class="dot dot-yellow" title="#FFBB00"></span>
+          <div class="hero-toprow" aria-label="Header controls">
+            <div class="mini-avatars" aria-label="UBT links">
+              <a href="https://ubterzioglu.de/" aria-label="UBT home (logo)">
+                <img src="/img/logoubt.png" alt="UBT logo" class="mini-avatar" />
+              </a>
+              <a href="https://ubterzioglu.de/" aria-label="UBT home (profile)">
+                <img src="/img/picprofile.png" alt="UBT profile" class="mini-avatar" />
+              </a>
+            </div>
+
+            <div class="palette-dots" aria-label="Color palette">
+              <span class="dot dot-blue" title="#01A1F1"></span>
+              <span class="dot dot-green" title="#7CBB00"></span>
+              <span class="dot dot-orange" title="#F65314"></span>
+              <span class="dot dot-purple" title="#8F03B7"></span>
+              <span class="dot dot-yellow" title="#FFBB00"></span>
+            </div>
           </div>
+
           <div class="pill" id="statusPill">Loading…</div>
         </div>
       </header>
@@ -64,15 +80,6 @@
       <main class="grid">
         <div id="appRoot"></div>
       </main>
-
-      <div class="corner-widget">
-        <a href="https://ubterzioglu.de/" aria-label="UBT home (logo)">
-          <img src="/img/logoubt.png" alt="UBT logo" class="widget-avatar" />
-        </a>
-        <a href="https://ubterzioglu.de/" aria-label="UBT home (profile)">
-          <img src="/img/profilepic.png" alt="UBT profile" class="widget-avatar logo" />
-        </a>
-      </div>
 
     </div>
   </div>
@@ -94,7 +101,6 @@
         appScript.defer = true;
 
         appScript.onload = () => {
-          // Set hero text from data (no hardcoded copy)
           const t = window.BUYORBYE_DATA?.ui?.heroTitle;
           const s = window.BUYORBYE_DATA?.ui?.heroSubtitle;
           if (t) document.getElementById("pageTitle").textContent = t;
