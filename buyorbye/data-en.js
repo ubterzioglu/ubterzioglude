@@ -1,7 +1,7 @@
 window.BUYORBYE_DATA = {
   ui: {
     heroTitle: "BuyOrBye",
-    heroSubtitle: "Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation. No signup. Runs locally in your browser.",
+    heroSubtitle: "Answer 15 quick questions. Get a clear BUY / WAIT / BYE recommendation.",
 
     pillReady: "Ready.",
     pillStep: (n, total) => `Step ${n}/${total}`,
