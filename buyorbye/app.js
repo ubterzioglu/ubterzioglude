@@ -77,46 +77,52 @@ window.BUYORBYE_APP = (function () {
       return;
     }
 
-    const state = { stepIndex: 0, answers: {} };
-    const TOTAL_STEPS = data.steps.length;
+    const QUESTION_ORDER = data.steps.flatMap(s => s.qids);
+    const TOTAL_QUESTIONS = QUESTION_ORDER.length;
+
+    const STEP_BY_QID = {};
+    data.steps.forEach((s, idx) => {
+      s.qids.forEach(qid => { STEP_BY_QID[qid] = idx; });
+    });
+
+    const state = { qIndex: 0, answers: {} };
 
     function setPillReady() { statusPill.textContent = data.ui.pillReady; }
-    function setPillStep() {
-      const n = state.stepIndex + 1;
-      statusPill.textContent = data.ui.pillStep(n, TOTAL_STEPS + 1);
+    function setPillQuestion() {
+      const n = Math.min(state.qIndex + 1, TOTAL_QUESTIONS);
+      statusPill.textContent = `${n}/${TOTAL_QUESTIONS}`;
     }
     function setPillResult() { statusPill.textContent = data.ui.pillResult; }
 
-    function validateStep(step) {
+    function validateQuestion(qid) {
+      const q = data.questions[qid];
+      if (!q) return [];
+
       const errors = [];
-      for (const qid of step.qids) {
-        const q = data.questions[qid];
-        if (!q) continue;
+      const a = state.answers[qid];
 
-        const a = state.answers[qid];
-
-        if (q.required) {
-          if (q.type === "multi") {
-            if (!Array.isArray(a) || a.length === 0) errors.push({ qid, msg: data.ui.errors.required });
-          } else if (a === undefined || a === null || a === "") {
-            errors.push({ qid, msg: data.ui.errors.required });
-          }
-        }
-
-        if (q.type === "number" && (a !== undefined && a !== null && a !== "")) {
-          const n = readNumber(a);
-          if (n === null) errors.push({ qid, msg: data.ui.errors.numberInvalid });
-          else if (n < 0) {
-            if (qid === "budget") errors.push({ qid, msg: data.ui.errors.budgetMustBeGte0 });
-            else if (qid === "price") errors.push({ qid, msg: data.ui.errors.priceMustBeGte0 });
-            else errors.push({ qid, msg: data.ui.errors.numberInvalid });
-          }
-        }
-
-        if (q.type === "multi" && q.max && Array.isArray(a) && a.length > q.max) {
-          errors.push({ qid, msg: `Max ${q.max}` });
+      if (q.required) {
+        if (q.type === "multi") {
+          if (!Array.isArray(a) || a.length === 0) errors.push({ qid, msg: data.ui.errors.required });
+        } else if (a === undefined || a === null || a === "") {
+          errors.push({ qid, msg: data.ui.errors.required });
         }
       }
+
+      if (q.type === "number" && (a !== undefined && a !== null && a !== "")) {
+        const n = readNumber(a);
+        if (n === null) errors.push({ qid, msg: data.ui.errors.numberInvalid });
+        else if (n < 0) {
+          if (qid === "budget") errors.push({ qid, msg: data.ui.errors.budgetMustBeGte0 });
+          else if (qid === "price") errors.push({ qid, msg: data.ui.errors.priceMustBeGte0 });
+          else errors.push({ qid, msg: data.ui.errors.numberInvalid });
+        }
+      }
+
+      if (q.type === "multi" && q.max && Array.isArray(a) && a.length > q.max) {
+        errors.push({ qid, msg: `Max ${q.max}` });
+      }
+
       return errors;
     }
 
@@ -294,25 +300,26 @@ window.BUYORBYE_APP = (function () {
       return qWrap;
     }
 
-    function renderStep() {
+    function renderQuestionScreen() {
       rootEl.innerHTML = "";
-      setPillStep();
+      setPillQuestion();
 
-      const step = data.steps[state.stepIndex];
+      const qid = QUESTION_ORDER[state.qIndex];
+      const q = data.questions[qid];
+      const stepIdx = STEP_BY_QID[qid] ?? 0;
+      const step = data.steps[stepIdx];
+
       const title = data.ui.stepTitles[step.id];
       const sub = data.ui.stepSubs[step.id];
 
-      const card = makeEl("section", { class: `card ${step.color}` });
+      const card = makeEl("section", { class: `card ${step.color} card-anim` });
       const head = makeEl("div", { class: "card-head" });
       head.appendChild(makeEl("h2", { class: "card-title" }, esc(title)));
       head.appendChild(makeEl("p", { class: "card-sub" }, esc(sub)));
       card.appendChild(head);
 
       const qgrid = makeEl("div", { class: "qgrid" });
-      step.qids.forEach((qid) => {
-        const q = data.questions[qid];
-        if (q) qgrid.appendChild(renderQuestion(q));
-      });
+      if (q) qgrid.appendChild(renderQuestion(q));
       card.appendChild(qgrid);
 
       const errBox = makeEl("div", { class: "err", hidden: true });
@@ -324,14 +331,14 @@ window.BUYORBYE_APP = (function () {
       const nextBtn = makeEl("button", { class: "btn", type: "button" }, esc(data.ui.buttons.next));
 
       backBtn.addEventListener("click", () => {
-        if (state.stepIndex === 0) return;
-        state.stepIndex -= 1;
-        renderStep();
+        if (state.qIndex === 0) return;
+        state.qIndex -= 1;
+        renderQuestionScreen();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
       nextBtn.addEventListener("click", () => {
-        const errors = validateStep(step);
+        const errors = validateQuestion(qid);
         if (errors.length) {
           errBox.hidden = false;
           errBox.textContent = errors[0].msg;
@@ -339,9 +346,9 @@ window.BUYORBYE_APP = (function () {
         }
         errBox.hidden = true;
 
-        if (state.stepIndex < data.steps.length - 1) {
-          state.stepIndex += 1;
-          renderStep();
+        if (state.qIndex < TOTAL_QUESTIONS - 1) {
+          state.qIndex += 1;
+          renderQuestionScreen();
           window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
           renderResult();
@@ -349,7 +356,7 @@ window.BUYORBYE_APP = (function () {
         }
       });
 
-      if (state.stepIndex > 0) nav.appendChild(backBtn);
+      if (state.qIndex > 0) nav.appendChild(backBtn);
       nav.appendChild(nextBtn);
       card.appendChild(nav);
 
@@ -368,16 +375,13 @@ window.BUYORBYE_APP = (function () {
       const container = makeEl("div", { class: "result-grid" });
 
       // Main result card must be ORANGE
-      const main = makeEl("section", { class: "card card-orange" });
+      const main = makeEl("section", { class: "card card-orange card-anim" });
       const head = makeEl("div", { class: "card-head" });
       head.appendChild(makeEl("h2", { class: "card-title" }, esc(data.ui.stepTitles.result)));
       head.appendChild(makeEl("p", { class: "card-sub" }, esc(out.headline)));
       main.appendChild(head);
 
       const outcomeWrap = makeEl("div", { class: "outcome-wrap" });
-
-      // Small soft tag (single instance, not duplicated)
-      outcomeWrap.appendChild(makeEl("div", { class: `outcome-tag ${outcome}` }, esc(out.label)));
 
       // Big word (WAIT bigger via CSS)
       const wordClass = outcome === "wait" ? "decision-word wait" : "decision-word";
@@ -395,17 +399,17 @@ window.BUYORBYE_APP = (function () {
 
       const backBtn = makeEl("button", { class: "btn secondary", type: "button" }, esc(data.ui.buttons.back));
       backBtn.addEventListener("click", () => {
-        state.stepIndex = data.steps.length - 1;
-        renderStep();
+        state.qIndex = TOTAL_QUESTIONS - 1;
+        renderQuestionScreen();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
       const resetBtn = makeEl("button", { class: "btn", type: "button" }, esc(data.ui.buttons.startOver));
       resetBtn.addEventListener("click", () => {
-        state.stepIndex = 0;
+        state.qIndex = 0;
         state.answers = {};
         setPillReady();
-        renderStep();
+        renderQuestionScreen();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
@@ -435,16 +439,16 @@ window.BUYORBYE_APP = (function () {
       if (trades.length === 0) trades.push("If unsure, waiting 72 hours is cheap insurance.");
       if (nexts.length === 0) nexts.push("If there’s no pressure today, a short wait often wins.");
 
-      // Separate cards (easy future images)
-      const whyCard = makeEl("section", { class: "card card-yellow" });
+      // Separate cards
+      const whyCard = makeEl("section", { class: "card card-yellow card-anim" });
       whyCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.why)));
       whyCard.appendChild(makeEl("ul", { class: "bullets" }, whys.slice(0, 5).map(x => `<li>${esc(x)}</li>`).join("")));
 
-      const tradeCard = makeEl("section", { class: "card card-green" });
+      const tradeCard = makeEl("section", { class: "card card-green card-anim" });
       tradeCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.tradeoffs)));
       tradeCard.appendChild(makeEl("ul", { class: "bullets" }, trades.slice(0, 3).map(x => `<li>${esc(x)}</li>`).join("")));
 
-      const nextCard = makeEl("section", { class: "card card-blue" });
+      const nextCard = makeEl("section", { class: "card card-blue card-anim" });
       nextCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.nextSteps)));
       nextCard.appendChild(makeEl("ul", { class: "bullets" }, nexts.slice(0, 3).map(x => `<li>${esc(x)}</li>`).join("")));
 
@@ -457,7 +461,7 @@ window.BUYORBYE_APP = (function () {
     }
 
     setPillReady();
-    renderStep();
+    renderQuestionScreen();
   }
 
   return { init };

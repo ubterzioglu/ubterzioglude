@@ -267,22 +267,6 @@ body{
   padding: 6px 0 2px;
 }
 
-/* Soft outcome tag (not duplicated with big word) */
-.outcome-tag{
-  display:inline-flex;
-  align-items:center;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 2px solid rgba(0,0,0,.25);
-  font-weight: 1000;
-  letter-spacing:.06em;
-  color: rgba(0,0,0,.86);
-  width: fit-content;
-}
-.outcome-tag.buy{  background: var(--soft-buy);  border-color: var(--soft-buy-b); }
-.outcome-tag.wait{ background: var(--soft-wait); border-color: var(--soft-wait-b); }
-.outcome-tag.bye{  background: var(--soft-bye);  border-color: var(--soft-bye-b); }
-
 .decision-word{
   font-size: 52px;
   line-height: 1;
@@ -334,6 +318,15 @@ body{
   object-fit: cover;
 }
 .widget-avatar.logo{ border-color: rgba(255,255,255,.14); }
+
+/* Simple enter animation */
+.card-anim{
+  animation: fadeUp .16s ease-out;
+}
+@keyframes fadeUp{
+  from{ opacity:0; transform: translateY(8px); }
+  to{ opacity:1; transform: translateY(0); }
+}
 
 @media (max-width: 860px){
   .hero{ flex-direction:column; align-items:flex-start; }
