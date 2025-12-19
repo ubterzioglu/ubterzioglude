@@ -77,22 +77,31 @@ window.BUYORBYE_APP = (function () {
       return;
     }
 
-    const QUESTION_ORDER = data.steps.flatMap(s => s.qids);
+    const QUESTION_ORDER = data.steps.flatMap((s) => s.qids);
     const TOTAL_QUESTIONS = QUESTION_ORDER.length;
 
     const STEP_BY_QID = {};
     data.steps.forEach((s, idx) => {
-      s.qids.forEach(qid => { STEP_BY_QID[qid] = idx; });
+      s.qids.forEach((qid) => {
+        STEP_BY_QID[qid] = idx;
+      });
     });
+
+    // rotate through your 5 palette colors
+    const CARD_PALETTE = ["card-blue", "card-green", "card-orange", "card-purple", "card-yellow"];
 
     const state = { qIndex: 0, answers: {} };
 
-    function setPillReady() { statusPill.textContent = data.ui.pillReady; }
+    function setPillReady() {
+      statusPill.textContent = data.ui.pillReady;
+    }
     function setPillQuestion() {
       const n = Math.min(state.qIndex + 1, TOTAL_QUESTIONS);
       statusPill.textContent = `${n}/${TOTAL_QUESTIONS}`;
     }
-    function setPillResult() { statusPill.textContent = data.ui.pillResult; }
+    function setPillResult() {
+      statusPill.textContent = data.ui.pillResult;
+    }
 
     function validateQuestion(qid) {
       const q = data.questions[qid];
@@ -109,7 +118,7 @@ window.BUYORBYE_APP = (function () {
         }
       }
 
-      if (q.type === "number" && (a !== undefined && a !== null && a !== "")) {
+      if (q.type === "number" && a !== undefined && a !== null && a !== "") {
         const n = readNumber(a);
         if (n === null) errors.push({ qid, msg: data.ui.errors.numberInvalid });
         else if (n < 0) {
@@ -149,7 +158,16 @@ window.BUYORBYE_APP = (function () {
         const a = state.answers[qid];
         if (a === undefined || a === null || a === "") return;
 
-        const ynQ = new Set(["alt80","returnPolicy","regret2y","priceDrop15","socialPressure","impulse","canWait72"]);
+        const ynQ = new Set([
+          "alt80",
+          "returnPolicy",
+          "regret2y",
+          "priceDrop15",
+          "socialPressure",
+          "impulse",
+          "canWait72"
+        ]);
+
         if (ynQ.has(qid)) {
           const yn = answerToYesNo(a);
           if (yn && typeof map[yn] === "number") score += map[yn];
@@ -161,7 +179,7 @@ window.BUYORBYE_APP = (function () {
 
       const pct = pctFromIncomePctAnswer(state.answers.incomePct);
       if (pct != null) {
-        const hit = data.scoring.pctBands.find(b => pct <= b.maxPct) || null;
+        const hit = data.scoring.pctBands.find((b) => pct <= b.maxPct) || null;
         if (hit) {
           score += Number(hit.score || 0);
           appliedKeys.push(hit.key);
@@ -194,7 +212,9 @@ window.BUYORBYE_APP = (function () {
           "aria-labelledby": `lbl_${q.id}`
         });
         input.value = state.answers[q.id] ?? "";
-        input.addEventListener("input", () => { state.answers[q.id] = input.value; });
+        input.addEventListener("input", () => {
+          state.answers[q.id] = input.value;
+        });
         controls.appendChild(input);
       }
 
@@ -207,7 +227,9 @@ window.BUYORBYE_APP = (function () {
           "aria-labelledby": `lbl_${q.id}`
         });
         input.value = state.answers[q.id] ?? "";
-        input.addEventListener("input", () => { state.answers[q.id] = input.value; });
+        input.addEventListener("input", () => {
+          state.answers[q.id] = input.value;
+        });
         controls.appendChild(input);
       }
 
@@ -216,14 +238,19 @@ window.BUYORBYE_APP = (function () {
         const choices = makeEl("div", { class: "choices" });
 
         const yesId = `${q.id}_yes`;
-        const noId  = `${q.id}_no`;
+        const noId = `${q.id}_no`;
 
         const yes = makeEl("label", { class: "choice", for: yesId });
-        const no  = makeEl("label", { class: "choice", for: noId });
+        const no = makeEl("label", { class: "choice", for: noId });
 
-        yes.innerHTML = `<input id="${yesId}" type="radio" name="${q.id}" value="yes" ${current === "yes" ? "checked" : ""} />
+        yes.innerHTML = `<input id="${yesId}" type="radio" name="${q.id}" value="yes" ${
+          current === "yes" ? "checked" : ""
+        } />
                          <div><strong>${esc(data.ui.yes)}</strong></div>`;
-        no.innerHTML  = `<input id="${noId}" type="radio" name="${q.id}" value="no" ${current === "no" ? "checked" : ""} />
+
+        no.innerHTML = `<input id="${noId}" type="radio" name="${q.id}" value="no" ${
+          current === "no" ? "checked" : ""
+        } />
                          <div><strong>${esc(data.ui.no)}</strong></div>`;
 
         choices.appendChild(yes);
@@ -244,7 +271,9 @@ window.BUYORBYE_APP = (function () {
         q.options.forEach((opt, idx) => {
           const rid = `${q.id}_${idx}`;
           const lab = makeEl("label", { class: "choice", for: rid });
-          lab.innerHTML = `<input id="${rid}" type="radio" name="${q.id}" value="${esc(opt.v)}" ${String(current) === String(opt.v) ? "checked" : ""} />
+          lab.innerHTML = `<input id="${rid}" type="radio" name="${q.id}" value="${esc(opt.v)}" ${
+            String(current) === String(opt.v) ? "checked" : ""
+          } />
                            <div><strong>${esc(opt.t)}</strong></div>`;
           choices.appendChild(lab);
         });
@@ -266,7 +295,9 @@ window.BUYORBYE_APP = (function () {
           const checked = arr.includes(opt.v);
 
           const lab = makeEl("label", { class: "choice", for: cid });
-          lab.innerHTML = `<input id="${cid}" type="checkbox" value="${esc(opt.v)}" ${checked ? "checked" : ""} />
+          lab.innerHTML = `<input id="${cid}" type="checkbox" value="${esc(opt.v)}" ${
+            checked ? "checked" : ""
+          } />
                            <div><strong>${esc(opt.t)}</strong></div>`;
           choices.appendChild(lab);
         });
@@ -282,12 +313,12 @@ window.BUYORBYE_APP = (function () {
             if (!next.includes(v)) next.push(v);
             if (q.max && next.length > q.max) {
               next = next.slice(next.length - q.max);
-              [...choices.querySelectorAll("input[type=checkbox]")].forEach(cb => {
+              [...choices.querySelectorAll("input[type=checkbox]")].forEach((cb) => {
                 cb.checked = next.includes(cb.value);
               });
             }
           } else {
-            next = next.filter(x => x !== v);
+            next = next.filter((x) => x !== v);
           }
           state.answers[q.id] = next;
         });
@@ -296,6 +327,7 @@ window.BUYORBYE_APP = (function () {
       }
 
       if (!q.required) controls.appendChild(makeEl("div", { class: "hint" }, esc(data.ui.optional)));
+
       qWrap.appendChild(controls);
       return qWrap;
     }
@@ -306,13 +338,17 @@ window.BUYORBYE_APP = (function () {
 
       const qid = QUESTION_ORDER[state.qIndex];
       const q = data.questions[qid];
+
       const stepIdx = STEP_BY_QID[qid] ?? 0;
       const step = data.steps[stepIdx];
 
       const title = data.ui.stepTitles[step.id];
       const sub = data.ui.stepSubs[step.id];
 
-      const card = makeEl("section", { class: `card ${step.color} card-anim` });
+      const colorClass = CARD_PALETTE[state.qIndex % CARD_PALETTE.length];
+
+      const card = makeEl("section", { class: `card ${colorClass} card-anim` });
+
       const head = makeEl("div", { class: "card-head" });
       head.appendChild(makeEl("h2", { class: "card-title" }, esc(title)));
       head.appendChild(makeEl("p", { class: "card-sub" }, esc(sub)));
@@ -325,10 +361,14 @@ window.BUYORBYE_APP = (function () {
       const errBox = makeEl("div", { class: "err", hidden: true });
       card.appendChild(errBox);
 
-      const nav = makeEl("div", { class: "input-row" });
+      // buttons further down (spacing handled by CSS class)
+      const nav = makeEl("div", { class: "input-row input-row-bottom" });
 
       const backBtn = makeEl("button", { class: "btn secondary", type: "button" }, esc(data.ui.buttons.back));
-      const nextBtn = makeEl("button", { class: "btn", type: "button" }, esc(data.ui.buttons.next));
+
+      const isLast = state.qIndex === TOTAL_QUESTIONS - 1;
+      const nextLabel = isLast ? "Show result" : data.ui.buttons.next;
+      const nextBtn = makeEl("button", { class: "btn", type: "button" }, esc(nextLabel));
 
       backBtn.addEventListener("click", () => {
         if (state.qIndex === 0) return;
@@ -346,7 +386,7 @@ window.BUYORBYE_APP = (function () {
         }
         errBox.hidden = true;
 
-        if (state.qIndex < TOTAL_QUESTIONS - 1) {
+        if (!isLast) {
           state.qIndex += 1;
           renderQuestionScreen();
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -374,8 +414,9 @@ window.BUYORBYE_APP = (function () {
 
       const container = makeEl("div", { class: "result-grid" });
 
-      // Main result card must be ORANGE
+      // main result card fixed orange
       const main = makeEl("section", { class: "card card-orange card-anim" });
+
       const head = makeEl("div", { class: "card-head" });
       head.appendChild(makeEl("h2", { class: "card-title" }, esc(data.ui.stepTitles.result)));
       head.appendChild(makeEl("p", { class: "card-sub" }, esc(out.headline)));
@@ -383,19 +424,19 @@ window.BUYORBYE_APP = (function () {
 
       const outcomeWrap = makeEl("div", { class: "outcome-wrap" });
 
-      // Big word (WAIT bigger via CSS)
       const wordClass = outcome === "wait" ? "decision-word wait" : "decision-word";
       outcomeWrap.appendChild(makeEl("p", { class: wordClass }, esc(out.label)));
 
-      // Clipart
-      outcomeWrap.appendChild(makeEl("div", { class: "clipart", "aria-hidden":"true" }, clipartSvg(outcome)));
+      outcomeWrap.appendChild(
+        makeEl("div", { class: "clipart", "aria-hidden": "true" }, clipartSvg(outcome))
+      );
 
       outcomeWrap.appendChild(makeEl("div", { class: "outcome-tone" }, esc(out.tone)));
       outcomeWrap.appendChild(makeEl("p", { class: "step-help" }, esc(data.ui.result.nudge)));
 
       main.appendChild(outcomeWrap);
 
-      const nav = makeEl("div", { class: "input-row" });
+      const nav = makeEl("div", { class: "input-row input-row-bottom" });
 
       const backBtn = makeEl("button", { class: "btn secondary", type: "button" }, esc(data.ui.buttons.back));
       backBtn.addEventListener("click", () => {
@@ -417,10 +458,10 @@ window.BUYORBYE_APP = (function () {
       nav.appendChild(resetBtn);
       main.appendChild(nav);
 
-      // Reason packs
+      // reasons
       const keys = [];
       if (hard?.reasonKey) keys.push(hard.reasonKey);
-      scored.appliedKeys.forEach(k => keys.push(k));
+      scored.appliedKeys.forEach((k) => keys.push(k));
       const uniqKeys = [...new Set(keys)];
 
       const R = data.reasons || {};
@@ -439,18 +480,35 @@ window.BUYORBYE_APP = (function () {
       if (trades.length === 0) trades.push("If unsure, waiting 72 hours is cheap insurance.");
       if (nexts.length === 0) nexts.push("If there’s no pressure today, a short wait often wins.");
 
-      // Separate cards
       const whyCard = makeEl("section", { class: "card card-yellow card-anim" });
       whyCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.why)));
-      whyCard.appendChild(makeEl("ul", { class: "bullets" }, whys.slice(0, 5).map(x => `<li>${esc(x)}</li>`).join("")));
+      whyCard.appendChild(
+        makeEl(
+          "ul",
+          { class: "bullets" },
+          whys.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("")
+        )
+      );
 
       const tradeCard = makeEl("section", { class: "card card-green card-anim" });
       tradeCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.tradeoffs)));
-      tradeCard.appendChild(makeEl("ul", { class: "bullets" }, trades.slice(0, 3).map(x => `<li>${esc(x)}</li>`).join("")));
+      tradeCard.appendChild(
+        makeEl(
+          "ul",
+          { class: "bullets" },
+          trades.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")
+        )
+      );
 
       const nextCard = makeEl("section", { class: "card card-blue card-anim" });
       nextCard.appendChild(makeEl("h3", { class: "mini-title" }, esc(data.ui.result.nextSteps)));
-      nextCard.appendChild(makeEl("ul", { class: "bullets" }, nexts.slice(0, 3).map(x => `<li>${esc(x)}</li>`).join("")));
+      nextCard.appendChild(
+        makeEl(
+          "ul",
+          { class: "bullets" },
+          nexts.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")
+        )
+      );
 
       container.appendChild(main);
       container.appendChild(whyCard);

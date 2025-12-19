@@ -16,18 +16,11 @@ html, body { height: 100%; }
   --purple:#8F03B7;
   --yellow:#FFBB00;
 
-  /* softer outcome tones (background + border) */
-  --soft-buy:  rgba(124,187,0,.22);
-  --soft-buy-b:rgba(124,187,0,.40);
-
-  --soft-wait:  rgba(255,187,0,.24);
-  --soft-wait-b:rgba(255,187,0,.42);
-
-  --soft-bye:  rgba(246,83,20,.22);
-  --soft-bye-b:rgba(246,83,20,.40);
-
-  --ink: rgba(0,0,0,.92);
-  --ink2: rgba(0,0,0,.74);
+  /* Subtitle typography (used across the UI) */
+  --subtext-size: 15.5px;
+  --subtext-weight: 750;
+  --subtext-color: rgba(255,255,255,.80);
+  --subtext-color-dark: rgba(0,0,0,.74);
 }
 
 body{
@@ -61,9 +54,11 @@ body{
 }
 .subtitle{
   margin:10px 0 0;
-  color: rgba(255,255,255,.80);
   max-width: 76ch;
-  font-size: 15.5px;
+
+  font-size: var(--subtext-size);
+  font-weight: var(--subtext-weight);
+  color: var(--subtext-color);
 }
 .hero-right{
   display:flex;
@@ -119,10 +114,17 @@ body{
   letter-spacing:.02em;
   font-weight: 950;
 }
-.card-sub{
-  margin:7px 0 0;
-  font-weight: 850;
-  color: var(--ink2);
+
+/* Use subtitle typography across the UI (dark version inside colored cards) */
+.card-sub,
+.q-sub,
+.micro,
+.step-help,
+.hint,
+.outcome-tone{
+  font-size: var(--subtext-size);
+  font-weight: var(--subtext-weight);
+  color: var(--subtext-color-dark);
 }
 
 /* Solid palette cards */
@@ -132,13 +134,14 @@ body{
 .card-purple{ background:var(--purple); color:#0e0013; }
 .card-yellow{ background:var(--yellow); color:#1a1200; }
 
-/* purple readability */
+/* Purple readability (override to light) */
 .card-purple .card-sub,
 .card-purple .micro,
 .card-purple .mini-title,
 .card-purple .hint,
 .card-purple .step-help,
-.card-purple .q-sub{
+.card-purple .q-sub,
+.card-purple .outcome-tone{
   color: rgba(255,255,255,.88);
 }
 
@@ -149,6 +152,13 @@ body{
   align-items:center;
   flex-wrap:wrap;
 }
+
+/* Bottom nav: give breathing room from the question box */
+.input-row-bottom{
+  margin-top: 18px;
+  padding-top: 6px;
+}
+
 .input{
   flex: 1 1 220px;
   height: 46px;
@@ -188,31 +198,18 @@ body{
 }
 
 /* TEXT HELPERS */
-.micro{
-  margin:10px 0 0;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--ink2);
-}
+.micro{ margin:10px 0 0; }
+
 .mini-title{
   margin: 0 0 8px;
   font-size: 14px;
   letter-spacing:.02em;
-  color: var(--ink2);
   font-weight: 950;
+  color: rgba(0,0,0,.74);
 }
-.step-help{
-  margin: 0;
-  font-size: 13px;
-  font-weight: 850;
-  color: var(--ink2);
-}
-.hint{
-  margin-top:10px;
-  font-size: 13px;
-  font-weight: 850;
-  color: var(--ink2);
-}
+
+.step-help{ margin: 0; }
+.hint{ margin-top:10px; }
 
 /* Questions */
 .qgrid{ display:grid; gap:12px; }
@@ -223,7 +220,7 @@ body{
   background: rgba(255,255,255,.16);
 }
 .q-label{ font-weight: 1000; letter-spacing:.01em; }
-.q-sub{ margin-top:4px; font-size: 13px; font-weight: 800; color: var(--ink2); }
+.q-sub{ margin-top:4px; }
 .q-controls{ margin-top:10px; display:grid; gap:10px; }
 
 /* Choices */
@@ -288,12 +285,6 @@ body{
   overflow:hidden;
 }
 .clipart svg{ width: 74px; height: 74px; }
-
-.outcome-tone{
-  max-width: 72ch;
-  font-weight: 850;
-  color: rgba(0,0,0,.78);
-}
 
 /* Lists */
 .bullets{ margin:0; padding-left: 18px; }
