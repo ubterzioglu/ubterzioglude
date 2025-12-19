@@ -77,7 +77,25 @@ window.BUYORBYE_APP = (function () {
       return;
     }
 
-    const QUESTION_ORDER = data.steps.flatMap((s) => s.qids);
+   const ALL_QIDS = data.steps.flatMap((s) => s.qids);
+
+const PRIORITY_TYPES = ["yesno", "single", "multi"];
+const INPUT_TYPES = ["text", "number"];
+
+const QUESTION_ORDER = [
+  // 1) Yes / No + Choice questions first
+  ...ALL_QIDS.filter((qid) =>
+    PRIORITY_TYPES.includes(data.questions[qid]?.type)
+  ),
+
+  // 2) Text / Number questions last
+  ...ALL_QIDS.filter((qid) =>
+    INPUT_TYPES.includes(data.questions[qid]?.type)
+  )
+];
+
+
+
     const TOTAL_QUESTIONS = QUESTION_ORDER.length;
 
     const STEP_BY_QID = {};
