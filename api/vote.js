@@ -1,5 +1,18 @@
 import { json, upstash, safeId } from "./_lib.js";
 
+function hashToObj(result) {
+  if (!result) return {};
+  if (Array.isArray(result)) {
+    const obj = {};
+    for (let i = 0; i < result.length; i += 2) {
+      obj[String(result[i])] = String(result[i + 1] ?? "");
+    }
+    return obj;
+  }
+  if (typeof result === "object") return result;
+  return {};
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
@@ -16,7 +29,7 @@ export default async function handler(req, res) {
   try {
     await upstash(`HINCRBY/${encodeURIComponent(votesKey)}/${direction}/1`);
     const votes = await upstash(`HGETALL/${encodeURIComponent(votesKey)}`);
-    const obj = votes?.result || {};
+    const obj = hashToObj(votes?.result);
     return json(res, 200, { up: Number(obj.up || 0), down: Number(obj.down || 0) });
   } catch (e) {
     return json(res, 500, { error: "Server error", detail: String(e?.message || e) });
