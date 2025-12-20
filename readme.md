@@ -15,3 +15,4 @@
 18.12.25 Train Dreams!
 19.12.25 Another productive day!
 20.12.25 Smellable!
+20.12.25 Vercel issues...
