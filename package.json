@@ -3,14 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "resend": "^4.0.0"
-  }
-}
-
-{
-  "name": "smellable",
-  "private": true,
-  "dependencies": {
+    "resend": "^4.0.0",
     "node-fetch": "3.3.2"
   }
 }
