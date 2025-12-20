@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Details - Germany Travel Guide</title>
+    <title>Germany Travel Guide - Discover Beautiful Cities</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,87 +11,26 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo-link">
-                    <h1 class="logo">🇩🇪 Germany Travel Guide</h1>
-                </a>
-                <a href="index.html" class="back-link">← Back to Cities</a>
+                <h1 class="logo">🇩🇪 Germany Travel Guide</h1>
+                <p class="tagline">Discover the beauty, history, and culture of German cities</p>
             </div>
         </div>
     </header>
 
-    <!-- City Hero -->
-    <section class="city-hero" id="cityHero">
-        <div class="city-hero-overlay"></div>
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="city-hero-content">
-                <h1 class="city-hero-title" id="cityName"></h1>
-                <p class="city-hero-subtitle" id="cityRegion"></p>
-            </div>
+            <h2 class="hero-title">Explore Germany's Major Cities</h2>
+            <p class="hero-subtitle">From historic landmarks to modern attractions, discover what makes each city unique</p>
         </div>
     </section>
 
-    <!-- City Content -->
-    <main class="city-main">
+    <!-- Cities Grid -->
+    <main class="main">
         <div class="container">
-            <!-- Quick Info -->
-            <section class="quick-info">
-                <div class="quick-info-item">
-                    <span class="quick-info-icon">👥</span>
-                    <div>
-                        <p class="quick-info-label">Population</p>
-                        <p class="quick-info-value" id="cityPopulation"></p>
-                    </div>
-                </div>
-                <div class="quick-info-item">
-                    <span class="quick-info-icon">🌤️</span>
-                    <div>
-                        <p class="quick-info-label">Best Time to Visit</p>
-                        <p class="quick-info-value" id="cityBestTime"></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- History Section -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #D83B01">📜 History</h2>
-                <div class="section-content" id="historyContent"></div>
-            </section>
-
-            <!-- Climate Section -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #FFB900">🌤️ Climate</h2>
-                <div class="section-content" id="climateContent"></div>
-            </section>
-
-            <!-- Attractions Section -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #0078D4">🏛️ Top Attractions</h2>
-                <div class="attractions-grid" id="attractionsGrid"></div>
-            </section>
-
-            <!-- Restaurants Section -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #FF8C00">🍽️ Best Restaurants</h2>
-                <div class="places-grid" id="restaurantsGrid"></div>
-            </section>
-
-            <!-- Hotels Section -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #7719AA">🏨 Recommended Hotels</h2>
-                <div class="places-grid" id="hotelsGrid"></div>
-            </section>
-
-            <!-- Transportation Section -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #107C10">🚇 Transportation</h2>
-                <div class="section-content" id="transportationContent"></div>
-            </section>
-
-            <!-- Photo Gallery -->
-            <section class="content-section">
-                <h2 class="section-title" style="--section-color: #00B7C3">📸 Photo Gallery</h2>
-                <div class="gallery-grid" id="galleryGrid"></div>
-            </section>
+            <div class="cities-grid" id="citiesGrid">
+                <!-- Cities will be dynamically loaded here from cities-data.js -->
+            </div>
         </div>
     </main>
 
@@ -104,101 +43,37 @@
 
     <script src="cities-data.js"></script>
     <script>
-        // Get city ID from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const cityId = urlParams.get('id');
-
-        // Find city data
-        const city = citiesData.find(c => c.id === cityId);
-
-        if (city) {
-            // Set page title
-            document.title = `${city.name} - Germany Travel Guide`;
-
-            // Set hero section
-            document.getElementById('cityHero').style.backgroundImage = `url('${city.image}')`;
-            document.getElementById('cityName').textContent = city.name;
-            document.getElementById('cityRegion').textContent = city.region;
-
-            // Set quick info
-            document.getElementById('cityPopulation').textContent = city.population;
-            document.getElementById('cityBestTime').textContent = city.bestTime;
-
-            // Set history
-            document.getElementById('historyContent').innerHTML = `<p>${city.history}</p>`;
-
-            // Set climate
-            document.getElementById('climateContent').innerHTML = `<p>${city.climate}</p>`;
-
-            // Set transportation
-            document.getElementById('transportationContent').innerHTML = `<p>${city.transportation}</p>`;
-
-            // Load attractions
-            const attractionsGrid = document.getElementById('attractionsGrid');
-            city.attractions.forEach(attraction => {
+        // Load cities dynamically
+        function loadCities() {
+            const grid = document.getElementById('citiesGrid');
+            const colors = ['#D83B01', '#FF8C00', '#FFB900', '#107C10', '#00B7C3', '#0078D4', '#7719AA'];
+            
+            citiesData.forEach((city, index) => {
+                const color = colors[index % colors.length];
                 const card = document.createElement('div');
-                card.className = 'attraction-card';
+                card.className = 'city-card';
+                card.style.setProperty('--card-color', color);
+                card.onclick = () => window.location.href = `city.html?id=${city.id}`;
+                
                 card.innerHTML = `
-                    <div class="attraction-image" style="background-image: url('${attraction.image}');"></div>
-                    <div class="attraction-content">
-                        <h3 class="attraction-name">${attraction.name}</h3>
-                        <p class="attraction-description">${attraction.description}</p>
+                    <div class="city-card-image" style="background-image: url('${city.image}');">
+                        <div class="city-card-overlay"></div>
+                    </div>
+                    <div class="city-card-content">
+                        <h3 class="city-card-title">${city.name}</h3>
+                        <p class="city-card-region">${city.region}</p>
+                        <p class="city-card-population">Population: ${city.population}</p>
+                        <p class="city-card-description">${city.shortDescription}</p>
+                        <button class="city-card-button">Explore ${city.name}</button>
                     </div>
                 `;
-                attractionsGrid.appendChild(card);
+                
+                grid.appendChild(card);
             });
-
-            // Load restaurants
-            const restaurantsGrid = document.getElementById('restaurantsGrid');
-            city.restaurants.forEach(restaurant => {
-                const card = document.createElement('div');
-                card.className = 'place-card';
-                card.innerHTML = `
-                    <h3 class="place-name">${restaurant.name}</h3>
-                    <p class="place-type">${restaurant.cuisine}</p>
-                    <p class="place-description">${restaurant.description}</p>
-                    ${restaurant.priceRange ? `<p class="place-price">${restaurant.priceRange}</p>` : ''}
-                `;
-                restaurantsGrid.appendChild(card);
-            });
-
-            // Load hotels
-            const hotelsGrid = document.getElementById('hotelsGrid');
-            city.hotels.forEach(hotel => {
-                const card = document.createElement('div');
-                card.className = 'place-card';
-                card.innerHTML = `
-                    <h3 class="place-name">${hotel.name}</h3>
-                    <p class="place-type">${hotel.type}</p>
-                    <p class="place-description">${hotel.description}</p>
-                    ${hotel.priceRange ? `<p class="place-price">${hotel.priceRange}</p>` : ''}
-                `;
-                hotelsGrid.appendChild(card);
-            });
-
-            // Load gallery
-            const galleryGrid = document.getElementById('galleryGrid');
-            city.gallery.forEach(photo => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `
-                    <img src="${photo.url}" alt="${photo.caption}" class="gallery-image">
-                    <p class="gallery-caption">${photo.caption}</p>
-                `;
-                galleryGrid.appendChild(item);
-            });
-        } else {
-            // City not found
-            document.querySelector('.city-main').innerHTML = `
-                <div class="container">
-                    <div class="error-message">
-                        <h2>City not found</h2>
-                        <p>The city you're looking for doesn't exist.</p>
-                        <a href="index.html" class="back-button">Go back to cities</a>
-                    </div>
-                </div>
-            `;
         }
+
+        // Load cities on page load
+        document.addEventListener('DOMContentLoaded', loadCities);
     </script>
 </body>
 </html>
