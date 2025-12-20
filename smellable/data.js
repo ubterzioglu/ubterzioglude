@@ -1,10 +1,11 @@
 // Basic seed list (replace images with your own)
 const smells = [
+
   { id: "smell_001", name: "Freshly cut grass", image: "img/1.jpg", category: "nature" },
   { id: "smell_002", name: "Coffee in the morning", image: "img/2.jpg", category: "food" },
   { id: "smell_003", name: "New book pages", image: "img/3.jpg", category: "cozy" },
   { id: "smell_004", name: "Sea breeze", image: "img/4.jpg", category: "nature" },
-  { id: "smell_005", name: "Rain on warm asphalt", image: "img/5.jpg", category: "nature" }
+  { id: "smell_005", name: "Rain on warm asphalt", image: "img/5.jpg", category: "nature" },
     // --- START: Smellable Batch 01 (50 items) ---
   { id: "smell_006", name: "Play-Doh tub just opened", image: "img/playdoh.jpg", category: "nostalgia" },
   { id: "smell_007", name: "New car interior (first day)", image: "img/new-car.jpg", category: "nostalgia" },
