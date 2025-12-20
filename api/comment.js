@@ -1,6 +1,4 @@
-export const config = {
-  runtime: "edge"
-};
+
 
 
 const { json, upstash, safeId, sanitizeText } = require("./_lib");
