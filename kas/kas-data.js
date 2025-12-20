@@ -225,3 +225,106 @@ const blogPosts = [
         author: 'Mehmet Demir'
     }
 ];
+
+// kas-data.js
+const kasData = [
+  {
+    title: "Kaputaş Plajı",
+    description:
+      "Kaş ile Kalkan arasında, 187 basamak merdivenle inilen kartpostallık turkuaz rengiyle Türkiye’nin en ünlü plajlarından biridir:contentReference[oaicite:30]{index=30}.",
+    category: "Plajlar & Koylar",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: golden sand and turquoise sea"
+  },
+  {
+    title: "Antiphellos Antik Tiyatrosu",
+    description:
+      "Kaş merkezinin batı ucunda, denize nazır konumdaki antik tiyatro MÖ 1. yy’da inşa edilmiştir. Yaklaşık 4.000 kişilik kapasitesiyle gün batımında Meis Adası manzarası sunar:contentReference[oaicite:31]{index=31}.",
+    category: "Tarihi Yerler",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: ancient amphitheater"
+  },
+  {
+    title: "Keyf-i Dem Restaurant Meyhane",
+    description:
+      "Merkezde denize sıfır konumdaki meyhane, zengin meze ve deniz mahsullerinden oluşan menüsüyle Kaş’ın popüler lokantalarındandır:contentReference[oaicite:32]{index=32}.",
+    category: "Restoranlar & Kafeler",
+    instagram: "https://instagram.com/keyfidemkas",
+    googleMaps: "",
+    image: "placeholder: outdoor seating by water"
+  },
+  {
+    title: "Zaika Ocakbaşı",
+    description:
+      "Çukurbağ Yarımadası’nda et kebapları ve mezeleriyle ünlü ocakbaşı. Lezzetli yemekleri ve kaliteli hizmeti övülür, Kaş’ta en iyi ocakbaşı deneyimlerinden biridir:contentReference[oaicite:33]{index=33}.",
+    category: "Restoranlar & Kafeler",
+    instagram: "https://instagram.com/zaikaocakbasi",
+    googleMaps: "",
+    image: "placeholder: grilled meat skewers"
+  },
+  {
+    title: "Payam Hotel",
+    description:
+      "Kaş merkezinde plaja ve çarşıya yürüme mesafesinde butik otel. Ferah deniz manzaralı odaları ve havuzlu terasında sunulan zengin kahvaltısı ile övgü alıyor:contentReference[oaicite:34]{index=34}:contentReference[oaicite:35]{index=35}.",
+    category: "Oteller & Konaklama",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: hotel with pool"
+  },
+  {
+    title: "Santosa Pansiyon",
+    description:
+      "Kaş merkezde aile işletmesi, samimi bir aile pansiyonu. Temiz, sade odaları ve terastaki ev yapımı kahvaltısıyla bilinir, uzun yıllardır müdavimlere hizmet eder:contentReference[oaicite:36]{index=36}:contentReference[oaicite:37]{index=37}.",
+    category: "Oteller & Konaklama",
+    instagram: "https://instagram.com/santosa_pansiyon",
+    googleMaps: "",
+    image: "placeholder: cozy guesthouse"
+  },
+  {
+    title: "Scuba Diving",
+    description:
+      "Kaş, temiz sularında 30’dan fazla dalış noktasına sahip Türkiye’nin önde gelen dalış merkezlerinden biridir:contentReference[oaicite:38]{index=38}. Yerel dalış okulları sabahları dalış tekneleriyle dalgıçları yakın noktalara götürür:contentReference[oaicite:39]{index=39}.",
+    category: "Aktiviteler",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: underwater reef"
+  },
+  {
+    title: "Yamaç Paraşütü",
+    description:
+      "Kaş, Türkiye’nin sayılı yamaç paraşütü noktalarındandır:contentReference[oaicite:40]{index=40}. Genellikle Asas Dağı (~1000 m) veya Kırdavlı Tepesi (~600 m) zirvelerinden uçuş düzenlenir; yaz aylarında gökyüzünde renkli paraşütler görülür:contentReference[oaicite:41]{index=41}.",
+    category: "Aktiviteler",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: paraglider over sea"
+  },
+  {
+    title: "Saklıkent Kanyonu",
+    description:
+      "Kaş’a ~60 km uzaklıktaki Saklıkent, Türkiye’nin en uzun kanyonlarından biridir (18 km). Derin ve dar kanyon yazın serinlemek ve yürüyüş için popülerdir; zemini buz gibi akarsu içerir:contentReference[oaicite:42]{index=42}.",
+    category: "Aktiviteler",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: canyon gorge"
+  },
+  {
+    title: "Para & ATM",
+    description:
+      "Kaş’ta birçok ATM merkezi noktalardadır (Cumhuriyet Meydanı çevresi). Ancak yazın bazı ATM’lerde nakit bitmesi veya arıza yaşanabilir, bu yüzden bir miktar nakit taşımak tavsiye edilir:contentReference[oaicite:43]{index=43}. Restoran ve mağazaların çoğu kart kabul eder; küçük esnaf için nakit gerekebilir.",
+    category: "Pratik Bilgiler & Uyarılar",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: ATM machine"
+  },
+  {
+    title: "Güneş ve Su Tüketimi",
+    description:
+      "Yazın Kaş’ta güneş oldukça yakıcıdır:contentReference[oaicite:44]{index=44}. Güneş kremi kullanın, öğle sıcağında gölgede kalın. Musluk suyu klorludur ve içme suyu olarak önerilmez; 1.5L şişe sular uygun fiyata temin edilebilir:contentReference[oaicite:45]{index=45}.",
+    category: "Pratik Bilgiler & Uyarılar",
+    instagram: "",
+    googleMaps: "",
+    image: "placeholder: sun and water bottle"
+  }
+];

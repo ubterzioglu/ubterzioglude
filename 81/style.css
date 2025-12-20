@@ -1,0 +1,312 @@
+/* MODERN TURKIYE REHBERI - STYLESHEET */
+
+:root {
+    --bg: #f1f5f9;
+    --accent: #2563eb;
+    --accent-light: #60a5fa;
+    --text-dark: #0f172a;
+    --text-light: #64748b;
+    --white: #ffffff;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* 1. Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* 2. Header / Hero */
+.hero {
+    height: 350px;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.header-content h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+}
+
+.header-content p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+/* 3. Grid System */
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 35px;
+}
+
+/* 4. City Cards */
+.city-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.city-card:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-xl);
+}
+
+
+
+
+
+
+
+/* Kart resim kutusunu standartlaştırıyoruz */
+.card-img-box {
+    position: relative;
+    height: 200px; /* Sabit yükseklik şart */
+    width: 100%;
+    overflow: hidden;
+    background-color: #f1f5f9; /* Resim yoksa gri görünsün */
+}
+
+.card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Resmi ezmeden kutuya yayar */
+    display: block;
+}
+
+/* Kartın alt kısmındaki yazı alanını ferahlatıyoruz */
+.card-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-info h2 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.btn-explore {
+    margin-top: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.city-card:hover .card-img-box img {
+    transform: scale(1.1);
+}
+
+.plaka-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--accent);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+
+.card-info p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 5. Modal System */
+.modal-wrapper {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-card {
+    background: var(--white);
+    width: 100%;
+    max-width: 850px;
+    max-height: 85vh;
+    border-radius: var(--radius-lg);
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Scrollbar */
+.modal-card::-webkit-scrollbar {
+    width: 8px;
+}
+.modal-card::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--white);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    line-height: 44px;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg);
+    color: var(--accent);
+}
+
+/* 6. Modal Content */
+.modal-header-img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+}
+
+.modal-inner {
+    padding: 40px;
+}
+
+.modal-inner h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+}
+
+.kunye-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.stat-item {
+    background: #f8fafc;
+    padding: 18px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-item span {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    margin-bottom: 4px;
+}
+
+.stat-item strong {
+    font-size: 1.1rem;
+    color: var(--accent);
+}
+
+.info-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+}
+
+.info-list li {
+    padding: 14px 18px;
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-left: 4px solid var(--accent-light);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* 7. Responsive Fixes */
+@media (max-width: 768px) {
+    .modal-inner { padding: 25px; }
+    .kunye-stats { grid-template-columns: 1fr; }
+    .modal-header-img { height: 250px; }
+    .modal-inner h1 { font-size: 2rem; }
+}
