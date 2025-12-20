@@ -1,9 +1,6 @@
+import { json, upstash, safeId, sanitizeText } from "./_lib.js";
 
-
-
-const { json, upstash, safeId, sanitizeText } = require("./_lib");
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
   let body = {};
@@ -22,6 +19,6 @@ module.exports = async (req, res) => {
     await upstash(`LTRIM/${encodeURIComponent(commentsKey)}/0/49`);
     return json(res, 200, comment);
   } catch (e) {
-    return json(res, 500, { error: "Server error", detail: String(e.message || e) });
+    return json(res, 500, { error: "Server error", detail: String(e?.message || e) });
   }
-};
+}

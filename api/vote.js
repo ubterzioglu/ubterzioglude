@@ -1,9 +1,6 @@
+import { json, upstash, safeId } from "./_lib.js";
 
-const { json, upstash, safeId } = require("./_lib");
-
-
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
   let body = {};
@@ -22,6 +19,6 @@ module.exports = async (req, res) => {
     const obj = votes?.result || {};
     return json(res, 200, { up: Number(obj.up || 0), down: Number(obj.down || 0) });
   } catch (e) {
-    return json(res, 500, { error: "Server error", detail: String(e.message || e) });
+    return json(res, 500, { error: "Server error", detail: String(e?.message || e) });
   }
-};
+}

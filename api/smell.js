@@ -1,10 +1,9 @@
+import { json, upstash, safeId } from "./_lib.js";
 
-const { json, upstash, safeId } = require("./_lib");
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
 
-  const id = safeId(req.query.id);
+  const id = safeId(req.query?.id);
   if (!id) return json(res, 400, { error: "Invalid id" });
 
   const votesKey = `smellable:votes:${id}`;
@@ -23,6 +22,6 @@ module.exports = async (req, res) => {
 
     return json(res, 200, { up, down, comments });
   } catch (e) {
-    return json(res, 500, { error: "Server error", detail: String(e.message || e) });
+    return json(res, 500, { error: "Server error", detail: String(e?.message || e) });
   }
-};
+}
