@@ -54,6 +54,12 @@
 
       <div class="nav-grid">
         <!-- IDs must match the cards below -->
+
+ <div class="nav-item" onclick="location.href='ztools.html'">
+          <span><span class="nav-icon">🧰</span> Tools </span>
+          <span class="chevron">›</span>
+        </div>
+
         <div class="nav-item" onclick="document.getElementById('cv')?.scrollIntoView();">
           <span><span class="nav-icon">📄</span> My CV</span>
           <span class="chevron">›</span>
@@ -127,7 +133,7 @@
 
     // 2) Other cards rendered below navigation
     cardLoader.renderInto("cards-root", [
-      "cv",
+        "cv",
       "aboutme",
       "support",
       "achievements",
