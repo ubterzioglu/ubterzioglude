@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smellable - An app you can smell</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="logo">Smellable</div>
+            <button class="menu-btn">•••</button>
+        </header>
+
+        <!-- Smell Card Container -->
+        <main class="smell-container">
+            <div class="smell-card">
+                <img id="smell-image" src="/img/grass.jpg" alt="Smell texture">
+                <div class="image-overlay"></div>
+            </div>
+
+            <div class="smell-info">
+                <h1 id="smell-name">Freshly cut grass</h1>
+            </div>
+
+            <!-- Reaction Zone -->
+            <div class="reaction-zone">
+                <p class="reaction-prompt">Did you smell it?</p>
+                <div class="reaction-buttons">
+                    <button class="reaction-btn" data-reaction="yes">Yes</button>
+                    <button class="reaction-btn" data-reaction="a_little">A little</button>
+                    <button class="reaction-btn" data-reaction="not_really">Not really</button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button class="next-btn" id="next-btn">
+                    <span>→</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- Footer hint -->
+        <footer class="hint">
+            <p>Tap or swipe for next smell</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
