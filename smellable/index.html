@@ -5,6 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smellable — An app you can smell</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- === SEO BASICS === -->
+  <link rel="canonical" href="https://ubterzioglu.de/smellable/" />
+
+  <meta name="description"
+        content="Smellable is an experimental app that triggers memories through images. Look, imagine, and ask yourself: can you smell it?" />
+
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Smellable — An app you can smell" />
+  <meta property="og:description"
+        content="Close your eyes, imagine for 5 seconds, then decide: can you smell it?" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ubterzioglu.de/smellable/" />
+  <meta property="og:image" content="https://ubterzioglu.de/smellable/og-smellable.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Smellable — An app you can smell" />
+  <meta name="twitter:description"
+        content="Images that trigger smell memories. Can you smell it?" />
+
+  <!-- === SCHEMA.ORG === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Smellable",
+    "url": "https://ubterzioglu.de/smellable/",
+    "description": "An experimental web app that uses images to trigger smell memory.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+
 </head>
 
 <body>
@@ -29,6 +64,11 @@
 
           <div class="actions">
             <div class="votes-block">
+              <p class="micro pre-smell-hint">
+                Close your eyes for 5 seconds.<br>
+                Imagine this image.<br>
+                Then answer.
+              </p>
               <div class="votes-question">Can you smell it?</div>
               <div class="votes">
                 <button class="vote-btn" id="vote-up" type="button" data-vote="up" aria-label="Yes">
@@ -137,5 +177,12 @@
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <!-- === GOATCOUNTER === -->
+  <script
+    data-goatcounter="https://ubterzioglude.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js">
+  </script>
+
 </body>
 </html>
