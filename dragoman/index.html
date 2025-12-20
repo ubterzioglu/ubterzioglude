@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elif Dragoman Bahçe - Sipariş Sistemi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="shell">
+            
+            <!-- HEADER -->
+            <header class="hero">
+                <div class="hero-left">
+                    <h1 class="title">ELİF DRAGOMAN BAHÇE</h1>
+                    <p class="subtitle">
+                        Lütfen masa numaranızı girin ve menümüzden siparişinizi seçin.
+                        Siparişiniz mutfağa otomatik olarak iletilecektir.
+                    </p>
+                </div>
+                
+                <div class="hero-right">
+                    <div class="palette-dots" aria-label="Renk paleti">
+                        <span class="dot dot-blue" title="#01A1F1"></span>
+                        <span class="dot dot-green" title="#7CBB00"></span>
+                        <span class="dot dot-orange" title="#F65314"></span>
+                        <span class="dot dot-purple" title="#8F03B7"></span>
+                        <span class="dot dot-yellow" title="#FFBB00"></span>
+                    </div>
+                    <div class="pill" id="statusPill">Masa numaranızı girin...</div>
+                </div>
+            </header>
+            
+            <main class="grid">
+                
+                <!-- KART 1: MASA NUMARASI -->
+                <section class="card card-blue" aria-labelledby="c1">
+                    <div class="card-head">
+                        <h2 id="c1" class="card-title">1) Masa Numarası</h2>
+                        <p class="card-sub">Masada yazan numarayı giriniz</p>
+                    </div>
+                    
+                    <div class="input-row">
+                        <label class="sr-only" for="tableNumber">Masa Numarası</label>
+                        <input
+                            id="tableNumber"
+                            class="input"
+                            type="number"
+                            min="1"
+                            max="30"
+                            placeholder="Örnek: 5"
+                            autocomplete="off"
+                        />
+                        <button class="btn" id="confirmTableBtn" type="button">
+                            <i class="fas fa-check"></i> Masayı Onayla
+                        </button>
+                    </div>
+                    
+                    <p class="micro">
+                        <i class="fas fa-info-circle"></i> Masanızın üzerinde yazan numarayı giriniz.
+                    </p>
+                </section>
+                
+                <!-- KART 2: MENÜ KATEGORİLERİ -->
+                <section class="card card-green" id="menuCard" hidden>
+                    <div class="card-head">
+                        <h2 class="card-title">2) Menü</h2>
+                        <p class="card-sub">Kategorilere göz atın ve sipariş verin</p>
+                    </div>
+                    
+                    <div class="category-tabs" id="categoryTabs">
+                        <!-- Kategoriler JS ile buraya gelecek -->
+                    </div>
+                    
+                    <div class="menu-items-grid" id="menuItems">
+                        <!-- Menü öğeleri JS ile buraya gelecek -->
+                    </div>
+                </section>
+                
+                <!-- KART 3: SEPET -->
+                <section class="card card-orange" id="cartCard" hidden>
+                    <div class="card-head">
+                        <h2 class="card-title">3) Sepetiniz</h2>
+                        <p class="card-sub">Masa: <span id="currentTable">-</span></p>
+                    </div>
+                    
+                    <div class="cart-items" id="cartItems">
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Sepetinizde ürün bulunmuyor</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Toplam Ürün:</span>
+                            <span id="totalItems">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Toplam Tutar:</span>
+                            <span id="totalPrice">0.00 ₺</span>
+                        </div>
+                        <div class="summary-row admin-only">
+                            <span>Admin Görünümü:</span>
+                            <span id="adminTotal">0.00 ₺</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-actions">
+                        <button class="btn btn-secondary" id="clearCartBtn">
+                            <i class="fas fa-trash"></i> Sepeti Temizle
+                        </button>
+                        <button class="btn btn-primary" id="sendOrderBtn">
+                            <i class="fas fa-paper-plane"></i> Siparişi Gönder
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- KART 4: SİPARİŞ ONAYI -->
+                <section class="card card-purple" id="confirmationCard" hidden>
+                    <div class="card-head">
+                        <h2 class="card-title">4) Sipariş Onayı</h2>
+                        <p class="card-sub">Siparişiniz başarıyla alındı</p>
+                    </div>
+                    
+                    <div class="confirmation-content">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Siparişiniz Alındı!</h3>
+                        <p>Masa <span id="confirmedTable">-</span> için siparişiniz mutfağa iletildi.</p>
+                        <p class="confirmation-id">Sipariş ID: <span id="orderId">-</span></p>
+                        
+                        <div class="confirmation-actions">
+                            <button class="btn" id="newOrderBtn">
+                                <i class="fas fa-plus"></i> Yeni Sipariş
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+            
+            <!-- FOOTER -->
+            <footer class="footer">
+                <p>Elif Dragoman Bahçe &copy; 2024 | Tüm hakları saklıdır.</p>
+                <p class="footer-contact">
+                    <i class="fas fa-phone"></i> 0XXX XXX XX XX | 
+                    <i class="fas fa-map-marker-alt"></i> Adres Bilgileri
+                </p>
+            </footer>
+            
+        </div>
+    </div>
+    
+    <!-- Script dosyaları -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
