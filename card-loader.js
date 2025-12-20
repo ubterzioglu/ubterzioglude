@@ -1556,8 +1556,14 @@ register("heroTools", () => `
       </a>
     </div>
 
-    <h1>Tools</h1>
-    <p class="title">Tools I use and recommend.</p>
+    <h1>Tools by UBT</h1>
+<p>
+Here you can find tools I built as hobby projects.  
+They are made to be fun and useful in daily life.  
+Some help you make decisions, some save time,  
+and some are just cool things you can say  
+“Hey, look what I found!” and show to your friends.
+</p>
   </div>
   <!-- END of block: Hero (Tools) -->
 `);
