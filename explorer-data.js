@@ -128,58 +128,7 @@ window.EXPLORER_DATA = {
     }
   ],
 
-  tools: [
 
-     {
-      id: "holiday",
-      title: "2026 Turkey Vacation Planner",
-      img: "/img/z0tool0060.jpg",
-      href: "https://ubterzioglu.de/holiday/holiday.html",
-      note: "2026 Turkey Vacation Planner is a simple planning tool that helps you calculate the most efficient vacation periods using Turkey’s 2026 public holidays. Built to turn scattered dates into clear, stress-free holiday plans."
-    },
-
-    {
-      id: "zbom",
-      title: "Bookmark Collection",
-      img: "/img/z0tool0050.jpg",
-      href: "https://ubterzioglu.de/zbom/zbom.html",
-      note: "ZBOM is a curated bookmark explorer that brings your favorite tools and websites into one clean, searchable place. Built to turn bookmark chaos into a practical library."
-    },
-
-    {
-      id: "zpath",
-      title: "Careeer Decision Tool",
-      img: "/img/z0tool0040.jpg",
-      href: "https://ubterzioglu.de/zpath/zpath.html",
-      note: "PATH helps you sanity-check career and life decisions using clear yes/no questions. It focuses on logic, consistency, and direction — without overthinking."
-    },
-
-    {
-      id: "aiselector",
-      title: "AI Selectior",
-      img: "/img/z0tool0010.jpg",
-      href: "https://ubterzioglu.de/zais/zais.html",
-      note: "A tiny AI tool selector that helps you choose the right tool with simple yes/no questions."
-    },
-
-    {
-      id: "facetoage",
-      title: "AI Age Estimation",
-      img: "/img/z0tool0020.jpg",
-      href: "https://ubterzioglu.de/zat/zat.html",
-      note: "Upload a photo and get an instant age estimate directly in your browser."
-    },
-
-    {
-  id: "ats-score-tool",
-  title: "ATS Score Tool",
-  img: "/img/z0tool0030.jpg",
-  href: "https://ubterzioglu.de/zats/zats.html",
-  note: "A simple tool that checks how readable and ATS-friendly your CV is. It highlights potential issues in structure, wording, and formatting, so you can make quick improvements before applying."
-    }
-
-    
-        ],
 
   apps: [
     {
@@ -712,6 +661,59 @@ window.EXPLORER_DATA = {
 
 
   ],
+
+    tools: [
+
+     {
+      id: "holiday",
+      title: "2026 Turkey Vacation Planner",
+      img: "/img/z0tool0060.jpg",
+      href: "https://ubterzioglu.de/holiday/holiday.html",
+      note: "2026 Turkey Vacation Planner is a simple planning tool that helps you calculate the most efficient vacation periods using Turkey’s 2026 public holidays. Built to turn scattered dates into clear, stress-free holiday plans."
+    },
+
+    {
+      id: "zbom",
+      title: "Bookmark Collection",
+      img: "/img/z0tool0050.jpg",
+      href: "https://ubterzioglu.de/zbom/zbom.html",
+      note: "ZBOM is a curated bookmark explorer that brings your favorite tools and websites into one clean, searchable place. Built to turn bookmark chaos into a practical library."
+    },
+
+    {
+      id: "zpath",
+      title: "Careeer Decision Tool",
+      img: "/img/z0tool0040.jpg",
+      href: "https://ubterzioglu.de/zpath/zpath.html",
+      note: "PATH helps you sanity-check career and life decisions using clear yes/no questions. It focuses on logic, consistency, and direction — without overthinking."
+    },
+
+    {
+      id: "aiselector",
+      title: "AI Selectior",
+      img: "/img/z0tool0010.jpg",
+      href: "https://ubterzioglu.de/zais/zais.html",
+      note: "A tiny AI tool selector that helps you choose the right tool with simple yes/no questions."
+    },
+
+    {
+      id: "facetoage",
+      title: "AI Age Estimation",
+      img: "/img/z0tool0020.jpg",
+      href: "https://ubterzioglu.de/zat/zat.html",
+      note: "Upload a photo and get an instant age estimate directly in your browser."
+    },
+
+    {
+  id: "ats-score-tool",
+  title: "ATS Score Tool",
+  img: "/img/z0tool0030.jpg",
+  href: "https://ubterzioglu.de/zats/zats.html",
+  note: "A simple tool that checks how readable and ATS-friendly your CV is. It highlights potential issues in structure, wording, and formatting, so you can make quick improvements before applying."
+    }
+
+    
+        ]
 };
 
 
