@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaş Rehberi - Akdeniz'in İncisi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+                <h1 class="logo-text">Kaş Rehberi</h1>
+            </div>
+            
+            <nav class="nav-desktop">
+                <a href="#" class="nav-link">Ana Sayfa</a>
+                <a href="#" class="nav-link">Keşfet</a>
+                <a href="#" class="nav-link">Harita</a>
+                <a href="#" class="nav-link">Blog</a>
+                <a href="#" class="nav-link">İletişim</a>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle">
+                <span class="menu-icon"></span>
+            </button>
+        </div>
+
+        <nav class="nav-mobile" id="mobileMenu">
+            <a href="#" class="nav-link-mobile">Ana Sayfa</a>
+            <a href="#" class="nav-link-mobile">Keşfet</a>
+            <a href="#" class="nav-link-mobile">Harita</a>
+            <a href="#" class="nav-link-mobile">Blog</a>
+            <a href="#" class="nav-link-mobile">İletişim</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h2 class="hero-title">Kaş'ta Maceran Başlasın</h2>
+            <p class="hero-subtitle">Turkuaz sularda dalış, antik kentlerde yolculuk, eşsiz plajlarda huzur</p>
+            
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input type="text" placeholder="Kaş'ta ne aramak istersin?" class="search-input">
+                <button class="search-button">Ara</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="categories-grid" id="categoriesGrid"></div>
+        </div>
+    </section>
+
+    <!-- Highlights -->
+    <section class="highlights-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title">Öne Çıkanlar</h3>
+                <a href="#" class="view-all">
+                    Tümünü Gör
+                    <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="highlights-grid" id="highlightsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Quick Info -->
+    <section class="quick-info">
+        <div class="container">
+            <div class="quick-info-grid">
+                <div class="info-card">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    <h4 class="info-number">150+</h4>
+                    <p class="info-text">Fotoğraflı Mekan</p>
+                </div>
+                <div class="info-card">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <h4 class="info-number">50+</h4>
+                    <p class="info-text">Gezilecek Yer</p>
+                </div>
+                <div class="info-card">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    <h4 class="info-number">4.8</h4>
+                    <p class="info-text">Ortalama Puan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+                <span class="footer-brand">Kaş Rehberi</span>
+            </div>
+            <p class="footer-tagline">Akdeniz'in incisi Kaş'ı keşfet</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Hakkımızda</a>
+                <a href="#" class="footer-link">Gizlilik</a>
+                <a href="#" class="footer-link">İletişim</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
