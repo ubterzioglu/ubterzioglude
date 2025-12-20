@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>KasGuide – Kaş travel notes (no hype)</title>
+  <meta name="description" content="KasGuide is a small, honest, no-hype guide to Kaş (Turkey): practical notes on coves, food, transport, and common traps — built slowly, published when ready." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://ubterzioglu.de/kas/kasguide.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="KasGuide – Kaş travel notes (no hype)" />
+  <meta property="og:description" content="A small, honest guide to Kaş: practical notes on coves, food, transport, and common traps — built slowly, published when ready." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ubterzioglu.de/kas/kasguide.html" />
+  <meta property="og:image" content="https://ubterzioglu.de/kas/img/kas-og.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="KasGuide – Kaş travel notes (no hype)" />
+  <meta name="twitter:description" content="A small, honest guide to Kaş — built slowly, published when ready." />
+  <meta name="twitter:image" content="https://ubterzioglu.de/kas/img/kas-og.png" />
+
+  <!-- Shared UBT base + Kas overrides -->
+  <link rel="stylesheet" href="/ubt-shared.css" />
+  <link rel="stylesheet" href="/kas/kas-style-shared.css" />
+
+  <!-- Minimal JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "KasGuide",
+    "url": "https://ubterzioglu.de/kas/kasguide.html",
+    "description": "A small, honest, no-hype guide to Kaş (Turkey): practical notes on coves, food, transport, and common traps — built slowly, published when ready.",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Umut Barış Terzioğlu",
+      "url": "https://ubterzioglu.de/"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "ubterzioglu.de",
+      "url": "https://ubterzioglu.de/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <a id="top"></a>
+
+  <div class="container kas-scope">
+
+    <!-- HERO (dynamic) -->
+    <div id="hero-root"></div>
+
+    <!-- NAVIGATION (manual, you control order) -->
+    <div class="card nav-card">
+      <div class="card-buttons">
+        <a class="icon-btn" href="/index.html" aria-label="Home" title="Home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 12h3v9h6v-6h2v6h6v-9h3z"/></svg>
+        </a>
+        <a class="icon-btn" href="#top" aria-label="Up" title="Up">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 4 13h5v6h6v-6h5z"/></svg>
+        </a>
+      </div>
+
+      <h2 class="section-title">Navigation</h2>
+
+      <div class="nav-grid">
+        <div class="nav-item" onclick="document.getElementById('start')?.scrollIntoView({behavior:'smooth'});">
+          <span><span class="nav-icon">🧭</span> Start here</span>
+          <span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('coves')?.scrollIntoView({behavior:'smooth'});">
+          <span><span class="nav-icon">🏝️</span> Coves & beaches</span>
+          <span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('food')?.scrollIntoView({behavior:'smooth'});">
+          <span><span class="nav-icon">🍽️</span> Food & coffee</span>
+          <span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('transport')?.scrollIntoView({behavior:'smooth'});">
+          <span><span class="nav-icon">🚗</span> Transport & roads</span>
+          <span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('tips')?.scrollIntoView({behavior:'smooth'});">
+          <span><span class="nav-icon">💡</span> Tiny tips</span>
+          <span class="chevron">›</span>
+        </div>
+
+        <div class="nav-item" onclick="document.getElementById('status')?.scrollIntoView({behavior:'smooth'});">
+          <span><span class="nav-icon">🧱</span> Build status</span>
+          <span class="chevron">›</span>
+        </div>
+      </div>
+    </div>
+    <!-- END NAV -->
+
+    <!-- CARDS ROOT (dynamic) -->
+    <div id="cards-root"></div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-title">KasGuide</div>
+        <div class="footer-sub">A slow-built guide. No hype. No sponsors.</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Data first, then renderer -->
+  <script src="/kas/kas-data.js"></script>
+  <script src="/kas/kas-card-loader.js"></script>
+
+  <!-- GoatCounter (same pattern as your site) -->
+  <script src="/goat.js"></script>
+</body>
+</html>
