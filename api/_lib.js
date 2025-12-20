@@ -9,17 +9,14 @@ export function json(res, status, data, extraHeaders = {}) {
 }
 
 function getRestConfig() {
-  // Preferred (Upstash Redis integration)
   const url1 = process.env.UPSTASH_REDIS_REST_URL;
   const token1 = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (url1 && token1) return { url: url1, token: token1 };
 
-  // Compatibility (Vercel KV / Upstash KV env names already present in many Vercel projects)
   const url2 = process.env.KV_REST_API_URL;
   const token2 = process.env.KV_REST_API_TOKEN;
   if (url2 && token2) return { url: url2, token: token2 };
 
-  // Last fallback (rare): KV_URL sometimes contains the REST endpoint too
   const url3 = process.env.KV_URL;
   if (url3 && token2) return { url: url3, token: token2 };
 
@@ -28,7 +25,7 @@ function getRestConfig() {
 
 export async function upstash(cmdPath) {
   const { url, token } = getRestConfig();
-  if (!url || !token) throw new Error("Missing Upstash REST env vars (UPSTASH_REDIS_REST_* or KV_REST_API_*)");
+  if (!url || !token) throw new Error("Missing Upstash REST env vars");
 
   const r = await fetch(`${url}/${cmdPath}`, {
     method: "POST",
