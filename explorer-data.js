@@ -664,9 +664,27 @@ window.EXPLORER_DATA = {
 
     tools: [
 
+      {
+      id: "buyorbyeen",
+      title: "BUYORBYE<br>Purchase Decision Tool (EN)",
+      img: "/img/z0tool0080.jpg",
+      href: "https://ubterzioglu.de/buyorbyetr/buyorbyetr.html",
+      note: "This tool helps you decide before buying something. Answer a few questions and see if it’s worth it. Avoid regret and unnecessary spending. " 
+      
+    },
+
+      {
+      id: "oparayaben",
+      title: "OPARAYABEN<br>Purchase Decision Tool (TR)",
+      img: "/img/z0tool0070.jpg",
+      href: "https://ubterzioglu.de/buyorbyetr/buyorbyetr.html",
+      note: "This tool helps you decide before buying something. Answer a few questions and see if it’s worth it. Avoid regret and unnecessary spending. " 
+      
+    },
+
      {
       id: "holiday",
-      title: "2026 Turkey Vacation Planner",
+      title: "TATILATOR-2026<br>2026 Turkey Vacation Planner",
       img: "/img/z0tool0060.jpg",
       href: "https://ubterzioglu.de/holiday/holiday.html",
       note: "2026 Turkey Vacation Planner is a simple planning tool that helps you calculate the most efficient vacation periods using Turkey’s 2026 public holidays. Built to turn scattered dates into clear, stress-free holiday plans."
@@ -674,7 +692,7 @@ window.EXPLORER_DATA = {
 
     {
       id: "zbom",
-      title: "Bookmark Collection",
+      title: "ZBOM<br>Bookmark Collection",
       img: "/img/z0tool0050.jpg",
       href: "https://ubterzioglu.de/zbom/zbom.html",
       note: "ZBOM is a curated bookmark explorer that brings your favorite tools and websites into one clean, searchable place. Built to turn bookmark chaos into a practical library."
@@ -682,7 +700,7 @@ window.EXPLORER_DATA = {
 
     {
       id: "zpath",
-      title: "Careeer Decision Tool",
+      title: "ZPATH<br>Careeer Decision Tool",
       img: "/img/z0tool0040.jpg",
       href: "https://ubterzioglu.de/zpath/zpath.html",
       note: "PATH helps you sanity-check career and life decisions using clear yes/no questions. It focuses on logic, consistency, and direction — without overthinking."
@@ -690,7 +708,7 @@ window.EXPLORER_DATA = {
 
     {
       id: "aiselector",
-      title: "AI Selectior",
+      title: "ZAIS<br>AI Selectior",
       img: "/img/z0tool0010.jpg",
       href: "https://ubterzioglu.de/zais/zais.html",
       note: "A tiny AI tool selector that helps you choose the right tool with simple yes/no questions."
@@ -698,7 +716,7 @@ window.EXPLORER_DATA = {
 
     {
       id: "facetoage",
-      title: "AI Age Estimation",
+      title: "ZAT<br>AI Age Estimation",
       img: "/img/z0tool0020.jpg",
       href: "https://ubterzioglu.de/zat/zat.html",
       note: "Upload a photo and get an instant age estimate directly in your browser."
@@ -706,7 +724,7 @@ window.EXPLORER_DATA = {
 
     {
   id: "ats-score-tool",
-  title: "ATS Score Tool",
+  title: "ZATS<br>ATS Score Tool",
   img: "/img/z0tool0030.jpg",
   href: "https://ubterzioglu.de/zats/zats.html",
   note: "A simple tool that checks how readable and ATS-friendly your CV is. It highlights potential issues in structure, wording, and formatting, so you can make quick improvements before applying."
