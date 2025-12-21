@@ -1171,33 +1171,47 @@ const allPlaces = [
 ];
 
 // --- Detail page fields (autofill placeholders) ---
-// longText: long description placeholder to be filled later (shown only on selection.html)
+// longText: uzun açıklama placeholder'ı. Sonradan her item için dolduracaksın.
+// Not: data.js'e tek tek eklemek yerine (şimdilik) otomatik ekliyoruz.
 (function () {
   const pilotText =
-`[LONG DESCRIPTION PLACEHOLDER]
-Write a long, story-like text here later. Aim for 8–20 paragraphs.
+`[UZUN AÇIKLAMA PLACEHOLDER - KAPUTAŞ (PİLOT)]
+Bu alanı sonra uzun uzun dolduracağız. Şimdilik sadece yer tutucu.
 
-Suggestions:
-- How to get there (parking, stairs, walking)
-- Best time to visit / sunrise-sunset
-- What to bring (water, shoes, umbrella)
-- Fees / rules / tips
-- Nearby stops and mini route ideas
+Öneri başlıklar:
+- Ulaşım: Kaş/Kalkan yönünden nasıl gidilir, park var mı?
+- 187 merdiven: iniş-çıkış, ayakkabı önerisi, güneş saatleri
+- En iyi zaman: sabah erken mi, gün batımı mı, rüzgâr/dalga durumu
+- Ne alınır: su, şapka, şnorkel, plaj ayakkabısı
+- Ücretler: giriş/şezlong/otopark (varsa)
+- Yakın duraklar: mini rota (Patara, Kalkan, Saklıkent vs.)
 
-(You can replace this text with your final content.)`;
+(Ready olunca burayı gerçek metinle değiştir.)`;
 
   const defaultText =
-`[LONG DESCRIPTION PLACEHOLDER]
-Write a long text here later (8–20 paragraphs). Replace this placeholder when ready.`;
+`[UZUN AÇIKLAMA PLACEHOLDER]
+Bu alanı sonra uzun metinle dolduracağız (8–20 paragraf gibi düşünebilirsin).
+Şimdilik yer tutucu.`;
 
-  if (typeof allPlaces !== 'undefined' && Array.isArray(allPlaces)) {
-    allPlaces.forEach(p => {
+  try {
+    if (typeof allPlaces === 'undefined' || !Array.isArray(allPlaces)) return;
+
+    allPlaces.forEach((p) => {
       if (!p || typeof p !== 'object') return;
-      if (p.longText == null || p.longText === '') {
-        const isPilot = String(p.id || '').toLowerCase().includes('kaputas') ||
-                        String(p.title || '').toLowerCase().includes('kaputa');
+
+      // longText yoksa ekle
+      if (p.longText == null || String(p.longText).trim() === '') {
+        const id = String(p.id || '').toLowerCase();
+        const title = String(p.title || '').toLowerCase();
+        const isPilot = id.includes('kaputas') || title.includes('kaputa');
         p.longText = isPilot ? pilotText : defaultText;
       }
+
+      // Bazı item'larda link alanı yoksa bile selection.js "links" objesini destekliyor.
+      // İstersen burada ileride normalize edebiliriz.
     });
+  } catch (e) {
+    // fail silently
   }
 })();
+
