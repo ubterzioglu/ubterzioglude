@@ -1169,3 +1169,35 @@ const allPlaces = [
     facilities: ['El işi ürünler', 'Atölye', 'Yerel sanat']
   }
 ];
+
+// --- Detail page fields (autofill placeholders) ---
+// longText: long description placeholder to be filled later (shown only on selection.html)
+(function () {
+  const pilotText =
+`[LONG DESCRIPTION PLACEHOLDER]
+Write a long, story-like text here later. Aim for 8–20 paragraphs.
+
+Suggestions:
+- How to get there (parking, stairs, walking)
+- Best time to visit / sunrise-sunset
+- What to bring (water, shoes, umbrella)
+- Fees / rules / tips
+- Nearby stops and mini route ideas
+
+(You can replace this text with your final content.)`;
+
+  const defaultText =
+`[LONG DESCRIPTION PLACEHOLDER]
+Write a long text here later (8–20 paragraphs). Replace this placeholder when ready.`;
+
+  if (typeof allPlaces !== 'undefined' && Array.isArray(allPlaces)) {
+    allPlaces.forEach(p => {
+      if (!p || typeof p !== 'object') return;
+      if (p.longText == null || p.longText === '') {
+        const isPilot = String(p.id || '').toLowerCase().includes('kaputas') ||
+                        String(p.title || '').toLowerCase().includes('kaputa');
+        p.longText = isPilot ? pilotText : defaultText;
+      }
+    });
+  }
+})();
