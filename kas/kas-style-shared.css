@@ -1,9 +1,9 @@
 /* =====================================================
-   KasGuide — kas-style-shared.css  (V1.1 PATCH)
-   Goal: prevent UBT dark-theme styles from bleeding in.
-   - Page background WHITE
-   - All text colors forced dark inside .kas-scope
-   - Cards use soft vacation tints
+   KasGuide — kas-style-shared.css (MERGED)
+   Goal:
+   - DO NOT break the original (old) site layout
+   - Keep everything scoped under .kas-scope
+   - Provide missing styles for nav card, grid, footer-inner
    ===================================================== */
 
 :root{
@@ -22,12 +22,12 @@
   --kas-shadow: 0 10px 30px rgba(15,23,42,0.06);
 }
 
-/* Hard lock: page background white */
-html, body{ background:#ffffff !important; }
+/* IMPORTANT:
+   We intentionally DO NOT set html/body background here,
+   because the old layout uses gradients + hero. */
 
 /* -----------------------------------------------------
    FORCE readable typography in Kas scope
-   (fixes “white text on white bg” when UBT shared is dark)
    ----------------------------------------------------- */
 .kas-scope,
 .kas-scope *{
@@ -74,19 +74,24 @@ html, body{ background:#ffffff !important; }
 /* Subtle left accent on detail cards only */
 .kas-scope .detail-card{
   border-left: 6px solid rgba(0,164,239,0.18);
+  padding: 18px;
+  margin-top: 16px;
 }
 
-/* Nav card should also look like a card (avoid “dark block”) */
+/* Nav card should also look like a card */
 .kas-scope .nav-card{
   background: var(--kas-card-1) !important;
+  padding: 18px;
+  margin-top: 18px;
 }
 
 /* -----------------------------------------------------
-   HERO (white, airy)
+   HERO (airy)
    ----------------------------------------------------- */
 .kas-scope .hero-card{
   padding: 26px;
   background: #ffffff !important;
+  margin-top: 18px;
 }
 
 .kas-scope .hero-title{
@@ -144,6 +149,13 @@ html, body{ background:#ffffff !important; }
 /* -----------------------------------------------------
    NAV icon buttons (SVG)
    ----------------------------------------------------- */
+.kas-scope .card-buttons{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-bottom: 10px;
+}
+
 .kas-scope .icon-btn{
   display:inline-flex;
   align-items:center;
@@ -158,6 +170,40 @@ html, body{ background:#ffffff !important; }
   width:20px;
   height:20px;
   fill: rgba(15,23,42,0.86);
+}
+
+/* nav grid */
+.kas-scope .nav-grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+  margin-top: 12px;
+}
+
+.kas-scope .nav-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(0,0,0,0.06);
+  cursor:pointer;
+  user-select:none;
+}
+
+.kas-scope .nav-item:hover{
+  background:#ffffff;
+}
+
+.kas-scope .nav-icon{
+  margin-right: 8px;
+}
+
+.kas-scope .chevron{
+  opacity:0.6;
+  font-size: 18px;
 }
 
 /* -----------------------------------------------------
@@ -202,5 +248,28 @@ html, body{ background:#ffffff !important; }
 .kas-scope .pill.wip{ border-color: rgba(0,164,239,0.40); }
 .kas-scope .pill.lock{ border-color: rgba(255,185,0,0.40); }
 
-/* Footer readability */
-.kas-scope .footer{ background:#ffffff !important; }
+/* -----------------------------------------------------
+   Kas footer (inside kas-scope) — avoid clashing with old footer
+   ----------------------------------------------------- */
+.kas-scope .kas-footer{
+  background: transparent !important;
+  padding: 0 !important;
+  margin-top: 18px;
+}
+
+.kas-scope .footer-inner{
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--kas-border);
+  background: rgba(255,255,255,0.80);
+}
+
+.kas-scope .footer-title{
+  font-weight: 800;
+}
+
+@media (min-width: 768px){
+  .kas-scope .nav-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

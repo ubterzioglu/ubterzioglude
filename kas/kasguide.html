@@ -1,61 +1,209 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kaş Guide</title>
-  <link rel="stylesheet" href="kas-style-shared.fixed.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaş Rehberi - Akdeniz'in İncisi</title>
+
+  <!-- Old layout CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- New modular KasGuide CSS (SCOPED) -->
+  <link rel="stylesheet" href="kas-style-shared.css">
 </head>
 <body>
-  <!-- IMPORTANT: The CSS is scoped under .kas-scope -->
-  <div class="kas-scope">
-    <header class="kas-header">
-      <h1 class="kas-title">Kaş Guide</h1>
-      <p class="kas-subtitle">Kart görünümü (kas-data.js → otomatik kartlar).</p>
-    </header>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+        </svg>
+        <h1 class="logo-text">Kaş Rehberi</h1>
+      </div>
 
-    <main id="card-container" class="kas-grid"></main>
-  </div>
+      <nav class="nav-desktop">
+        <a href="#" class="nav-link">Ana Sayfa</a>
+        <a href="#" class="nav-link">Keşfet</a>
+        <a href="#" class="nav-link">Harita</a>
+        <a href="#" class="nav-link">Blog</a>
+        <a href="#" class="nav-link">İletişim</a>
+      </nav>
 
-  <script src="kas-data.js"></script>
-  <script>
-    const container = document.getElementById('card-container');
+      <button class="menu-toggle" id="menuToggle">
+        <span class="menu-icon"></span>
+      </button>
+    </div>
 
-    function renderLinks(card){
-      const links = [];
-      if (card.instagram) links.push(`<a href="${card.instagram}" target="_blank" rel="noopener">Instagram</a>`);
-      if (card.googleMaps) links.push(`<a href="${card.googleMaps}" target="_blank" rel="noopener">Harita</a>`);
-      return links.length ? links.join(' · ') : '<span class="muted">Link yok</span>';
-    }
+    <nav class="nav-mobile" id="mobileMenu">
+      <a href="#" class="nav-link-mobile">Ana Sayfa</a>
+      <a href="#" class="nav-link-mobile">Keşfet</a>
+      <a href="#" class="nav-link-mobile">Harita</a>
+      <a href="#" class="nav-link-mobile">Blog</a>
+      <a href="#" class="nav-link-mobile">İletişim</a>
+    </nav>
+  </header>
 
-    function renderImage(card){
-      // If you later replace placeholder strings with real URLs, this will automatically switch to <img>.
-      const img = (card.image || '').trim();
-      const looksLikeUrl = /^https?:\/\//i.test(img) || /^\.\//.test(img) || /^\//.test(img);
-      if (looksLikeUrl){
-        return `<img src="${img}" alt="${card.title}" loading="lazy" class="card-img-real">`;
-      }
-      return `<div class="img-placeholder">${img || 'placeholder: image'}</div>`;
-    }
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h2 class="hero-title">Kaş'ta Maceran Başlasın</h2>
+      <p class="hero-subtitle">Turkuaz sularda dalış, antik kentlerde yolculuk, eşsiz plajlarda huzur</p>
 
-    kasData.forEach((card, idx) => {
-      const el = document.createElement('article');
-      el.className = 'card card-color-' + ((idx % 5) + 1);
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" placeholder="Kaş'ta ne aramak istersin?" class="search-input">
+        <button class="search-button">Ara</button>
+      </div>
+    </div>
+  </section>
 
-      el.innerHTML = `
-        <div class="card-img">${renderImage(card)}</div>
-        <div class="card-body">
-          <div class="card-top">
-            <span class="card-category">${card.category || ''}</span>
-          </div>
-          <h3 class="card-title">${card.title}</h3>
-          <p class="card-desc">${card.description}</p>
-          <div class="card-links">${renderLinks(card)}</div>
+  <!-- Categories -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section class="highlights-section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">Öne Çıkanlar</h3>
+        <a href="#" class="view-all">
+          Tümünü Gör
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="highlights-grid" id="highlightsGrid"></div>
+    </div>
+  </section>
+
+  <!-- Quick Info -->
+  <section class="quick-info">
+    <div class="container">
+      <div class="quick-info-grid">
+        <div class="info-card">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <h4 class="info-number">150+</h4>
+          <p class="info-text">Fotoğraflı Mekan</p>
         </div>
-      `;
+        <div class="info-card">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <h4 class="info-number">50+</h4>
+          <p class="info-text">Gezilecek Yer</p>
+        </div>
+        <div class="info-card">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <h4 class="info-number">4.8</h4>
+          <p class="info-text">Ortalama Puan</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      container.appendChild(el);
-    });
-  </script>
+  <!-- =====================================================
+       NEW SYSTEM (MODULAR CARDS) — MERGED IN
+       Uses: kas-data.js + kas-card-loader.js
+       Styled only inside .kas-scope
+       ===================================================== -->
+  <section class="kasguide-notes">
+    <div class="container kas-scope">
+      <!-- dynamic hero -->
+      <div id="hero-root"></div>
+
+      <!-- navigation card (manual order) -->
+      <div class="card nav-card">
+        <div class="card-buttons">
+          <a class="icon-btn" href="#top" aria-label="Up" title="Up">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 4 13h5v6h6v-6h5z"/></svg>
+          </a>
+        </div>
+
+        <h2 class="section-title">KasGuide Notes</h2>
+
+        <div class="nav-grid">
+          <div class="nav-item" onclick="document.getElementById('start')?.scrollIntoView({behavior:'smooth'});">
+            <span><span class="nav-icon">🧭</span> Start here</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="nav-item" onclick="document.getElementById('coves')?.scrollIntoView({behavior:'smooth'});">
+            <span><span class="nav-icon">🏝️</span> Coves & beaches</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="nav-item" onclick="document.getElementById('food')?.scrollIntoView({behavior:'smooth'});">
+            <span><span class="nav-icon">🍽️</span> Food & coffee</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="nav-item" onclick="document.getElementById('transport')?.scrollIntoView({behavior:'smooth'});">
+            <span><span class="nav-icon">🚗</span> Transport & roads</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="nav-item" onclick="document.getElementById('tips')?.scrollIntoView({behavior:'smooth'});">
+            <span><span class="nav-icon">💡</span> Tiny tips</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="nav-item" onclick="document.getElementById('status')?.scrollIntoView({behavior:'smooth'});">
+            <span><span class="nav-icon">🧱</span> Build status</span>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- dynamic sections -->
+      <div id="cards-root"></div>
+
+      <footer class="footer kas-footer">
+        <div class="footer-inner">
+          <div class="footer-title">KasGuide</div>
+          <div class="footer-sub">A slow-built guide. No hype. No sponsors.</div>
+        </div>
+      </footer>
+    </div>
+  </section>
+  <!-- ===================== END NEW SYSTEM ===================== -->
+
+  <!-- Footer (OLD layout footer stays) -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+        </svg>
+        <span class="footer-brand">Kaş Rehberi</span>
+      </div>
+      <p class="footer-tagline">Akdeniz'in incisi Kaş'ı keşfet</p>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Hakkımızda</a>
+        <a href="#" class="footer-link">Gizlilik</a>
+        <a href="#" class="footer-link">İletişim</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Old system scripts -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+
+  <!-- New modular system scripts -->
+  <script src="kas-data.js"></script>
+  <script src="kas-card-loader.js"></script>
 </body>
 </html>
