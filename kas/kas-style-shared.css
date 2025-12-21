@@ -1,27 +1,206 @@
+/* =====================================================
+   KasGuide — kas-style-shared.css  (V1.1 PATCH)
+   Goal: prevent UBT dark-theme styles from bleeding in.
+   - Page background WHITE
+   - All text colors forced dark inside .kas-scope
+   - Cards use soft vacation tints
+   ===================================================== */
 
-body {
-  font-family: sans-serif;
-  background: #fff;
-  color: #222;
-  padding: 2rem;
+:root{
+  --kas-blue:  #00A4EF;
+  --kas-green: #7FBA00;
+
+  --kas-card-1: #EAF6FB;
+  --kas-card-2: #E6FAF7;
+  --kas-card-3: #F1F7EC;
+  --kas-card-4: #FBF4E6;
+  --kas-card-5: #FDEEEE;
+
+  --kas-text: #0f172a;
+  --kas-text-dim: rgba(15,23,42,0.74);
+  --kas-border: rgba(0,0,0,0.08);
+  --kas-shadow: 0 10px 30px rgba(15,23,42,0.06);
 }
-.card {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 8px;
-  background: #f2fcfc;
+
+/* Hard lock: page background white */
+html, body{ background:#ffffff !important; }
+
+/* -----------------------------------------------------
+   FORCE readable typography in Kas scope
+   (fixes “white text on white bg” when UBT shared is dark)
+   ----------------------------------------------------- */
+.kas-scope,
+.kas-scope *{
+  color: var(--kas-text);
 }
-.card-img {
-  background: #ccf;
-  width: 100%;
-  height: 150px;
-  margin-bottom: 1rem;
-  text-align: center;
-  line-height: 150px;
-  font-weight: bold;
+
+.kas-scope p,
+.kas-scope li,
+.kas-scope .muted,
+.kas-scope .footer-sub{
+  color: var(--kas-text-dim) !important;
 }
-a {
+
+.kas-scope a{
+  color: rgba(0,92,170,0.95);
   text-decoration: none;
-  color: #006699;
 }
+.kas-scope a:hover{ text-decoration: underline; }
+
+.kas-scope h1,
+.kas-scope h2,
+.kas-scope h3{
+  color: var(--kas-text) !important;
+}
+
+/* -----------------------------------------------------
+   Cards
+   ----------------------------------------------------- */
+.kas-scope .card,
+.kas-scope .detail-card{
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid var(--kas-border);
+  box-shadow: var(--kas-shadow);
+}
+
+/* Map existing card-color-* classes to Kas palette */
+.kas-scope .card-color-1{ background: var(--kas-card-1) !important; }
+.kas-scope .card-color-2{ background: var(--kas-card-2) !important; }
+.kas-scope .card-color-3{ background: var(--kas-card-3) !important; }
+.kas-scope .card-color-4{ background: var(--kas-card-4) !important; }
+.kas-scope .card-color-5{ background: var(--kas-card-5) !important; }
+
+/* Subtle left accent on detail cards only */
+.kas-scope .detail-card{
+  border-left: 6px solid rgba(0,164,239,0.18);
+}
+
+/* Nav card should also look like a card (avoid “dark block”) */
+.kas-scope .nav-card{
+  background: var(--kas-card-1) !important;
+}
+
+/* -----------------------------------------------------
+   HERO (white, airy)
+   ----------------------------------------------------- */
+.kas-scope .hero-card{
+  padding: 26px;
+  background: #ffffff !important;
+}
+
+.kas-scope .hero-title{
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.kas-scope .hero-subtitle{
+  margin-top: 10px;
+  color: var(--kas-text-dim) !important;
+  max-width: 70ch;
+}
+
+/* chips */
+.kas-scope .hero-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 14px;
+}
+
+.kas-scope .hero-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--kas-border);
+  background: rgba(255,255,255,0.85);
+  font-weight: 650;
+}
+
+.kas-scope .hero-chip:hover{ background: #ffffff; }
+
+.kas-scope .hero-chip .dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background: linear-gradient(135deg, var(--kas-blue), var(--kas-green));
+}
+
+/* tiny accent divider */
+.kas-scope .hero-card::after{
+  content:"";
+  display:block;
+  margin-top: 16px;
+  height: 2px;
+  width: 120px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(0,164,239,0.55), rgba(127,186,0,0.55));
+}
+
+/* -----------------------------------------------------
+   NAV icon buttons (SVG)
+   ----------------------------------------------------- */
+.kas-scope .icon-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.90);
+  border:1px solid var(--kas-border);
+}
+.kas-scope .icon-btn svg{
+  width:20px;
+  height:20px;
+  fill: rgba(15,23,42,0.86);
+}
+
+/* -----------------------------------------------------
+   Section kicker, notes, pills
+   ----------------------------------------------------- */
+.kas-scope .mini-kicker{
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  opacity: 0.75;
+  margin-bottom: 10px;
+  color: rgba(15,23,42,0.70) !important;
+}
+
+.kas-scope .note{
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.75);
+}
+.kas-scope .note strong{
+  display:block;
+  margin-bottom: 6px;
+}
+
+.kas-scope .pill-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 10px;
+}
+
+.kas-scope .pill{
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.78);
+  color: rgba(15,23,42,0.86) !important;
+}
+.kas-scope .pill.ok{ border-color: rgba(127,186,0,0.40); }
+.kas-scope .pill.wip{ border-color: rgba(0,164,239,0.40); }
+.kas-scope .pill.lock{ border-color: rgba(255,185,0,0.40); }
+
+/* Footer readability */
+.kas-scope .footer{ background:#ffffff !important; }
