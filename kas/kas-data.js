@@ -161,11 +161,5 @@ const kasData = [
   }
 ];
 
-
-
-
-
-
-
-
-
+// Expose to global scope for non-module scripts
+try { window.kasData = kasData; } catch (e) { try { globalThis.kasData = kasData; } catch(_){} }
