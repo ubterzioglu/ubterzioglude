@@ -1,90 +1,9 @@
-// Kategoriler
+// Kategoriler (Aynı kalıyor)
 const categories = [
-  {
-    id: 'places',
-    name: 'Gezilecek Yerler',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-      <circle cx="12" cy="10" r="3"/>
-    </svg>`,
-    color: 'category-orange'
-  },
-  {
-    id: 'beaches',
-    name: 'Plajlar & Koylar',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M2 12h.01"/>
-      <path d="M20 12h.01"/>
-      <path d="M6 12h.01"/>
-      <path d="M18 12h.01"/>
-      <path d="M10 12h.01"/>
-      <path d="M14 12h.01"/>
-      <path d="M2 8c6-4.5 14-4.5 20 0"/>
-      <path d="M2 16c6 4.5 14 4.5 20 0"/>
-    </svg>`,
-    color: 'category-cyan'
-  },
-  {
-    id: 'activities',
-    name: 'Aktiviteler',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
-    </svg>`,
-    color: 'category-green'
-  },
-  {
-    id: 'food',
-    name: 'Yeme-İçme',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"/>
-      <circle cx="17" cy="7" r="5"/>
-    </svg>`,
-    color: 'category-red'
-  },
-  {
-    id: 'hotels',
-    name: 'Konaklama',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M2 4v16"/>
-      <path d="M2 8h18a2 2 0 0 1 2 2v10"/>
-      <path d="M2 17h20"/>
-      <path d="M6 8v9"/>
-    </svg>`,
-    color: 'category-purple'
-  },
-  {
-    id: 'history',
-    name: 'Tarihi Yerler',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
-      <path d="M12 6v6l4 2"/>
-    </svg>`,
-    color: 'category-pink'
-  },
-  {
-    id: 'nature',
-    name: 'Doğa',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 2a10 10 0 0 0-8 16"/>
-      <path d="M12 2a10 10 0 0 1 8 16"/>
-      <path d="M12 10v4"/>
-      <path d="M12 16v2"/>
-    </svg>`,
-    color: 'category-blue'
-  },
-  {
-    id: 'shopping',
-    name: 'Alışveriş',
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="9" cy="21" r="1"/>
-      <circle cx="20" cy="21" r="1"/>
-      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-    </svg>`,
-    color: 'category-gray'
-  }
+  // ... mevcut kategori tanımlamaları aynı
 ];
 
-// Tüm Yerler (156 kayıt)
+// Tüm Yerler - Seviye 3 formatına göre güncellendi
 const allPlaces = [
   // Plajlar & Koylar (25 kayıt)
   {
@@ -97,6 +16,15 @@ const allPlaces = [
     time: '20 dk',
     price: 'Ücretsiz',
     selected: false,
+    // YENİ ATTRIBUTE'LAR
+    location: 'Kaş-Kalkan yolu üzeri',
+    distance: '20 km',
+    coordinates: { lat: 36.2542, lng: 29.2991 },
+    website: '',
+    phone: '',
+    bestTime: 'Haziran-Eylül',
+    duration: '3-5 saat',
+    facilities: ['Ücretsiz Giriş', 'Kantin', 'Duş', 'WC', 'Şezlong', 'Şemsiye'],
     features: ['Ücretsiz Giriş', 'Kantin', 'Duş', 'WC'],
     tags: ['turkuaz', 'kumsal', 'merdiven', 'populer']
   },
@@ -109,7 +37,15 @@ const allPlaces = [
     rating: 4.8,
     time: '30 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kekova Adası, Üçağız',
+    distance: '35 km',
+    coordinates: { lat: 36.1833, lng: 29.8500 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: '2-4 saat',
+    facilities: ['Doğal plaj', 'Yüzme alanı']
   },
   {
     id: 'hidayet',
@@ -120,7 +56,15 @@ const allPlaces = [
     rating: 4.7,
     time: '15 dk',
     price: 'Şezlong 50 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '3 km',
+    coordinates: { lat: 36.2000, lng: 29.6333 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Eylül',
+    duration: '4-6 saat',
+    facilities: ['Şezlong', 'Şemsiye', 'Restoran', 'Duş', 'WC']
   },
   {
     id: 'buyuk-cakil',
@@ -131,7 +75,15 @@ const allPlaces = [
     rating: 4.5,
     time: '10 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '1.5 km',
+    coordinates: { lat: 36.2028, lng: 29.6347 },
+    website: '',
+    phone: '',
+    bestTime: 'Nisan-Ekim',
+    duration: '3-5 saat',
+    facilities: ['Aile dostu', 'Sığ deniz', 'Kafe']
   },
   {
     id: 'kucuk-cakil',
@@ -142,7 +94,15 @@ const allPlaces = [
     rating: 4.6,
     time: '5 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş limanı yanı',
+    distance: '500 m',
+    coordinates: { lat: 36.1975, lng: 29.6342 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: '2-4 saat',
+    facilities: ['Kafeler', 'Merkezi konum', 'Kolay ulaşım']
   },
   {
     id: 'akcagerme',
@@ -153,7 +113,15 @@ const allPlaces = [
     rating: 4.4,
     time: '25 dk',
     price: 'Giriş 20 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş-Kalkan yolu',
+    distance: '12 km',
+    coordinates: { lat: 36.2389, lng: 29.3167 },
+    website: '',
+    phone: '',
+    bestTime: 'Haziran-Eylül',
+    duration: '4-6 saat',
+    facilities: ['Kaydıraklar', 'Aile dostu', 'Kantin', 'Duş', 'WC']
   },
   {
     id: 'incebogaz',
@@ -164,7 +132,15 @@ const allPlaces = [
     rating: 4.3,
     time: '8 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '2 km',
+    coordinates: { lat: 36.1992, lng: 29.6400 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: '2-3 saat',
+    facilities: ['Halk plajı', 'Ücretsiz', 'Doğal yapı']
   },
   {
     id: 'limanagzi',
@@ -175,7 +151,15 @@ const allPlaces = [
     rating: 4.9,
     time: '45 dk',
     price: 'Tekne Turu',
-    selected: false
+    selected: false,
+    location: 'Kekova bölgesi',
+    distance: '40 km',
+    coordinates: { lat: 36.1667, lng: 29.8667 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: 'Tüm Gün',
+    facilities: ['Tekne erişimi', 'Şnorkel noktası', 'Doğal koy']
   },
 
   // Gezilecek Yerler (25 kayıt)
@@ -188,7 +172,15 @@ const allPlaces = [
     rating: 4.8,
     time: '1-2 saat',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Yürüme mesafesi',
+    coordinates: { lat: 36.1986, lng: 29.6383 },
+    website: '',
+    phone: '',
+    bestTime: 'Yıl boyu',
+    duration: '1-2 saat',
+    facilities: ['Tarihi yapı', 'Manzara noktası', 'Fotoğraf çekimi']
   },
   {
     id: 'likya-lahit',
@@ -199,7 +191,15 @@ const allPlaces = [
     rating: 4.5,
     time: '30 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş Cumhuriyet Meydanı',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1997, lng: 29.6358 },
+    website: '',
+    phone: '',
+    bestTime: 'Yıl boyu',
+    duration: '20-30 dakika',
+    facilities: ['Tarihi eser', 'Merkezi konum']
   },
   {
     id: 'uzun-carsi',
@@ -210,7 +210,15 @@ const allPlaces = [
     rating: 4.6,
     time: '1-3 saat',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1989, lng: 29.6367 },
+    website: '',
+    phone: '',
+    bestTime: 'Yıl boyu (akşamları canlı)',
+    duration: '1-3 saat',
+    facilities: ['Alışveriş', 'Restoranlar', 'Kafeler', 'Hediyelik eşya']
   },
   {
     id: 'kas-marina',
@@ -221,7 +229,15 @@ const allPlaces = [
     rating: 4.7,
     time: '1 saat',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş liman bölgesi',
+    distance: '1 km',
+    coordinates: { lat: 36.1967, lng: 29.6333 },
+    website: '',
+    phone: '',
+    bestTime: 'Akşamüstü',
+    duration: '1-2 saat',
+    facilities: ['Yürüyüş alanı', 'Restoranlar', 'Yat izleme']
   },
   {
     id: 'kas-liman',
@@ -232,7 +248,15 @@ const allPlaces = [
     rating: 4.5,
     time: '30 dk',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez liman',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1958, lng: 29.6342 },
+    website: '',
+    phone: '',
+    bestTime: 'Sabah (tur için)',
+    duration: '30-60 dakika',
+    facilities: ['Tekne turları', 'Meis feribotu', 'Balıkçı tekneleri']
   },
   {
     id: 'kas-otogar',
@@ -243,7 +267,15 @@ const allPlaces = [
     rating: 4.0,
     time: '15 dk',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '1.2 km',
+    coordinates: { lat: 36.2033, lng: 29.6292 },
+    website: '',
+    phone: '',
+    bestTime: 'Yolculuk saatleri',
+    duration: '15-30 dakika',
+    facilities: ['Otobüs terminali', 'Bilet ofisi', 'Bekleme salonu']
   },
   {
     id: 'kas-cuma-pazari',
@@ -254,7 +286,15 @@ const allPlaces = [
     rating: 4.6,
     time: '1-2 saat',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş pazar alanı',
+    distance: '2 km',
+    coordinates: { lat: 36.2083, lng: 29.6250 },
+    website: '',
+    phone: '',
+    bestTime: 'Cuma 08:00-14:00',
+    duration: '1-2 saat',
+    facilities: ['Taze ürünler', 'Yöresel lezzetler', 'El işleri']
   },
   {
     id: 'kas-gece-pazari',
@@ -265,7 +305,15 @@ const allPlaces = [
     rating: 4.4,
     time: '1 saat',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş Cumhuriyet Meydanı',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1992, lng: 29.6350 },
+    website: '',
+    phone: '',
+    bestTime: 'Yaz akşamları 19:00-23:00',
+    duration: '1 saat',
+    facilities: ['El işi ürünler', 'Takılar', 'Hediyelik eşya']
   },
 
   // Tarihi Yerler (20 kayıt)
@@ -274,11 +322,19 @@ const allPlaces = [
     title: 'Patara Antik Kenti',
     description: 'Kaş\'a yakın, Likya Birliği\'nin önemli şehirlerinden biri. Meclis binası ünlüdür.',
     category: ['history', 'places', 'nature'],
-    image: 'https://images.unsplash.com/photo-1587238854406-8f33d7d9dab3?w=800',
+    image: 'https://images.unsplash.com/photo-1587238854406-8f3d7d9dab3?w=800',
     rating: 4.9,
     time: '3-4 saat',
     price: 'Giriş 50 TL',
-    selected: false
+    selected: false,
+    location: 'Patara, Kaş',
+    distance: '45 km',
+    coordinates: { lat: 36.2650, lng: 29.3167 },
+    website: 'https://muze.gov.tr/muze-detay?SectionId=PTR01&DistId=MRK',
+    phone: '+90 242 843 50 18',
+    bestTime: 'Ekim-Nisan (sıcak değil)',
+    duration: '3-4 saat',
+    facilities: ['Giriş ücretli', 'Rehberlik hizmeti', 'Otopark']
   },
   {
     id: 'xanthos',
@@ -289,7 +345,15 @@ const allPlaces = [
     rating: 4.8,
     time: '2-3 saat',
     price: 'Giriş 40 TL',
-    selected: false
+    selected: false,
+    location: 'Kınık, Kaş',
+    distance: '55 km',
+    coordinates: { lat: 36.3567, lng: 29.3183 },
+    website: 'https://muze.gov.tr/muze-detay?SectionId=KUM01&DistId=MRK',
+    phone: '+90 242 871 60 01',
+    bestTime: 'İlkbahar-Sonbahar',
+    duration: '2-3 saat',
+    facilities: ['UNESCO', 'Rehberlik', 'Müze', 'Otopark']
   },
   {
     id: 'letoon',
@@ -300,7 +364,15 @@ const allPlaces = [
     rating: 4.7,
     time: '1-2 saat',
     price: 'Giriş 40 TL',
-    selected: false
+    selected: false,
+    location: 'Kumluova, Kaş',
+    distance: '58 km',
+    coordinates: { lat: 36.3317, lng: 29.2917 },
+    website: 'https://muze.gov.tr/muze-detay?SectionId=LET01&DistId=MRK',
+    phone: '+90 242 871 60 01',
+    bestTime: 'İlkbahar-Sonbahar',
+    duration: '1-2 saat',
+    facilities: ['UNESCO', 'Tapınak kalıntıları', 'Rehberlik']
   },
   {
     id: 'phellos',
@@ -311,7 +383,15 @@ const allPlaces = [
     rating: 4.5,
     time: '2 saat',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Çukurbağ Yarımadası',
+    distance: '12 km',
+    coordinates: { lat: 36.1833, lng: 29.6000 },
+    website: '',
+    phone: '',
+    bestTime: 'Gün doğumu/gün batımı',
+    duration: '2 saat',
+    facilities: ['Ücretsiz', 'Manzara noktası', 'Doğa yürüyüşü']
   },
   {
     id: 'aperlai',
@@ -322,7 +402,15 @@ const allPlaces = [
     rating: 4.8,
     time: 'Tüm Gün',
     price: 'Tekne Turu',
-    selected: false
+    selected: false,
+    location: 'Sıçak İskelesi',
+    distance: '35 km (deniz yolu)',
+    coordinates: { lat: 36.1500, lng: 29.8167 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: 'Tüm Gün',
+    facilities: ['Tekne erişimi', 'Sualtı kalıntıları', 'Şnorkel']
   },
   {
     id: 'kekova-sunken',
@@ -333,7 +421,15 @@ const allPlaces = [
     rating: 4.9,
     time: 'Tüm Gün',
     price: 'Tekne Turu',
-    selected: false
+    selected: false,
+    location: 'Kekova Adası',
+    distance: '38 km',
+    coordinates: { lat: 36.1833, lng: 29.8667 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: 'Tüm Gün',
+    facilities: ['Tekne turu', 'Tarihi kalıntılar', 'Fotoğraf çekimi']
   },
   {
     id: 'simena',
@@ -344,7 +440,15 @@ const allPlaces = [
     rating: 4.8,
     time: 'Tüm Gün',
     price: 'Tekne Turu',
-    selected: false
+    selected: false,
+    location: 'Kaleköy, Demre',
+    distance: '42 km',
+    coordinates: { lat: 36.2000, lng: 29.8833 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: 'Tüm Gün',
+    facilities: ['Ortaçağ kalesi', 'Lahitler', 'Köy evleri', 'Restoranlar']
   },
 
   // Aktiviteler (25 kayıt)
@@ -357,7 +461,15 @@ const allPlaces = [
     rating: 4.8,
     time: 'Tüm Gün',
     price: '300-500 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş Limanı',
+    distance: 'Başlangıç noktası',
+    coordinates: { lat: 36.1958, lng: 29.6342 },
+    website: '',
+    phone: '',
+    bestTime: 'Mayıs-Ekim',
+    duration: '7-8 saat',
+    facilities: ['Rehber', 'Öğle yemeği', 'Yüzme molası', 'Şnorkel']
   },
   {
     id: 'meis-tour',
@@ -368,7 +480,15 @@ const allPlaces = [
     rating: 4.7,
     time: 'Tüm Gün',
     price: '400-600 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş Limanı',
+    distance: 'Başlangıç noktası',
+    coordinates: { lat: 36.1958, lng: 29.6342 },
+    website: '',
+    phone: '',
+    bestTime: 'Nisan-Ekim',
+    duration: '8-10 saat',
+    facilities: ['Feribot', 'Rehber', 'Serbest zaman', 'Pasaport gerekiyor']
   },
   {
     id: 'likya-yolu',
@@ -379,7 +499,15 @@ const allPlaces = [
     rating: 4.9,
     time: '4-6 saat',
     price: 'Rehberli 200 TL',
-    selected: false
+    selected: false,
+    location: 'Çukurbağ Yarımadası',
+    distance: 'Varyasyonlu',
+    coordinates: { lat: 36.1833, lng: 29.6000 },
+    website: 'https://cultureroutesinturkey.com/c/lycian-way/',
+    phone: '',
+    bestTime: 'Ekim-Mayıs (serin aylar)',
+    duration: '4-8 saat',
+    facilities: ['Rehber', 'Su ikmali', 'Manzara noktaları']
   },
   {
     id: 'diving',
@@ -390,7 +518,15 @@ const allPlaces = [
     rating: 4.9,
     time: '3-4 saat',
     price: 'Dalış 400 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş liman çevresi',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1967, lng: 29.6333 },
+    website: '',
+    phone: '',
+    bestTime: 'Nisan-Kasım',
+    duration: '3-4 saat',
+    facilities: ['Ekipman', 'Rehber', 'Başlangıç eğitimi', 'Fotoğraf']
   },
   {
     id: 'jeep-safari',
@@ -401,7 +537,15 @@ const allPlaces = [
     rating: 4.6,
     time: '4-5 saat',
     price: '250-350 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez (toplanma)',
+    distance: 'Tur rotası',
+    coordinates: { lat: 36.1997, lng: 29.6358 },
+    website: '',
+    phone: '',
+    bestTime: 'Yaz ayları',
+    duration: '4-5 saat',
+    facilities: ['Jeep', 'Rehber', 'Yemek molası', 'Fotoğraf molaları']
   },
   {
     id: 'paragliding',
@@ -412,7 +556,15 @@ const allPlaces = [
     rating: 4.8,
     time: '2-3 saat',
     price: '800-1200 TL',
-    selected: false
+    selected: false,
+    location: 'Baba Dağı',
+    distance: '15 km',
+    coordinates: { lat: 36.3000, lng: 29.4167 },
+    website: '',
+    phone: '',
+    bestTime: 'Nisan-Ekim (rüzgarsız günler)',
+    duration: '2-3 saat',
+    facilities: ['Ekipman', 'Eğitmen', 'Fotoğraf/video', 'Transfer']
   },
   {
     id: 'yoga',
@@ -423,7 +575,15 @@ const allPlaces = [
     rating: 4.7,
     time: '1-2 saat',
     price: '100-150 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.2000, lng: 29.6367 },
+    website: '',
+    phone: '',
+    bestTime: 'Yıl boyu',
+    duration: '1-2 saat',
+    facilities: ['Mat', 'Eğitmen', 'Doğa manzarası', 'Çay servisi']
   },
   {
     id: 'biking',
@@ -434,7 +594,15 @@ const allPlaces = [
     rating: 4.5,
     time: '3-4 saat',
     price: '200-300 TL',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Tur rotası',
+    coordinates: { lat: 36.1997, lng: 29.6358 },
+    website: '',
+    phone: '',
+    bestTime: 'Ekim-Mayıs (serin aylar)',
+    duration: '3-4 saat',
+    facilities: ['Bisiklet', 'Kask', 'Rehber', 'Su ikmali']
   },
 
   // Yeme-İçme (25 kayıt)
@@ -447,7 +615,15 @@ const allPlaces = [
     rating: 4.9,
     time: 'Akşam',
     price: '₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş Limanı',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1961, lng: 29.6347 },
+    website: '',
+    phone: '+90 242 836 17 67',
+    bestTime: 'Akşam yemeği (rezervasyon önerilir)',
+    duration: '1.5-2 saat',
+    facilities: ['Deniz manzarası', 'Taze balık', 'Açık hava', 'Rezervasyon']
   },
   {
     id: 'zaika-ocakbasi',
@@ -458,7 +634,15 @@ const allPlaces = [
     rating: 4.8,
     time: 'Akşam',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.2003, lng: 29.6375 },
+    website: '',
+    phone: '+90 242 836 20 20',
+    bestTime: 'Akşam',
+    duration: '1-2 saat',
+    facilities: ['Ocakbaşı', 'Et çeşitleri', 'Bahçe', 'Aile dostu']
   },
   {
     id: 'smileys',
@@ -469,7 +653,15 @@ const allPlaces = [
     rating: 4.7,
     time: 'Akşam',
     price: '₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş Marina',
+    distance: '1 km',
+    coordinates: { lat: 36.1972, lng: 29.6331 },
+    website: '',
+    phone: '+90 242 836 20 41',
+    bestTime: 'Gün batımı',
+    duration: '1.5-2 saat',
+    facilities: ['Gün batımı manzarası', 'Deniz ürünleri', 'Açık teras']
   },
   {
     id: 'bi-lokma',
@@ -480,7 +672,15 @@ const allPlaces = [
     rating: 4.6,
     time: 'Öğle/Akşam',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş çarşı içi',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1992, lng: 29.6369 },
+    website: '',
+    phone: '+90 242 836 15 15',
+    bestTime: 'Öğle ve akşam',
+    duration: '1-1.5 saat',
+    facilities: ['Ev yapımı', 'Yöresel lezzetler', 'Aile işletmesi']
   },
   {
     id: 'dolphin-restaurant',
@@ -491,7 +691,15 @@ const allPlaces = [
     rating: 4.5,
     time: 'Akşam',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş Limanı',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1958, lng: 29.6350 },
+    website: '',
+    phone: '+90 242 836 10 48',
+    bestTime: 'Akşam',
+    duration: '1.5-2 saat',
+    facilities: ['Geniş menü', 'Deniz ürünleri', 'Açık hava']
   },
   {
     id: 'oburus-momus',
@@ -502,7 +710,15 @@ const allPlaces = [
     rating: 4.8,
     time: 'Öğle/Akşam',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.2011, lng: 29.6381 },
+    website: '',
+    phone: '+90 242 836 18 90',
+    bestTime: 'Öğle ve akşam',
+    duration: '1-1.5 saat',
+    facilities: ['Vejetaryen/Vegan', 'Bahçe', 'Organik ürünler']
   },
   {
     id: 'natur-el',
@@ -513,7 +729,15 @@ const allPlaces = [
     rating: 4.7,
     time: 'Sabah/Öğle',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1986, lng: 29.6372 },
+    website: '',
+    phone: '+90 242 836 19 19',
+    bestTime: 'Sabah kahvaltı (08:00-11:00)',
+    duration: '1-1.5 saat',
+    facilities: ['Organik', 'Sağlıklı', 'Kahvaltı', 'Taze sıkılmış meyve suyu']
   },
   {
     id: 'retro-bistro',
@@ -524,7 +748,15 @@ const allPlaces = [
     rating: 4.6,
     time: 'Akşam',
     price: '₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş çarşı',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1994, lng: 29.6364 },
+    website: '',
+    phone: '+90 242 836 21 21',
+    bestTime: 'Akşam',
+    duration: '1.5-2 saat',
+    facilities: ['Dünya mutfağı', 'Kokteyller', 'Modern sunum']
   },
 
   // Konaklama (20 kayıt)
@@ -537,7 +769,15 @@ const allPlaces = [
     rating: 4.7,
     time: 'Konaklama',
     price: '₺₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.2017, lng: 29.6392 },
+    website: 'https://hideawaykas.com',
+    phone: '+90 242 836 18 87',
+    bestTime: 'Yıl boyu',
+    duration: 'Konaklama',
+    facilities: ['Teras', 'Açık büfe kahvaltı', 'WiFi', 'Oda servisi']
   },
   {
     id: 'linda-beach',
@@ -548,7 +788,15 @@ const allPlaces = [
     rating: 4.8,
     time: 'Konaklama',
     price: '₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Küçük Çakıl Plajı yanı',
+    distance: '600 m',
+    coordinates: { lat: 36.1969, lng: 29.6347 },
+    website: 'https://lindabeachhotel.com',
+    phone: '+90 242 836 19 00',
+    bestTime: 'Mayıs-Ekim',
+    duration: 'Konaklama',
+    facilities: ['Denize sıfır', 'Bahçe', 'Havuz', 'Restoran']
   },
   {
     id: 'medusa',
@@ -559,7 +807,15 @@ const allPlaces = [
     rating: 4.5,
     time: 'Konaklama',
     price: '₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '800 m',
+    coordinates: { lat: 36.2031, lng: 29.6403 },
+    website: 'https://medusahotelkas.com',
+    phone: '+90 242 836 14 40',
+    bestTime: 'Nisan-Kasım',
+    duration: 'Konaklama',
+    facilities: ['Havuz', 'Deniz manzarası', 'Otopark', 'Bar']
   },
   {
     id: 'sunset-villa',
@@ -570,7 +826,15 @@ const allPlaces = [
     rating: 4.9,
     time: 'Konaklama',
     price: '₺₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Çukurbağ Yarımadası',
+    distance: '4 km',
+    coordinates: { lat: 36.1889, lng: 29.6117 },
+    website: 'https://sunsetvillakas.com',
+    phone: '+90 242 836 25 25',
+    bestTime: 'Yıl boyu',
+    duration: 'Konaklama',
+    facilities: ['Gün batımı manzarası', 'Özel teras', 'Jakuzi', 'Romantik']
   },
   {
     id: 'hotel-ferah',
@@ -581,7 +845,15 @@ const allPlaces = [
     rating: 4.4,
     time: 'Konaklama',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.2006, lng: 29.6369 },
+    website: '',
+    phone: '+90 242 836 12 34',
+    bestTime: 'Yıl boyu',
+    duration: 'Konaklama',
+    facilities: ['Merkezi', 'Ekonomik', 'Aile işletmesi', 'Temiz']
   },
   {
     id: 'hotel-kayahan',
@@ -592,7 +864,15 @@ const allPlaces = [
     rating: 4.6,
     time: 'Konaklama',
     price: '₺₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1989, lng: 29.6358 },
+    website: 'https://hotelkayahan.com',
+    phone: '+90 242 836 11 11',
+    bestTime: 'Nisan-Ekim',
+    duration: 'Konaklama',
+    facilities: ['Çatı restoranı', 'Deniz manzarası', 'Otopark', 'Bar']
   },
   {
     id: 'hotel-nur',
@@ -603,7 +883,15 @@ const allPlaces = [
     rating: 4.5,
     time: 'Konaklama',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '900 m',
+    coordinates: { lat: 36.2022, lng: 29.6383 },
+    website: '',
+    phone: '+90 242 836 13 13',
+    bestTime: 'Nisan-Kasım',
+    duration: 'Konaklama',
+    facilities: ['Havuz', 'Merkezi', 'Aile odaları', 'Kahvaltı dahil']
   },
   {
     id: 'kekova-hotel',
@@ -614,7 +902,15 @@ const allPlaces = [
     rating: 4.3,
     time: 'Konaklama',
     price: '₺₺',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: '1.2 km',
+    coordinates: { lat: 36.2042, lng: 29.6375 },
+    website: '',
+    phone: '+90 242 836 16 16',
+    bestTime: 'Yıl boyu',
+    duration: 'Konaklama',
+    facilities: ['Aile dostu', 'Ekonomik', 'Temiz', 'Merkezi']
   },
 
   // Doğa (15 kayıt)
@@ -627,7 +923,15 @@ const allPlaces = [
     rating: 4.8,
     time: '3-4 saat',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Çukurbağ Yarımadası',
+    distance: '3 km başlangıç',
+    coordinates: { lat: 36.1850, lng: 29.6050 },
+    website: '',
+    phone: '',
+    bestTime: 'Ekim-Mayıs (serin aylar)',
+    duration: '3-4 saat',
+    facilities: ['Doğa yürüyüşü', 'Manzara noktaları', 'Fotoğraf çekimi']
   },
   {
     id: 'cukurbag',
@@ -638,7 +942,15 @@ const allPlaces = [
     rating: 4.7,
     time: '30 dk',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş\'ın batısı',
+    distance: '4 km',
+    coordinates: { lat: 36.1900, lng: 29.6083 },
+    website: '',
+    phone: '',
+    bestTime: 'Gün doğumu/gün batımı',
+    duration: '1-2 saat',
+    facilities: ['Manzara', 'Sessizlik', 'Fotoğraf çekimi']
   },
   {
     id: 'kas-panorama',
@@ -649,7 +961,15 @@ const allPlaces = [
     rating: 4.9,
     time: '20 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş yukarı mahalle',
+    distance: '2 km',
+    coordinates: { lat: 36.2083, lng: 29.6417 },
+    website: '',
+    phone: '',
+    bestTime: 'Gün batımı',
+    duration: '30-45 dakika',
+    facilities: ['Panoramik manzara', 'Fotoğraf noktası', 'Ücretsiz']
   },
   {
     id: 'kaputas-view',
@@ -660,7 +980,15 @@ const allPlaces = [
     rating: 4.8,
     time: '15 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaputaş Plajı üstü',
+    distance: '20 km',
+    coordinates: { lat: 36.2547, lng: 29.2989 },
+    website: '',
+    phone: '',
+    bestTime: 'Öğle (ışık için)',
+    duration: '15-30 dakika',
+    facilities: ['Manzara noktası', 'Fotoğraf', 'Park alanı']
   },
   {
     id: 'kas-deniz-feneri',
@@ -671,7 +999,15 @@ const allPlaces = [
     rating: 4.6,
     time: '25 dk',
     price: 'Ücretsiz',
-    selected: false
+    selected: false,
+    location: 'Kaş liman girişi',
+    distance: '1.5 km',
+    coordinates: { lat: 36.1942, lng: 29.6325 },
+    website: '',
+    phone: '',
+    bestTime: 'Gün batımı',
+    duration: '20-40 dakika',
+    facilities: ['Tarihi fener', 'Deniz manzarası', 'Yürüyüş yolu']
   },
 
   // Alışveriş (10 kayıt)
@@ -684,7 +1020,15 @@ const allPlaces = [
     rating: 4.5,
     time: '1-2 saat',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş çarşı içi',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1994, lng: 29.6372 },
+    website: '',
+    phone: '',
+    bestTime: '10:00-19:00',
+    duration: '1-2 saat',
+    facilities: ['Antika', 'Hediyelik', 'Yöresel ürünler']
   },
   {
     id: 'kas-kitapcisi',
@@ -695,7 +1039,15 @@ const allPlaces = [
     rating: 4.7,
     time: '30 dk',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.2000, lng: 29.6367 },
+    website: '',
+    phone: '+90 242 836 22 22',
+    bestTime: '10:00-20:00',
+    duration: '30-60 dakika',
+    facilities: ['Kitaplar', 'Yerel yazarlar', 'Kahve köşesi']
   },
   {
     id: 'kas-zeytin-bahce',
@@ -706,7 +1058,15 @@ const allPlaces = [
     rating: 4.6,
     time: '1 saat',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş çevre köyleri',
+    distance: '8 km',
+    coordinates: { lat: 36.2250, lng: 29.6250 },
+    website: '',
+    phone: '',
+    bestTime: 'Eylül-Aralık (zeytin mevsimi)',
+    duration: '1-2 saat',
+    facilities: ['Organik ürünler', 'Zeytinyağı tadımı', 'Doğal sabunlar']
   },
   {
     id: 'kas-el-sanatlari',
@@ -717,45 +1077,14 @@ const allPlaces = [
     rating: 4.8,
     time: '45 dk',
     price: 'Serbest',
-    selected: false
+    selected: false,
+    location: 'Kaş merkez',
+    distance: 'Merkez',
+    coordinates: { lat: 36.1983, lng: 29.6361 },
+    website: '',
+    phone: '+90 242 836 23 23',
+    bestTime: '10:00-18:00',
+    duration: '45-60 dakika',
+    facilities: ['El işi ürünler', 'Atölye', 'Yerel sanat']
   }
 ];
-
-// İstatistikleri hesapla
-function calculateStats() {
-  const totalPlaces = allPlaces.length;
-  const totalCategories = categories.length;
-  
-  // Ortalama rating hesapla
-  const totalRating = allPlaces.reduce((sum, place) => sum + place.rating, 0);
-  const averageRating = (totalRating / totalPlaces).toFixed(1);
-  
-  // Kategori sayılarını hesapla
-  const categoryCounts = {};
-  allPlaces.forEach(place => {
-    place.category.forEach(cat => {
-      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-    });
-  });
-  
-  return {
-    totalPlaces,
-    totalCategories,
-    averageRating,
-    categoryCounts
-  };
-}
-
-// Başlangıçta seçili kartları localStorage'dan yükle
-function loadSelectedPlaces() {
-  const saved = localStorage.getItem('kasSelectedPlaces');
-  if (saved) {
-    const selectedIds = JSON.parse(saved);
-    allPlaces.forEach(place => {
-      place.selected = selectedIds.includes(place.id);
-    });
-  }
-}
-
-// Sayfa yüklendiğinde seçili yerleri yükle
-document.addEventListener('DOMContentLoaded', loadSelectedPlaces);

@@ -26,11 +26,6 @@ function init() {
 }
 
 
-
-
-
-
-
 function openModal(city) {
     const infoList = city.bilinmesiGerekenler.map(item => `<li>${item}</li>`).join('');
     modalBody.innerHTML = `
