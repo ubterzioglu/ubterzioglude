@@ -25,7 +25,7 @@
         <a href="#cards-section" class="nav-link">Keşfet</a>
         <a href="#categories" class="nav-link">Kategoriler</a>
         <a href="#stats" class="nav-link">İstatistikler</a>
-        <a href="#" class="nav-link">İletişim</a>
+        <a href="#quick-links" class="nav-link">Hızlı Erişim</a>
       </nav>
 
       <button class="menu-toggle" id="menuToggle">
@@ -38,7 +38,7 @@
       <a href="#cards-section" class="nav-link-mobile">Keşfet</a>
       <a href="#categories" class="nav-link-mobile">Kategoriler</a>
       <a href="#stats" class="nav-link-mobile">İstatistikler</a>
-      <a href="#" class="nav-link-mobile">İletişim</a>
+      <a href="#quick-links" class="nav-link-mobile">Hızlı Erişim</a>
     </nav>
   </header>
 
@@ -73,46 +73,6 @@
     </div>
   </section>
 
-  <!-- Statistics -->
-  <section class="quick-info" id="stats">
-    <div class="container">
-      <div class="quick-info-grid">
-        <div class="info-card">
-          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
-          <h4 class="info-number" id="totalPlaces">150+</h4>
-          <p class="info-text">Fotoğraflı Mekan</p>
-        </div>
-        <div class="info-card">
-          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-          <h4 class="info-number" id="filteredCount">156</h4>
-          <p class="info-text">Gösterilen Yer</p>
-        </div>
-        <div class="info-card">
-          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
-          <h4 class="info-number" id="averageRating">4.8</h4>
-          <p class="info-text">Ortalama Puan</p>
-        </div>
-        <div class="info-card">
-          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M9 3v18"/>
-            <path d="M15 3v18"/>
-          </svg>
-          <h4 class="info-number" id="totalCategories">8</h4>
-          <p class="info-text">Toplam Kategori</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Main Cards Section -->
   <section class="highlights-section" id="cards-section">
     <div class="container">
@@ -132,51 +92,248 @@
     </div>
   </section>
 
-  <!-- Quick Links Section -->
-  <section class="quick-links">
+  <!-- Detailed Statistics -->
+  <section class="detailed-statistics" id="stats">
     <div class="container">
-      <h3 class="section-title">Hızlı Erişim</h3>
+      <h3 class="section-title">📊 Kaş Rehberi İstatistikleri</h3>
+      <div class="stats-overview">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number" id="totalPlaces">156</div>
+            <div class="stat-label">Toplam Mekan</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 3v18"/>
+              <path d="M15 3v18"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number" id="totalCategories">8</div>
+            <div class="stat-label">Kategori</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number" id="averageRating">4.8</div>
+            <div class="stat-label">Ortalama Puan</div>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number" id="selectedCountStat">0</div>
+            <div class="stat-label">Seçili Mekan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filters Info -->
+      <div class="active-filters-info">
+        <div class="filter-stat">
+          <span class="filter-stat-label">Aktif Filtre:</span>
+          <span class="filter-stat-value" id="activeFiltersCount">0</span>
+        </div>
+        <div class="filter-stat">
+          <span class="filter-stat-label">Gösterilen:</span>
+          <span class="filter-stat-value" id="filteredCount">156</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links Section -->
+  <section class="quick-links" id="quick-links">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">Hızlı Erişim</h3>
+        <p class="section-subtitle">Özel koleksiyonlar ve önerilen rotalar</p>
+      </div>
+      
       <div class="links-grid">
-        <a href="#" class="link-card">
+        <a href="#" class="link-card" data-filter="popular">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
           <h4>En Popüler 10</h4>
           <p>Kaş'ın en çok ziyaret edilen yerleri</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="free">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
           <h4>Ücretsiz Giriş</h4>
           <p>Bedava gezebileceğiniz noktalar</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="family">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
           <h4>Aile Dostu</h4>
           <p>Çocuklarla gidilebilecek yerler</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="sunset">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 10v8"/>
+              <path d="M18 18v-4"/>
+              <path d="M6 18v-4"/>
+              <circle cx="12" cy="4" r="2"/>
+              <path d="M20 12h2"/>
+              <path d="M2 12h2"/>
+              <path d="m20 8-1.5 1.5"/>
+              <path d="m4 8 1.5 1.5"/>
+              <path d="m4 16 1.5-1.5"/>
+              <path d="m20 16-1.5-1.5"/>
+            </svg>
+          </div>
           <h4>Gün Batımı</h4>
           <p>En güzel manzaralı noktalar</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="photo">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="m21 15-5-5L5 21"/>
+            </svg>
+          </div>
           <h4>Fotoğraf Noktaları</h4>
           <p>Instagram için mükemmel yerler</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="history">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
           <h4>Tarihi Yerler</h4>
           <p>Antik kentler ve tarihi kalıntılar</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="beaches">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 12h.01"/>
+              <path d="M20 12h.01"/>
+              <path d="M6 12h.01"/>
+              <path d="M18 12h.01"/>
+              <path d="M10 12h.01"/>
+              <path d="M14 12h.01"/>
+              <path d="M2 8c6-4.5 14-4.5 20 0"/>
+              <path d="M2 16c6 4.5 14 4.5 20 0"/>
+            </svg>
+          </div>
           <h4>Plaj ve Koylar</h4>
           <p>Denize girebileceğiniz tüm noktalar</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="food">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"/>
+              <circle cx="17" cy="7" r="5"/>
+            </svg>
+          </div>
           <h4>Restoranlar</h4>
           <p>En iyi yeme-içme mekanları</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="hotels">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 4v16"/>
+              <path d="M2 8h18a2 2 0 0 1 2 2v10"/>
+              <path d="M2 17h20"/>
+              <path d="M6 8v9"/>
+            </svg>
+          </div>
           <h4>Konaklama</h4>
           <p>Oteller ve pansiyonlar</p>
         </a>
-        <a href="#" class="link-card">
+        
+        <a href="#" class="link-card" data-filter="activities">
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
+            </svg>
+          </div>
           <h4>Aktiviteler</h4>
           <p>Yapılacak şeyler ve turlar</p>
         </a>
+      </div>
+      
+      <!-- Quick Links Guide -->
+      <div class="quick-links-guide">
+        <h4>🎯 Hızlı Erişim Nasıl Kullanılır?</h4>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <span class="step-number">1</span>
+            <div class="step-content">
+              <h5>Koleksiyonları Keşfet</h5>
+              <p>"En Popüler 10" gibi önceden hazırlanmış listeleri inceleyin</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">2</span>
+            <div class="step-content">
+              <h5>Filtreleme Yapın</h5>
+              <p>"Ücretsiz Giriş" gibi özelliklere göre filtre uygulayın</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">3</span>
+            <div class="step-content">
+              <h5>Kişisel Listeler</h5>
+              <p>Kendi seçtiğiniz yerlerle özel listeler oluşturun</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">4</span>
+            <div class="step-content">
+              <h5>Planlama</h5>
+              <p>Gün batımı noktaları gibi temalara göre gezi planlayın</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
