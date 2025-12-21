@@ -234,9 +234,17 @@ if (filterFab) {
 }
 
 // Init
-document.addEventListener('DOMContentLoaded', () => {
+function initKasGuide() {
+  // In case data.js is delayed / cached oddly on some mobile browsers
+  if (!Array.isArray(window.allPlaces) || !Array.isArray(window.categories)) {
+    window.addEventListener('load', initKasGuide, { once: true });
+    return;
+  }
+
   loadStats();
   renderCategories();
   filterPlaces(); // ✅ ensures cards show on first load
   updateFabVisibility();
-});
+}
+
+document.addEventListener('DOMContentLoaded', initKasGuide);

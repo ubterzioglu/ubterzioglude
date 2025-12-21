@@ -971,16 +971,17 @@ body {
 /* Sticky "filters active" floating button (bottom-right) */
 .filter-fab {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  width: 48px;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   height: 48px;
+  padding: 0 14px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
   display: none; /* shown only when filters active */
   align-items: center;
   justify-content: center;
+  gap: 10px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.18);
   background: rgba(255,255,255,0.95);
   color: rgba(0,0,0,0.85);
@@ -992,8 +993,22 @@ body {
 }
 
 .filter-fab-icon {
-  font-size: 18px;
-  font-weight: 900;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-fab-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.filter-fab-text {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
   line-height: 1;
 }
 

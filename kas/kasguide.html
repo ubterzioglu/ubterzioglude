@@ -310,7 +310,13 @@
 
 <!-- Filter active / jump to categories (sticky) -->
 <button class="filter-fab" id="filterFab" type="button" aria-label="Filtreler aktif - Kategorilere git" title="Filtreler aktif - Kategorilere git">
-  <span class="filter-fab-icon">⭡</span>
+  <span class="filter-fab-icon" aria-hidden="true">
+    <!-- simple funnel icon -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z" />
+    </svg>
+  </span>
+  <span class="filter-fab-text">Filtre</span>
 </button>
 
   <!-- Scripts -->
