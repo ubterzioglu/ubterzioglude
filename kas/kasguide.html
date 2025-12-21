@@ -4,26 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kaş Guide</title>
-  <link rel="stylesheet" href="kas-style-shared.css">
+  <link rel="stylesheet" href="kas-style-shared.fixed.css">
 </head>
 <body>
-  <h1>Kaş Guide</h1>
-  <div id="card-container"></div>
+  <!-- IMPORTANT: The CSS is scoped under .kas-scope -->
+  <div class="kas-scope">
+    <header class="kas-header">
+      <h1 class="kas-title">Kaş Guide</h1>
+      <p class="kas-subtitle">Kart görünümü (kas-data.js → otomatik kartlar).</p>
+    </header>
+
+    <main id="card-container" class="kas-grid"></main>
+  </div>
+
   <script src="kas-data.js"></script>
   <script>
     const container = document.getElementById('card-container');
-    kasData.forEach(card => {
-      const el = document.createElement('div');
-      el.className = 'card';
+
+    function renderLinks(card){
+      const links = [];
+      if (card.instagram) links.push(`<a href="${card.instagram}" target="_blank" rel="noopener">Instagram</a>`);
+      if (card.googleMaps) links.push(`<a href="${card.googleMaps}" target="_blank" rel="noopener">Harita</a>`);
+      return links.length ? links.join(' · ') : '<span class="muted">Link yok</span>';
+    }
+
+    function renderImage(card){
+      // If you later replace placeholder strings with real URLs, this will automatically switch to <img>.
+      const img = (card.image || '').trim();
+      const looksLikeUrl = /^https?:\/\//i.test(img) || /^\.\//.test(img) || /^\//.test(img);
+      if (looksLikeUrl){
+        return `<img src="${img}" alt="${card.title}" loading="lazy" class="card-img-real">`;
+      }
+      return `<div class="img-placeholder">${img || 'placeholder: image'}</div>`;
+    }
+
+    kasData.forEach((card, idx) => {
+      const el = document.createElement('article');
+      el.className = 'card card-color-' + ((idx % 5) + 1);
+
       el.innerHTML = `
-        <div class="card-img">${card.image}</div>
-        <h3>${card.title}</h3>
-        <p>${card.description}</p>
-        <p>
-          ${card.instagram ? `<a href="${card.instagram}" target="_blank">Instagram</a>` : ""}
-          ${card.googleMaps ? ` | <a href="${card.googleMaps}" target="_blank">Harita</a>` : ""}
-        </p>
+        <div class="card-img">${renderImage(card)}</div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-category">${card.category || ''}</span>
+          </div>
+          <h3 class="card-title">${card.title}</h3>
+          <p class="card-desc">${card.description}</p>
+          <div class="card-links">${renderLinks(card)}</div>
+        </div>
       `;
+
       container.appendChild(el);
     });
   </script>
