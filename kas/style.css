@@ -343,7 +343,6 @@ body {
   transform: scale(1);
 }
 
-
 .category-card::before {
   content: '';
   position: absolute;
@@ -962,5 +961,43 @@ body {
 @media (min-width: 1280px) {
   .cards-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- Explore layout: cards left, sticky categories right --- */
+.explore-section {
+  padding: 2.5rem 0;
+}
+
+.explore-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+  align-items: start; /* required for sticky in grid */
+}
+
+.cards-container {
+  min-width: 0;
+}
+
+.categories-sidebar {
+  position: sticky;
+  top: 96px; /* adjust if header height differs */
+  align-self: start;
+}
+
+/* Make the sidebar section header look consistent */
+.categories-sidebar .section-header {
+  margin-bottom: 1rem;
+}
+
+/* Small screens: keep sidebar on the right but narrower */
+@media (max-width: 520px) {
+  .explore-layout {
+    grid-template-columns: 1fr 210px;
+    gap: 1rem;
+  }
+  .categories-sidebar {
+    top: 84px;
   }
 }
