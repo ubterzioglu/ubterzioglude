@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kaş Rehberi - Akdeniz'in İncisi</title>
-
-  <!-- Old layout CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="top"></div>
+  
   <!-- Header -->
   <header class="header">
     <div class="container header-content">
@@ -23,9 +22,9 @@
 
       <nav class="nav-desktop">
         <a href="#" class="nav-link">Ana Sayfa</a>
-        <a href="#" class="nav-link">Keşfet</a>
-        <a href="#" class="nav-link">Harita</a>
-        <a href="#" class="nav-link">Blog</a>
+        <a href="#cards-section" class="nav-link">Keşfet</a>
+        <a href="#categories" class="nav-link">Kategoriler</a>
+        <a href="#stats" class="nav-link">İstatistikler</a>
         <a href="#" class="nav-link">İletişim</a>
       </nav>
 
@@ -36,9 +35,9 @@
 
     <nav class="nav-mobile" id="mobileMenu">
       <a href="#" class="nav-link-mobile">Ana Sayfa</a>
-      <a href="#" class="nav-link-mobile">Keşfet</a>
-      <a href="#" class="nav-link-mobile">Harita</a>
-      <a href="#" class="nav-link-mobile">Blog</a>
+      <a href="#cards-section" class="nav-link-mobile">Keşfet</a>
+      <a href="#categories" class="nav-link-mobile">Kategoriler</a>
+      <a href="#stats" class="nav-link-mobile">İstatistikler</a>
       <a href="#" class="nav-link-mobile">İletişim</a>
     </nav>
   </header>
@@ -55,38 +54,27 @@
           <circle cx="11" cy="11" r="8"/>
           <path d="m21 21-4.35-4.35"/>
         </svg>
-        <input type="text" placeholder="Kaş'ta ne aramak istersin?" class="search-input">
-        <button class="search-button">Ara</button>
+        <input type="text" id="searchInput" placeholder="Kaş'ta ne aramak istersin?" class="search-input">
+        <button class="search-button" id="clearFilters">Filtreleri Temizle</button>
       </div>
     </div>
   </section>
 
   <!-- Categories -->
-  <section class="categories-section">
+  <section class="categories-section" id="categories">
     <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">Kategoriler</h3>
+        <div class="filter-info">
+          <span id="activeFilterCount">0 aktif filtre</span>
+        </div>
+      </div>
       <div class="categories-grid" id="categoriesGrid"></div>
     </div>
   </section>
 
-  <!-- Highlights -->
-  <section class="highlights-section">
-    <div class="container">
-      <div class="section-header">
-        <h3 class="section-title">Öne Çıkanlar</h3>
-        <a href="#" class="view-all">
-          Tümünü Gör
-          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>
-      </div>
-
-      <div class="highlights-grid" id="highlightsGrid"></div>
-    </div>
-  </section>
-
-  <!-- Quick Info -->
-  <section class="quick-info">
+  <!-- Statistics -->
+  <section class="quick-info" id="stats">
     <div class="container">
       <div class="quick-info-grid">
         <div class="info-card">
@@ -94,7 +82,7 @@
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
-          <h4 class="info-number">150+</h4>
+          <h4 class="info-number" id="totalPlaces">150+</h4>
           <p class="info-text">Fotoğraflı Mekan</p>
         </div>
         <div class="info-card">
@@ -102,82 +90,98 @@
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
             <circle cx="12" cy="10" r="3"/>
           </svg>
-          <h4 class="info-number">50+</h4>
-          <p class="info-text">Gezilecek Yer</p>
+          <h4 class="info-number" id="filteredCount">156</h4>
+          <p class="info-text">Gösterilen Yer</p>
         </div>
         <div class="info-card">
           <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
-          <h4 class="info-number">4.8</h4>
+          <h4 class="info-number" id="averageRating">4.8</h4>
           <p class="info-text">Ortalama Puan</p>
         </div>
+        <div class="info-card">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 3v18"/>
+            <path d="M15 3v18"/>
+          </svg>
+          <h4 class="info-number" id="totalCategories">8</h4>
+          <p class="info-text">Toplam Kategori</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- =====================================================
-       NEW SYSTEM (MODULAR CARDS) — MERGED IN
-       Uses: kas-data.js + kas-card-loader.js
-       Styled only inside .kas-scope
-       ===================================================== -->
-  <section class="kasguide-notes">
-    <div class="container kas-scope">
-      <!-- dynamic hero -->
-      <div id="hero-root"></div>
-
-      <!-- navigation card (manual order) -->
-      <div class="card nav-card">
-        <div class="card-buttons">
-          <a class="icon-btn" href="#top" aria-label="Up" title="Up">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 4 13h5v6h6v-6h5z"/></svg>
-          </a>
-        </div>
-
-        <h2 class="section-title">KasGuide Notes</h2>
-
-        <div class="nav-grid">
-          <div class="nav-item" onclick="document.getElementById('start')?.scrollIntoView({behavior:'smooth'});">
-            <span><span class="nav-icon">🧭</span> Start here</span>
-            <span class="chevron">›</span>
-          </div>
-          <div class="nav-item" onclick="document.getElementById('coves')?.scrollIntoView({behavior:'smooth'});">
-            <span><span class="nav-icon">🏝️</span> Coves & beaches</span>
-            <span class="chevron">›</span>
-          </div>
-          <div class="nav-item" onclick="document.getElementById('food')?.scrollIntoView({behavior:'smooth'});">
-            <span><span class="nav-icon">🍽️</span> Food & coffee</span>
-            <span class="chevron">›</span>
-          </div>
-          <div class="nav-item" onclick="document.getElementById('transport')?.scrollIntoView({behavior:'smooth'});">
-            <span><span class="nav-icon">🚗</span> Transport & roads</span>
-            <span class="chevron">›</span>
-          </div>
-          <div class="nav-item" onclick="document.getElementById('tips')?.scrollIntoView({behavior:'smooth'});">
-            <span><span class="nav-icon">💡</span> Tiny tips</span>
-            <span class="chevron">›</span>
-          </div>
-          <div class="nav-item" onclick="document.getElementById('status')?.scrollIntoView({behavior:'smooth'});">
-            <span><span class="nav-icon">🧱</span> Build status</span>
-            <span class="chevron">›</span>
-          </div>
+  <!-- Main Cards Section -->
+  <section class="highlights-section" id="cards-section">
+    <div class="container">
+      <div class="section-header">
+        <h3 class="section-title">Tüm Yerler</h3>
+        <div class="selection-info">
+          <span id="selectedCount">0 seçili</span>
+          <button class="view-all" id="saveSelection">Seçimi Kaydet</button>
         </div>
       </div>
 
-      <!-- dynamic sections -->
-      <div id="cards-root"></div>
-
-      <footer class="footer kas-footer">
-        <div class="footer-inner">
-          <div class="footer-title">KasGuide</div>
-          <div class="footer-sub">A slow-built guide. No hype. No sponsors.</div>
+      <div class="cards-container">
+        <div class="cards-grid" id="cardsGrid">
+          <!-- Kartlar buraya JavaScript ile yüklenecek -->
         </div>
-      </footer>
+      </div>
     </div>
   </section>
-  <!-- ===================== END NEW SYSTEM ===================== -->
 
-  <!-- Footer (OLD layout footer stays) -->
+  <!-- Quick Links Section -->
+  <section class="quick-links">
+    <div class="container">
+      <h3 class="section-title">Hızlı Erişim</h3>
+      <div class="links-grid">
+        <a href="#" class="link-card">
+          <h4>En Popüler 10</h4>
+          <p>Kaş'ın en çok ziyaret edilen yerleri</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Ücretsiz Giriş</h4>
+          <p>Bedava gezebileceğiniz noktalar</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Aile Dostu</h4>
+          <p>Çocuklarla gidilebilecek yerler</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Gün Batımı</h4>
+          <p>En güzel manzaralı noktalar</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Fotoğraf Noktaları</h4>
+          <p>Instagram için mükemmel yerler</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Tarihi Yerler</h4>
+          <p>Antik kentler ve tarihi kalıntılar</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Plaj ve Koylar</h4>
+          <p>Denize girebileceğiniz tüm noktalar</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Restoranlar</h4>
+          <p>En iyi yeme-içme mekanları</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Konaklama</h4>
+          <p>Oteller ve pansiyonlar</p>
+        </a>
+        <a href="#" class="link-card">
+          <h4>Aktiviteler</h4>
+          <p>Yapılacak şeyler ve turlar</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-logo">
@@ -192,16 +196,14 @@
         <a href="#" class="footer-link">Hakkımızda</a>
         <a href="#" class="footer-link">Gizlilik</a>
         <a href="#" class="footer-link">İletişim</a>
+        <a href="#" class="footer-link">Sıkça Sorulanlar</a>
       </div>
+      <p class="footer-copyright">© 2024 Kaş Rehberi. Tüm hakları saklıdır.</p>
     </div>
   </footer>
 
-  <!-- Old system scripts -->
+  <!-- Scripts -->
   <script src="data.js"></script>
   <script src="script.js"></script>
-
-  <!-- New modular system scripts -->
-  <script src="kas-data.js"></script>
-  <script src="kas-card-loader.js"></script>
 </body>
 </html>

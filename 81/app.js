@@ -25,6 +25,12 @@ function init() {
     });
 }
 
+
+
+
+
+
+
 function openModal(city) {
     const infoList = city.bilinmesiGerekenler.map(item => `<li>${item}</li>`).join('');
     modalBody.innerHTML = `
@@ -33,10 +39,10 @@ function openModal(city) {
             <h1>${city.name}</h1>
             <p><strong>Nüfus:</strong> ${city.kunye.nufus} | <strong>Plaka:</strong> ${city.kunye.plaka}</p>
             <hr style="margin:20px 0; opacity:0.1">
-            <h3>🌟 Meşhur Şeyi</h3>
+            <h3>🌟 Nesi meşhur?</h3>
             <p>${city.meshur}</p>
-            <h3 style="margin-top:20px">📌 Bilinmesi Gerekenler</h3>
-            <ul>${infoList}</ul>
+            <h3 style="margin-top:20px">📌 10 Cümleyle...</h3>
+            <p>${infoList}</p>
         </div>
     `;
     modal.style.display = "flex";
@@ -47,6 +53,10 @@ closeBtn.onclick = () => {
     modal.style.display = "none";
     document.body.style.overflow = "auto";
 };
+
+
+
+
 
 window.onclick = (e) => { if(e.target == modal) closeBtn.onclick(); };
 
