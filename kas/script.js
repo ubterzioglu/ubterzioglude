@@ -237,10 +237,15 @@ if (filterFab) {
 // Init
 function initKasGuide() {
   // In case data.js is delayed / cached oddly on some mobile browsers
-  if (!Array.isArray(window.allPlaces) || !Array.isArray(window.categories)) {
-    window.addEventListener('load', initKasGuide, { once: true });
-    return;
-  }
+  if (typeof allPlaces === 'undefined' || typeof categories === 'undefined') {
+  window.addEventListener('load', initKasGuide, { once: true });
+  return;
+}
+if (!Array.isArray(allPlaces) || !Array.isArray(categories)) {
+  window.addEventListener('load', initKasGuide, { once: true });
+  return;
+}
+
   filteredPlaces = [...allPlaces];
   loadStats();
   renderCategories();
