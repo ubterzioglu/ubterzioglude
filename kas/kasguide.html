@@ -73,41 +73,32 @@
     </div>
   </section>
 
-
-  <!-- Explore / Cards + Sticky Categories Sidebar -->
-  <section class="explore-section" id="cards-section">
+  <!-- Main Cards Section -->
+  <section class="highlights-section" id="cards-section">
     <div class="container">
-      <div class="explore-layout">
+      <div class="section-header">
+        <h3 class="section-title">Tüm Yerler</h3>
+</div>
 
-        <!-- Cards (left) -->
-        <div class="cards-container">
-          <div class="cards-grid" id="cardsGrid">
-            <!-- Kartlar buraya JavaScript ile yüklenecek -->
-          </div>
+      <div class="cards-container">
+        <div class="cards-grid" id="cardsGrid">
+          <!-- Kartlar buraya JavaScript ile yüklenecek -->
         </div>
-
-        <!-- Sticky Categories (right) -->
-        <aside class="categories-sidebar" aria-label="Kategoriler (Sticky)">
-          <div class="section-header">
-            <h3 class="section-title">Kategoriler</h3>
-            <div class="filter-info">
-              <span id="activeFilterCountSidebar">0 aktif filtre</span>
-            </div>
-          </div>
-          <div class="categories-grid" id="categoriesGridSidebar"></div>
-        </aside>
-
       </div>
     </div>
   </section>
 
-
-<!-- Detailed Statistics -->
+  <!-- Detailed Statistics -->
   <section class="detailed-statistics" id="stats">
     <div class="container">
       <h3 class="section-title">📊 Kaş Rehberi İstatistikleri</h3>
       <div class="stats-overview">
-<!-- Active Filters Info -->
+<div class="stat-label">Seçili Mekan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filters Info -->
       <div class="active-filters-info">
         <div class="filter-stat">
           <span class="filter-stat-label">Aktif Filtre:</span>
@@ -315,6 +306,12 @@
       <p class="footer-copyright">© 2024 Kaş Rehberi. Tüm hakları saklıdır.</p>
     </div>
   </footer>
+
+
+<!-- Filter active / jump to categories (sticky) -->
+<button class="filter-fab" id="filterFab" type="button" aria-label="Filtreler aktif - Kategorilere git" title="Filtreler aktif - Kategorilere git">
+  <span class="filter-fab-icon">⭡</span>
+</button>
 
   <!-- Scripts -->
   <script src="data.js"></script>
