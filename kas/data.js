@@ -1,6 +1,87 @@
-// Kategoriler (Aynı kalıyor)
+// Kategoriler
 const categories = [
-  // ... mevcut kategori tanımlamaları aynı
+  {
+    id: 'places',
+    name: 'Gezilecek Yerler',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </svg>`,
+    color: 'category-orange'
+  },
+  {
+    id: 'beaches',
+    name: 'Plajlar & Koylar',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M2 12h.01"/>
+      <path d="M20 12h.01"/>
+      <path d="M6 12h.01"/>
+      <path d="M18 12h.01"/>
+      <path d="M10 12h.01"/>
+      <path d="M14 12h.01"/>
+      <path d="M2 8c6-4.5 14-4.5 20 0"/>
+      <path d="M2 16c6 4.5 14 4.5 20 0"/>
+    </svg>`,
+    color: 'category-cyan'
+  },
+  {
+    id: 'activities',
+    name: 'Aktiviteler',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
+    </svg>`,
+    color: 'category-green'
+  },
+  {
+    id: 'food',
+    name: 'Yeme-İçme',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"/>
+      <circle cx="17" cy="7" r="5"/>
+    </svg>`,
+    color: 'category-red'
+  },
+  {
+    id: 'hotels',
+    name: 'Konaklama',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M2 4v16"/>
+      <path d="M2 8h18a2 2 0 0 1 2 2v10"/>
+      <path d="M2 17h20"/>
+      <path d="M6 8v9"/>
+    </svg>`,
+    color: 'category-purple'
+  },
+  {
+    id: 'history',
+    name: 'Tarihi Yerler',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+      <path d="M12 6v6l4 2"/>
+    </svg>`,
+    color: 'category-pink'
+  },
+  {
+    id: 'nature',
+    name: 'Doğa',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2a10 10 0 0 0-8 16"/>
+      <path d="M12 2a10 10 0 0 1 8 16"/>
+      <path d="M12 10v4"/>
+      <path d="M12 16v2"/>
+    </svg>`,
+    color: 'category-blue'
+  },
+  {
+    id: 'shopping',
+    name: 'Alışveriş',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>`,
+    color: 'category-gray'
+  }
 ];
 
 // Tüm Yerler - Seviye 3 formatına göre güncellendi
