@@ -1,16 +1,18 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- IMPORTANT: viewport-fit=cover helps iOS safe-area + dynamic bars -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
   <title>Smellable — An app you can smell</title>
   <link rel="stylesheet" href="style.css" />
+
   <!-- === SEO BASICS === -->
   <link rel="canonical" href="https://ubterzioglu.de/smellable/" />
-
   <meta name="description"
         content="Smellable is an experimental app that triggers memories through images. Look, imagine, and ask yourself: can you smell it?" />
-
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph -->
@@ -39,7 +41,6 @@
     "operatingSystem": "All"
   }
   </script>
-
 </head>
 
 <body>
@@ -82,13 +83,13 @@
             </div>
 
             <a class="wa-btn" id="share-whatsapp" href="#" target="_blank" rel="noopener" aria-label="Share via WhatsApp">
-  <img 
-    src="img/whatsappshare.jpg" 
-    alt="Share via WhatsApp" 
-    class="wa-ico"
-    loading="lazy"
-  />
-</a>
+              <img
+                src="img/whatsappshare.jpg"
+                alt="Share via WhatsApp"
+                class="wa-ico"
+                loading="lazy"
+              />
+            </a>
           </div>
 
           <!-- Suggest (default closed) -->
@@ -96,7 +97,6 @@
             <summary class="panel-summary">Suggest a smell</summary>
 
             <div class="panel-inner">
-              <!-- FormSubmit: sends email to ubt@ubterzioglu.de -->
               <form
                 id="suggest-form"
                 class="suggest-form"
@@ -107,7 +107,6 @@
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
 
-                <!-- Context (filled by JS) -->
                 <input type="hidden" name="smell_id" id="suggest-smell-id" value="" />
                 <input type="hidden" name="smell_name" id="suggest-smell-name" value="" />
                 <input type="hidden" name="page_url" id="suggest-page-url" value="" />
@@ -178,12 +177,12 @@
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+
   <!-- === GOATCOUNTER === -->
   <script
     data-goatcounter="https://ubterzioglude.goatcounter.com/count"
     async
     src="//gc.zgo.at/count.js">
   </script>
-
 </body>
 </html>

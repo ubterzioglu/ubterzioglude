@@ -1,3 +1,4 @@
+/* style.css */
 :root{
   --bg:#000;
   --muted:rgba(255,255,255,.65);
@@ -8,21 +9,33 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:var(--bg);
   color:#fff;
-  height:100vh;
+
+  /* FIX: don't lock the page into 100vh + hidden overflow (mobile bars clip content) */
+  min-height:100vh;
   width:100vw;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 
-.app{height:100vh;display:flex;flex-direction:column;}
+/* FIX: use dynamic viewport when available, but keep fallbacks */
+.app{
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
 
 .top-bar{
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 16px;border-bottom:1px solid var(--line);
-  background:rgba(0,0,0,.35);backdrop-filter: blur(10px);
+  background:rgba(0,0,0,.35);
+  backdrop-filter: blur(10px);
 }
 .logo{font-weight:700;letter-spacing:.3px;font-size:18px;}
 .menu-btn{
@@ -30,7 +43,20 @@ body{
   border-radius:10px;padding:8px 10px;cursor:pointer;
 }
 
-.main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;}
+/* FIX: allow scrolling in the main area so the Next button can't disappear */
+.main{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+
+  /* extra breathing room for iOS safe area at bottom */
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
 
 .smell-card{
   width:min(520px, 100%);
@@ -107,13 +133,34 @@ details[open] .panel-summary{border-bottom:1px solid var(--line);}
 .comment .meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted2);font-size:11px;margin-bottom:6px;}
 .comment .text{font-size:14px;line-height:1.35;color:#fff;word-break:break-word;}
 
-.next-btn{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;border-radius:16px;padding:12px 14px;font-size:14px;font-weight:900;cursor:pointer;}
+/* Optional safety: keep the button visible even when content is long */
+.next-btn{
+  width:100%;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  border-radius:16px;
+  padding:12px 14px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+
+  position: sticky;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 5;
+}
 .next-btn:hover{background:rgba(255,255,255,.10);}
 
 .hintline{text-align:center;color:var(--muted2);}
 .micro{font-size:11px;opacity:.7;letter-spacing:.2px;margin-top:8px;}
 
-.hint{padding:12px 16px;text-align:center;border-top:1px solid var(--line);color:var(--muted2);font-size:12px;}
+.hint{
+  padding:12px 16px;
+  text-align:center;
+  border-top:1px solid var(--line);
+  color:var(--muted2);
+  font-size:12px;
+}
 
 @media (max-width:500px){
   .smell-media{height:260px;}
