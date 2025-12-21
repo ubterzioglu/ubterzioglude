@@ -11,7 +11,8 @@ if (menuToggle && mobileMenu) {
 // State
 let selectedCategories = new Set();
 let searchQuery = '';
-let filteredPlaces = [...allPlaces];
+let filteredPlaces = [];
+
 
 // DOM
 const categoriesGrid = document.getElementById('categoriesGrid');
@@ -240,7 +241,7 @@ function initKasGuide() {
     window.addEventListener('load', initKasGuide, { once: true });
     return;
   }
-
+  filteredPlaces = [...allPlaces];
   loadStats();
   renderCategories();
   filterPlaces(); // ✅ ensures cards show on first load
