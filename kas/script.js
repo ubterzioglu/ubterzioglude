@@ -87,6 +87,12 @@ function renderCategories() {
     `;
 
     btn.addEventListener('click', () => {
+      // Special categories can route to separate pages (FAQ, Articles)
+      if (category && category.action && category.action.type === 'page' && category.action.href) {
+        window.location.href = category.action.href;
+        return;
+      }
+
       if (selectedCategories.has(category.id)) selectedCategories.delete(category.id);
       else selectedCategories.add(category.id);
 
@@ -154,7 +160,7 @@ function renderCards() {
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
-            <span>${place.time || ''}</span>
+            <span>${place.duration || place.distance || ''}</span>
           </div>
           <div class="meta-item">
             <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
