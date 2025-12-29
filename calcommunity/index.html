@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAL Community</title>
+
+  <!-- Tailwind via CDN (no build needed) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional: customize Tailwind a bit -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            'soft': '0 10px 30px rgba(0,0,0,0.12)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body class="min-h-screen bg-white text-black">
+  <!-- NAV -->
+  <nav class="fixed w-full bg-white shadow-lg z-50 border-b-4 border-black">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="#home" class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center shadow-lg ring-4 ring-black/10">
+            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <div class="font-bold text-xl text-black">CAL COMMUNITY</div>
+            <div class="text-xs text-gray-600">Çağaloğlu Anadolu Lisesi</div>
+          </div>
+        </a>
+
+        <!-- Desktop menu -->
+        <div class="hidden md:flex space-x-2">
+          <a href="#home" class="navlink">Ana Sayfa</a>
+          <a href="#news" class="navlink">Haberler</a>
+          <a href="#clubs" class="navlink">Kulüpler</a>
+          <a href="#interviews" class="navlink">Röportajlar</a>
+          <a href="#about" class="navlink">Hakkımızda</a>
+        </div>
+
+        <!-- Mobile button -->
+        <button id="mobileMenuBtn" class="md:hidden text-black" aria-label="Menüyü Aç/Kapat">
+          <i id="menuIcon" data-lucide="menu" class="w-6 h-6"></i>
+          <i id="closeIcon" data-lucide="x" class="w-6 h-6 hidden"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden bg-white border-t border-black/15 hidden">
+      <div class="px-4 py-4 space-y-2">
+        <a href="#home" class="mobilelink">Ana Sayfa</a>
+        <a href="#news" class="mobilelink">Haberler</a>
+        <a href="#clubs" class="mobilelink">Kulüpler</a>
+        <a href="#interviews" class="mobilelink">Röportajlar</a>
+        <a href="#about" class="mobilelink">Hakkımızda</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="pt-24 pb-20 bg-gradient-to-br from-black via-zinc-900 to-black text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center">
+        <div class="inline-block mb-6">
+          <div class="bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full text-sm font-semibold border border-white/20">
+            🎓 1500+ Üye ile Büyüyen Aile
+          </div>
+        </div>
+
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          Çağaloğlu'nun<br/>
+          <span class="text-white/80">Dijital Kalbi</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl mb-10 text-white/80 max-w-2xl mx-auto">
+          Öğrenciler, mezunlar ve öğretmenler bir arada. Okulumuzun hikayesi burada yazılıyor.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#" class="btn-primary">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+            WhatsApp Topluluğuna Katıl
+          </a>
+          <a href="#news" class="btn-outline">Daha Fazla Keşfet</a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
+        <div class="statcard">
+          <div class="text-5xl font-bold mb-2">1500+</div>
+          <div class="text-white/80 font-medium">Aktif Üye</div>
+        </div>
+        <div class="statcard">
+          <div class="text-5xl font-bold mb-2">50+</div>
+          <div class="text-white/80 font-medium">Öğrenci Kulübü</div>
+        </div>
+        <div class="statcard">
+          <div class="text-5xl font-bold mb-2">100+</div>
+          <div class="text-white/80 font-medium">Yıllık Etkinlik</div>
+        </div>
+        <div class="statcard">
+          <div class="text-5xl font-bold mb-2">∞</div>
+          <div class="text-white/80 font-medium">Güzel Anı</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section id="news" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+              <i data-lucide="newspaper" class="w-6 h-6 text-white"></i>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-900">Son Haberler</h2>
+          </div>
+          <p class="text-gray-600 md:ml-14">Okulumuzdan güncel haberler ve duyurular</p>
+        </div>
+
+        <a href="#" class="hidden md:flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-zinc-800 transition shadow-lg">
+          Tümünü Gör <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Card 1 -->
+        <article class="newscard">
+          <div class="relative overflow-hidden h-48">
+            <img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                 src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=600&fit=crop"
+                 alt="Yeni Dönem Başladı!" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <span class="badge">HABER</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-3 text-gray-900 line-clamp-2">Yeni Dönem Başladı!</h3>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+              2024-2025 eğitim öğretim yılı coşkuyla başladı. Öğrencilerimiz okullarına kavuştu.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">26 Ara 2025</span>
+              <i data-lucide="chevron-right" class="w-5 h-5 text-black"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="newscard">
+          <div class="relative overflow-hidden h-48">
+            <img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                 src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop"
+                 alt="Kütüphane İçin Kitap Bağışı Kampanyası" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <span class="badge">BAĞIŞ</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-3 text-gray-900 line-clamp-2">Kütüphane İçin Kitap Bağışı Kampanyası</h3>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+              Okul kütüphanemizi zenginleştirmek için kitap bağış kampanyası başlattık.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">25 Ara 2025</span>
+              <i data-lucide="chevron-right" class="w-5 h-5 text-black"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="newscard">
+          <div class="relative overflow-hidden h-48">
+            <img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                 src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop"
+                 alt="Mezunumuz Dr. Ahmet Yılmaz ile Söyleşi" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <span class="badge">RÖPORTAJ</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-3 text-gray-900 line-clamp-2">Mezunumuz Dr. Ahmet Yılmaz ile Söyleşi</h3>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+              Stanford'da araştırmacı olan mezunumuz deneyimlerini paylaştı.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">24 Ara 2025</span>
+              <i data-lucide="chevron-right" class="w-5 h-5 text-black"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="newscard">
+          <div class="relative overflow-hidden h-48">
+            <img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                 src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop"
+                 alt="Robotik Kulübü Yeni Üyelerini Bekliyor" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <span class="badge">KLÜP</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-3 text-gray-900 line-clamp-2">Robotik Kulübü Yeni Üyelerini Bekliyor</h3>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+              Robotik ve kodlama ile ilgilenen öğrencileri kulübümüze davet ediyoruz.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-500">23 Ara 2025</span>
+              <i data-lucide="chevron-right" class="w-5 h-5 text-black"></i>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK BANNER -->
+  <section class="py-16 bg-black">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center text-white">
+        <h2 class="text-3xl font-bold mb-4">Her Gün Büyüyen Bir Topluluk</h2>
+        <p class="text-xl text-white/80 mb-8">Çağaloğlu Anadolu Lisesi öğrenci ve mezunlarının buluşma noktası</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <div class="pill">📱 WhatsApp</div>
+          <div class="pill">📸 Instagram</div>
+          <div class="pill">💼 LinkedIn</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLUBS -->
+  <section id="clubs" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+            <i data-lucide="trophy" class="w-6 h-6 text-white"></i>
+          </div>
+          <h2 class="text-4xl font-bold text-gray-900">Öğrenci Kulüpleri</h2>
+        </div>
+        <p class="text-gray-700 text-lg">İlgi alanına göre kulüp bul, yeteneklerini geliştir</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="clubcard">
+          <div class="text-5xl mb-4">🤖</div>
+          <h3 class="font-bold text-xl mb-2 text-gray-900">Robotik Kulübü</h3>
+          <p class="text-black font-semibold">45 Üye</p>
+        </div>
+        <div class="clubcard">
+          <div class="text-5xl mb-4">📚</div>
+          <h3 class="font-bold text-xl mb-2 text-gray-900">Edebiyat Kulübü</h3>
+          <p class="text-black font-semibold">38 Üye</p>
+        </div>
+        <div class="clubcard">
+          <div class="text-5xl mb-4">🎵</div>
+          <h3 class="font-bold text-xl mb-2 text-gray-900">Müzik Kulübü</h3>
+          <p class="text-black font-semibold">52 Üye</p>
+        </div>
+        <div class="clubcard">
+          <div class="text-5xl mb-4">🎭</div>
+          <h3 class="font-bold text-xl mb-2 text-gray-900">Tiyatro Kulübü</h3>
+          <p class="text-black font-semibold">41 Üye</p>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="#" class="bg-black text-white px-10 py-4 rounded-full font-bold hover:bg-zinc-800 transition shadow-soft text-lg inline-block">
+          Tüm Kulüpleri Keşfet
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERVIEWS placeholder (menu anchor works) -->
+  <section id="interviews" class="py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Röportajlar</h2>
+        <p class="text-gray-600 text-lg">
+          Bu bölüm şu an taslak. İstersen bir sonraki adımda buraya röportaj kartlarını ekleyelim.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-black text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <i data-lucide="heart" class="w-16 h-16 mx-auto mb-6 text-white"></i>
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Okulumuzun Geleceğine Katkıda Bulun</h2>
+      <p class="text-xl mb-10 text-white/80">
+        Her bağış, öğrencilerimizin daha iyi eğitim alması için kullanılıyor.
+        Siz de bu değişime ortak olabilirsiniz.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#" class="btn-primary text-black bg-white hover:bg-gray-100">💝 Bağış Yap</a>
+        <a href="#" class="btn-outline">Kampanyaları Gör</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+              <i data-lucide="calendar" class="w-6 h-6 text-white"></i>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-900">Yaklaşan Etkinlikler</h2>
+          </div>
+          <p class="text-gray-600 text-lg mb-8">
+            Okulumuzda düzenlenen etkinlikleri kaçırmayın. Sosyal, akademik ve sportif aktivitelerle dolu bir takvim sizi bekliyor.
+          </p>
+
+          <div class="space-y-4">
+            <div class="eventrow">
+              <div class="flex items-center gap-4">
+                <div class="eventicon">
+                  <i data-lucide="calendar" class="w-6 h-6"></i>
+                </div>
+                <span class="font-bold text-lg">Kariyer Günleri</span>
+              </div>
+              <span class="font-semibold text-gray-600 group-hover:text-white">5 Ocak 2025</span>
+            </div>
+
+            <div class="eventrow">
+              <div class="flex items-center gap-4">
+                <div class="eventicon">
+                  <i data-lucide="calendar" class="w-6 h-6"></i>
+                </div>
+                <span class="font-bold text-lg">Mezunlar Buluşması</span>
+              </div>
+              <span class="font-semibold text-gray-600 group-hover:text-white">15 Ocak 2025</span>
+            </div>
+
+            <div class="eventrow">
+              <div class="flex items-center gap-4">
+                <div class="eventicon">
+                  <i data-lucide="calendar" class="w-6 h-6"></i>
+                </div>
+                <span class="font-bold text-lg">Spor Festivali</span>
+              </div>
+              <span class="font-semibold text-gray-600 group-hover:text-white">20 Ocak 2025</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <img
+            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop"
+            alt="Etkinlik"
+            class="rounded-2xl shadow-2xl border-8 border-black"
+          />
+          <div class="absolute -bottom-6 -right-6 bg-black text-white p-6 rounded-2xl shadow-2xl">
+            <div class="text-4xl font-bold mb-2">100+</div>
+            <div class="text-sm text-white/80">Yıllık Etkinlik</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-4xl mx-auto">
+        <h2 class="text-4xl font-bold mb-6 text-gray-900">Cal Community Hakkında</h2>
+        <p class="text-xl text-gray-700 mb-12 leading-relaxed">
+          Cal Community, Çağaloğlu Anadolu Lisesi'nin gayri resmi öğrenci ve mezun topluluğudur.
+          Okul ruhunu canlı tutmak, mezunlarımızı öğrencilerimizle buluşturmak ve güzel anıları çoğaltmak için buradayız.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="aboutcard">
+            <div class="text-5xl mb-4">🎓</div>
+            <h3 class="font-bold text-xl mb-2 text-gray-900">Öğrenciler</h3>
+            <p class="text-gray-600">Aktif öğrenci topluluğu</p>
+          </div>
+          <div class="aboutcard">
+            <div class="text-5xl mb-4">👨‍🎓</div>
+            <h3 class="font-bold text-xl mb-2 text-gray-900">Mezunlar</h3>
+            <p class="text-gray-600">Tecrübeli mezun ağı</p>
+          </div>
+          <div class="aboutcard">
+            <div class="text-5xl mb-4">👨‍🏫</div>
+            <h3 class="font-bold text-xl mb-2 text-gray-900">Öğretmenler</h3>
+            <p class="text-gray-600">Değerli eğitmenlerimiz</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-black text-white py-16 border-t-4 border-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-2">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+              <i data-lucide="users" class="w-6 h-6 text-black"></i>
+            </div>
+            <div>
+              <div class="font-bold text-2xl">CAL COMMUNITY</div>
+              <div class="text-sm text-gray-400">Çağaloğlu Anadolu Lisesi</div>
+            </div>
+          </div>
+
+          <p class="text-gray-400 leading-relaxed mb-6">
+            Çağaloğlu Anadolu Lisesi'nin gayri resmi öğrenci ve mezun topluluğu.
+            Okulumuzun sesi, geleceğin köprüsü.
+          </p>
+
+          <div class="flex items-center gap-3">
+            <span class="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold">1500+ Üye</span>
+            <span class="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold">50+ Kulüp</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-lg mb-6 text-white">Hızlı Linkler</h4>
+          <ul class="space-y-3 text-gray-400">
+            <li><a href="#news" class="footerlink">→ Haberler</a></li>
+            <li><a href="#clubs" class="footerlink">→ Kulüpler</a></li>
+            <li><a href="#interviews" class="footerlink">→ Röportajlar</a></li>
+            <li><a href="#about" class="footerlink">→ Hakkımızda</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-lg mb-6 text-white">Bizi Takip Edin</h4>
+          <div class="space-y-4">
+            <a href="#" class="socialrow">
+              <div class="socialicon">
+                <i data-lucide="instagram" class="w-5 h-5 text-black"></i>
+              </div>
+              <span>Instagram</span>
+            </a>
+            <a href="#" class="socialrow">
+              <div class="socialicon">
+                <i data-lucide="linkedin" class="w-5 h-5 text-black"></i>
+              </div>
+              <span>LinkedIn</span>
+            </a>
+            <a href="#" class="socialrow">
+              <div class="socialicon">
+                <i data-lucide="message-circle" class="w-5 h-5 text-black"></i>
+              </div>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+        <p class="text-sm">&copy; 2025 Cal Community • Çağaloğlu Anadolu Lisesi Gayri Resmi Öğrenci ve Mezun Topluluğu</p>
+        <p class="text-xs mt-2 text-gray-500">
+          Okulun Renkleri: <span class="text-white font-bold">■</span> Beyaz • <span class="text-black font-bold">■</span> Siyah
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script src="./script.js"></script>
+</body>
+</html>

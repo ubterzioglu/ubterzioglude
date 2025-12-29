@@ -1,0 +1,173 @@
+/* Minimal custom CSS (Tailwind handles most) */
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 5rem; }
+
+/* Tailwind utility-like helpers via @apply can't be used without build, so plain classes via custom selectors: */
+.navlink {
+  display: inline-block;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: rgb(31 41 55);
+}
+.navlink:hover { background: rgba(0,0,0,0.05); color: #000; }
+
+.mobilelink {
+  display: block;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  color: rgb(31 41 55);
+}
+.mobilelink:hover { color: #000; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  color: #000;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  transition: transform .2s ease, background .2s ease;
+}
+.btn-primary:hover { background: #f3f4f6; transform: scale(1.03); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease;
+}
+.btn-outline:hover { background: #fff; color: #000; }
+
+.statcard {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: transform .2s ease, background .2s ease;
+}
+.statcard:hover { transform: scale(1.03); background: rgba(255,255,255,0.15); }
+
+.newscard {
+  border: 2px solid rgb(243 244 246);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.newscard:hover {
+  transform: translateY(-6px);
+  border-color: #000;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+}
+.badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: #000;
+  color: #fff;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.pill {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.clubcard {
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.10);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.clubcard:hover {
+  transform: scale(1.03);
+  border-color: #000;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.16);
+}
+
+.aboutcard {
+  background: #fff;
+  border-top: 4px solid #000;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.aboutcard:hover { transform: scale(1.03); box-shadow: 0 20px 45px rgba(0,0,0,0.16); }
+
+.eventrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background: rgb(249 250 251);
+  border: 1px solid rgba(0,0,0,0.10);
+  transition: background .2s ease, color .2s ease;
+}
+.eventrow:hover { background: #000; color: #fff; }
+.eventrow:hover .eventicon { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.15); }
+.eventrow:hover .eventicon svg { color: #fff; }
+.eventrow:hover span { color: #fff !important; }
+
+.eventicon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.10);
+}
+.eventicon svg { color: #000; }
+
+.footerlink {
+  display: inline-block;
+  transition: transform .15s ease, color .15s ease;
+}
+.footerlink:hover { color: #fff; transform: translateX(4px); }
+
+.socialrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgb(156 163 175);
+  transition: color .15s ease;
+}
+.socialrow:hover { color: #fff; }
+
+.socialicon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s ease;
+}
+.socialrow:hover .socialicon { background: #f3f4f6; }

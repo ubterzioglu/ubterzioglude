@@ -1,0 +1,518 @@
+import React, { useState } from "react";
+import {
+  Menu,
+  X,
+  Instagram,
+  Linkedin,
+  MessageCircle,
+  Users,
+  Calendar,
+  Heart,
+  ChevronRight,
+  Newspaper,
+  Trophy,
+} from "lucide-react";
+
+const CalCommunityWebsite = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const newsItems = [
+    {
+      id: 1,
+      category: "HABER",
+      title: "Yeni Dönem Başladı!",
+      excerpt:
+        "2024-2025 eğitim öğretim yılı coşkuyla başladı. Öğrencilerimiz okullarına kavuştu.",
+      date: "26 Ara 2025",
+      image:
+        "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=600&fit=crop",
+    },
+    {
+      id: 2,
+      category: "BAĞIŞ",
+      title: "Kütüphane İçin Kitap Bağışı Kampanyası",
+      excerpt:
+        "Okul kütüphanemizi zenginleştirmek için kitap bağış kampanyası başlattık.",
+      date: "25 Ara 2025",
+      image:
+        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop",
+    },
+    {
+      id: 3,
+      category: "RÖPORTAJ",
+      title: "Mezunumuz Dr. Ahmet Yılmaz ile Söyleşi",
+      excerpt: "Stanford'da araştırmacı olan mezunumuz deneyimlerini paylaştı.",
+      date: "24 Ara 2025",
+      image:
+        "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop",
+    },
+    {
+      id: 4,
+      category: "KLÜP",
+      title: "Robotik Kulübü Yeni Üyelerini Bekliyor",
+      excerpt:
+        "Robotik ve kodlama ile ilgilenen öğrencileri kulübümüze davet ediyoruz.",
+      date: "23 Ara 2025",
+      image:
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
+    },
+  ];
+
+  const upcomingEvents = [
+    { title: "Kariyer Günleri", date: "5 Ocak 2025" },
+    { title: "Mezunlar Buluşması", date: "15 Ocak 2025" },
+    { title: "Spor Festivali", date: "20 Ocak 2025" },
+  ];
+
+  const featuredClubs = [
+    { name: "Robotik Kulübü", icon: "🤖", members: 45 },
+    { name: "Edebiyat Kulübü", icon: "📚", members: 38 },
+    { name: "Müzik Kulübü", icon: "🎵", members: 52 },
+    { name: "Tiyatro Kulübü", icon: "🎭", members: 41 },
+  ];
+
+  return (
+    <div className="min-h-screen bg-white text-black">
+      {/* Navigation */}
+      <nav className="fixed w-full bg-white shadow-lg z-50 border-b-4 border-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center shadow-lg ring-4 ring-black/10">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <div className="font-bold text-xl text-black">CAL COMMUNITY</div>
+                <div className="text-xs text-gray-600">Çağaloğlu Anadolu Lisesi</div>
+              </div>
+            </div>
+
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-2">
+              {[
+                ["#home", "Ana Sayfa"],
+                ["#news", "Haberler"],
+                ["#clubs", "Kulüpler"],
+                ["#interviews", "Röportajlar"],
+                ["#about", "Hakkımızda"],
+              ].map(([href, label]) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="text-gray-800 hover:text-black transition font-semibold px-3 py-2 rounded-lg hover:bg-black/5"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-black"
+              onClick={() => setMobileMenuOpen((s) => !s)}
+              aria-label="Menüyü Aç/Kapat"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-black/15">
+            <div className="px-4 py-4 space-y-2">
+              {[
+                ["#home", "Ana Sayfa"],
+                ["#news", "Haberler"],
+                ["#clubs", "Kulüpler"],
+                ["#interviews", "Röportajlar"],
+                ["#about", "Hakkımızda"],
+              ].map(([href, label]) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="block text-gray-800 hover:text-black font-semibold py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section
+        id="home"
+        className="pt-24 pb-20 bg-gradient-to-br from-black via-zinc-900 to-black text-white relative overflow-hidden"
+      >
+        {/* Decorative circles */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <div className="inline-block mb-6">
+              <div className="bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full text-sm font-semibold border border-white/20">
+                🎓 1500+ Üye ile Büyüyen Aile
+              </div>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              Çağaloğlu'nun
+              <br />
+              <span className="text-white/80">Dijital Kalbi</span>
+            </h1>
+
+            <p className="text-xl md:text-2xl mb-10 text-white/80 max-w-2xl mx-auto">
+              Öğrenciler, mezunlar ve öğretmenler bir arada. Okulumuzun hikayesi burada
+              yazılıyor.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4">
+              <button className="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition flex items-center gap-2 shadow-2xl transform hover:scale-105">
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp Topluluğuna Katıl
+              </button>
+              <a
+                href="#news"
+                className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-black transition"
+              >
+                Daha Fazla Keşfet
+              </a>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
+            {[
+              ["1500+", "Aktif Üye"],
+              ["50+", "Öğrenci Kulübü"],
+              ["100+", "Yıllık Etkinlik"],
+              ["∞", "Güzel Anı"],
+            ].map(([value, label]) => (
+              <div
+                key={label}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center border border-white/20 hover:bg-white/15 transition transform hover:scale-105"
+              >
+                <div className="text-5xl font-bold mb-2">{value}</div>
+                <div className="text-white/80 font-medium">{label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* News Section */}
+      <section id="news" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-12">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+                  <Newspaper className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="text-4xl font-bold text-gray-900">Son Haberler</h2>
+              </div>
+              {/* FIX: ml-15 Tailwind'de yok; yerine normal margin verdim */}
+              <p className="text-gray-600 ml-0 md:ml-15 md:ml-14">
+                Okulumuzdan güncel haberler ve duyurular
+              </p>
+            </div>
+            <button className="hidden md:flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-zinc-800 transition shadow-lg">
+              Tümünü Gör <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {newsItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group border-2 border-gray-100 hover:border-black"
+              >
+                <div className="relative overflow-hidden h-48">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute top-4 left-4 bg-black text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                    {item.category}
+                  </span>
+                </div>
+                <div className="p-6">
+                  <h3 className="font-bold text-lg mb-3 text-gray-900 line-clamp-2 group-hover:text-black transition">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    {item.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">{item.date}</span>
+                    <ChevronRight className="w-5 h-5 text-black" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Info Banner */}
+      <section className="py-16 bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-white">
+            <h2 className="text-3xl font-bold mb-4">Her Gün Büyüyen Bir Topluluk</h2>
+            <p className="text-xl text-white/80 mb-8">
+              Çağaloğlu Anadolu Lisesi öğrenci ve mezunlarının buluşma noktası
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              {["📱 WhatsApp", "📸 Instagram", "💼 LinkedIn"].map((t) => (
+                <div
+                  key={t}
+                  className="bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full border border-white/20"
+                >
+                  <span className="font-bold text-2xl">{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Clubs Section */}
+      <section id="clubs" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-4xl font-bold text-gray-900">Öğrenci Kulüpleri</h2>
+            </div>
+            <p className="text-gray-700 text-lg">
+              İlgi alanına göre kulüp bul, yeteneklerini geliştir
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {featuredClubs.map((club, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-black/10 hover:border-black"
+              >
+                <div className="text-5xl mb-4">{club.icon}</div>
+                <h3 className="font-bold text-xl mb-2 text-gray-900">{club.name}</h3>
+                <p className="text-black font-semibold">{club.members} Üye</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <button className="bg-black text-white px-10 py-4 rounded-full font-bold hover:bg-zinc-800 transition shadow-xl text-lg">
+              Tüm Kulüpleri Keşfet
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-black text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <Heart className="w-16 h-16 mx-auto mb-6 text-white" />
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Okulumuzun Geleceğine Katkıda Bulun
+          </h2>
+          <p className="text-xl mb-10 text-white/80">
+            Her bağış, öğrencilerimizin daha iyi eğitim alması için kullanılıyor. Siz de
+            bu değişime ortak olabilirsiniz.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button className="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition shadow-2xl text-lg">
+              💝 Bağış Yap
+            </button>
+            <button className="border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-black transition text-lg">
+              Kampanyaları Gör
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Events Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+                  <Calendar className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="text-4xl font-bold text-gray-900">Yaklaşan Etkinlikler</h2>
+              </div>
+              <p className="text-gray-600 text-lg mb-8">
+                Okulumuzda düzenlenen etkinlikleri kaçırmayın. Sosyal, akademik ve sportif
+                aktivitelerle dolu bir takvim sizi bekliyor.
+              </p>
+
+              <div className="space-y-4">
+                {upcomingEvents.map((event, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between p-6 bg-gray-50 rounded-xl hover:bg-black hover:text-white transition group border border-black/10"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-white group-hover:bg-white/15 rounded-lg flex items-center justify-center border border-black/10">
+                        <Calendar className="w-6 h-6 text-black group-hover:text-white" />
+                      </div>
+                      <span className="font-bold text-lg">{event.title}</span>
+                    </div>
+                    <span className="font-semibold text-gray-600 group-hover:text-white">
+                      {event.date}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <img
+                src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop"
+                alt="Etkinlik"
+                className="rounded-2xl shadow-2xl border-8 border-black"
+              />
+              <div className="absolute -bottom-6 -right-6 bg-black text-white p-6 rounded-2xl shadow-2xl">
+                <div className="text-4xl font-bold mb-2">100+</div>
+                <div className="text-sm text-white/80">Yıllık Etkinlik</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Cal Community Hakkında</h2>
+            <p className="text-xl text-gray-700 mb-12 leading-relaxed">
+              Cal Community, Çağaloğlu Anadolu Lisesi'nin gayri resmi öğrenci ve mezun
+              topluluğudur. 1500'den fazla üyemizle okulumuzun sesi olmaya, mezunlarımızı
+              öğrencilerimizle buluşturmaya ve okul ruhunu canlı tutmaya devam ediyoruz.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                ["🎓", "Öğrenciler", "Aktif öğrenci topluluğu"],
+                ["👨‍🎓", "Mezunlar", "Tecrübeli mezun ağı"],
+                ["👨‍🏫", "Öğretmenler", "Değerli eğitmenlerimiz"],
+              ].map(([icon, title, desc]) => (
+                <div
+                  key={title}
+                  className="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-black hover:shadow-2xl transition transform hover:scale-105"
+                >
+                  <div className="text-5xl mb-4">{icon}</div>
+                  <h3 className="font-bold text-xl mb-2 text-gray-900">{title}</h3>
+                  <p className="text-gray-600">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-16 border-t-4 border-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            <div className="md:col-span-2">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                  <Users className="w-6 h-6 text-black" />
+                </div>
+                <div>
+                  <div className="font-bold text-2xl">CAL COMMUNITY</div>
+                  <div className="text-sm text-gray-400">Çağaloğlu Anadolu Lisesi</div>
+                </div>
+              </div>
+              <p className="text-gray-400 leading-relaxed mb-6">
+                Çağaloğlu Anadolu Lisesi'nin gayri resmi öğrenci ve mezun topluluğu.
+                Okulumuzun sesi, geleceğin köprüsü.
+              </p>
+              <div className="flex items-center gap-3">
+                <span className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold">
+                  1500+ Üye
+                </span>
+                <span className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold">
+                  50+ Kulüp
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-6 text-white">Hızlı Linkler</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li>
+                  <a href="#news" className="hover:text-white transition hover:translate-x-1 inline-block">
+                    → Haberler
+                  </a>
+                </li>
+                <li>
+                  <a href="#clubs" className="hover:text-white transition hover:translate-x-1 inline-block">
+                    → Kulüpler
+                  </a>
+                </li>
+                <li>
+                  <a href="#interviews" className="hover:text-white transition hover:translate-x-1 inline-block">
+                    → Röportajlar
+                  </a>
+                </li>
+                <li>
+                  <a href="#about" className="hover:text-white transition hover:translate-x-1 inline-block">
+                    → Hakkımızda
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-6 text-white">Bizi Takip Edin</h4>
+              <div className="space-y-4">
+                {[
+                  [Instagram, "Instagram"],
+                  [Linkedin, "LinkedIn"],
+                  [MessageCircle, "WhatsApp"],
+                ].map(([Icon, label]) => (
+                  <a
+                    key={label}
+                    href="#"
+                    className="flex items-center gap-3 text-gray-400 hover:text-white transition group"
+                  >
+                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition">
+                      <Icon className="w-5 h-5 text-black" />
+                    </div>
+                    <span>{label}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
+            <p className="text-sm">
+              &copy; 2025 Cal Community • Çağaloğlu Anadolu Lisesi Gayri Resmi Öğrenci ve Mezun Topluluğu
+            </p>
+            <p className="text-xs mt-2 text-gray-500">
+              Okulun Renkleri:{" "}
+              <span className="text-white font-bold">■</span> Beyaz •{" "}
+              <span className="text-black font-bold">■</span> Siyah
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default CalCommunityWebsite;
