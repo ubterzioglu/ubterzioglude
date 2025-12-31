@@ -32,45 +32,45 @@
     @keyframes particle-float-1 {
       0%, 100% { 
         transform: translate(0, 0);
-        opacity: 0.3;
+        opacity: 0.5;
       }
       25% { 
         transform: translate(100px, -100px);
-        opacity: 0.6;
+        opacity: 0.8;
       }
       50% { 
         transform: translate(200px, -50px);
-        opacity: 0.3;
+        opacity: 0.6;
       }
       75% { 
         transform: translate(100px, 50px);
-        opacity: 0.5;
+        opacity: 0.7;
       }
     }
     
     @keyframes particle-float-2 {
       0%, 100% { 
         transform: translate(0, 0);
-        opacity: 0.2;
+        opacity: 0.4;
       }
       33% { 
         transform: translate(-150px, 100px);
-        opacity: 0.5;
+        opacity: 0.7;
       }
       66% { 
         transform: translate(-80px, -80px);
-        opacity: 0.3;
+        opacity: 0.6;
       }
     }
     
     @keyframes particle-float-3 {
       0%, 100% { 
         transform: translate(0, 0);
-        opacity: 0.4;
+        opacity: 0.6;
       }
       50% { 
         transform: translate(120px, 120px);
-        opacity: 0.2;
+        opacity: 0.4;
       }
     }
     
@@ -94,20 +94,22 @@
     
     .particle {
       position: absolute;
-      width: 3px;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.6);
       border-radius: 50%;
-      filter: blur(1px);
+      filter: blur(0.5px);
     }
     
     .particle:nth-child(1) {
+      width: 6px;
+      height: 6px;
       top: 10%;
       left: 15%;
       animation: particle-float-1 25s ease-in-out infinite;
     }
     
     .particle:nth-child(2) {
+      width: 8px;
+      height: 8px;
       top: 60%;
       left: 80%;
       animation: particle-float-2 30s ease-in-out infinite;
@@ -115,6 +117,8 @@
     }
     
     .particle:nth-child(3) {
+      width: 5px;
+      height: 5px;
       top: 30%;
       left: 70%;
       animation: particle-float-3 20s ease-in-out infinite;
@@ -122,6 +126,8 @@
     }
     
     .particle:nth-child(4) {
+      width: 7px;
+      height: 7px;
       top: 80%;
       left: 25%;
       animation: particle-float-1 28s ease-in-out infinite;
@@ -129,6 +135,8 @@
     }
     
     .particle:nth-child(5) {
+      width: 6px;
+      height: 6px;
       top: 50%;
       left: 50%;
       animation: particle-float-2 35s ease-in-out infinite;
@@ -136,6 +144,8 @@
     }
     
     .particle:nth-child(6) {
+      width: 5px;
+      height: 5px;
       top: 15%;
       left: 40%;
       animation: particle-float-3 22s ease-in-out infinite;
@@ -143,6 +153,8 @@
     }
     
     .particle:nth-child(7) {
+      width: 7px;
+      height: 7px;
       top: 70%;
       left: 60%;
       animation: particle-float-1 32s ease-in-out infinite;
@@ -150,10 +162,48 @@
     }
     
     .particle:nth-child(8) {
+      width: 6px;
+      height: 6px;
       top: 25%;
       left: 90%;
       animation: particle-float-2 27s ease-in-out infinite;
       animation-delay: -18s;
+    }
+    
+    .particle:nth-child(9) {
+      width: 5px;
+      height: 5px;
+      top: 45%;
+      left: 20%;
+      animation: particle-float-3 24s ease-in-out infinite;
+      animation-delay: -6s;
+    }
+    
+    .particle:nth-child(10) {
+      width: 8px;
+      height: 8px;
+      top: 85%;
+      left: 75%;
+      animation: particle-float-1 29s ease-in-out infinite;
+      animation-delay: -14s;
+    }
+    
+    .particle:nth-child(11) {
+      width: 6px;
+      height: 6px;
+      top: 20%;
+      left: 55%;
+      animation: particle-float-2 26s ease-in-out infinite;
+      animation-delay: -9s;
+    }
+    
+    .particle:nth-child(12) {
+      width: 7px;
+      height: 7px;
+      top: 65%;
+      left: 35%;
+      animation: particle-float-3 31s ease-in-out infinite;
+      animation-delay: -17s;
     }
     
     .glass-card {
@@ -203,6 +253,10 @@
   
   <!-- Animated Particles Background -->
   <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
     <div class="particle"></div>
     <div class="particle"></div>
     <div class="particle"></div>
@@ -309,11 +363,7 @@
             </a>
             
             <!-- Mail -->
-            <a 
-              href="mailto:info@calcommunity.com" 
-              class="social-icon glass-card w-14 h-14 rounded-xl flex items-center justify-center"
-              aria-label="Email"
-            >
+            <a href="/cdn-cgi/l/email-protection#abc2c5cdc4ebc8cac7c8c4c6c6dec5c2dfd285c8c4c6" class="social-icon glass-card w-14 h-14 rounded-xl flex items-center justify-center" aria-label="Email">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
@@ -336,16 +386,10 @@
     
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // No additional scripts needed - using pure SVG icons
   </script>
 
   <!-- GoatCounter Analytics -->
   <script
-    data-goatcounter="https://calcomdemo.goatcounter.com/count"
-    async
-    src="//gc.zgo.at/count.js">
-  </script>
-
-</body>
-</html>
+    data-goatcounter="https://calcomdem
