@@ -392,11 +392,15 @@
   card.className = `acc card ${colorClass}`;
   card.dataset.gen = otherGen.id;
 
+  const youRange = `${youGen.range?.[0]}–${youGen.range?.[1]}`;
+  const otherRange = `${otherGen.range?.[0]}–${otherGen.range?.[1]}`;
+
   card.innerHTML = `
     <button class="acc-head" type="button" aria-expanded="false">
       <div class="acc-title">
         <span class="acc-kicker">Nasıl geçinilir</span>
         <span class="acc-name">${esc(otherGen.name)}</span>
+        <span class="acc-range">${esc(otherRange)}</span>
       </div>
       <span class="acc-icon" aria-hidden="true">+</span>
     </button>
@@ -410,8 +414,8 @@
         ${avatarPairHTML(otherGen, "xl")}
 
         <div class="avatar-tags">
-          <span class="tag">Sen</span>
-          <span class="tag">${esc(otherGen.name)}</span>
+          <span class="tag">Sen (${esc(youRange)})</span>
+          <span class="tag">${esc(otherGen.name)} (${esc(otherRange)})</span>
         </div>
       </div>
 
@@ -544,7 +548,7 @@
   }
 
   statusPill.textContent = `Tespit edildi: ${youGen.name}`;
-  youGenLine.innerHTML = `Siz <strong>${esc(youGen.name)}</strong>.`;
+  youGenLine.innerHTML = `Siz <strong>${esc(youGen.name)}</strong> (${esc(`${youGen.range?.[0]}–${youGen.range?.[1]}`)}).`;
   
   setYouAvatars(youGen);
   renderProfile(youGen);

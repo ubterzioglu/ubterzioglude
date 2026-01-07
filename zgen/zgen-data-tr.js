@@ -117,13 +117,13 @@ const ZGEN_DATA = {
     silent: {
       traits: [
         "Önce görev, sonra duygular",
-        "Nazik anlaşmazlık bir spor",
+        "Kibarca anlaşmamak bir sanattır",
         "Güven yavaş kazanılır, sonsuza kadar korunur",
         "Parlak uygulamalar yerine kanıtlanmış araçları tercih eder",
         "Konuşmadan önce ortamı okur",
-        "Refleks olarak tutumlu, trend değil",
+        "Refleks olarak tutumludur; trendlere kapılmaz",
         "Kurumlara sadık, değişime temkinli",
-        "Başarıyı küçümser, sessizce fazlasını verir",
+        "Başarıyı abartmaz; sessizce fazlasını verir",
         "Uzmanlığa ve kıdeme saygı duyar",
         "Sakin ve kesin iletişim kurar"
       ],
@@ -139,7 +139,7 @@ const ZGEN_DATA = {
     boomer: {
       traits: [
         "Sıkı çalışmanın karşılığını alacağına dair iyimser",
-        "Toplantıları meşru bir verimlilik birimi olarak görür",
+        "Toplantıları verimliliğin meşru bir aracı olarak görür",
         "Uzun mesaj zincirleri yerine telefon görüşmelerini tercih eder",
         "Ağ odaklı ve ilişki odaklı",
         "Unvanları, kilometre taşlarını ve net merdivenleri değerli bulur",
@@ -152,21 +152,21 @@ const ZGEN_DATA = {
       vibes: [
         "Hizalayalım ve ilerleyelim",
         "Ara beni; halledelim",
-        "Güçlü el sıkışma enerjisi",
-        "Resmileştir",
+        "Güçlü el sıkışma havası",
+        "Resmileştirelim",
         "Sıkı çalış, sonra dinlen"
       ]
     },
 
     genx: {
       traits: [
-        "Şüpheci ama alaycı değil—genellikle",
+        "Şüphecidir ama alaycı değildir—genellikle",
         "Bağımsız problem çözücü, düşük bakım gerektiren takım arkadaşı",
         "Alkış yerine özerkliği tercih eder",
-        "Kurumsal süslü sözlere alerjik",
+        "Kurumsal süslü laflara alerjisi vardır",
         "Kuru mizahla doğrudan iletişimci",
         "Coşkudan çok yetkinliği değerli bulur",
-        "Sekme kaosu öncesi dönemden verimli çoklu görevci",
+        "Sekme kaosu yokken de verimli çoklu görev yapabilen",
         "Eylemlere güvenir, vaatleri sorgular",
         "Hızlı uyum sağlar, sessizce şikayet eder",
         "Net hedefleri ve minimal gözetimi sever"
@@ -175,7 +175,7 @@ const ZGEN_DATA = {
         "Bana noktayı göster",
         "Doğru yap, yüksek sesle değil",
         "Daha kötüsünü gördüm",
-        "Basit tut, lütfen",
+        "Basit tutalım",
         "Drama değil, sonuçlar"
       ]
     },
@@ -226,15 +226,15 @@ const ZGEN_DATA = {
 
     alpha: {
       traits: [
-        "Dokunma öncelikli sezgi; kılavuzlar opsiyonel hissettirir",
+        "Dokunma öncelikli sezgi; kılavuzlar ona opsiyonel gelir",
         "AI destekli düşünme normal, süslü değil",
         "Her yerde kişiselleştirme bekler",
         "Görsel ve etkileşimli öğrenir",
         "Kısa dikkat süresi, keskin desen farkındalığı",
-        "İstenmeden ilerlemeyi oyunlaştırır",
+        "Kendiliğinden ilerlemeyi oyunlaştırır",
         "Doğal olarak çok modlu: ses, video, metin",
         "Tüketmek yerine birlikte yaratmakta rahat",
-        "Yavaş arayüzler ve yavaş kararlara sabırsız",
+        "Yavaş arayüzlere ve yavaş kararlara sabrı yoktur",
         "Hız yargıyı geçtiği için koruyucu bariyerlere ihtiyaç duyar"
       ],
       vibes: [
@@ -260,9 +260,9 @@ const ZGEN_DATA = {
         "Öğrenmeyi sürekli, kişiselleştirilmiş akış olarak görür"
       ],
       vibes: [
-        "Ajan öncelikli yaşam tarzı",
+        "Ajan-öncelikli yaşam tarzı",
         "Sürtünme bir hatadır",
-        "Doğrula, sonra hava yap",
+        "Önce doğrula, sonra hava at",
         "Her şeyi orkestra et",
         "Varsayılan olarak kişiselleştirilmiş"
       ]
@@ -283,8 +283,8 @@ const ZGEN_DATA = {
         donts: [
           "Değişiklikten hoşlanmadıklarını varsayma; önce sor.",
           "Toplantılarda çok fazla argo veya alaycılık kullanma.",
-          "Bir nokta yapmak için statüyü halka açık meydan okuma.",
-          "Kötü haberleri belirsiz dilin arkasına gizleme.",
+          "Bir şey kanıtlamak için statüye herkesin önünde meydan okuma.",
+          "Kötü haberleri belirsiz ifadelerin arkasına gizleme.",
           "Resmi ortamlarda unvanları anlamsız sayma."
         ],
         joke: "Bir Boomer'ın onayını istiyorsan, planla—spontanlık bir takvim davetiyesi değildir."
@@ -338,7 +338,7 @@ const ZGEN_DATA = {
           "Yeni araçları veya formatları alay etme.",
           "Zihinsel yükü ve bağlam değiştirmeyi görmezden gelme."
         ],
-        joke: "Güncellemen kısa bir videodan uzun sürerse, Z Nesli özeti isteyecek."
+        joke: "Güncellemen kısa bir videodan uzun sürerse, Z Nesli bir özet isteyecek."
       },
       alpha: {
         dos: [
